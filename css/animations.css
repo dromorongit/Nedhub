@@ -533,3 +533,138 @@
 .service-card:hover::before {
     transform: scaleX(1);
 }
+
+/* Contact Page Specific Animations */
+@keyframes contactItemPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.contact-item:hover {
+    animation: contactItemPulse 2s ease-in-out infinite;
+}
+
+@keyframes formInputGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(247, 127, 0, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(247, 127, 0, 0.1);
+    }
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    animation: formInputGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes socialCardFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+}
+
+.social-card:hover {
+    animation: socialCardFloat 3s ease-in-out infinite;
+}
+
+@keyframes mapPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(247, 127, 0, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(247, 127, 0, 0.05);
+    }
+}
+
+.map-container:hover {
+    animation: mapPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes businessHoursFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.business-hours li {
+    animation: businessHoursFadeIn 0.6s ease-out forwards;
+}
+
+.business-hours li.delay-1 {
+    animation-delay: 0.1s;
+}
+
+.business-hours li.delay-2 {
+    animation-delay: 0.2s;
+}
+
+.business-hours li.delay-3 {
+    animation-delay: 0.3s;
+}
+
+@keyframes contactIconSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.contact-item:hover .contact-icon {
+    animation: contactIconSpin 1.5s ease-in-out;
+}
+
+@keyframes submitButtonPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.btn-submit:hover {
+    animation: submitButtonPulse 1s ease-in-out infinite;
+}
+
+/* Contact page scroll animations */
+.contact-scroll-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.contact-scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.contact-scroll-animate.delay-1 {
+    transition-delay: 0.1s;
+}
+
+.contact-scroll-animate.delay-2 {
+    transition-delay: 0.2s;
+}
+
+.contact-scroll-animate.delay-3 {
+    transition-delay: 0.3s;
+}
+
+.contact-scroll-animate.delay-4 {
+    transition-delay: 0.4s;
+}
