@@ -25,6 +25,7 @@
         grid-template-rows: auto auto;
         gap: var(--space-md);
         padding: var(--space-xs) 0;
+        width: 100%;
     }
 
     .header-top {
@@ -33,6 +34,7 @@
         align-items: center;
         padding: var(--space-xs) 0;
         position: relative;
+        width: 100%;
     }
 
     .header-bottom {
@@ -42,13 +44,86 @@
         padding: var(--space-xs) 0;
     }
 
-    /* Ensure proper spacing for mobile menu button */
+    /* Ensure proper spacing for mobile menu button - extreme right positioning */
     .header-top .mobile-menu-btn {
-        margin-right: var(--space-xs);
+        margin-right: 0;
+        margin-left: auto;
+    }
+
+    /* Fix container padding for full width header */
+    .navbar .container {
+        padding: var(--space-sm) 0;
     }
 
     .nav-menu {
         display: none;
+    }
+
+    /* Mobile menu active state - show navigation */
+    .nav-menu.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--neutral-white);
+        padding: var(--space-lg) var(--space-md);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        z-index: 1000;
+        animation: mobileMenuSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        transform-origin: top;
+    }
+
+    /* Mobile menu animation */
+    @keyframes mobileMenuSlideIn {
+        from {
+            opacity: 0;
+            transform: scaleY(0.8) translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: scaleY(1) translateY(0);
+        }
+    }
+
+    /* Mobile menu exit animation */
+    .nav-menu.mobile-menu-exit {
+        animation: mobileMenuSlideOut 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes mobileMenuSlideOut {
+        from {
+            opacity: 1;
+            transform: scaleY(1) translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: scaleY(0.8) translateY(-10px);
+        }
+    }
+
+    /* Mobile menu items styling */
+    .nav-menu.active .nav-link {
+        padding: var(--space-sm) var(--space-xs);
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+        color: var(--text-dark);
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: var(--space-xs);
+        transition: all 0.2s ease;
+    }
+
+    .nav-menu.active .nav-link:hover,
+    .nav-menu.active .nav-link.active {
+        color: var(--accent-orange);
+        background-color: rgba(247, 127, 0, 0.05);
+    }
+
+    .nav-menu.active .nav-link:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
     }
 
     .mobile-nav-buttons {
