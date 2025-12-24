@@ -426,94 +426,118 @@
             gap: var(--space-xxl);
         }
         
-        /* Contact Info - More professional mobile layout */
+        /* Contact Info - More professional mobile layout with wider spacing */
         .contact-info {
-            padding: var(--space-xl);
+            padding: var(--space-xxl);
         }
-        
+
         .contact-info h2 {
             font-size: var(--font-size-xxl);
-        }
-        
-        .contact-intro {
-            font-size: var(--font-size-base);
             margin-bottom: var(--space-lg);
         }
-        
-        .contact-details {
-            gap: var(--space-md);
+
+        .contact-intro {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-xl);
+            line-height: 1.6;
         }
-        
+
+        .contact-details {
+            gap: var(--space-lg);
+        }
+
         .contact-item {
             flex-direction: column;
             align-items: flex-start;
-            gap: var(--space-sm);
-            padding: var(--space-md);
+            gap: var(--space-md);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+        }
+
+        .contact-item h3 {
+            margin-bottom: var(--space-xs);
+        }
+
+        .contact-item p {
+            line-height: 1.6;
         }
         
         .contact-item:hover {
             transform: translateY(0) scale(1);
         }
         
-        /* Form Layout - Better mobile organization */
+        /* Form Layout - Better mobile organization with wider spacing */
         .contact-form {
-            padding: var(--space-xl);
+            padding: var(--space-xxl);
         }
-        
+
         .contact-form h2 {
             font-size: var(--font-size-xxl);
         }
-        
+
         .form-description {
             font-size: var(--font-size-base);
-            margin-bottom: var(--space-lg);
+            margin-bottom: var(--space-xl);
         }
-        
+
         .form-grid {
             grid-template-columns: 1fr;
-            gap: var(--space-md);
+            gap: var(--space-lg);
         }
-        
+
         .form-group {
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-lg);
         }
-        
+
         .form-group label {
             font-size: var(--font-size-base);
+            margin-bottom: var(--space-sm);
         }
-        
+
         .form-group input,
         .form-group textarea {
-            padding: var(--space-sm);
-            font-size: var(--font-size-base);
-        }
-        
-        .btn-submit {
             padding: var(--space-md);
             font-size: var(--font-size-base);
-            margin-top: var(--space-lg);
         }
-        
-        /* Business Hours - Better mobile layout */
-        .business-hours {
+
+        .btn-submit {
+            padding: var(--space-lg) var(--space-xxl);
+            font-size: var(--font-size-lg);
             margin-top: var(--space-xl);
-            padding: var(--space-lg);
         }
         
+        /* Business Hours - Better mobile layout with wider spacing */
+        .business-hours {
+            margin-top: var(--space-xxl);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+        }
+
         .business-hours h3 {
             font-size: var(--font-size-xl);
+            margin-bottom: var(--space-lg);
         }
-        
+
+        .business-hours ul {
+            padding: 0 var(--space-sm);
+        }
+
         .business-hours li {
             flex-direction: column;
             align-items: flex-start;
             gap: var(--space-xs);
-            padding: var(--space-sm) 0;
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--border-color);
         }
-        
+
+        .business-hours li:last-child {
+            border-bottom: none;
+        }
+
         .business-hours span {
-            margin-bottom: 0;
             font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: var(--space-xs);
         }
         
         /* Map Section - Better mobile layout */
