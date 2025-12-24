@@ -216,19 +216,19 @@
     /* Hide mobile nav buttons on larger screens */
     @media (min-width: 768px) {
         .header-container {
-            display: none;
+            display: none !important;
         }
 
         .nav-menu {
-            display: flex;
+            display: flex !important;
         }
 
         .mobile-menu-btn {
-            display: none;
+            display: none !important;
         }
 
         .mobile-nav-buttons {
-            display: none;
+            display: none !important;
         }
     }
 
