@@ -359,13 +359,25 @@
             grid-template-columns: repeat(2, 1fr);
             gap: var(--space-md);
         }
-        
+         
         .card,
         .mission-card,
         .vision-card,
         .value-card,
         .solution-card,
         .faq-item {
+            min-width: 0;
+        }
+    }
+    
+    /* Services Page - 2 column layout for mobile */
+    @media (max-width: 768px) {
+        .services-showcase {
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+        
+        .services-showcase .card {
             min-width: 0;
         }
     }
