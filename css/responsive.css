@@ -226,6 +226,10 @@
         .mobile-menu-btn {
             display: none;
         }
+
+        .mobile-nav-buttons {
+            display: none;
+        }
     }
 
     /* Simple Mobile Menu Button Positioning */
