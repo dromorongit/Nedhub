@@ -93,7 +93,7 @@
         display: block;
         width: 24px;
         height: 2px;
-        background-color: var(--neutral-white);
+        background-color: var(--text-dark);
         position: relative;
         transition: all 0.3s ease;
         border-radius: var(--radius-full);
@@ -105,7 +105,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: var(--neutral-white);
+        background-color: var(--text-dark);
         transition: all 0.3s ease;
         border-radius: var(--radius-full);
     }
