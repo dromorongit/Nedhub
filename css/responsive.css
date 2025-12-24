@@ -393,32 +393,332 @@
         }
     }
     
-    /* Contact Page Responsive Enhancements */
+    /* Contact Page Mobile Redesign - Professional Layout */
     @media (max-width: 768px) {
+        /* Contact Header - More compact and professional */
+        .contact-header {
+            padding: var(--space-xl) 0 var(--space-lg);
+        }
+        
+        .contact-header h1 {
+            font-size: var(--font-size-xxxl);
+        }
+        
+        .contact-header .subtitle {
+            font-size: var(--font-size-lg);
+        }
+        
+        /* Contact Section - Better mobile organization */
+        .contact-section {
+            padding: var(--space-xl) 0 var(--space-lg);
+        }
+        
         .contact-grid {
             grid-template-columns: 1fr;
             gap: var(--space-xxl);
         }
         
+        /* Contact Info - More professional mobile layout */
+        .contact-info {
+            padding: var(--space-xl);
+        }
+        
+        .contact-info h2 {
+            font-size: var(--font-size-xxl);
+        }
+        
+        .contact-intro {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .contact-details {
+            gap: var(--space-md);
+        }
+        
+        .contact-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+        }
+        
+        .contact-item:hover {
+            transform: translateY(0) scale(1);
+        }
+        
+        /* Form Layout - Better mobile organization */
+        .contact-form {
+            padding: var(--space-xl);
+        }
+        
+        .contact-form h2 {
+            font-size: var(--font-size-xxl);
+        }
+        
+        .form-description {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-lg);
+        }
+        
         .form-grid {
             grid-template-columns: 1fr;
+            gap: var(--space-md);
+        }
+        
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+        
+        .form-group label {
+            font-size: var(--font-size-base);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            padding: var(--space-sm);
+            font-size: var(--font-size-base);
+        }
+        
+        .btn-submit {
+            padding: var(--space-md);
+            font-size: var(--font-size-base);
+            margin-top: var(--space-lg);
+        }
+        
+        /* Business Hours - Better mobile layout */
+        .business-hours {
+            margin-top: var(--space-xl);
+            padding: var(--space-lg);
+        }
+        
+        .business-hours h3 {
+            font-size: var(--font-size-xl);
         }
         
         .business-hours li {
             flex-direction: column;
             align-items: flex-start;
+            gap: var(--space-xs);
+            padding: var(--space-sm) 0;
         }
         
         .business-hours span {
-            margin-bottom: var(--space-xs);
+            margin-bottom: 0;
+            font-weight: 600;
         }
         
-        .social-media-grid {
-            grid-template-columns: 1fr;
+        /* Map Section - Better mobile layout */
+        .map-section {
+            padding: var(--space-xl) 0 var(--space-lg);
+        }
+        
+        .map-section h2 {
+            font-size: var(--font-size-xxl);
+        }
+        
+        .map-description {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-lg);
         }
         
         .map-placeholder {
             height: 300px;
+        }
+        
+        /* Social Media - Better mobile layout */
+        .social-media-section {
+            padding: var(--space-xl) 0 var(--space-lg);
+        }
+        
+        .social-media-section h2 {
+            font-size: var(--font-size-xxl);
+        }
+        
+        .social-media-section > p {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .social-media-grid {
+            grid-template-columns: 1fr;
+            gap: var(--space-lg);
+        }
+        
+        .social-card {
+            padding: var(--space-xl);
+        }
+        
+        .social-card h3 {
+            font-size: var(--font-size-xl);
+        }
+        
+        .social-card p {
+            font-size: var(--font-size-base);
+        }
+        
+        /* FAQ Section - Better mobile layout */
+        .faq-section {
+            padding: var(--space-xl) 0 var(--space-lg);
+        }
+        
+        .faq-section h2 {
+            font-size: var(--font-size-xxl);
+        }
+        
+        .faq-section > p {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .faq-grid {
+            grid-template-columns: 1fr;
+            gap: var(--space-md);
+        }
+        
+        .faq-item {
+            padding: var(--space-md);
+        }
+        
+        .faq-question h3 {
+            font-size: var(--font-size-base);
+        }
+        
+        /* Final CTA - Better mobile layout */
+        .final-cta-section {
+            padding: var(--space-xl) 0 var(--space-lg);
+        }
+        
+        .final-cta-section h2 {
+            font-size: var(--font-size-xxl);
+        }
+        
+        .final-cta-section p {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        
+        .final-cta-section .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+    
+    /* Extra Small Devices - Even better mobile optimization */
+    @media (max-width: 480px) {
+        /* Even more compact layout for small phones */
+        .contact-header h1 {
+            font-size: var(--font-size-xxl);
+        }
+        
+        .contact-header .subtitle {
+            font-size: var(--font-size-base);
+        }
+        
+        .contact-info,
+        .contact-form {
+            padding: var(--space-lg);
+        }
+        
+        .contact-item,
+        .social-card {
+            padding: var(--space-md);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            padding: var(--space-xs);
+            font-size: var(--font-size-sm);
+        }
+        
+        .btn-submit {
+            padding: var(--space-md);
+            font-size: var(--font-size-base);
+        }
+        
+        /* Better spacing for very small screens */
+        .section {
+            padding: var(--space-lg) 0;
+        }
+        
+        .container {
+            padding: 0 var(--space-sm);
+        }
+        
+        /* Mobile-specific contact item layout */
+        .contact-item {
+            flex-direction: row;
+            align-items: center;
+        }
+        
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+        }
+        
+        /* Mobile form improvements */
+        .form-group label {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+        }
+        
+        /* Mobile business hours */
+        .business-hours li {
+            padding: var(--space-xs) 0;
+        }
+        
+        /* Mobile social cards */
+        .social-icon {
+            width: 56px;
+            height: 56px;
+        }
+        
+        /* Mobile map section */
+        .map-placeholder {
+            height: 250px;
+        }
+        
+        /* Mobile FAQ */
+        .faq-item {
+            padding: var(--space-sm);
+        }
+    }
+    
+    /* Mobile-specific animations and transitions */
+    @media (max-width: 768px) {
+        /* Smoother transitions for mobile */
+        .contact-item,
+        .social-card,
+        .faq-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        /* Reduced animation complexity for mobile */
+        .contact-item:hover,
+        .social-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Better touch targets */
+        .btn,
+        .nav-link,
+        a {
+            min-height: 44px;
+            min-width: 44px;
+            padding: var(--space-sm) var(--space-md);
+        }
+        
+        /* Mobile form focus states */
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: 2px solid var(--accent-orange);
+            outline-offset: 2px;
         }
     }
     
