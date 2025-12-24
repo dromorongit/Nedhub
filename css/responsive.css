@@ -52,6 +52,11 @@
         font-size: var(--font-size-sm);
     }
 
+    /* Ensure hamburger menu is visible on mobile */
+    .mobile-menu-btn {
+        display: block !important;
+    }
+
     /* Hide mobile nav buttons on larger screens */
     @media (min-width: 768px) {
         .header-container {
@@ -60,6 +65,10 @@
 
         .nav-menu {
             display: flex;
+        }
+
+        .mobile-menu-btn {
+            display: none;
         }
     }
 
