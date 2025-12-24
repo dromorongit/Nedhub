@@ -721,6 +721,81 @@
             outline-offset: 2px;
         }
         
+        /* Enhanced Mobile Form Fields */
+        .modern-form {
+            padding: var(--space-xl);
+        }
+        
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .form-group label {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            padding: var(--space-md) var(--space-sm);
+            font-size: var(--font-size-base);
+            border-width: 2px;
+            border-radius: var(--radius-md);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-width: 3px;
+            box-shadow: 0 0 0 3px rgba(247, 127, 0, 0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 140px;
+        }
+        
+        .btn-submit {
+            padding: var(--space-md) var(--space-xxl);
+            font-size: var(--font-size-lg);
+            margin-top: var(--space-lg);
+        }
+        
+        /* Extra Small Device Form Enhancements */
+        @media (max-width: 480px) {
+            .modern-form {
+                padding: var(--space-lg);
+            }
+            
+            .form-group label {
+                font-size: var(--font-size-sm);
+            }
+            
+            .form-group input,
+            .form-group textarea {
+                padding: var(--space-sm);
+                font-size: var(--font-size-sm);
+            }
+            
+            .form-group textarea {
+                min-height: 120px;
+            }
+            
+            .btn-submit {
+                padding: var(--space-md);
+                font-size: var(--font-size-base);
+            }
+            
+            /* Better mobile touch targets */
+            .form-group input,
+            .form-group textarea {
+                min-height: 50px;
+            }
+            
+            .form-group textarea {
+                min-height: 120px;
+            }
+        }
+        
         /* Mobile Section Reordering - Professional Layout */
         .mobile-contact-layout {
             display: flex;
