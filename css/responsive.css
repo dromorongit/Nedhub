@@ -19,6 +19,50 @@
         font-weight: 800;
     }
 
+    /* Mobile Header Layout */
+    .header-container {
+        display: grid;
+        grid-template-rows: auto auto;
+        gap: var(--space-md);
+    }
+
+    .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-menu {
+        display: none;
+    }
+
+    .mobile-nav-buttons {
+        display: flex;
+        gap: var(--space-sm);
+    }
+
+    .mobile-nav-buttons .btn {
+        padding: var(--space-xs) var(--space-sm);
+        font-size: var(--font-size-sm);
+    }
+
+    /* Hide mobile nav buttons on larger screens */
+    @media (min-width: 768px) {
+        .header-container {
+            display: none;
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+    }
+
     /* Mobile Menu Button */
     .mobile-menu-btn {
         display: block;
