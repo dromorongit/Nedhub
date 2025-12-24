@@ -219,6 +219,10 @@
             display: none !important;
         }
 
+        .header-bottom {
+            display: none !important;
+        }
+
         .nav-menu {
             display: flex !important;
         }
