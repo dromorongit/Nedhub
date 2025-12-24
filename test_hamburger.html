@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamburger Icon Test</title>
+    <style>
+        /* Import the CSS variables and base styles */
+        :root {
+            /* Brand Colors */
+            --primary-dark: #0B132B;
+            --accent-orange: #F77F00;
+            --neutral-white: #FFFFFF;
+            --neutral-gray: #F4F6F8;
+            --text-dark: #2D3748;
+            --text-light: #718096;
+            --border-color: #E2E8F0;
+
+            /* Spacing System (8px base) */
+            --space-xs: 0.5rem; /* 8px */
+            --space-sm: 1rem; /* 16px */
+            --space-md: 1.5rem; /* 24px */
+            --space-lg: 2rem; /* 32px */
+            --space-xl: 3rem; /* 48px */
+            --space-xxl: 4rem; /* 64px */
+
+            /* Border Radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--primary-dark);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(247, 127, 0, 0.05), rgba(11, 19, 43, 0.02));
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-dark), var(--text-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* Include the enhanced mobile menu button styles */
+        .mobile-menu-btn {
+            display: block !important;
+            position: relative;
+            z-index: 1001;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--primary-dark));
+            border: none;
+            border-radius: var(--radius-full);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mobile-menu-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.05) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover::before {
+            opacity: 1;
+        }
+
+        .mobile-menu-btn:hover {
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+        }
+
+        .mobile-menu-btn:focus {
+            outline: 3px solid rgba(247, 127, 0, 0.5);
+            outline-offset: 3px;
+        }
+
+        .mobile-menu-btn:active {
+            transform: scale(0.98);
+        }
+
+        .mobile-menu-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 0.6s ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .mobile-menu-btn:active::after {
+            width: 200%;
+            height: 200%;
+            opacity: 1;
+            transition: all 0.8s ease;
+        }
+
+        /* Modern Professional Hamburger Icon */
+        .hamburger {
+            display: block;
+            width: 32px;
+            height: 4px;
+            background-color: var(--neutral-white);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: var(--radius-full);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+            transform-origin: center;
+        }
+
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--neutral-white);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: var(--radius-full);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+            transform-origin: center;
+        }
+
+        .hamburger::before {
+            top: -12px;
+        }
+
+        .hamburger::after {
+            top: 12px;
+        }
+
+        /* Enhanced Hamburger Animation */
+        .mobile-menu-btn.active .hamburger {
+            transform: rotate(45deg);
+            background-color: var(--neutral-white);
+        }
+
+        .mobile-menu-btn.active .hamburger::before {
+            transform: rotate(90deg) translateY(12px);
+            top: 0;
+            opacity: 1;
+        }
+
+        .mobile-menu-btn.active .hamburger::after {
+            transform: rotate(90deg) translateY(-12px);
+            top: 0;
+            opacity: 0;
+        }
+
+        /* Hamburger Icon Hover Effects */
+        .hamburger:hover {
+            width: 36px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .hamburger:hover::before,
+        .hamburger:hover::after {
+            width: 120%;
+            left: -10%;
+        }
+
+        .test-instructions {
+            background: linear-gradient(135deg, rgba(247, 127, 0, 0.1), rgba(11, 19, 43, 0.05));
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .test-instructions h3 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .test-instructions ul {
+            padding-left: 20px;
+        }
+
+        .test-instructions li {
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .test-results {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+        }
+
+        .test-results h3 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .test-results p {
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* Responsive test instructions */
+        @media (max-width: 768px) {
+            .responsive-instructions {
+                display: block;
+                background: linear-gradient(135deg, rgba(247, 127, 0, 0.15), rgba(11, 19, 43, 0.08));
+                padding: 15px;
+                border-radius: 8px;
+                margin-top: 20px;
+                border: 2px dashed var(--accent-orange);
+            }
+
+            .responsive-instructions h4 {
+                color: var(--primary-dark);
+                margin-bottom: 10px;
+            }
+
+            .responsive-instructions p {
+                color: var(--text-dark);
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Hamburger Icon Test</h1>
+
+        <div class="test-section">
+            <div class="test-header">
+                <div class="logo">Nedhub</div>
+                <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+
+            <div class="test-instructions">
+                <h3>Test Instructions:</h3>
+                <ul>
+                    <li><strong>Visual Appearance:</strong> The hamburger icon should appear as a modern, professional button with gradient background</li>
+                    <li><strong>Hover Effects:</strong> Hover over the button to see smooth scaling and shadow effects</li>
+                    <li><strong>Click/Active State:</strong> Click the button to see the ripple effect and animation</li>
+                    <li><strong>Focus State:</strong> Tab to the button to see the focus outline</li>
+                    <li><strong>Hamburger Animation:</strong> The icon should transform into an "X" when clicked</li>
+                    <li><strong>Icon Hover:</strong> Hover over just the hamburger lines to see them expand</li>
+                </ul>
+            </div>
+
+            <div class="responsive-instructions">
+                <h4>Responsive Testing:</h4>
+                <p>✓ This test page is designed to work on mobile devices</p>
+                <p>✓ The hamburger icon should be clearly visible in the top-right corner</p>
+                <p>✓ On larger screens (>768px), the mobile menu would normally be hidden</p>
+                <p>✓ Test on your mobile device by resizing your browser window</p>
+            </div>
+
+            <div class="test-results">
+                <h3>Expected Results:</h3>
+                <p><span class="success">✓</span> Modern, professional button design with gradient</p>
+                <p><span class="success">✓</span> Smooth hover animations with scaling and shadow effects</p>
+                <p><span class="success">✓</span> Ripple effect on click/active state</p>
+                <p><span class="success">✓</span> Clear focus outline for accessibility</p>
+                <p><span class="success">✓</span> Hamburger icon transforms to "X" when active</p>
+                <p><span class="success">✓</span> Icon lines expand on hover for better touch targets</p>
+                <p><span class="success">✓</span> Proper positioning in top-right corner</p>
+                <p><span class="success">✓</span> Responsive behavior on different screen sizes</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple test script to toggle the active state
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const hamburger = document.querySelector('.hamburger');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                
+                // Log test results to console
+                console.log('Hamburger icon clicked');
+                console.log('Active state:', this.classList.contains('active'));
+                console.log('Button position:', this.getBoundingClientRect());
+            });
+        }
+
+        // Log initial test information
+        console.log('Hamburger Icon Test Initialized');
+        console.log('Button element:', mobileMenuBtn);
+        console.log('Hamburger element:', hamburger);
+        console.log('Initial button position:', mobileMenuBtn ? mobileMenuBtn.getBoundingClientRect() : 'N/A');
+    </script>
+</body>
+</html>
