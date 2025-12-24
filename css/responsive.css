@@ -641,84 +641,134 @@
         }
     }
     
-    /* Extra Small Devices - Even better mobile optimization */
+    /* Extra Small Devices - More spacious and professional for very small screens */
     @media (max-width: 480px) {
-        /* Even more compact layout for small phones */
+        /* More spacious layout for very small phones */
+        .contact-header {
+            padding: var(--space-xl) 0 var(--space-lg);
+        }
+
         .contact-header h1 {
-            font-size: var(--font-size-xxl);
+            font-size: var(--font-size-xl);
+            line-height: 1.3;
         }
-        
+
         .contact-header .subtitle {
-            font-size: var(--font-size-base);
+            font-size: var(--font-size-sm);
+            line-height: 1.5;
         }
-        
+
         .contact-info,
         .contact-form {
-            padding: var(--space-lg);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
         }
-        
+
         .contact-item,
         .social-card {
-            padding: var(--space-md);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
         }
-        
+
         .form-group input,
         .form-group textarea {
-            padding: var(--space-xs);
-            font-size: var(--font-size-sm);
-        }
-        
-        .btn-submit {
             padding: var(--space-md);
             font-size: var(--font-size-base);
+            min-height: 48px;
+            border-radius: var(--radius-md);
         }
-        
+
+        .form-group textarea {
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            padding: var(--space-lg) var(--space-xl);
+            font-size: var(--font-size-lg);
+            min-height: 56px;
+        }
+
         /* Better spacing for very small screens */
         .section {
-            padding: var(--space-lg) 0;
+            padding: var(--space-xl) 0;
         }
-        
+
         .container {
-            padding: 0 var(--space-sm);
+            padding: 0 var(--space-md);
         }
-        
-        /* Mobile-specific contact item layout */
+
+        /* Mobile-specific contact item layout - keep column for better text fit */
         .contact-item {
-            flex-direction: row;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
         }
-        
+
         .contact-icon {
-            width: 48px;
-            height: 48px;
-            min-width: 48px;
-        }
-        
-        /* Mobile form improvements */
-        .form-group label {
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-        }
-        
-        /* Mobile business hours */
-        .business-hours li {
-            padding: var(--space-xs) 0;
-        }
-        
-        /* Mobile social cards */
-        .social-icon {
             width: 56px;
             height: 56px;
+            min-width: 56px;
+            margin-bottom: var(--space-sm);
         }
-        
+
+        .contact-item h3 {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-xs);
+        }
+
+        .contact-item p {
+            font-size: var(--font-size-sm);
+            line-height: 1.6;
+        }
+
+        /* Mobile form improvements */
+        .form-group label {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        /* Mobile business hours */
+        .business-hours {
+            padding: var(--space-lg);
+        }
+
+        .business-hours li {
+            padding: var(--space-md) 0;
+            font-size: var(--font-size-sm);
+        }
+
+        /* Mobile social cards */
+        .social-icon {
+            width: 64px;
+            height: 64px;
+        }
+
+        .social-card h3 {
+            font-size: var(--font-size-lg);
+        }
+
+        .social-card p {
+            font-size: var(--font-size-sm);
+            line-height: 1.6;
+        }
+
         /* Mobile map section */
         .map-placeholder {
-            height: 250px;
+            height: 280px;
         }
-        
+
         /* Mobile FAQ */
         .faq-item {
-            padding: var(--space-sm);
+            padding: var(--space-lg);
+        }
+
+        .faq-question h3 {
+            font-size: var(--font-size-base);
         }
     }
     
