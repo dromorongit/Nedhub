@@ -1,0 +1,35 @@
+{
+    "name": "nedhub-corporate-website",
+    "version": "1.0.0",
+    "description": "Modern Corporate Website for Nedhub with SaaS-Ready Architecture",
+    "main": "index.html",
+    "scripts": {
+        "start": "node build.js",
+        "dev": "node build.js",
+        "build": "node build.js",
+        "preview": "echo \"Open dist/index.html in your browser\"",
+        "type-check": "tsc --noEmit"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "typescript": "^5.0.0"
+    },
+    "keywords": [
+        "corporate",
+        "website",
+        "typescript",
+        "modern",
+        "saas",
+        "responsive"
+    ],
+    "author": "Nedhub Development Team",
+    "license": "MIT",
+    "type": "module",
+    "browserslist": [
+        "> 0.5%",
+        "last 2 versions",
+        "not dead",
+        "not op_mini all"
+    ]
+}

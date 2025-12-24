@@ -1,0 +1,313 @@
+/* Mobile First Approach - Base styles are mobile */
+
+/* Tablet - 768px and up */
+@media (min-width: 768px) {
+    /* Navigation */
+    .navbar .container {
+        padding: var(--space-sm) var(--space-lg);
+    }
+
+    .nav-menu {
+        gap: var(--space-xl);
+    }
+
+    /* Hero Section */
+    .hero {
+        padding: var(--space-xxl) 0;
+    }
+
+    .hero-content {
+        max-width: 900px;
+    }
+
+    /* Grid Layouts */
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Cards */
+    .card {
+        padding: var(--space-xl);
+    }
+
+    /* Footer */
+    .footer-content {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Contact Form */
+    .contact-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-xxl);
+    }
+    
+    /* Contact Page Responsive */
+    @media (max-width: 768px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+            gap: var(--space-xxl);
+        }
+     
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+     
+        .business-hours li {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+     
+        .business-hours span {
+            margin-bottom: var(--space-xs);
+        }
+     
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+     
+        .final-cta-section .btn {
+            width: 100%;
+            margin-bottom: var(--space-md);
+        }
+     
+        .map-placeholder {
+            height: 300px;
+        }
+    }
+    
+    /* Mobile Cards Layout - 2 columns */
+    @media (max-width: 768px) {
+        .grid-container,
+        .cards-grid,
+        .values-grid,
+        .solutions-grid,
+        .faq-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+        
+        .card,
+        .mission-card,
+        .vision-card,
+        .value-card,
+        .solution-card,
+        .faq-item {
+            min-width: 0;
+        }
+    }
+    
+    /* FAQ Responsive */
+    @media (max-width: 768px) {
+        .faq-grid {
+            grid-template-columns: 1fr;
+        }
+    
+        .faq-item {
+            margin-bottom: var(--space-md);
+        }
+    }
+}
+
+/* Desktop - 1024px and up */
+@media (min-width: 1024px) {
+    /* Container */
+    .container {
+        max-width: 1200px;
+    }
+
+    /* Navigation */
+    .nav-menu {
+        gap: var(--space-xxl);
+    }
+
+    /* Hero Section */
+    .hero h1 {
+        font-size: 3.5rem;
+    }
+
+    /* Grid Layouts */
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Services Grid */
+    .services-grid .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+
+    /* Values Grid */
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Section Layouts */
+    .section-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-xxl);
+        align-items: center;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        text-align: center;
+    }
+
+    .cta-section .container {
+        max-width: 800px;
+    }
+}
+
+/* Large Desktop - 1440px and up */
+@media (min-width: 1440px) {
+    /* Hero Section */
+    .hero h1 {
+        font-size: 4rem;
+    }
+
+    /* Container */
+    .container {
+        max-width: 1400px;
+    }
+
+    /* Navigation */
+    .nav-menu {
+        gap: var(--space-xxl);
+    }
+
+    /* Grid Layouts */
+    .grid-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* Services Grid */
+    .services-grid .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Values Grid */
+    .values-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background-color: white;
+        color: black;
+    }
+
+    .navbar, .footer {
+        display: none;
+    }
+
+    .no-print {
+        display: none;
+    }
+
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+
+    /* Ensure content is readable when printed */
+    .container {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    /* Remove animations and shadows for print */
+    * {
+        animation: none !important;
+        transition: none !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+}
+
+/* Touch Device Specific Styles */
+@media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets for mobile devices */
+    .btn, .nav-link, a {
+        padding: var(--space-md) var(--space-lg);
+        min-height: 48px;
+        min-width: 48px;
+    }
+
+    /* More visible focus states for touch devices */
+    :focus {
+        outline: 3px solid var(--accent-orange);
+        outline-offset: 3px;
+    }
+
+    /* Larger form inputs */
+    .form-group input,
+    .form-group textarea {
+        padding: var(--space-md);
+        font-size: var(--font-size-lg);
+    }
+}
+
+/* High Contrast Mode for Accessibility */
+@media (prefers-contrast: high) {
+    body {
+        background-color: black;
+        color: white;
+    }
+
+    .card, .section {
+        background-color: black;
+        border: 2px solid white;
+    }
+
+    a, .btn {
+        color: white;
+        border-color: white;
+    }
+
+    .btn-primary {
+        background-color: white;
+        color: black;
+    }
+}
+
+/* Reduced Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --neutral-white: #1a202c;
+        --neutral-gray: #2d3748;
+        --text-dark: #f7fafc;
+        --text-light: #a0aec0;
+        --border-color: #4a5568;
+    }
+
+    body {
+        background-color: #1a202c;
+        color: #f7fafc;
+    }
+
+    .card {
+        background-color: #2d3748;
+        border-color: #4a5568;
+    }
+
+    .section {
+        background-color: #1a202c;
+    }
+
+    .footer {
+        background-color: #0B132B;
+    }
+}
