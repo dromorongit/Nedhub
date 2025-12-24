@@ -136,72 +136,40 @@
         font-size: var(--font-size-sm);
     }
 
-    /* Enhanced Mobile Menu Button - Modern Professional Design */
+    /* Simple Traditional Mobile Menu Button */
     .mobile-menu-btn {
         display: block !important;
         position: relative;
         z-index: 1001;
-        width: 56px;
-        height: 56px;
-        background: linear-gradient(135deg, var(--accent-orange), var(--primary-dark));
+        width: 48px;
+        height: 48px;
+        background: transparent;
         border: none;
-        border-radius: var(--radius-full);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-left: auto;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .mobile-menu-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-            45deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0.05) 100%
-        );
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .mobile-menu-btn:hover::before {
-        opacity: 1;
+        padding: 0;
     }
 
     .mobile-menu-btn:hover {
-        transform: scale(1.08) translateY(-3px);
-        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+        opacity: 0.8;
     }
 
     .mobile-menu-btn:focus {
-        outline: 3px solid rgba(247, 127, 0, 0.5);
-        outline-offset: 3px;
+        outline: 2px solid var(--accent-orange);
+        outline-offset: 2px;
     }
 
-    .mobile-menu-btn:active {
-        transform: scale(0.98);
-    }
-
-    /* Modern Professional Hamburger Icon */
+    /* Simple Traditional Hamburger Icon */
     .hamburger {
         display: block;
-        width: 32px;
-        height: 4px;
-        background-color: var(--neutral-white);
+        width: 24px;
+        height: 2px;
+        background-color: var(--text-dark);
         position: relative;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border-radius: var(--radius-full);
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
-        transform-origin: center;
+        transition: all 0.3s ease;
     }
 
     .hamburger::before,
@@ -210,49 +178,30 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: var(--neutral-white);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border-radius: var(--radius-full);
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
-        transform-origin: center;
+        background-color: var(--text-dark);
+        transition: all 0.3s ease;
     }
 
     .hamburger::before {
-        top: -12px;
+        top: -8px;
     }
 
     .hamburger::after {
-        top: 12px;
+        top: 8px;
     }
 
-    /* Enhanced Hamburger Animation - Smooth Professional Transform */
+    /* Simple Hamburger to X Animation */
     .mobile-menu-btn.active .hamburger {
         transform: rotate(45deg);
-        background-color: var(--neutral-white);
     }
 
     .mobile-menu-btn.active .hamburger::before {
-        transform: rotate(90deg) translateY(12px);
+        transform: rotate(90deg) translateY(8px);
         top: 0;
-        opacity: 1;
     }
 
     .mobile-menu-btn.active .hamburger::after {
-        transform: rotate(90deg) translateY(-12px);
-        top: 0;
         opacity: 0;
-    }
-
-    /* Hamburger Icon Hover Effects */
-    .hamburger:hover {
-        width: 36px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    .hamburger:hover::before,
-    .hamburger:hover::after {
-        width: 120%;
-        left: -10%;
     }
 
     /* Hide mobile nav buttons on larger screens */
@@ -270,38 +219,14 @@
         }
     }
 
-    /* Professional Ripple Effect for Mobile Menu Button */
-    .mobile-menu-btn::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition: all 0.6s ease;
-        pointer-events: none;
-        z-index: -1;
-    }
-
-    .mobile-menu-btn:active::after {
-        width: 200%;
-        height: 200%;
-        opacity: 1;
-        transition: all 0.8s ease;
-    }
-
-    /* Enhanced Mobile Menu Button Positioning */
+    /* Simple Mobile Menu Button Positioning */
     @media (max-width: 767px) {
         .header-top {
-            padding-right: var(--space-sm);
+            padding-right: 0;
         }
 
         .mobile-menu-btn {
-            margin-right: -var(--space-xs);
+            margin-right: 0;
         }
     }
 

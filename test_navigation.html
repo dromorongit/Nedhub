@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Test</title>
+    <style>
+        /* Simple reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        /* Simple navigation styles */
+        .navbar {
+            background-color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .header-container {
+            display: grid;
+            grid-template-rows: auto auto;
+            gap: 1rem;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0B132B;
+            text-decoration: none;
+        }
+
+        /* Simple traditional hamburger button */
+        .mobile-menu-btn {
+            display: block;
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+            margin-left: auto;
+        }
+
+        .mobile-menu-btn:hover {
+            opacity: 0.8;
+        }
+
+        .mobile-menu-btn:focus {
+            outline: 2px solid #F77F00;
+            outline-offset: 2px;
+        }
+
+        /* Simple traditional hamburger icon */
+        .hamburger {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: #333;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger::before {
+            top: -8px;
+        }
+
+        .hamburger::after {
+            top: 8px;
+        }
+
+        /* Simple hamburger to X animation */
+        .mobile-menu-btn.active .hamburger {
+            transform: rotate(45deg);
+        }
+
+        .mobile-menu-btn.active .hamburger::before {
+            transform: rotate(90deg) translateY(8px);
+            top: 0;
+        }
+
+        .mobile-menu-btn.active .hamburger::after {
+            opacity: 0;
+        }
+
+        /* Navigation menu - hidden by default on mobile */
+        .nav-menu {
+            display: none;
+            list-style: none;
+        }
+
+        /* Mobile menu active state */
+        .nav-menu.active {
+            display: block;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+        }
+
+        .nav-menu.active .nav-link {
+            display: block;
+            padding: 0.75rem 0;
+            color: #333;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s ease;
+        }
+
+        .nav-menu.active .nav-link:hover,
+        .nav-menu.active .nav-link.active {
+            color: #F77F00;
+            background-color: rgba(247, 127, 0, 0.05);
+        }
+
+        .nav-menu.active .nav-link:last-child {
+            border-bottom: none;
+        }
+
+        /* Test section */
+        .test-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section h2 {
+            color: #0B132B;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .test-instructions {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .test-instructions h3 {
+            color: #0B132B;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .test-instructions ul {
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .test-instructions li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .test-results {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .test-results h3 {
+            color: #0B132B;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .test-results p {
+            color: #555;
+            margin-bottom: 0.25rem;
+        }
+
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* Responsive styles */
+        @media (min-width: 768px) {
+            .nav-menu {
+                display: flex;
+                gap: 2rem;
+                position: static;
+                box-shadow: none;
+                padding: 0;
+                background: transparent;
+            }
+
+            .nav-menu .nav-link {
+                display: inline;
+                padding: 0;
+                border-bottom: none;
+                font-weight: 500;
+            }
+
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="header-container">
+                <div class="header-top">
+                    <a href="#" class="logo">Nedhub</a>
+                    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
+                        <span class="hamburger"></span>
+                    </button>
+                </div>
+            </div>
+            <ul id="nav-menu" class="nav-menu">
+                <li><a href="#" class="nav-link active">Home</a></li>
+                <li><a href="#" class="nav-link">About Us</a></li>
+                <li><a href="#" class="nav-link">Services</a></li>
+                <li><a href="#" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="test-section">
+        <h2>Navigation Test</h2>
+
+        <div class="test-instructions">
+            <h3>Test Instructions:</h3>
+            <ul>
+                <li><strong>Mobile View:</strong> On screens smaller than 768px, you should see the hamburger icon in the top-right corner</li>
+                <li><strong>Click Test:</strong> Click the hamburger icon to toggle the navigation menu</li>
+                <li><strong>Menu Display:</strong> The navigation menu should slide down with menu items</li>
+                <li><strong>Menu Items:</strong> You should see Home, About Us, Services, and Contact links</li>
+                <li><strong>Close Test:</strong> Click the hamburger icon again to close the menu</li>
+                <li><strong>Desktop View:</strong> On screens 768px and wider, the menu should be visible by default</li>
+            </ul>
+        </div>
+
+        <div class="test-results">
+            <h3>Expected Results:</h3>
+            <p><span class="success">✓</span> Simple traditional hamburger icon (3 lines)</p>
+            <p><span class="success">✓</span> Icon positioned at extreme right on mobile</p>
+            <p><span class="success">✓</span> Clicking icon shows/hides navigation menu</p>
+            <p><span class="success">✓</span> Navigation items display in a dropdown on mobile</p>
+            <p><span class="success">✓</span> Smooth toggle animation</p>
+            <p><span class="success">✓</span> Proper z-index stacking (menu above content)</p>
+            <p><span class="success">✓</span> Responsive behavior (menu visible on desktop)</p>
+        </div>
+    </div>
+
+    <script>
+        // Simple navigation test script
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (mobileMenuBtn && navMenu) {
+                let isMenuOpen = false;
+                
+                mobileMenuBtn.addEventListener('click', function() {
+                    isMenuOpen = !isMenuOpen;
+                    
+                    if (isMenuOpen) {
+                        navMenu.classList.add('active');
+                        mobileMenuBtn.classList.add('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'true');
+                        console.log('Menu opened');
+                    } else {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        console.log('Menu closed');
+                    }
+                });
+                
+                // Close menu when clicking on a nav link
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (isMenuOpen) {
+                            isMenuOpen = false;
+                            navMenu.classList.remove('active');
+                            mobileMenuBtn.classList.remove('active');
+                            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                            console.log('Menu closed by link click');
+                        }
+                    });
+                });
+                
+                console.log('Navigation test initialized successfully');
+                console.log('Mobile menu button:', mobileMenuBtn);
+                console.log('Navigation menu:', navMenu);
+                console.log('Initial menu state: closed');
+            } else {
+                console.error('Navigation elements not found');
+                console.log('Mobile menu button:', mobileMenuBtn);
+                console.log('Navigation menu:', navMenu);
+            }
+        });
+    </script>
+</body>
+</html>
