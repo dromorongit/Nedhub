@@ -137,18 +137,18 @@ function trapFocus(element: HTMLElement): void {
         }
     };
 
-    document.addEventListener('keydown', handleTab as (this: Document, ev: KeyboardEvent) => any);
-    document.addEventListener('keydown', handleEscape as (this: Document, ev: KeyboardEvent) => any);
+    document.addEventListener('keydown', handleTab);
+    document.addEventListener('keydown', handleEscape);
 
     // Store event listeners for cleanup
-    (element as any)._focusTrapListeners = [handleTab, handleEscape];
+    (element as any)._focusTrapListeners = [handleTab as EventListener, handleEscape as EventListener];
 }
 
 // Release focus trap
 function releaseFocusTrap(): void {
     const navMenu = document.getElementById('nav-menu') as HTMLElement | null;
     if (navMenu && (navMenu as any)._focusTrapListeners) {
-        (navMenu as any)._focusTrapListeners.forEach((listener: Function) => {
+        (navMenu as any)._focusTrapListeners.forEach((listener: EventListener) => {
             document.removeEventListener('keydown', listener);
         });
         delete (navMenu as any)._focusTrapListeners;

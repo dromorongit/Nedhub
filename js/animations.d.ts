@@ -1,0 +1,10 @@
+export declare function initAnimations(): void;
+declare function initHeroAnimations(): void;
+declare function createHeroParticles(): void;
+declare function initCardAnimations(): void;
+declare function initButtonAnimations(): void;
+declare function createRippleEffect(button: Element, event: MouseEvent): void;
+declare function initScrollAnimations(): void;
+declare function initFormAnimations(): void;
+declare function debounce(func: Function, wait?: number): Function;
+export { initHeroAnimations, createHeroParticles, initCardAnimations, initButtonAnimations, createRippleEffect, initScrollAnimations, initFormAnimations, debounce };

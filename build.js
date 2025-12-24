@@ -1,6 +1,10 @@
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 console.log('🚀 Starting Nedhub build process...');
 
@@ -32,19 +36,25 @@ try {
         }
     });
 
-    // Copy JS files (for now, we'll copy TypeScript files as is for demo)
+    // Compile TypeScript files
     if (!fs.existsSync('dist/js')) {
         fs.mkdirSync('dist/js');
     }
-    const jsFiles = ['js/main.ts', 'js/nav.ts', 'js/animations.ts', 'js/form-validation.ts'];
-    jsFiles.forEach(file => {
-        if (fs.existsSync(file)) {
-            // For demo purposes, copy as .js files
-            const destFile = file.replace('.ts', '.js');
-            fs.copyFileSync(file, path.join('dist', destFile));
-            console.log(`📜 Copied ${file} as ${destFile}`);
-        }
-    });
+    console.log('🔨 Compiling TypeScript files...');
+    try {
+        execSync('npx tsc', { stdio: 'inherit' });
+        console.log('✅ TypeScript compilation completed');
+    } catch (error) {
+        console.log('⚠️  TypeScript compilation failed, copying TS files as JS for demo');
+        const jsFiles = ['js/main.ts', 'js/nav.ts', 'js/animations.ts', 'js/form-validation.ts'];
+        jsFiles.forEach(file => {
+            if (fs.existsSync(file)) {
+                const destFile = file.replace('.ts', '.js');
+                fs.copyFileSync(file, path.join('dist', destFile));
+                console.log(`📜 Copied ${file} as ${destFile}`);
+            }
+        });
+    }
 
     // Copy other assets if they exist
     if (fs.existsSync('images')) {

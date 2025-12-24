@@ -7,7 +7,7 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "outDir": "./dist",
+        "outDir": "./js",
         "rootDir": "./js",
         "sourceMap": true,
         "declaration": true,
