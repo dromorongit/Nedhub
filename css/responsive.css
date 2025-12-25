@@ -982,6 +982,13 @@
             color: var(--neutral-white) !important;
         }
         
+        /* Page Header Text White Fix on Mobile */
+        .page-header .subtitle,
+        .contact-header .subtitle,
+        .services-header .subtitle {
+            color: var(--neutral-white) !important;
+        }
+        
         /* Why Nedhub section - White text on mobile */
         .why-nedhub,
         .why-nedhub .section-title,
@@ -1469,6 +1476,109 @@
             
             /* Override any gradient text on mobile */
             h1, h2, h3, h4, h5, h6 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            /* Specific gradient text overrides from styles.css */
+            h1 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            h2 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .logo {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .hero h1 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .contact-info h2 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .contact-form h2 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .map-section h2 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .why-nedhub .section-title {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .featured-solutions .section-title {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .overview-content h2 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            /* Additional specific element overrides */
+            .page-header h1,
+            .services-header h1,
+            .contact-header h1 {
                 background: none !important;
                 -webkit-background-clip: unset !important;
                 -webkit-text-fill-color: unset !important;

@@ -1417,7 +1417,7 @@ a:hover::after {
 
 .contact-header .subtitle {
     font-size: var(--font-size-xxl);
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.95);
     max-width: 800px;
     margin: 0 auto var(--space-lg);
     line-height: 1.6;
