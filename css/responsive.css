@@ -151,6 +151,83 @@
         text-align: center; /* Center button text */
     }
 
+    /* Mobile Services Dropdown Styles */
+    .mobile-services-dropdown {
+        position: relative;
+        min-width: 120px;
+    }
+
+    .mobile-services-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-xs);
+        width: 100%;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .services-arrow {
+        font-size: 0.8em;
+        transition: transform 0.3s ease;
+        font-weight: bold;
+    }
+
+    .mobile-services-dropdown.open .services-arrow {
+        transform: rotate(180deg);
+    }
+
+    .mobile-services-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--neutral-white);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-lg);
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        margin-top: var(--space-xs);
+    }
+
+    .mobile-services-dropdown.open .mobile-services-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .mobile-service-link {
+        display: block;
+        padding: var(--space-sm) var(--space-md);
+        color: var(--text-dark);
+        text-decoration: none;
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .mobile-service-link:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-service-link:hover,
+    .mobile-service-link:focus {
+        background: linear-gradient(135deg, rgba(247, 127, 0, 0.1), rgba(11, 19, 43, 0.05));
+        color: var(--primary-dark);
+        padding-left: var(--space-lg);
+    }
+
+    .mobile-service-link:active {
+        background: rgba(247, 127, 0, 0.15);
+        color: var(--accent-orange);
+    }
+
     /* Ultra-Simple Mobile Menu Button - No Background */
     .mobile-menu-btn {
         display: block !important;

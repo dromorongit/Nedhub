@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Services Dropdown Test</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Test-specific styles */
+        .test-info {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid #2196F3;
+            margin: 2rem 0;
+            max-width: 800px;
+        }
+        .test-info h3 {
+            color: #0B132B;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .test-info p {
+            color: #555;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .info {
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav id="main-nav" class="navbar">
+        <div class="container">
+            <div class="header-container">
+                <div class="header-top">
+                    <a href="index.html" class="logo">Nedhub</a>
+                    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
+                        <span class="hamburger"></span>
+                    </button>
+                </div>
+                <div class="header-bottom">
+                    <div class="mobile-nav-buttons">
+                        <a href="index.html" class="btn btn-primary">Home</a>
+                        <div class="mobile-services-dropdown">
+                            <button class="btn btn-primary mobile-services-btn" aria-expanded="false" aria-haspopup="true">
+                                <span class="services-text">Services</span>
+                                <span class="services-arrow">▼</span>
+                            </button>
+                            <div class="mobile-services-menu">
+                                <a href="services.html" class="mobile-service-link">All Services</a>
+                                <a href="recruitment.html" class="mobile-service-link">Recruitment & Talent Acquisition</a>
+                                <a href="outsourcing.html" class="mobile-service-link">Staff Outsourcing & Placement</a>
+                                <a href="training.html" class="mobile-service-link">Training & Capacity Building</a>
+                                <a href="career-coaching.html" class="mobile-service-link">Career Guidance & Coaching</a>
+                                <a href="data-analytics.html" class="mobile-service-link">Data Analytics</a>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="btn btn-primary">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main style="padding: 2rem 0; max-width: 800px; margin: 0 auto;">
+        <h1>Mobile Services Dropdown Test</h1>
+        
+        <div class="test-info">
+            <h3>Test Instructions:</h3>
+            <p><span class="info">1.</span> Resize your browser to mobile width (<768px) or use device simulation</p>
+            <p><span class="info">2.</span> You should see the Services button with a dropdown arrow (▼)</p>
+            <p><span class="info">3.</span> Click/tap the Services button to toggle the dropdown menu</p>
+            <p><span class="info">4.</span> The arrow should rotate when the dropdown opens/closes</p>
+            <p><span class="info">5.</span> Click any service link to navigate to that page</p>
+            <p><span class="info">6.</span> The dropdown should close when clicking outside or pressing Escape</p>
+        </div>
+
+        <div class="test-info">
+            <h3>Expected Results:</h3>
+            <p><span class="success">✓</span> Services button shows with dropdown arrow (▼)</p>
+            <p><span class="success">✓</span> Arrow rotates 180° when dropdown opens</p>
+            <p><span class="success">✓</span> Dropdown menu slides down with service options</p>
+            <p><span class="success">✓</span> Smooth animations and transitions</p>
+            <p><span class="success">✓</span> Service links are clickable and functional</p>
+            <p><span class="success">✓</span> Dropdown closes properly on outside click or Escape</p>
+            <p><span class="success">✓</span> Accessible with proper ARIA attributes</p>
+        </div>
+
+        <div class="test-info">
+            <h3>Available Services:</h3>
+            <p>• All Services (main services page)</p>
+            <p>• Recruitment & Talent Acquisition</p>
+            <p>• Staff Outsourcing & Placement</p>
+            <p>• Training & Capacity Building</p>
+            <p>• Career Guidance & Coaching</p>
+            <p>• Data Analytics</p>
+        </div>
+    </main>
+
+    <script src="js/navigation.js"></script>
+</body>
+</html>
