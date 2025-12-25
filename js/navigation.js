@@ -85,6 +85,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Initialize dropdown functionality
+    initDropdown();
+    
     // Set active link based on current page
     setActiveNavLink();
     
@@ -146,4 +149,59 @@ function debounce(func, wait) {
         
         timeout = setTimeout(later, wait);
     };
+}
+
+// Initialize dropdown functionality
+function initDropdown() {
+    var dropdown = document.querySelector('.dropdown');
+    if (!dropdown) {
+        console.log('No dropdown found');
+        return;
+    }
+    
+    var dropdownLink = dropdown.querySelector('.nav-link');
+    if (!dropdownLink) {
+        console.log('No dropdown link found');
+        return;
+    }
+    
+    console.log('Dropdown initialized');
+    
+    dropdownLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        var currentPath = window.location.pathname.split('/').pop() || 'index.html';
+        var isServicesPage = currentPath === 'services.html';
+        
+        console.log('Dropdown clicked, current page:', currentPath, 'is services page:', isServicesPage);
+        
+        if (!isServicesPage) {
+            // If not on services page, navigate to services page
+            console.log('Navigating to services page');
+            window.location.href = 'services.html';
+        } else {
+            // If on services page, toggle dropdown
+            var isOpen = dropdown.classList.contains('open');
+            console.log('Dropdown is currently open:', isOpen);
+            
+            if (isOpen) {
+                dropdown.classList.remove('open');
+                console.log('Dropdown closed');
+            } else {
+                dropdown.classList.add('open');
+                console.log('Dropdown opened');
+            }
+        }
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        var target = e.target;
+        if (!target.closest('.dropdown')) {
+            dropdown.classList.remove('open');
+            console.log('Dropdown closed by outside click');
+        }
+    });
+    
+    console.log('Dropdown functionality initialized');
 }

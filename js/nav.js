@@ -68,12 +68,20 @@ function initDropdown() {
         return;
     dropdownLink.addEventListener('click', (e) => {
         e.preventDefault();
-        const isOpen = dropdown.classList.contains('open');
-        if (!isOpen) {
-            dropdown.classList.add('open');
-        }
-        else {
+        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+        const isServicesPage = currentPath === 'services.html';
+        
+        if (!isServicesPage) {
+            // If not on services page, navigate to services page
             window.location.href = 'services.html';
+        } else {
+            // If on services page, toggle dropdown
+            const isOpen = dropdown.classList.contains('open');
+            if (isOpen) {
+                dropdown.classList.remove('open');
+            } else {
+                dropdown.classList.add('open');
+            }
         }
     });
     document.addEventListener('click', (e) => {
