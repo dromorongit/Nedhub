@@ -819,6 +819,69 @@
             color: var(--neutral-white) !important;
         }
         
+        /* Why Nedhub section - White text on mobile */
+        .why-nedhub,
+        .why-nedhub .section-title,
+        .why-nedhub .section-subtitle,
+        .benefit-card,
+        .benefit-card h3,
+        .benefit-card p,
+        .benefit-icon {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Social media cards - White text on mobile */
+        .social-media-section,
+        .social-media-section h2,
+        .social-media-section > p,
+        .social-card,
+        .social-card h3,
+        .social-card p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Solution content - White text on mobile */
+        .solution-content h3,
+        .solution-content p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* FAQ section - White text on mobile */
+        .faq-section,
+        .faq-section h2,
+        .faq-section > p,
+        .faq-item,
+        .faq-question h3,
+        .faq-answer p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Mission and vision cards - White text on mobile */
+        .mission-card,
+        .vision-card,
+        .mission-card h3,
+        .vision-card h3,
+        .mission-card p,
+        .vision-card p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Core values cards - White text on mobile */
+        .value-card,
+        .value-card h3,
+        .value-card p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* All card elements - White text on mobile */
+        .card,
+        .card h3,
+        .card p,
+        .card-description,
+        .card-title {
+            color: var(--neutral-white) !important;
+        }
+        
         /* Hero section text on mobile - Fix gradient text issue */
         .hero h1 {
             color: var(--neutral-white) !important;
@@ -851,7 +914,80 @@
             color: var(--neutral-white) !important;
         }
         
+        /* Why Nedhub section background on mobile */
+        .why-nedhub {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Social media section background on mobile */
+        .social-media-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* FAQ section background on mobile */
+        .faq-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Mission and vision section background on mobile */
+        .mission-vision {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Core values section background on mobile */
+        .core-values {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
         .solution-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Benefit cards background on mobile */
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Social card backgrounds on mobile */
+        .social-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* FAQ item backgrounds on mobile */
+        .faq-item {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Mission and vision card backgrounds on mobile */
+        .mission-card,
+        .vision-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Value card backgrounds on mobile */
+        .value-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* General card backgrounds on mobile */
+        .card {
             background: rgba(255, 255, 255, 0.1) !important;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -864,6 +1000,16 @@
         
         .feature i {
             color: var(--neutral-white) !important;
+        }
+        
+        /* Icon colors for all carousel sections on mobile */
+        .benefit-icon,
+        .social-icon,
+        .faq-icon,
+        .card-icon,
+        .value-icon {
+            color: var(--neutral-white) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
         }
         
         .feature p {
