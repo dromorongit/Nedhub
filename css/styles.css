@@ -196,8 +196,8 @@ a:hover::after {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* Hide mobile header container by default - shown only on mobile */
-.header-container {
+/* Hide mobile nav buttons by default - shown only on mobile */
+.header-bottom {
     display: none;
 }
 

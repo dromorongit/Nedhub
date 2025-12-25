@@ -21,16 +21,16 @@
 
     /* Mobile Header Layout - Compact & Better Aligned */
     .header-container {
-        display: grid;
-        grid-template-rows: auto auto;
+        display: flex;
+        flex-direction: column;
         gap: var(--space-sm); /* Reduced gap */
         padding: var(--space-xs) 0;
         width: 100%;
     }
 
-    /* Show mobile header container only on mobile */
-    .header-container {
-        display: grid !important;
+    /* Show mobile nav buttons only on mobile */
+    .header-bottom {
+        display: flex !important;
     }
 
     .header-top {
@@ -220,10 +220,6 @@
 
     /* Hide mobile nav buttons on larger screens */
     @media (min-width: 768px) {
-        .header-container {
-            display: none !important;
-        }
-
         .header-bottom {
             display: none !important;
         }
