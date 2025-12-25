@@ -28,6 +28,11 @@
         width: 100%;
     }
 
+    /* Show mobile header container only on mobile */
+    .header-container {
+        display: grid !important;
+    }
+
     .header-top {
         display: flex;
         justify-content: space-between;

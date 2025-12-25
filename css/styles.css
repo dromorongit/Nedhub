@@ -196,6 +196,11 @@ a:hover::after {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+/* Hide mobile header container by default - shown only on mobile */
+.header-container {
+    display: none;
+}
+
 .navbar.scrolled {
     background-color: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(15px);
@@ -1353,6 +1358,7 @@ a:hover::after {
     box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
+    margin-bottom: var(--space-xl);
 }
 
 .contact-info::before {
@@ -1417,12 +1423,13 @@ a:hover::after {
     display: flex;
     align-items: flex-start;
     gap: var(--space-md);
-    padding: var(--space-md);
+    padding: var(--space-lg);
     border-radius: var(--radius-lg);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     background: var(--neutral-white);
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
+    margin-bottom: var(--space-md);
 }
 
 .contact-item:hover {
@@ -1557,7 +1564,7 @@ a:hover::after {
     margin-right: var(--space-xs);
 }
 
-/* Modern Form Styles */
+/* Modern Form Styles - More spacious for better mobile experience */
 .modern-form {
     background: linear-gradient(135deg, rgba(247, 127, 0, 0.03) 0%, rgba(11, 19, 43, 0.01) 100%);
     padding: var(--space-xxl);
@@ -1566,6 +1573,7 @@ a:hover::after {
     box-shadow: var(--shadow-sm);
     position: relative;
     overflow: hidden;
+    margin-bottom: var(--space-xl);
 }
 
 .modern-form::before {
@@ -1640,7 +1648,7 @@ a:hover::after {
     transform: scaleX(1);
 }
 
-/* Clean Form Group Styling */
+/* Clean Form Group Styling - Better spacing for mobile */
 .form-group {
     position: relative;
     margin-bottom: var(--space-lg);
@@ -1655,11 +1663,11 @@ a:hover::after {
     transition: all 0.3s ease;
 }
 
-/* Enhanced Input Fields - Clean and Visible */
+/* Enhanced Input Fields - Clean and Visible with better mobile padding */
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: var(--space-md) var(--space-sm);
+    padding: var(--space-md);
     border: 2px solid var(--border-color);
     border-radius: var(--radius-md);
     font-family: inherit;
@@ -1668,6 +1676,7 @@ a:hover::after {
     background-color: var(--neutral-white);
     color: var(--text-dark);
     line-height: 1.5;
+    min-height: 48px;
 }
 
 .form-group input:focus,
