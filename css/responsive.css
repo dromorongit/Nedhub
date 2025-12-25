@@ -481,24 +481,34 @@
     .page-header {
         padding: var(--space-xl) 0 var(--space-lg);
         text-align: center;
-        background-color: var(--neutral-white);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+        color: var(--neutral-white) !important;
+        min-height: 50vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        clip-path: ellipse(100% 100% at 50% 0%);
     }
 
     .page-header h1 {
         font-size: var(--font-size-xxxl);
         margin-bottom: var(--space-sm);
-        background: linear-gradient(135deg, var(--primary-dark), var(--text-dark));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
+        background: none !important;
+        -webkit-background-clip: unset !important;
+        -webkit-text-fill-color: unset !important;
+        background-clip: unset !important;
+        text-fill-color: unset !important;
+        color: var(--neutral-white) !important;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .page-header .subtitle {
         font-size: var(--font-size-lg);
-        color: var(--text-light);
+        color: var(--neutral-white) !important;
         max-width: 600px;
         margin: 0 auto;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .header-divider {
@@ -1591,6 +1601,184 @@
         /* Ensure hero section has proper background for white text */
         .hero {
             background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+        }
+        
+        /* Comprehensive mobile text color fixes for ALL pages except homepage */
+        /* Page-specific mobile styling - All non-homepage pages get white text */
+        
+        /* About Page Mobile Styling - Target elements that exist on About page */
+        .company-overview,
+        .company-overview *,
+        .mission-vision,
+        .mission-vision *,
+        .core-values,
+        .core-values *,
+        .industries-served,
+        .industries-served * {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Services Page Mobile Styling - Target elements that exist on Services page */
+        .services-grid,
+        .services-grid *,
+        .services-showcase,
+        .services-showcase *,
+        .services-intro,
+        .services-intro * {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Contact Page Mobile Styling - Target elements that exist on Contact page */
+        .contact-section,
+        .contact-section *,
+        .map-section,
+        .map-section *,
+        .social-media-section,
+        .social-media-section *,
+        .faq-section,
+        .faq-section * {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Recruitment Page Mobile Styling - Target elements that exist on Recruitment page */
+        .recruitment-content,
+        .recruitment-content * {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Apply white text to all sections on non-homepage pages */
+        .section h1,
+        .section h2,
+        .section h3,
+        .section h4,
+        .section h5,
+        .section h6,
+        .section p,
+        .section span,
+        .section div {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* All card elements on non-homepage pages - White text and backgrounds */
+        .card,
+        .card h3,
+        .card p,
+        .card-title,
+        .card-description,
+        .mission-card,
+        .vision-card,
+        .value-card,
+        .social-card,
+        .faq-item {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Override gradient text on non-homepage pages */
+        h1,
+        h2,
+        h3 {
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+            text-fill-color: unset !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Icon colors for non-homepage pages */
+        .card-icon,
+        .value-icon,
+        .social-icon,
+        .benefit-icon {
+            color: var(--neutral-white) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* Override styles for Homepage - Keep original colors */
+        body[class=""], body[class="homepage"], html:not([data-page]) .hero,
+        html:not([data-page]) .hero *,
+        html:not([data-page]) .section h1,
+        html:not([data-page]) .section h2,
+        html:not([data-page]) .section h3,
+        html:not([data-page]) .section p {
+            background: unset !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+            text-fill-color: unset !important;
+            color: unset !important;
+        }
+        
+        /* Homepage specific overrides - Restore original styling */
+        .hero,
+        .hero *,
+        .hero h1,
+        .hero p {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        .hero h1 {
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+            text-fill-color: unset !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Final comprehensive rule - All sections EXCEPT homepage hero get white text */
+        /* This ensures that ONLY the homepage (index.html) keeps its original styling */
+        main:not(#hero) .section,
+        main:not(#hero) .section *,
+        .page-header,
+        .page-header *,
+        .company-overview,
+        .company-overview *,
+        .mission-vision,
+        .mission-vision *,
+        .core-values,
+        .core-values *,
+        .industries-served,
+        .industries-served *,
+        .services-grid,
+        .services-grid *,
+        .services-showcase,
+        .services-showcase *,
+        .services-intro,
+        .services-intro *,
+        .contact-section,
+        .contact-section *,
+        .map-section,
+        .map-section *,
+        .social-media-section,
+        .social-media-section *,
+        .faq-section,
+        .faq-section * {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Ensure cards on all non-homepage sections have proper styling */
+        main:not(#hero) .card,
+        main:not(#hero) .card h3,
+        main:not(#hero) .card p,
+        main:not(#hero) .mission-card,
+        main:not(#hero) .vision-card,
+        main:not(#hero) .value-card,
+        main:not(#hero) .social-card,
+        main:not(#hero) .faq-item {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: var(--neutral-white) !important;
         }
 
         /* Mobile business hours */
