@@ -967,7 +967,18 @@
         .solution-card p,
         .feature p,
         .featured-solutions h2,
-        .featured-solutions .section-subtitle {
+        .featured-solutions .section-subtitle,
+        .featured-solutions .section-title,
+        .solution-content h3,
+        .solution-content p,
+        .solution-features,
+        .service-highlights,
+        .service-highlights h2,
+        .service-highlights .card,
+        .service-highlights .card h3,
+        .service-highlights .card p,
+        .service-highlights .card-title,
+        .service-highlights .card-description {
             color: var(--neutral-white) !important;
         }
         
@@ -1066,6 +1077,19 @@
             color: var(--neutral-white) !important;
         }
         
+        /* Service highlights section background on mobile */
+        .service-highlights {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Service highlight cards background on mobile */
+        .service-highlights .card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
         /* Why Nedhub section background on mobile */
         .why-nedhub {
             background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
@@ -1159,9 +1183,28 @@
         .social-icon,
         .faq-icon,
         .card-icon,
-        .value-icon {
+        .value-icon,
+        .solution-icon {
             color: var(--neutral-white) !important;
             background: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* Comprehensive white text for ALL carousel/section elements on mobile */
+        .section h2,
+        .section h3,
+        .section p,
+        .section .title,
+        .section .subtitle,
+        .section .description,
+        .grid-container .card h3,
+        .grid-container .card p,
+        .solutions-grid .solution-card h3,
+        .solutions-grid .solution-card p,
+        .benefits-grid .benefit-card h3,
+        .benefits-grid .benefit-card p,
+        .values-grid .value-card h3,
+        .values-grid .value-card p {
+            color: var(--neutral-white) !important;
         }
         
         .feature p {
