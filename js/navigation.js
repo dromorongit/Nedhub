@@ -158,6 +158,8 @@ function debounce(func, wait) {
 function initMobileServicesDropdown() {
     var mobileServicesBtn = document.querySelector('.mobile-services-btn');
     var mobileServicesDropdown = document.querySelector('.mobile-services-dropdown');
+    var mobileServicesOverlay = document.querySelector('.mobile-services-overlay');
+    var mobileServicesClose = document.querySelector('.mobile-services-close');
     
     if (!mobileServicesBtn || !mobileServicesDropdown) {
         console.log('Mobile services dropdown elements not found');
@@ -175,15 +177,46 @@ function initMobileServicesDropdown() {
         console.log('Mobile services dropdown clicked, currently open:', isOpen);
         
         if (isOpen) {
-            mobileServicesDropdown.classList.remove('open');
-            mobileServicesBtn.setAttribute('aria-expanded', 'false');
-            console.log('Mobile services dropdown closed');
+            closeMobileServicesDropdown();
         } else {
-            mobileServicesDropdown.classList.add('open');
-            mobileServicesBtn.setAttribute('aria-expanded', 'true');
-            console.log('Mobile services dropdown opened');
+            openMobileServicesDropdown();
         }
     });
+    
+    // Open dropdown function
+    function openMobileServicesDropdown() {
+        mobileServicesDropdown.classList.add('open');
+        mobileServicesBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden'; // Prevent body scrolling
+        
+        // Focus first service link for accessibility
+        var firstServiceLink = mobileServicesDropdown.querySelector('.mobile-service-link');
+        if (firstServiceLink) {
+            setTimeout(function() {
+                firstServiceLink.focus();
+            }, 300); // Delay to allow animation to complete
+        }
+        
+        console.log('Mobile services dropdown opened');
+    }
+    
+    // Close dropdown function
+    function closeMobileServicesDropdown() {
+        mobileServicesDropdown.classList.remove('open');
+        mobileServicesBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = ''; // Restore body scrolling
+        mobileServicesBtn.focus(); // Return focus to button
+        console.log('Mobile services dropdown closed');
+    }
+    
+    // Close button functionality
+    if (mobileServicesClose) {
+        mobileServicesClose.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            closeMobileServicesDropdown();
+        });
+    }
     
     // Handle touch events for better mobile support
     mobileServicesBtn.addEventListener('touchend', function(e) {
@@ -192,11 +225,13 @@ function initMobileServicesDropdown() {
     });
     
     // Close dropdown when clicking on service links
-    var serviceLinks = document.querySelectorAll('.mobile-service-link');
+    var serviceLinks = mobileServicesDropdown.querySelectorAll('.mobile-service-link');
     serviceLinks.forEach(function(link) {
-        link.addEventListener('click', function() {
-            mobileServicesDropdown.classList.remove('open');
-            mobileServicesBtn.setAttribute('aria-expanded', 'false');
+        link.addEventListener('click', function(e) {
+            // Add small delay to show click feedback before closing
+            setTimeout(function() {
+                closeMobileServicesDropdown();
+            }, 150);
             console.log('Mobile services dropdown closed by link click');
         });
         
@@ -207,12 +242,22 @@ function initMobileServicesDropdown() {
         });
     });
     
-    // Close dropdown when clicking outside
+    // Close dropdown when clicking on overlay
+    if (mobileServicesOverlay) {
+        mobileServicesOverlay.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeMobileServicesDropdown();
+        });
+    }
+    
+    // Close dropdown when clicking outside (but not on the button)
     document.addEventListener('click', function(e) {
         var target = e.target;
-        if (!target.closest('.mobile-services-dropdown')) {
-            mobileServicesDropdown.classList.remove('open');
-            mobileServicesBtn.setAttribute('aria-expanded', 'false');
+        var isDropdownClick = target.closest('.mobile-services-dropdown');
+        var isButtonClick = target.closest('.mobile-services-btn');
+        
+        if (!isDropdownClick && !isButtonClick && mobileServicesDropdown.classList.contains('open')) {
+            closeMobileServicesDropdown();
             console.log('Mobile services dropdown closed by outside click');
         }
     });
@@ -220,12 +265,41 @@ function initMobileServicesDropdown() {
     // Close dropdown on escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && mobileServicesDropdown.classList.contains('open')) {
-            mobileServicesDropdown.classList.remove('open');
-            mobileServicesBtn.setAttribute('aria-expanded', 'false');
-            mobileServicesBtn.focus();
-            console.log('Mobile services dropdown closed by escape key');
+            closeMobileServicesDropdown();
         }
     });
+    
+    // Handle focus trap for accessibility
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab' && mobileServicesDropdown.classList.contains('open')) {
+            var focusableElements = mobileServicesDropdown.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+            var firstElement = focusableElements[0];
+            var lastElement = focusableElements[focusableElements.length - 1];
+            
+            if (e.shiftKey) {
+                // Shift + Tab
+                if (document.activeElement === firstElement) {
+                    e.preventDefault();
+                    lastElement.focus();
+                }
+            } else {
+                // Tab
+                if (document.activeElement === lastElement) {
+                    e.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        }
+    });
+    
+    // Prevent scrolling when dropdown is open
+    mobileServicesDropdown.addEventListener('wheel', function(e) {
+        if (mobileServicesDropdown.classList.contains('open')) {
+            e.preventDefault();
+        }
+    }, { passive: false });
     
     console.log('Mobile services dropdown functionality initialized');
 }
