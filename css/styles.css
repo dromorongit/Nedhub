@@ -993,7 +993,8 @@ a:hover::after {
 }
 
 .footer-links h4,
-.footer-contact h4 {
+.footer-contact h4,
+.footer-services h4 {
     margin-bottom: var(--space-md);
     position: relative;
     padding-bottom: var(--space-xs);
@@ -1263,25 +1264,20 @@ a:hover::after {
 }
 
 .footer-bottom-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--space-md);
+    text-align: center;
 }
 
-.footer-legal {
-    display: flex;
-    gap: var(--space-md);
+.footer-bottom-content p {
+    margin: var(--space-xs) 0;
 }
 
-.footer-legal a {
+.footer-bottom-content a {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.footer-legal a:hover {
+.footer-bottom-content a:hover {
     color: var(--accent-orange);
 }
 
