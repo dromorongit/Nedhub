@@ -25,6 +25,11 @@ export function initNavigation(): void {
                 isMobileMenuOpen = false;
                 toggleMobileMenu(false, navMenu, mobileMenuBtn, navbar);
             }
+            // Close dropdown if open
+            const dropdown = document.querySelector('.dropdown') as HTMLElement | null;
+            if (dropdown) {
+                dropdown.classList.remove('open');
+            }
         });
     });
 
@@ -39,6 +44,9 @@ export function initNavigation(): void {
             toggleMobileMenu(false, navMenu, mobileMenuBtn, navbar);
         }
     });
+
+    // Initialize dropdown functionality
+    initDropdown();
 
     // Set active link based on current page
     setActiveNavLink();
@@ -86,14 +94,54 @@ function toggleMobileMenu(
     }
 }
 
+// Initialize dropdown functionality
+function initDropdown(): void {
+    const dropdown = document.querySelector('.dropdown') as HTMLElement | null;
+    if (!dropdown) return;
+
+    const dropdownLink = dropdown.querySelector('.nav-link') as HTMLElement | null;
+    if (!dropdownLink) return;
+
+    // Toggle dropdown on click
+    dropdownLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        dropdown.classList.toggle('open');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (!target.closest('.dropdown')) {
+            dropdown.classList.remove('open');
+        }
+    });
+}
+
 // Set active navigation link based on current page
 function setActiveNavLink(): void {
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.nav-link');
 
+    // Services pages that should highlight the Services dropdown
+    const servicesPages = [
+        'recruitment.html',
+        'outsourcing.html',
+        'training.html',
+        'career-coaching.html',
+        'data-analytics.html',
+        'services.html'
+    ];
+
     navLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
-        if (linkHref === currentPath) {
+        let shouldBeActive = linkHref === currentPath;
+
+        // Special case for services dropdown
+        if (servicesPages.includes(currentPath) && linkHref === 'services.html') {
+            shouldBeActive = true;
+        }
+
+        if (shouldBeActive) {
             link.classList.add('active');
             link.setAttribute('aria-current', 'page');
         } else {

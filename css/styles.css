@@ -283,6 +283,61 @@ a:hover::after {
     font-weight: 600;
 }
 
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--neutral-white);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border-radius: var(--radius-md);
+    list-style: none;
+    padding: var(--space-sm) 0;
+    min-width: 280px;
+    z-index: 1001;
+    border: 1px solid var(--border-color);
+}
+
+.dropdown-menu li {
+    margin: 0;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: var(--space-sm) var(--space-lg);
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 0;
+}
+
+.dropdown-menu a:hover {
+    background: linear-gradient(135deg, rgba(247, 127, 0, 0.1), rgba(11, 19, 43, 0.05));
+    color: var(--primary-dark);
+    padding-left: var(--space-xl);
+}
+
+.dropdown-arrow {
+    font-size: 0.8em;
+    margin-left: var(--space-xs);
+    transition: transform 0.3s ease;
+}
+
+.dropdown.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown.open .dropdown-menu {
+    display: block;
+}
+
 /* Mobile Menu Button - Hidden on desktop, shown on mobile via responsive.css */
 .mobile-menu-btn {
     display: none; /* Will be overridden in responsive.css for mobile */
