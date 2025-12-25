@@ -185,6 +185,12 @@ function initMobileServicesDropdown() {
         }
     });
     
+    // Handle touch events for better mobile support
+    mobileServicesBtn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        this.click();
+    });
+    
     // Close dropdown when clicking on service links
     var serviceLinks = document.querySelectorAll('.mobile-service-link');
     serviceLinks.forEach(function(link) {
@@ -192,6 +198,12 @@ function initMobileServicesDropdown() {
             mobileServicesDropdown.classList.remove('open');
             mobileServicesBtn.setAttribute('aria-expanded', 'false');
             console.log('Mobile services dropdown closed by link click');
+        });
+        
+        // Handle touch events for service links
+        link.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            this.click();
         });
     });
     

@@ -809,6 +809,71 @@
         .form-group {
             margin-bottom: var(--space-lg);
         }
+        
+        /* Mobile carousel text color fixes - White text on mobile */
+        .solution-card h3,
+        .solution-card p,
+        .feature p,
+        .featured-solutions h2,
+        .featured-solutions .section-subtitle {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Hero section text on mobile - Fix gradient text issue */
+        .hero h1 {
+            color: var(--neutral-white) !important;
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+            text-fill-color: unset !important;
+        }
+        
+        .hero p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* CTA section text on mobile */
+        .cta-section h2,
+        .cta-section p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Final CTA section text on mobile */
+        .final-cta-section h2,
+        .final-cta-section p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Enhanced mobile carousel/feature sections with better contrast */
+        .featured-solutions {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        .solution-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(5px);
+        }
+        
+        .feature i {
+            color: var(--neutral-white) !important;
+        }
+        
+        .feature p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Ensure hero section has proper background for white text */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+        }
 
         /* Mobile business hours */
         .business-hours {
