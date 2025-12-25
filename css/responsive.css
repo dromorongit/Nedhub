@@ -1320,6 +1320,85 @@
             color: var(--neutral-white) !important;
         }
         
+        /* Additional carousel sections from other pages - Services Page */
+        .services-grid,
+        .services-showcase,
+        .services-grid *,
+        .services-showcase *,
+        .services-intro,
+        .services-intro *,
+        .company-overview,
+        .company-overview *,
+        .mission-vision,
+        .mission-vision *,
+        .core-values,
+        .core-values *,
+        .industries-served,
+        .industries-served * {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Services page specific elements */
+        .services-grid h1,
+        .services-grid h2,
+        .services-grid h3,
+        .services-grid h4,
+        .services-grid h5,
+        .services-grid h6,
+        .services-grid p,
+        .services-showcase .card h3,
+        .services-showcase .card p,
+        .services-showcase .card-title,
+        .services-showcase .card-description,
+        .services-intro .large-text,
+        
+        /* About page specific elements */
+        .company-overview h2,
+        .company-overview .large-text,
+        .mission-vision h2,
+        .mission-card h3,
+        .mission-card p,
+        .vision-card h3,
+        .vision-card p,
+        .core-values h2,
+        .value-card h3,
+        .value-card p,
+        .industries-served h2,
+        .industries-served .large-text {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Contact page specific carousel elements */
+        .social-media-section,
+        .social-media-section *,
+        .faq-section,
+        .faq-section * {
+            color: var(--neutral-white) !important;
+        }
+        
+        .social-media-section h1,
+        .social-media-section h2,
+        .social-media-section h3,
+        .social-media-section h4,
+        .social-media-section h5,
+        .social-media-section h6,
+        .social-media-section p,
+        .social-card h3,
+        .social-card p,
+        .faq-section h1,
+        .faq-section h2,
+        .faq-section h3,
+        .faq-section h4,
+        .faq-section h5,
+        .faq-section h6,
+        .faq-section p,
+        .faq-item h3,
+        .faq-item p,
+        .faq-question h3,
+        .faq-answer p {
+            color: var(--neutral-white) !important;
+        }
+        
         /* Ensure all section content has white text */
         .section-content *,
         .section-header * {
@@ -1341,6 +1420,62 @@
         .section-header h6,
         .section-header p {
             color: var(--neutral-white) !important;
+        }
+        
+        /* Ensure ALL carousel sections have proper dark backgrounds on mobile */
+        .service-highlights,
+        .why-nedhub,
+        .featured-solutions,
+        .services-grid,
+        .services-showcase,
+        .company-overview,
+        .mission-vision,
+        .core-values,
+        .industries-served,
+        .social-media-section,
+        .faq-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+        }
+        
+        /* Ensure all card elements have semi-transparent backgrounds */
+        .services-showcase .card,
+        .services-showcase .featured-service,
+        .mission-card,
+        .vision-card,
+        .value-card,
+        .social-card,
+        .faq-item {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Services intro section background */
+        .services-intro {
+            background: linear-gradient(135deg, rgba(247, 127, 0, 0.05), rgba(11, 19, 43, 0.02)) !important;
+        }
+        
+        /* Final comprehensive override for ANY remaining dark text on mobile */
+        @media (max-width: 480px) {
+            * {
+                color-scheme: dark;
+            }
+            
+            /* Force white text for ALL headings and paragraphs in sections */
+            .section h1, .section h2, .section h3, .section h4, .section h5, .section h6,
+            .section p, .section span, .section div {
+                color: var(--neutral-white) !important;
+            }
+            
+            /* Override any gradient text on mobile */
+            h1, h2, h3, h4, h5, h6 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
         }
         
         /* Ensure hero section has proper background for white text */
