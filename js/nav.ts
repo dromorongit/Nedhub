@@ -109,7 +109,7 @@ function initDropdown(): void {
         if (!isOpen) {
             dropdown.classList.add('open');
         } else {
-            window.location.href = 'services.html';
+            dropdown.classList.remove('open');
         }
     });
 
