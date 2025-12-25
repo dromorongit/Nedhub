@@ -325,9 +325,10 @@ a:hover::after {
 }
 
 .dropdown-arrow {
-    font-size: 0.8em;
+    font-size: 1em;
     margin-left: var(--space-xs);
     transition: transform 0.3s ease;
+    font-weight: bold;
 }
 
 .dropdown.open .dropdown-arrow {

@@ -105,7 +105,12 @@ function initDropdown(): void {
     // Toggle dropdown on click
     dropdownLink.addEventListener('click', (e) => {
         e.preventDefault();
-        dropdown.classList.toggle('open');
+        const isOpen = dropdown.classList.contains('open');
+        if (!isOpen) {
+            dropdown.classList.add('open');
+        } else {
+            window.location.href = 'services.html';
+        }
     });
 
     // Close dropdown when clicking outside
