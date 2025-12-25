@@ -1228,19 +1228,6 @@ a:hover::after {
     background: linear-gradient(135deg, #1DA1F2, #1991DA);
 }
 
-.social-links a[aria-label="TikTok"] {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(11, 19, 43, 0.05));
-    border-color: rgba(0, 0, 0, 0.2);
-}
-
-.social-links a[aria-label="TikTok"] i {
-    color: #000000;
-}
-
-.social-links a[aria-label="TikTok"]:hover {
-    background: linear-gradient(135deg, #000000, #2A2A2A);
-}
-
 .social-links a[aria-label="WhatsApp"] {
     background: linear-gradient(135deg, rgba(37, 211, 102, 0.1), rgba(11, 19, 43, 0.05));
     border-color: rgba(37, 211, 102, 0.2);
@@ -1279,10 +1266,6 @@ a:hover::after {
     color: #0A66C2;
 }
 
-.social-icon-twitter {
-    color: #1DA1F2;
-}
-
 .social-icon-facebook {
     color: #1877F2;
 }
@@ -1304,10 +1287,6 @@ a:hover::after {
 }
 
 .social-links a:hover .social-icon-linkedin {
-    color: var(--neutral-white);
-}
-
-.social-links a:hover .social-icon-twitter {
     color: var(--neutral-white);
 }
 
