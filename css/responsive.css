@@ -1203,11 +1203,143 @@
         .benefits-grid .benefit-card h3,
         .benefits-grid .benefit-card p,
         .values-grid .value-card h3,
-        .values-grid .value-card p {
+        .values-grid .value-card p,
+        
+        /* Additional carousel/section elements that need white text on mobile */
+        .service-highlights h2,
+        .service-highlights .section-subtitle,
+        .service-highlights .card h3,
+        .service-highlights .card p,
+        .service-highlights .card-title,
+        .service-highlights .card-description,
+        .why-nedhub h2,
+        .why-nedhub .section-subtitle,
+        .why-nedhub .benefit-card h3,
+        .why-nedhub .benefit-card p,
+        .why-nedhub .benefit-title,
+        .why-nedhub .benefit-description,
+        .featured-solutions h2,
+        .featured-solutions .section-subtitle,
+        .featured-solutions .solution-card h3,
+        .featured-solutions .solution-card p,
+        .featured-solutions .solution-content h3,
+        .featured-solutions .solution-content p,
+        .featured-solutions .feature p,
+        .scroll-animate h3,
+        .scroll-animate p,
+        .card h3,
+        .card p,
+        .card-title,
+        .card-description,
+        .benefit-title,
+        .benefit-description,
+        .solution-content h3,
+        .solution-content p,
+        .feature p {
             color: var(--neutral-white) !important;
         }
         
         .feature p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Additional comprehensive mobile text fixes for carousel sections */
+        .service-highlights h1,
+        .service-highlights h2,
+        .service-highlights h3,
+        .service-highlights h4,
+        .service-highlights h5,
+        .service-highlights h6,
+        .service-highlights p,
+        .service-highlights span,
+        .service-highlights .card h3,
+        .service-highlights .card p,
+        .service-highlights .card-title,
+        .service-highlights .card-description,
+        
+        .why-nedhub h1,
+        .why-nedhub h2,
+        .why-nedhub h3,
+        .why-nedhub h4,
+        .why-nedhub h5,
+        .why-nedhub h6,
+        .why-nedhub p,
+        .why-nedhub span,
+        .why-nedhub .benefit-card h3,
+        .why-nedhub .benefit-card p,
+        .why-nedhub .benefit-title,
+        .why-nedhub .benefit-description,
+        
+        .featured-solutions h1,
+        .featured-solutions h2,
+        .featured-solutions h3,
+        .featured-solutions h4,
+        .featured-solutions h5,
+        .featured-solutions h6,
+        .featured-solutions p,
+        .featured-solutions span,
+        .featured-solutions .solution-card h3,
+        .featured-solutions .solution-card p,
+        .featured-solutions .solution-content h3,
+        .featured-solutions .solution-content p,
+        
+        .scroll-animate h1,
+        .scroll-animate h2,
+        .scroll-animate h3,
+        .scroll-animate h4,
+        .scroll-animate h5,
+        .scroll-animate h6,
+        .scroll-animate p,
+        .scroll-animate span {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Override any gradient text on mobile for carousel sections */
+        .service-highlights h1,
+        .service-highlights h2,
+        .why-nedhub h1,
+        .why-nedhub h2,
+        .featured-solutions h1,
+        .featured-solutions h2,
+        .scroll-animate h1,
+        .scroll-animate h2 {
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+            text-fill-color: unset !important;
+        }
+        
+        /* Final catch-all rule for any remaining text elements in carousel sections */
+        .service-highlights,
+        .why-nedhub,
+        .featured-solutions,
+        .service-highlights *,
+        .why-nedhub *,
+        .featured-solutions * {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Ensure all section content has white text */
+        .section-content *,
+        .section-header * {
+            color: inherit;
+        }
+        
+        .section-content h1,
+        .section-content h2,
+        .section-content h3,
+        .section-content h4,
+        .section-content h5,
+        .section-content h6,
+        .section-content p,
+        .section-header h1,
+        .section-header h2,
+        .section-header h3,
+        .section-header h4,
+        .section-header h5,
+        .section-header h6,
+        .section-header p {
             color: var(--neutral-white) !important;
         }
         
