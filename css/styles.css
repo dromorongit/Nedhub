@@ -986,7 +986,7 @@ a:hover::after {
 }
 
 .footer-brand h3 {
-    font-size: var(--font-size-xxl);
+    font-size: var(--font-size-xl);
     margin-bottom: var(--space-sm);
     background: linear-gradient(135deg, var(--neutral-white), rgba(255, 255, 255, 0.8));
     -webkit-background-clip: text;
@@ -998,6 +998,7 @@ a:hover::after {
 .footer-brand p {
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.6;
+    font-size: var(--font-size-sm);
 }
 
 .footer-links h4,
@@ -1006,7 +1007,7 @@ a:hover::after {
     margin-bottom: var(--space-md);
     position: relative;
     padding-bottom: var(--space-xs);
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-base);
     color: var(--neutral-white);
 }
 
@@ -1051,6 +1052,7 @@ a:hover::after {
     transition: all 0.3s ease;
     position: relative;
     padding-left: var(--space-xs);
+    font-size: var(--font-size-sm);
 }
 
 .footer-links a::before {
@@ -1078,6 +1080,7 @@ a:hover::after {
 .footer-contact p {
     margin-bottom: var(--space-xs);
     color: rgba(255, 255, 255, 0.8);
+    font-size: var(--font-size-sm);
 }
 
 .footer-contact a {
