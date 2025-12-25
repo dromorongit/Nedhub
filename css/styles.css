@@ -829,6 +829,11 @@ a:hover::after {
     font-weight: 900;
     letter-spacing: -0.04em;
     color: var(--neutral-white);
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+    text-fill-color: unset;
     text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -1320,11 +1325,12 @@ a:hover::after {
 .contact-header h1 {
     font-size: var(--font-size-display);
     margin-bottom: var(--space-sm);
-    background: linear-gradient(135deg, var(--primary-dark), var(--text-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
+    color: var(--neutral-white);
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+    text-fill-color: unset;
     position: relative;
     display: inline-block;
 }
