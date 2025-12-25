@@ -60,33 +60,25 @@ function toggleMobileMenu(isOpen, navMenu, mobileMenuBtn, navbar) {
     }
 }
 function initDropdown() {
-    console.log('initDropdown called');
     const dropdown = document.querySelector('.dropdown');
-    console.log('dropdown element:', dropdown);
     if (!dropdown)
         return;
     const dropdownLink = dropdown.querySelector('.nav-link');
-    console.log('dropdownLink element:', dropdownLink);
     if (!dropdownLink)
         return;
     dropdownLink.addEventListener('click', (e) => {
-        console.log('dropdownLink clicked');
         e.preventDefault();
         const isOpen = dropdown.classList.contains('open');
-        console.log('isOpen:', isOpen);
         if (!isOpen) {
             dropdown.classList.add('open');
-            console.log('added open class');
         }
         else {
-            console.log('redirecting to services.html');
             window.location.href = 'services.html';
         }
     });
     document.addEventListener('click', (e) => {
         const target = e.target;
         if (!target.closest('.dropdown')) {
-            console.log('clicked outside, removing open class');
             dropdown.classList.remove('open');
         }
     });
