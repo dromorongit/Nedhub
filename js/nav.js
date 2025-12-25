@@ -15,6 +15,10 @@ export function initNavigation() {
                 isMobileMenuOpen = false;
                 toggleMobileMenu(false, navMenu, mobileMenuBtn, navbar);
             }
+            const dropdown = document.querySelector('.dropdown');
+            if (dropdown) {
+                dropdown.classList.remove('open');
+            }
         });
     });
     document.addEventListener('click', (e) => {
@@ -26,6 +30,7 @@ export function initNavigation() {
             toggleMobileMenu(false, navMenu, mobileMenuBtn, navbar);
         }
     });
+    initDropdown();
     setActiveNavLink();
     window.addEventListener('resize', debounce(() => {
         if (window.innerWidth > 768 && isMobileMenuOpen) {
@@ -54,12 +59,56 @@ function toggleMobileMenu(isOpen, navMenu, mobileMenuBtn, navbar) {
         releaseFocusTrap();
     }
 }
+function initDropdown() {
+    console.log('initDropdown called');
+    const dropdown = document.querySelector('.dropdown');
+    console.log('dropdown element:', dropdown);
+    if (!dropdown)
+        return;
+    const dropdownLink = dropdown.querySelector('.nav-link');
+    console.log('dropdownLink element:', dropdownLink);
+    if (!dropdownLink)
+        return;
+    dropdownLink.addEventListener('click', (e) => {
+        console.log('dropdownLink clicked');
+        e.preventDefault();
+        const isOpen = dropdown.classList.contains('open');
+        console.log('isOpen:', isOpen);
+        if (!isOpen) {
+            dropdown.classList.add('open');
+            console.log('added open class');
+        }
+        else {
+            console.log('redirecting to services.html');
+            window.location.href = 'services.html';
+        }
+    });
+    document.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!target.closest('.dropdown')) {
+            console.log('clicked outside, removing open class');
+            dropdown.classList.remove('open');
+        }
+    });
+}
 function setActiveNavLink() {
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.nav-link');
+    const servicesPages = [
+        'recruitment.html',
+        'outsourcing.html',
+        'training.html',
+        'career-coaching.html',
+        'data-analytics.html',
+        'services.html'
+    ];
     navLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
-        if (linkHref === currentPath) {
+        let shouldBeActive = linkHref === currentPath;
+        if (servicesPages.includes(currentPath) && linkHref === 'services.html') {
+            shouldBeActive = true;
+        }
+        if (shouldBeActive) {
             link.classList.add('active');
             link.setAttribute('aria-current', 'page');
         }

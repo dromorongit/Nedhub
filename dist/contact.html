@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Nedhub - Get in touch with our team for corporate solutions">
+    <title>Contact Us | Nedhub</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav id="main-nav" class="navbar">
+        <div class="container">
+            <div class="header-container">
+                <div class="header-top">
+                    <a href="index.html" class="logo">Nedhub</a>
+                    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
+                        <span class="hamburger"></span>
+                    </button>
+                </div>
+                <div class="header-bottom">
+                    <div class="mobile-nav-buttons">
+                        <a href="index.html" class="btn btn-primary">Home</a>
+                        <a href="services.html" class="btn btn-primary">Services</a>
+                        <a href="contact.html" class="btn btn-primary">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <ul id="nav-menu" class="nav-menu"><li><a href="index.html" class="nav-link">Home</a></li><li><a href="about.html" class="nav-link">About Us</a></li><li class="dropdown"><a href="#" class="nav-link">Services <span class="dropdown-arrow">?</span></a><ul class="dropdown-menu"><li><a href="recruitment.html">Recruitment & Talent Acquisition</a></li><li><a href="outsourcing.html">Staff Outsourcing & Placement</a></li><li><a href="training.html">Training & Capacity Building</a></li><li><a href="career-coaching.html">Career Guidance & Coaching</a></li><li><a href="data-analytics.html">Data Analytics</a></li></ul></li><li><a href="contact.html" class="nav-link">Contact</a></li></ul>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        <!-- Enhanced Contact Header -->
+        <section class="page-header contact-header">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <p class="subtitle">We'd love to hear from you and discuss how we can help your business</p>
+                <div class="header-divider"></div>
+            </div>
+        </section>
+
+        <!-- Mobile Contact Section - Reordered for better UX -->
+        <section class="contact-section mobile-contact-layout">
+            <div class="container">
+                <!-- Contact Form First - Most important action -->
+                <div class="contact-form scroll-animate mobile-form-first">
+                    <h2>Send Us A Message</h2>
+                    <p class="form-description">Fill out the form below and our team will get back to you within 24 hours.</p>
+                    
+                    <form id="contactForm" class="form modern-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="name" required aria-required="true" placeholder="John Doe">
+                                <span class="error-message" id="name-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required aria-required="true" placeholder="john@example.com">
+                                <span class="error-message" id="email-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+233 271 177 321">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required aria-required="true" placeholder="How can we help?">
+                            <span class="error-message" id="subject-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" name="message" rows="6" required aria-required="true" placeholder="Tell us about your needs..."></textarea>
+                            <span class="error-message" id="message-error"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-submit btn-large">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-icon">→</span>
+                        </button>
+
+                        <div id="form-status" class="form-status"></div>
+                    </form>
+                </div>
+
+                <!-- Contact Information Second -->
+                <div class="contact-info scroll-animate mobile-contact-second">
+                    <h2>Get In Touch</h2>
+                    <p class="contact-intro">Our team is ready to assist you with any questions or requirements you may have.</p>
+
+                    <div class="contact-details">
+                        <div class="contact-item scroll-animate delay-1">
+                            <div class="contact-icon">
+                                <span class="icon-phone"></span>
+                            </div>
+                            <div>
+                                <h3>Phone</h3>
+                                <p><a href="tel:+233271177321">+233 271 177 321</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item scroll-animate delay-2">
+                            <div class="contact-icon">
+                                <span class="icon-location"></span>
+                            </div>
+                            <div>
+                                <h3>Location</h3>
+                                <p>Roman Ridge</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item scroll-animate delay-3">
+                            <div class="contact-icon">
+                                <span class="icon-linkedin"></span>
+                            </div>
+                            <div>
+                                <h3>LinkedIn</h3>
+                                <p><a href="https://www.linkedin.com/company/hr-klinic/" target="_blank">linkedin.com/company/hr-klinic</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Business Hours -->
+                    <div class="business-hours scroll-animate delay-4">
+                        <h3>Business Hours</h3>
+                        <ul>
+                            <li><span>Monday - Friday:</span> 9:00 AM - 5:00 PM</li>
+                            <li><span>Saturday:</span> 10:00 AM - 2:00 PM</li>
+                            <li><span>Sunday:</span> Closed</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Map Section -->
+        <section class="map-section">
+            <div class="container">
+                <h2>Our Location</h2>
+                <p class="map-description">Visit our office in Roman Ridge or connect with us online</p>
+                <div class="map-container scroll-animate">
+                    <div class="map-placeholder">
+                        <div class="map-overlay">
+                            <div class="map-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <p>Interactive map showing our location</p>
+                            <p class="map-address">Roman Ridge, Accra</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Social Media Section -->
+        <section class="social-media-section">
+            <div class="container">
+                <h2 class="text-center">Connect With Us</h2>
+                <p class="text-center">Follow us on social media for updates, insights, and professional content</p>
+                <div class="social-media-grid">
+                    <div class="social-card facebook scroll-animate">
+                        <div class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <h3>Facebook</h3>
+                        <p>Stay updated with our latest news, events, and industry insights on Facebook.</p>
+                        <a href="https://www.facebook.com/" target="_blank">
+                            <span class="btn-text">Follow Us</span>
+                            <span class="btn-icon">→</span>
+                        </a>
+                    </div>
+                    
+                    <div class="social-card linkedin scroll-animate delay-1">
+                        <div class="social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </div>
+                        <h3>LinkedIn</h3>
+                        <p>Connect with us professionally and explore career opportunities on LinkedIn.</p>
+                        <a href="https://www.linkedin.com/company/hr-klinic/" target="_blank">
+                            <span class="btn-text">Connect</span>
+                            <span class="btn-icon">→</span>
+                        </a>
+                    </div>
+                    
+                    <div class="social-card whatsapp scroll-animate delay-2">
+                        <div class="social-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h3>WhatsApp</h3>
+                        <p>Get instant support and quick responses through WhatsApp business.</p>
+                        <a href="https://wa.me/" target="_blank">
+                            <span class="btn-text">Message Us</span>
+                            <span class="btn-icon">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="container">
+                <h2 class="text-center">Frequently Asked Questions</h2>
+                <p class="text-center faq-intro">Find answers to common questions about our services</p>
+                
+                <div class="faq-grid">
+                    <div class="faq-item scroll-animate">
+                        <div class="faq-question">
+                            <h3>What services does Nedhub offer?</h3>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We offer comprehensive corporate solutions including recruitment, staff outsourcing, training programs, career coaching, data analytics, and BULK SMS business communication solutions.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item scroll-animate delay-1">
+                        <div class="faq-question">
+                            <h3>How can I get started with your services?</h3>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Simply fill out our contact form or call us at +233 271 177 321. Our team will schedule a consultation to understand your needs and recommend the best solutions.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item scroll-animate delay-2">
+                        <div class="faq-question">
+                            <h3>Do you offer customized solutions?</h3>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, all our services are tailored to meet your specific business requirements. We work closely with you to develop solutions that address your unique challenges.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item scroll-animate delay-3">
+                        <div class="faq-question">
+                            <h3>What industries do you serve?</h3>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We serve diverse industries including technology, finance, healthcare, education, manufacturing, and more. Our solutions are adaptable to various sector requirements.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="final-cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Ready to Transform Your Business?</h2>
+                    <p>Contact us today to discuss how our innovative solutions can help your organization achieve its goals.</p>
+                    <div class="cta-buttons">
+                        <a href="tel:+233271177321" class="btn btn-primary btn-large">
+                            <span class="btn-icon">📞</span>
+                            <span class="btn-text">Call Now</span>
+                        </a>
+                        <a href="mailto:info@nedhub.com" class="btn btn-secondary btn-large">
+                            <span class="btn-icon">✉️</span>
+                            <span class="btn-text">Email Us</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Nedhub</h3>
+                    <p>Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-services">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="recruitment.html">Recruitment</a></li>
+                        <li><a href="training.html">Training</a></li>
+                        <li><a href="data-analytics.html">Data Analytics</a></li>
+                        <li><a href="bulk-sms.html">Bulk SMS</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Phone: <a href="tel:+233271177321">+233 271 177 321</a></p>
+                    <p>Location: Roman Ridge, Accra, Ghana</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://twitter.com/" target="_blank" aria-label="X">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/" target="_blank" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://wa.me/" target="_blank" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/hr-klinic/" target="_blank" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom"><div class="footer-bottom-content"><p>&copy; 2025 Nedhub Ghana. All rights reserved.</p><p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Cookie Policy</a></p></div></div></div></footer>
+
+    <script src="js/main.js" type="module"></script>
+    <script src="js/animations.js" type="module"></script>
+    <script src="js/nav.js" type="module"></script>
+    <script src="js/form-validation.js" type="module"></script>
+</body>
+</html>
+
+
+
