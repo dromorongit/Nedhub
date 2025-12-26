@@ -1650,6 +1650,29 @@
             color: var(--neutral-white) !important;
         }
         
+        /* Fix for Our Recruitment Process section visibility - ALL SERVICE PAGES */
+        .service-process {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        .service-process h2,
+        .service-process h4,
+        .service-process p {
+            color: var(--neutral-white) !important;
+        }
+        
+        .process-step {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .process-step h4,
+        .process-step p {
+            color: var(--neutral-white) !important;
+        }
+        
         /* Apply white text to all sections on non-homepage pages */
         .section h1,
         .section h2,
