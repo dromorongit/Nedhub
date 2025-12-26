@@ -2212,8 +2212,8 @@
     }
 }
 
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
+/* Dark Mode Support - Disabled to prevent automatic theme switching */
+/* @media (prefers-color-scheme: dark) {
     :root {
         --neutral-white: #1a202c;
         --neutral-gray: #2d3748;
@@ -2239,4 +2239,4 @@
     .footer {
         background-color: #0B132B;
     }
-}
+} */
