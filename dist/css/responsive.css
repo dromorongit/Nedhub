@@ -151,6 +151,335 @@
         text-align: center; /* Center button text */
     }
 
+    /* Mobile Services Dropdown Styles */
+    .mobile-services-dropdown {
+        position: relative;
+        min-width: 120px;
+    }
+
+    .mobile-services-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-xs);
+        width: 100%;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        background: linear-gradient(135deg, var(--accent-orange), #e67000);
+        color: var(--neutral-white);
+        border: none;
+        border-radius: var(--radius-lg);
+        padding: var(--space-sm) var(--space-md);
+        font-weight: 700;
+        font-size: var(--font-size-sm);
+        box-shadow: 0 4px 15px rgba(247, 127, 0, 0.3), 0 2px 8px rgba(247, 127, 0, 0.2);
+        min-height: 48px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        /* Enhanced border and backdrop */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        /* Subtle animation */
+        animation: servicesButtonPulse 3s ease-in-out infinite;
+    }
+
+    .mobile-services-btn:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(247, 127, 0, 0.4), 0 4px 12px rgba(247, 127, 0, 0.3);
+        background: linear-gradient(135deg, #e67000, var(--accent-orange));
+        border-color: rgba(255, 255, 255, 0.3);
+        animation-play-state: paused;
+    }
+
+    .mobile-services-btn:active {
+        transform: translateY(-1px) scale(1.01);
+        box-shadow: 0 4px 15px rgba(247, 127, 0, 0.3), 0 2px 8px rgba(247, 127, 0, 0.2);
+    }
+
+    /* Professional button pulse animation */
+    @keyframes servicesButtonPulse {
+        0%, 100% {
+            box-shadow: 0 4px 15px rgba(247, 127, 0, 0.3), 0 2px 8px rgba(247, 127, 0, 0.2);
+        }
+        50% {
+            box-shadow: 0 6px 20px rgba(247, 127, 0, 0.35), 0 3px 10px rgba(247, 127, 0, 0.25);
+        }
+    }
+
+    /* Enhanced services text styling */
+    .services-text {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .mobile-services-btn:hover .services-text {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+
+
+    .services-arrow {
+        font-size: 0.75rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+        position: relative;
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        /* Enhanced glow effect */
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+    }
+    
+    .services-arrow::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: translate(-50%, -50%) rotate(45deg);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* Enhanced glow on arrow */
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4));
+    }
+
+    .mobile-services-dropdown.open .services-arrow {
+        transform: rotate(180deg) scale(1.1);
+        /* Enhanced glow when open */
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+    }
+    
+    .mobile-services-dropdown.open .services-arrow::before {
+        transform: translate(-50%, -50%) rotate(225deg) scale(1.1);
+        filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+    }
+
+    .mobile-services-btn:hover .services-arrow {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+    }
+
+    .mobile-services-btn:hover .services-arrow::before {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1.15);
+        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.6));
+    }
+
+    .mobile-services-menu {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 320px;
+        max-height: 70vh;
+        background: var(--neutral-white);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        z-index: 1002;
+        opacity: 0;
+        visibility: hidden;
+        transform-origin: center;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+    }
+
+    .mobile-services-dropdown.open .mobile-services-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Dropdown overlay */
+    .mobile-services-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-services-dropdown.open .mobile-services-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-services-content {
+        padding: var(--space-md) 0;
+        max-height: 70vh;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-orange) var(--neutral-gray);
+    }
+
+    .mobile-services-content::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .mobile-services-content::-webkit-scrollbar-track {
+        background: var(--neutral-gray);
+        border-radius: var(--radius-full);
+    }
+
+    .mobile-services-content::-webkit-scrollbar-thumb {
+        background: var(--accent-orange);
+        border-radius: var(--radius-full);
+        transition: background 0.3s ease;
+    }
+
+    .mobile-services-content::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-dark);
+    }
+
+    .mobile-service-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-md) var(--space-lg);
+        color: var(--text-dark);
+        text-decoration: none;
+        font-size: var(--font-size-base);
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        position: relative;
+        min-height: 52px;
+        border-radius: 0;
+    }
+
+    .mobile-service-link:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-service-link::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: linear-gradient(135deg, var(--accent-orange), var(--primary-dark));
+        transform: scaleY(0);
+        transition: transform 0.3s ease;
+        border-radius: 0 2px 2px 0;
+    }
+
+    .mobile-service-link:hover,
+    .mobile-service-link:focus {
+        background: linear-gradient(135deg, rgba(247, 127, 0, 0.08), rgba(11, 19, 43, 0.03));
+        color: var(--primary-dark);
+        padding-left: calc(var(--space-lg) + 12px);
+        transform: translateX(6px);
+        font-weight: 600;
+    }
+
+    .mobile-service-link:hover::before,
+    .mobile-service-link:focus::before {
+        transform: scaleY(1);
+    }
+
+    .mobile-service-link:active {
+        background: rgba(247, 127, 0, 0.12);
+        color: var(--accent-orange);
+        transform: translateX(4px);
+    }
+
+    .mobile-service-icon {
+        font-size: var(--font-size-lg);
+        color: var(--accent-orange);
+        margin-right: var(--space-sm);
+        transition: all 0.3s ease;
+    }
+
+    .mobile-service-link:hover .mobile-service-icon {
+        color: var(--primary-dark);
+        transform: scale(1.1);
+    }
+
+    .mobile-service-arrow {
+        font-size: var(--font-size-sm);
+        color: var(--text-light);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        font-weight: 600;
+        opacity: 0.7;
+        position: relative;
+        width: 16px;
+        height: 16px;
+    }
+    
+    .mobile-service-arrow::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .mobile-service-link:hover .mobile-service-arrow {
+        color: var(--accent-orange);
+        transform: translateX(6px);
+        opacity: 1;
+    }
+    
+    .mobile-service-link:hover .mobile-service-arrow::before {
+        border-color: var(--accent-orange);
+        transform: translate(-50%, -50%) rotate(0deg) scale(1.1);
+    }
+
+    .mobile-services-header {
+        padding: var(--space-lg) var(--space-lg) var(--space-md);
+        border-bottom: 1px solid var(--border-color);
+        background: linear-gradient(135deg, rgba(247, 127, 0, 0.05), rgba(11, 19, 43, 0.02));
+    }
+
+    .mobile-services-title {
+        font-size: var(--font-size-lg);
+        font-weight: 700;
+        color: var(--primary-dark);
+        margin: 0;
+        text-align: center;
+    }
+
+    .mobile-services-close {
+        position: absolute;
+        top: var(--space-md);
+        right: var(--space-md);
+        background: none;
+        border: none;
+        font-size: var(--font-size-xl);
+        color: var(--text-light);
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-full);
+        transition: all 0.3s ease;
+    }
+
+    .mobile-services-close:hover {
+        background: rgba(247, 127, 0, 0.1);
+        color: var(--accent-orange);
+    }
+
     /* Ultra-Simple Mobile Menu Button - No Background */
     .mobile-menu-btn {
         display: block !important;
@@ -252,24 +581,34 @@
     .page-header {
         padding: var(--space-xl) 0 var(--space-lg);
         text-align: center;
-        background-color: var(--neutral-white);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+        color: var(--neutral-white) !important;
+        min-height: 50vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        clip-path: ellipse(100% 100% at 50% 0%);
     }
 
     .page-header h1 {
         font-size: var(--font-size-xxxl);
         margin-bottom: var(--space-sm);
-        background: linear-gradient(135deg, var(--primary-dark), var(--text-dark));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
+        background: none !important;
+        -webkit-background-clip: unset !important;
+        -webkit-text-fill-color: unset !important;
+        background-clip: unset !important;
+        text-fill-color: unset !important;
+        color: var(--neutral-white) !important;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .page-header .subtitle {
         font-size: var(--font-size-lg);
-        color: var(--text-light);
+        color: var(--neutral-white) !important;
         max-width: 600px;
         margin: 0 auto;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .header-divider {
@@ -404,6 +743,54 @@
     
     /* Contact Page Mobile Redesign - Professional Layout */
     @media (max-width: 768px) {
+        /* CRITICAL FIX: Contact Form Fields - Always Vertical on Mobile */
+        .contact-form .form-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: var(--space-lg) !important;
+        }
+        
+        /* CRITICAL FIX: Remove any grid layout for form fields on mobile */
+        .form-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            grid-template-columns: none !important;
+            gap: var(--space-lg) !important;
+        }
+        
+        /* CRITICAL FIX: Form input fields - Full width and spacious */
+        .form-group input,
+        .form-group textarea {
+            width: 100% !important;
+            min-height: 56px !important;
+            padding: var(--space-lg) var(--space-md) !important;
+            font-size: var(--font-size-lg) !important;
+            border-radius: var(--radius-lg) !important;
+            border: 2px solid var(--border-color) !important;
+            background-color: var(--neutral-white) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+        }
+        
+        /* CRITICAL FIX: Textarea - Full width and taller */
+        .form-group textarea {
+            min-height: 140px !important;
+            padding: var(--space-lg) var(--space-md) !important;
+            resize: vertical !important;
+        }
+        
+        /* CRITICAL FIX: Form labels - Better spacing */
+        .form-group label {
+            font-size: var(--font-size-lg) !important;
+            font-weight: 600 !important;
+            margin-bottom: var(--space-md) !important;
+            color: var(--primary-dark) !important;
+        }
+        
+        /* CRITICAL FIX: Form groups - More spacing */
+        .form-group {
+            margin-bottom: var(--space-xl) !important;
+            width: 100% !important;
+        }
         /* Contact Header - More compact and professional */
         .contact-header {
             padding: var(--space-xl) 0 var(--space-lg);
@@ -482,8 +869,10 @@
         }
 
         .form-grid {
-            grid-template-columns: 1fr;
-            gap: var(--space-lg);
+            display: flex !important;
+            flex-direction: column !important;
+            gap: var(--space-lg) !important;
+            grid-template-columns: none !important;
         }
 
         .form-group {
@@ -731,6 +1120,838 @@
 
         .form-group {
             margin-bottom: var(--space-lg);
+        }
+        
+        /* Mobile carousel text color fixes - White text on mobile */
+        .solution-card h3,
+        .solution-card p,
+        .feature p,
+        .featured-solutions h2,
+        .featured-solutions .section-subtitle,
+        .featured-solutions .section-title,
+        .solution-content h3,
+        .solution-content p,
+        .solution-features,
+        .service-highlights,
+        .service-highlights h2,
+        .service-highlights .card,
+        .service-highlights .card h3,
+        .service-highlights .card p,
+        .service-highlights .card-title,
+        .service-highlights .card-description {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Page Header Text White Fix on Mobile */
+        .page-header .subtitle,
+        .contact-header .subtitle,
+        .services-header .subtitle {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Why Nedhub section - White text on mobile */
+        .why-nedhub,
+        .why-nedhub .section-title,
+        .why-nedhub .section-subtitle,
+        .benefit-card,
+        .benefit-card h3,
+        .benefit-card p,
+        .benefit-icon {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Social media cards - White text on mobile */
+        .social-media-section,
+        .social-media-section h2,
+        .social-media-section > p,
+        .social-card,
+        .social-card h3,
+        .social-card p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Solution content - White text on mobile */
+        .solution-content h3,
+        .solution-content p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* FAQ section - White text on mobile */
+        .faq-section,
+        .faq-section h2,
+        .faq-section > p,
+        .faq-item,
+        .faq-question h3,
+        .faq-answer p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Mission and vision cards - White text on mobile */
+        .mission-card,
+        .vision-card,
+        .mission-card h3,
+        .vision-card h3,
+        .mission-card p,
+        .vision-card p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Core values cards - White text on mobile */
+        .value-card,
+        .value-card h3,
+        .value-card p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* All card elements - White text on mobile */
+        .card,
+        .card h3,
+        .card p,
+        .card-description,
+        .card-title {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Hero section text on mobile - Fix gradient text issue */
+        .hero h1 {
+            color: var(--neutral-white) !important;
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+            text-fill-color: unset !important;
+        }
+        
+        .hero p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* CTA section text on mobile */
+        .cta-section h2,
+        .cta-section p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Final CTA section text on mobile */
+        .final-cta-section h2,
+        .final-cta-section p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Enhanced mobile carousel/feature sections with better contrast */
+        .featured-solutions {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Service highlights section background on mobile */
+        .service-highlights {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Service highlight cards background on mobile */
+        .service-highlights .card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Why Nedhub section background on mobile */
+        .why-nedhub {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Social media section background on mobile */
+        .social-media-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* FAQ section background on mobile */
+        .faq-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Mission and vision section background on mobile */
+        .mission-vision {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Core values section background on mobile */
+        .core-values {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        .solution-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Benefit cards background on mobile */
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Social card backgrounds on mobile */
+        .social-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* FAQ item backgrounds on mobile */
+        .faq-item {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Mission and vision card backgrounds on mobile */
+        .mission-card,
+        .vision-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Value card backgrounds on mobile */
+        .value-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* General card backgrounds on mobile */
+        .card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(5px);
+        }
+        
+        .feature i {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Icon colors for all carousel sections on mobile */
+        .benefit-icon,
+        .social-icon,
+        .faq-icon,
+        .card-icon,
+        .value-icon,
+        .solution-icon {
+            color: var(--neutral-white) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* Comprehensive white text for ALL carousel/section elements on mobile */
+        .section h2,
+        .section h3,
+        .section p,
+        .section .title,
+        .section .subtitle,
+        .section .description,
+        .grid-container .card h3,
+        .grid-container .card p,
+        .solutions-grid .solution-card h3,
+        .solutions-grid .solution-card p,
+        .benefits-grid .benefit-card h3,
+        .benefits-grid .benefit-card p,
+        .values-grid .value-card h3,
+        .values-grid .value-card p,
+        
+        /* Additional carousel/section elements that need white text on mobile */
+        .service-highlights h2,
+        .service-highlights .section-subtitle,
+        .service-highlights .card h3,
+        .service-highlights .card p,
+        .service-highlights .card-title,
+        .service-highlights .card-description,
+        .why-nedhub h2,
+        .why-nedhub .section-subtitle,
+        .why-nedhub .benefit-card h3,
+        .why-nedhub .benefit-card p,
+        .why-nedhub .benefit-title,
+        .why-nedhub .benefit-description,
+        .featured-solutions h2,
+        .featured-solutions .section-subtitle,
+        .featured-solutions .solution-card h3,
+        .featured-solutions .solution-card p,
+        .featured-solutions .solution-content h3,
+        .featured-solutions .solution-content p,
+        .featured-solutions .feature p,
+        .scroll-animate h3,
+        .scroll-animate p,
+        .card h3,
+        .card p,
+        .card-title,
+        .card-description,
+        .benefit-title,
+        .benefit-description,
+        .solution-content h3,
+        .solution-content p,
+        .feature p {
+            color: var(--neutral-white) !important;
+        }
+        
+        .feature p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Additional comprehensive mobile text fixes for carousel sections */
+        .service-highlights h1,
+        .service-highlights h2,
+        .service-highlights h3,
+        .service-highlights h4,
+        .service-highlights h5,
+        .service-highlights h6,
+        .service-highlights p,
+        .service-highlights span,
+        .service-highlights .card h3,
+        .service-highlights .card p,
+        .service-highlights .card-title,
+        .service-highlights .card-description,
+        
+        .why-nedhub h1,
+        .why-nedhub h2,
+        .why-nedhub h3,
+        .why-nedhub h4,
+        .why-nedhub h5,
+        .why-nedhub h6,
+        .why-nedhub p,
+        .why-nedhub span,
+        .why-nedhub .benefit-card h3,
+        .why-nedhub .benefit-card p,
+        .why-nedhub .benefit-title,
+        .why-nedhub .benefit-description,
+        
+        .featured-solutions h1,
+        .featured-solutions h2,
+        .featured-solutions h3,
+        .featured-solutions h4,
+        .featured-solutions h5,
+        .featured-solutions h6,
+        .featured-solutions p,
+        .featured-solutions span,
+        .featured-solutions .solution-card h3,
+        .featured-solutions .solution-card p,
+        .featured-solutions .solution-content h3,
+        .featured-solutions .solution-content p,
+        
+        .scroll-animate h1,
+        .scroll-animate h2,
+        .scroll-animate h3,
+        .scroll-animate h4,
+        .scroll-animate h5,
+        .scroll-animate h6,
+        .scroll-animate p,
+        .scroll-animate span {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Override any gradient text on mobile for carousel sections */
+        .service-highlights h1,
+        .service-highlights h2,
+        .why-nedhub h1,
+        .why-nedhub h2,
+        .featured-solutions h1,
+        .featured-solutions h2,
+        .scroll-animate h1,
+        .scroll-animate h2 {
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+            text-fill-color: unset !important;
+        }
+        
+        /* Final catch-all rule for any remaining text elements in carousel sections */
+        .service-highlights,
+        .why-nedhub,
+        .featured-solutions,
+        .service-highlights *,
+        .why-nedhub *,
+        .featured-solutions * {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Additional carousel sections from other pages - Services Page */
+        .services-grid,
+        .services-showcase,
+        .services-grid *,
+        .services-showcase *,
+        .services-intro,
+        .services-intro *,
+        .company-overview,
+        .company-overview *,
+        .mission-vision,
+        .mission-vision *,
+        .core-values,
+        .core-values *,
+        .industries-served,
+        .industries-served * {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Services page specific elements */
+        .services-grid h1,
+        .services-grid h2,
+        .services-grid h3,
+        .services-grid h4,
+        .services-grid h5,
+        .services-grid h6,
+        .services-grid p,
+        .services-showcase .card h3,
+        .services-showcase .card p,
+        .services-showcase .card-title,
+        .services-showcase .card-description,
+        .services-intro .large-text,
+        
+        /* About page specific elements */
+        .company-overview h2,
+        .company-overview .large-text,
+        .mission-vision h2,
+        .mission-card h3,
+        .mission-card p,
+        .vision-card h3,
+        .vision-card p,
+        .core-values h2,
+        .value-card h3,
+        .value-card p,
+        .industries-served h2,
+        .industries-served .large-text {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Contact page specific carousel elements */
+        .social-media-section,
+        .social-media-section *,
+        .faq-section,
+        .faq-section * {
+            color: var(--neutral-white) !important;
+        }
+        
+        .social-media-section h1,
+        .social-media-section h2,
+        .social-media-section h3,
+        .social-media-section h4,
+        .social-media-section h5,
+        .social-media-section h6,
+        .social-media-section p,
+        .social-card h3,
+        .social-card p,
+        .faq-section h1,
+        .faq-section h2,
+        .faq-section h3,
+        .faq-section h4,
+        .faq-section h5,
+        .faq-section h6,
+        .faq-section p,
+        .faq-item h3,
+        .faq-item p,
+        .faq-question h3,
+        .faq-answer p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Ensure all section content has white text */
+        .section-content *,
+        .section-header * {
+            color: inherit;
+        }
+        
+        .section-content h1,
+        .section-content h2,
+        .section-content h3,
+        .section-content h4,
+        .section-content h5,
+        .section-content h6,
+        .section-content p,
+        .section-header h1,
+        .section-header h2,
+        .section-header h3,
+        .section-header h4,
+        .section-header h5,
+        .section-header h6,
+        .section-header p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Ensure ALL carousel sections have proper dark backgrounds on mobile */
+        .service-highlights,
+        .why-nedhub,
+        .featured-solutions,
+        .services-grid,
+        .services-showcase,
+        .company-overview,
+        .mission-vision,
+        .core-values,
+        .industries-served,
+        .social-media-section,
+        .faq-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+        }
+        
+        /* Ensure all card elements have semi-transparent backgrounds */
+        .services-showcase .card,
+        .services-showcase .featured-service,
+        .mission-card,
+        .vision-card,
+        .value-card,
+        .social-card,
+        .faq-item {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        /* Services intro section background */
+        .services-intro {
+            background: linear-gradient(135deg, rgba(247, 127, 0, 0.05), rgba(11, 19, 43, 0.02)) !important;
+        }
+        
+        /* Final comprehensive override for ANY remaining dark text on mobile */
+        @media (max-width: 480px) {
+            * {
+                color-scheme: dark;
+            }
+            
+            /* Force white text for ALL headings and paragraphs in sections */
+            .section h1, .section h2, .section h3, .section h4, .section h5, .section h6,
+            .section p, .section span, .section div {
+                color: var(--neutral-white) !important;
+            }
+            
+            /* Override any gradient text on mobile */
+            h1, h2, h3, h4, h5, h6 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            /* Specific gradient text overrides from styles.css */
+            h1 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            h2 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .logo {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .hero h1 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .contact-info h2 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .contact-form h2 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .map-section h2 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .why-nedhub .section-title {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .featured-solutions .section-title {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            .overview-content h2 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+            
+            /* Additional specific element overrides */
+            .page-header h1,
+            .services-header h1,
+            .contact-header h1 {
+                background: none !important;
+                -webkit-background-clip: unset !important;
+                -webkit-text-fill-color: unset !important;
+                background-clip: unset !important;
+                text-fill-color: unset !important;
+                color: var(--neutral-white) !important;
+            }
+        }
+        
+        /* Ensure hero section has proper background for white text */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+        }
+        
+        /* Comprehensive mobile text color fixes for ALL pages except homepage */
+        /* Page-specific mobile styling - All non-homepage pages get white text */
+        
+        /* About Page Mobile Styling - Target elements that exist on About page */
+        .company-overview,
+        .company-overview *,
+        .mission-vision,
+        .mission-vision *,
+        .core-values,
+        .core-values *,
+        .industries-served,
+        .industries-served * {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Services Page Mobile Styling - Target elements that exist on Services page */
+        .services-grid,
+        .services-grid *,
+        .services-showcase,
+        .services-showcase *,
+        .services-intro,
+        .services-intro * {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Contact Page Mobile Styling - Target elements that exist on Contact page */
+        .contact-section,
+        .contact-section *,
+        .map-section,
+        .map-section *,
+        .social-media-section,
+        .social-media-section *,
+        .faq-section,
+        .faq-section * {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Recruitment Page Mobile Styling - Target elements that exist on Recruitment page */
+        .recruitment-content,
+        .recruitment-content * {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Fix for Our Recruitment Process section visibility - ALL SERVICE PAGES */
+        .service-process {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        .service-process h2,
+        .service-process h4,
+        .service-process p {
+            color: var(--neutral-white) !important;
+        }
+        
+        .process-step {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .process-step h4,
+        .process-step p {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Apply white text to all sections on non-homepage pages */
+        .section h1,
+        .section h2,
+        .section h3,
+        .section h4,
+        .section h5,
+        .section h6,
+        .section p,
+        .section span,
+        .section div {
+            color: var(--neutral-white) !important;
+        }
+        
+        /* All card elements on non-homepage pages - White text and backgrounds */
+        .card,
+        .card h3,
+        .card p,
+        .card-title,
+        .card-description,
+        .mission-card,
+        .vision-card,
+        .value-card,
+        .social-card,
+        .faq-item {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Override gradient text on non-homepage pages */
+        h1,
+        h2,
+        h3 {
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+            text-fill-color: unset !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Icon colors for non-homepage pages */
+        .card-icon,
+        .value-icon,
+        .social-icon,
+        .benefit-icon {
+            color: var(--neutral-white) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* Override styles for Homepage - Keep original colors */
+        body[class=""], body[class="homepage"], html:not([data-page]) .hero,
+        html:not([data-page]) .hero *,
+        html:not([data-page]) .section h1,
+        html:not([data-page]) .section h2,
+        html:not([data-page]) .section h3,
+        html:not([data-page]) .section p {
+            background: unset !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+            text-fill-color: unset !important;
+            color: unset !important;
+        }
+        
+        /* Homepage specific overrides - Restore original styling */
+        .hero,
+        .hero *,
+        .hero h1,
+        .hero p {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        .hero h1 {
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+            text-fill-color: unset !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Final comprehensive rule - All sections EXCEPT homepage hero get white text */
+        /* This ensures that ONLY the homepage (index.html) keeps its original styling */
+        main:not(#hero) .section,
+        main:not(#hero) .section *,
+        .page-header,
+        .page-header *,
+        .company-overview,
+        .company-overview *,
+        .mission-vision,
+        .mission-vision *,
+        .core-values,
+        .core-values *,
+        .industries-served,
+        .industries-served *,
+        .services-grid,
+        .services-grid *,
+        .services-showcase,
+        .services-showcase *,
+        .services-intro,
+        .services-intro *,
+        .contact-section,
+        .contact-section *,
+        .map-section,
+        .map-section *,
+        .social-media-section,
+        .social-media-section *,
+        .faq-section,
+        .faq-section * {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%) !important;
+            color: var(--neutral-white) !important;
+        }
+        
+        /* Ensure cards on all non-homepage sections have proper styling */
+        main:not(#hero) .card,
+        main:not(#hero) .card h3,
+        main:not(#hero) .card p,
+        main:not(#hero) .mission-card,
+        main:not(#hero) .vision-card,
+        main:not(#hero) .value-card,
+        main:not(#hero) .social-card,
+        main:not(#hero) .faq-item {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: var(--neutral-white) !important;
         }
 
         /* Mobile business hours */
@@ -1164,8 +2385,8 @@
     }
 }
 
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
+/* Dark Mode Support - Disabled to prevent automatic theme switching */
+/* @media (prefers-color-scheme: dark) {
     :root {
         --neutral-white: #1a202c;
         --neutral-gray: #2d3748;
@@ -1191,4 +2412,4 @@
     .footer {
         background-color: #0B132B;
     }
-}
+} */

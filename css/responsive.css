@@ -869,8 +869,10 @@
         }
 
         .form-grid {
-            grid-template-columns: 1fr;
-            gap: var(--space-lg);
+            display: flex !important;
+            flex-direction: column !important;
+            gap: var(--space-lg) !important;
+            grid-template-columns: none !important;
         }
 
         .form-group {
