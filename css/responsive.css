@@ -165,45 +165,73 @@
         width: 100%;
         position: relative;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         background: linear-gradient(135deg, var(--accent-orange), #e67000);
         color: var(--neutral-white);
         border: none;
-        border-radius: var(--radius-md);
+        border-radius: var(--radius-lg);
         padding: var(--space-sm) var(--space-md);
-        font-weight: 600;
+        font-weight: 700;
         font-size: var(--font-size-sm);
-        box-shadow: 0 4px 12px rgba(247, 127, 0, 0.2);
-        min-height: 44px;
+        box-shadow: 0 4px 15px rgba(247, 127, 0, 0.3), 0 2px 8px rgba(247, 127, 0, 0.2);
+        min-height: 48px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        /* Enhanced border and backdrop */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        /* Subtle animation */
+        animation: servicesButtonPulse 3s ease-in-out infinite;
     }
 
     .mobile-services-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(247, 127, 0, 0.3);
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(247, 127, 0, 0.4), 0 4px 12px rgba(247, 127, 0, 0.3);
         background: linear-gradient(135deg, #e67000, var(--accent-orange));
+        border-color: rgba(255, 255, 255, 0.3);
+        animation-play-state: paused;
     }
 
     .mobile-services-btn:active {
-        transform: translateY(0);
-        box-shadow: 0 2px 8px rgba(247, 127, 0, 0.2);
+        transform: translateY(-1px) scale(1.01);
+        box-shadow: 0 4px 15px rgba(247, 127, 0, 0.3), 0 2px 8px rgba(247, 127, 0, 0.2);
+    }
+
+    /* Professional button pulse animation */
+    @keyframes servicesButtonPulse {
+        0%, 100% {
+            box-shadow: 0 4px 15px rgba(247, 127, 0, 0.3), 0 2px 8px rgba(247, 127, 0, 0.2);
+        }
+        50% {
+            box-shadow: 0 6px 20px rgba(247, 127, 0, 0.35), 0 3px 10px rgba(247, 127, 0, 0.25);
+        }
+    }
+
+    /* Enhanced services text styling */
+    .services-text {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .mobile-services-btn:hover .services-text {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
     
-    .services-text {
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
+
 
     .services-arrow {
         font-size: 0.75rem;
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         font-weight: 600;
         color: rgba(255, 255, 255, 0.9);
         position: relative;
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
         display: inline-block;
+        /* Enhanced glow effect */
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
     }
     
     .services-arrow::before {
@@ -211,20 +239,35 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 5px;
-        height: 5px;
+        width: 6px;
+        height: 6px;
         border-right: 2px solid currentColor;
         border-bottom: 2px solid currentColor;
         transform: translate(-50%, -50%) rotate(45deg);
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* Enhanced glow on arrow */
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4));
     }
 
     .mobile-services-dropdown.open .services-arrow {
-        transform: rotate(180deg);
+        transform: rotate(180deg) scale(1.1);
+        /* Enhanced glow when open */
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
     }
     
     .mobile-services-dropdown.open .services-arrow::before {
-        transform: translate(-50%, -50%) rotate(225deg);
+        transform: translate(-50%, -50%) rotate(225deg) scale(1.1);
+        filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+    }
+
+    .mobile-services-btn:hover .services-arrow {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+    }
+
+    .mobile-services-btn:hover .services-arrow::before {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1.15);
+        filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.6));
     }
 
     .mobile-services-menu {
