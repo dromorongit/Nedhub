@@ -105,6 +105,8 @@ function initDropdown(): void {
     // Toggle dropdown on click
     dropdownLink.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation(); // Prevent event bubbling
+        
         const isOpen = dropdown.classList.contains('open');
         if (!isOpen) {
             dropdown.classList.add('open');
@@ -120,6 +122,24 @@ function initDropdown(): void {
             dropdown.classList.remove('open');
         }
     });
+    
+    // Close dropdown on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && dropdown.classList.contains('open')) {
+            dropdown.classList.remove('open');
+        }
+    });
+    
+    // Handle hover for desktop (optional)
+    if (window.innerWidth > 768) {
+        dropdown.addEventListener('mouseenter', () => {
+            dropdown.classList.add('open');
+        });
+        
+        dropdown.addEventListener('mouseleave', () => {
+            dropdown.classList.remove('open');
+        });
+    }
 }
 
 // Set active navigation link based on current page

@@ -68,28 +68,45 @@ function initDropdown() {
         return;
     dropdownLink.addEventListener('click', (e) => {
         e.preventDefault();
-        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-        const isServicesPage = currentPath === 'services.html';
+        e.stopPropagation(); // Prevent event bubbling
         
-        if (!isServicesPage) {
-            // If not on services page, navigate to services page
-            window.location.href = 'services.html';
+        const isOpen = dropdown.classList.contains('open');
+        console.log('Dropdown clicked, currently open:', isOpen);
+        
+        if (isOpen) {
+            dropdown.classList.remove('open');
+            console.log('Dropdown closed');
         } else {
-            // If on services page, toggle dropdown
-            const isOpen = dropdown.classList.contains('open');
-            if (isOpen) {
-                dropdown.classList.remove('open');
-            } else {
-                dropdown.classList.add('open');
-            }
+            dropdown.classList.add('open');
+            console.log('Dropdown opened');
         }
     });
     document.addEventListener('click', (e) => {
         const target = e.target;
         if (!target.closest('.dropdown')) {
             dropdown.classList.remove('open');
+            console.log('Dropdown closed by outside click');
         }
     });
+    
+    // Close dropdown on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && dropdown.classList.contains('open')) {
+            dropdown.classList.remove('open');
+            console.log('Dropdown closed by escape key');
+        }
+    });
+    
+    // Handle hover for desktop (optional)
+    if (window.innerWidth > 768) {
+        dropdown.addEventListener('mouseenter', () => {
+            dropdown.classList.add('open');
+        });
+        
+        dropdown.addEventListener('mouseleave', () => {
+            dropdown.classList.remove('open');
+        });
+    }
 }
 function setActiveNavLink() {
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';

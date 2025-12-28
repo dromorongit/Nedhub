@@ -322,28 +322,17 @@ function initDropdown() {
     
     dropdownLink.addEventListener('click', function(e) {
         e.preventDefault();
+        e.stopPropagation(); // Prevent event bubbling
         
-        var currentPath = window.location.pathname.split('/').pop() || 'index.html';
-        var isServicesPage = currentPath === 'services.html';
+        var isOpen = dropdown.classList.contains('open');
+        console.log('Dropdown clicked, currently open:', isOpen);
         
-        console.log('Dropdown clicked, current page:', currentPath, 'is services page:', isServicesPage);
-        
-        if (!isServicesPage) {
-            // If not on services page, navigate to services page
-            console.log('Navigating to services page');
-            window.location.href = 'services.html';
+        if (isOpen) {
+            dropdown.classList.remove('open');
+            console.log('Dropdown closed');
         } else {
-            // If on services page, toggle dropdown
-            var isOpen = dropdown.classList.contains('open');
-            console.log('Dropdown is currently open:', isOpen);
-            
-            if (isOpen) {
-                dropdown.classList.remove('open');
-                console.log('Dropdown closed');
-            } else {
-                dropdown.classList.add('open');
-                console.log('Dropdown opened');
-            }
+            dropdown.classList.add('open');
+            console.log('Dropdown opened');
         }
     });
     
@@ -355,6 +344,25 @@ function initDropdown() {
             console.log('Dropdown closed by outside click');
         }
     });
+    
+    // Close dropdown on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && dropdown.classList.contains('open')) {
+            dropdown.classList.remove('open');
+            console.log('Dropdown closed by escape key');
+        }
+    });
+    
+    // Handle hover for desktop (optional)
+    if (window.innerWidth > 768) {
+        dropdown.addEventListener('mouseenter', function() {
+            dropdown.classList.add('open');
+        });
+        
+        dropdown.addEventListener('mouseleave', function() {
+            dropdown.classList.remove('open');
+        });
+    }
     
     console.log('Dropdown functionality initialized');
 }
