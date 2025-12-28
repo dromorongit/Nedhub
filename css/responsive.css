@@ -743,6 +743,23 @@
     
     /* Contact Page Mobile Redesign - Professional Layout */
     @media (max-width: 768px) {
+        /* CRITICAL FIX: Remove card styling from forms on mobile */
+        .contact-form,
+        .modern-form {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        /* CRITICAL FIX: Remove card styling from form containers */
+        .contact-form::before,
+        .modern-form::before {
+            display: none !important;
+        }
+        
         /* CRITICAL FIX: Contact Form Fields - Always Vertical on Mobile */
         .contact-form .form-grid {
             display: flex !important;
@@ -758,17 +775,20 @@
             gap: var(--space-lg) !important;
         }
         
-        /* CRITICAL FIX: Form input fields - Full width and spacious */
+        /* CRITICAL FIX: Form input fields - Full width, no card styling, much wider */
         .form-group input,
         .form-group textarea {
-            width: 100% !important;
+            width: 100vw !important;
+            max-width: 100vw !important;
+            margin-left: calc(-50vw + 50%) !important;
+            margin-right: calc(-50vw + 50%) !important;
             min-height: 56px !important;
-            padding: var(--space-lg) var(--space-md) !important;
+            padding: var(--space-lg) var(--space-lg) !important;
             font-size: var(--font-size-lg) !important;
-            border-radius: var(--radius-lg) !important;
+            border-radius: 0 !important;
             border: 2px solid var(--border-color) !important;
             background-color: var(--neutral-white) !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+            box-shadow: none !important;
         }
         
         /* CRITICAL FIX: Textarea - Full width and taller */
@@ -814,9 +834,14 @@
             gap: var(--space-xxl);
         }
         
-        /* Contact Info - More professional mobile layout with wider spacing */
+        /* Contact Info - Remove card styling on mobile */
         .contact-info {
-            padding: var(--space-xxl);
+            padding: var(--space-lg) !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            margin-bottom: var(--space-xl) !important;
         }
 
         .contact-info h2 {
@@ -838,8 +863,12 @@
             flex-direction: column;
             align-items: flex-start;
             gap: var(--space-md);
-            padding: var(--space-lg);
-            border-radius: var(--radius-lg);
+            padding: var(--space-lg) !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            margin-bottom: var(--space-md) !important;
         }
 
         .contact-item h3 {
@@ -1050,8 +1079,12 @@
 
         .contact-info,
         .contact-form {
-            padding: var(--space-xl);
-            margin-bottom: var(--space-xl);
+            padding: var(--space-lg) !important;
+            margin-bottom: var(--space-xl) !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
         }
 
         .contact-item,
@@ -2025,33 +2058,51 @@
             outline-offset: 2px;
         }
         
-        /* Enhanced Mobile Form Fields */
+        /* Enhanced Mobile Form Fields - Remove card styling, make wider */
         .modern-form {
-            padding: var(--space-xl);
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
         }
         
         .form-group {
             margin-bottom: var(--space-lg);
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
         }
         
         .form-group label {
             font-size: var(--font-size-base);
             font-weight: 600;
             margin-bottom: var(--space-xs);
+            background: transparent !important;
         }
         
         .form-group input,
         .form-group textarea {
-            padding: var(--space-md) var(--space-sm);
-            font-size: var(--font-size-base);
-            border-width: 2px;
-            border-radius: var(--radius-md);
+            width: 100vw !important;
+            max-width: 100vw !important;
+            margin-left: calc(-50vw + 50%) !important;
+            margin-right: calc(-50vw + 50%) !important;
+            padding: var(--space-lg) var(--space-lg) !important;
+            font-size: var(--font-size-lg) !important;
+            border-width: 2px !important;
+            border-radius: 0 !important;
+            background-color: var(--neutral-white) !important;
+            box-shadow: none !important;
+            border-color: var(--border-color) !important;
         }
         
         .form-group input:focus,
         .form-group textarea:focus {
-            border-width: 3px;
-            box-shadow: 0 0 0 3px rgba(247, 127, 0, 0.1);
+            border-width: 3px !important;
+            border-color: var(--accent-orange) !important;
+            box-shadow: none !important;
+            background-color: var(--neutral-white) !important;
         }
         
         .form-group textarea {
@@ -2059,44 +2110,65 @@
         }
         
         .btn-submit {
-            padding: var(--space-md) var(--space-xxl);
-            font-size: var(--font-size-lg);
+            width: 100vw !important;
+            max-width: 100vw !important;
+            margin-left: calc(-50vw + 50%) !important;
+            margin-right: calc(-50vw + 50%) !important;
+            padding: var(--space-lg) var(--space-xl) !important;
+            font-size: var(--font-size-lg) !important;
             margin-top: var(--space-lg);
+            border-radius: 0 !important;
         }
         
-        /* Extra Small Device Form Enhancements */
+        /* Extra Small Device Form Enhancements - Remove card styling, make wider */
         @media (max-width: 480px) {
             .modern-form {
-                padding: var(--space-lg);
+                padding: 0 !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
             }
             
             .form-group label {
-                font-size: var(--font-size-sm);
+                font-size: var(--font-size-lg) !important;
+                font-weight: 600 !important;
+                margin-bottom: var(--space-sm) !important;
+                background: transparent !important;
             }
             
             .form-group input,
             .form-group textarea {
-                padding: var(--space-sm);
-                font-size: var(--font-size-sm);
+                width: 100vw !important;
+                max-width: 100vw !important;
+                margin-left: calc(-50vw + 50%) !important;
+                margin-right: calc(-50vw + 50%) !important;
+                padding: var(--space-lg) var(--space-xl) !important;
+                font-size: var(--font-size-lg) !important;
+                border-radius: 0 !important;
+                background-color: var(--neutral-white) !important;
+                box-shadow: none !important;
+                border: 2px solid var(--border-color) !important;
             }
             
             .form-group textarea {
-                min-height: 120px;
+                min-height: 140px !important;
             }
             
             .btn-submit {
-                padding: var(--space-md);
-                font-size: var(--font-size-base);
+                width: 100vw !important;
+                max-width: 100vw !important;
+                margin-left: calc(-50vw + 50%) !important;
+                margin-right: calc(-50vw + 50%) !important;
+                padding: var(--space-lg) var(--space-xxl) !important;
+                font-size: var(--font-size-lg) !important;
+                border-radius: 0 !important;
             }
             
             /* Better mobile touch targets */
             .form-group input,
             .form-group textarea {
-                min-height: 50px;
-            }
-            
-            .form-group textarea {
-                min-height: 120px;
+                min-height: 56px !important;
             }
         }
         
