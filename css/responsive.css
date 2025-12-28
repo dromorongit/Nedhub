@@ -743,6 +743,54 @@
     
     /* Contact Page Mobile Redesign - Professional Layout */
     @media (max-width: 768px) {
+        /* CRITICAL FIX: Contact Form Fields - Always Vertical on Mobile */
+        .contact-form .form-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: var(--space-lg) !important;
+        }
+        
+        /* CRITICAL FIX: Remove any grid layout for form fields on mobile */
+        .form-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            grid-template-columns: none !important;
+            gap: var(--space-lg) !important;
+        }
+        
+        /* CRITICAL FIX: Form input fields - Full width and spacious */
+        .form-group input,
+        .form-group textarea {
+            width: 100% !important;
+            min-height: 56px !important;
+            padding: var(--space-lg) var(--space-md) !important;
+            font-size: var(--font-size-lg) !important;
+            border-radius: var(--radius-lg) !important;
+            border: 2px solid var(--border-color) !important;
+            background-color: var(--neutral-white) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+        }
+        
+        /* CRITICAL FIX: Textarea - Full width and taller */
+        .form-group textarea {
+            min-height: 140px !important;
+            padding: var(--space-lg) var(--space-md) !important;
+            resize: vertical !important;
+        }
+        
+        /* CRITICAL FIX: Form labels - Better spacing */
+        .form-group label {
+            font-size: var(--font-size-lg) !important;
+            font-weight: 600 !important;
+            margin-bottom: var(--space-md) !important;
+            color: var(--primary-dark) !important;
+        }
+        
+        /* CRITICAL FIX: Form groups - More spacing */
+        .form-group {
+            margin-bottom: var(--space-xl) !important;
+            width: 100% !important;
+        }
         /* Contact Header - More compact and professional */
         .contact-header {
             padding: var(--space-xl) 0 var(--space-lg);
