@@ -165,7 +165,7 @@
         width: 100%;
         position: relative;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         background: linear-gradient(135deg, var(--accent-orange), #e67000);
         color: var(--neutral-white);
         border: none;
@@ -174,27 +174,57 @@
         font-weight: 600;
         font-size: var(--font-size-sm);
         box-shadow: 0 4px 12px rgba(247, 127, 0, 0.2);
-        min-height: 44px; /* Better touch target */
+        min-height: 44px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .mobile-services-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 20px rgba(247, 127, 0, 0.3);
+        background: linear-gradient(135deg, #e67000, var(--accent-orange));
     }
 
     .mobile-services-btn:active {
         transform: translateY(0);
         box-shadow: 0 2px 8px rgba(247, 127, 0, 0.2);
     }
+    
+    .services-text {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
 
     .services-arrow {
-        font-size: 0.8em;
+        font-size: 0.75rem;
         transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        font-weight: bold;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+        position: relative;
+        width: 14px;
+        height: 14px;
+        display: inline-block;
+    }
+    
+    .services-arrow::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: translate(-50%, -50%) rotate(45deg);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .mobile-services-dropdown.open .services-arrow {
         transform: rotate(180deg);
+    }
+    
+    .mobile-services-dropdown.open .services-arrow::before {
+        transform: translate(-50%, -50%) rotate(225deg);
     }
 
     .mobile-services-menu {
@@ -282,7 +312,8 @@
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         position: relative;
-        min-height: 48px;
+        min-height: 52px;
+        border-radius: 0;
     }
 
     .mobile-service-link:last-child {
@@ -299,14 +330,16 @@
         background: linear-gradient(135deg, var(--accent-orange), var(--primary-dark));
         transform: scaleY(0);
         transition: transform 0.3s ease;
+        border-radius: 0 2px 2px 0;
     }
 
     .mobile-service-link:hover,
     .mobile-service-link:focus {
         background: linear-gradient(135deg, rgba(247, 127, 0, 0.08), rgba(11, 19, 43, 0.03));
         color: var(--primary-dark);
-        padding-left: calc(var(--space-lg) + 8px);
-        transform: translateX(4px);
+        padding-left: calc(var(--space-lg) + 12px);
+        transform: translateX(6px);
+        font-weight: 600;
     }
 
     .mobile-service-link:hover::before,
@@ -317,7 +350,7 @@
     .mobile-service-link:active {
         background: rgba(247, 127, 0, 0.12);
         color: var(--accent-orange);
-        transform: translateX(2px);
+        transform: translateX(4px);
     }
 
     .mobile-service-icon {
@@ -335,12 +368,36 @@
     .mobile-service-arrow {
         font-size: var(--font-size-sm);
         color: var(--text-light);
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        font-weight: 600;
+        opacity: 0.7;
+        position: relative;
+        width: 16px;
+        height: 16px;
+    }
+    
+    .mobile-service-arrow::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .mobile-service-link:hover .mobile-service-arrow {
         color: var(--accent-orange);
-        transform: translateX(4px);
+        transform: translateX(6px);
+        opacity: 1;
+    }
+    
+    .mobile-service-link:hover .mobile-service-arrow::before {
+        border-color: var(--accent-orange);
+        transform: translate(-50%, -50%) rotate(0deg) scale(1.1);
     }
 
     .mobile-services-header {
