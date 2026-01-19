@@ -13,54 +13,56 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav id="main-nav" class="navbar">
-        <div class="container">
-            <div class="header-container">
-                <div class="header-top">
-                    <a href="index.html" class="logo">Nedhub</a>
-                    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
-                        <span class="hamburger"></span>
-                    </button>
-                </div>
-                <div class="header-bottom">
-                    <div class="mobile-nav-buttons">
-                        <a href="index.html" class="btn btn-primary">Home</a>
-                        <div class="mobile-services-dropdown">
-                            <button class="btn btn-primary mobile-services-btn" aria-expanded="false" aria-haspopup="true">
-                                <span class="services-text">Services</span>
-                                <span class="services-arrow">▼</span>
-                            </button>
-                            <div class="mobile-services-menu">
-                                <a href="services.html" class="mobile-service-link">All Services</a>
-                                <a href="recruitment.html" class="mobile-service-link">Recruitment & Talent Acquisition</a>
-                                <a href="outsourcing.html" class="mobile-service-link">Staff Outsourcing & Placement</a>
-                                <a href="training.html" class="mobile-service-link">Training & Capacity Building</a>
-                                <a href="career-coaching.html" class="mobile-service-link">Career Guidance & Coaching</a>
-                                <a href="data-analytics.html" class="mobile-service-link">Data Analytics</a>
-                            </div>
+<!-- Navigation will be loaded dynamically -->
+<nav id="main-nav" class="navbar">
+    <div class="container">
+        <div class="header-container">
+            <div class="header-top">
+                <a href="index.html" class="logo"><img src="Nedhublogo.PNG" alt="Nedhub Logo"></a>
+                <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+            <div class="header-bottom">
+                <div class="mobile-nav-buttons">
+                    <a href="index.html" class="btn btn-primary">Home</a>
+                    <div class="mobile-services-dropdown">
+                        <button class="btn btn-primary mobile-services-btn" aria-expanded="false" aria-haspopup="true">
+                            <span class="services-text">Services</span>
+                            <span class="services-arrow">▼</span>
+                        </button>
+                        <div class="mobile-services-menu">
+                            <a href="services.html" class="mobile-service-link">All Services <span class="mobile-service-arrow"></span></a>
+                            <a href="recruitment.html" class="mobile-service-link">Recruitment & Talent Acquisition <span class="mobile-service-arrow"></span></a>
+                            <a href="outsourcing.html" class="mobile-service-link">Staff Outsourcing & Placement <span class="mobile-service-arrow"></span></a>
+                            <a href="training.html" class="mobile-service-link">Training & Capacity Building <span class="mobile-service-arrow"></span></a>
+                            <a href="career-coaching.html" class="mobile-service-link">Career Guidance & Coaching <span class="mobile-service-arrow"></span></a>
+                            <a href="data-analytics.html" class="mobile-service-link">Data Analytics <span class="mobile-service-arrow"></span></a>
                         </div>
-                        <a href="contact.html" class="btn btn-primary">Contact</a>
                     </div>
+                    <a href="contact.html" class="btn btn-primary">Contact</a>
+                    <a href="https://app.nedhubgh.com" class="btn btn-primary" target="_blank">Bulk SMS App</a>
                 </div>
             </div>
-            <ul id="nav-menu" class="nav-menu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="about.html" class="nav-link">About Us</a></li>
-                <li class="dropdown">
-                    <a href="javascript:void(0)" class="nav-link">Services <span class="dropdown-arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="recruitment.html">Recruitment & Talent Acquisition</a></li>
-                        <li><a href="outsourcing.html">Staff Outsourcing & Placement</a></li>
-                        <li><a href="training.html">Training & Capacity Building</a></li>
-                        <li><a href="career-coaching.html">Career Guidance & Coaching</a></li>
-                        <li><a href="data-analytics.html">Data Analytics</a></li>
-                        
-                    </ul>
-                </li>
-                <li><a href="contact.html" class="nav-link">Contact</a></li>
-            </ul>
         </div>
-    </nav>
+        <ul id="nav-menu" class="nav-menu">
+            <li><a href="index.html" class="nav-link active">Home</a></li>
+            <li><a href="about.html" class="nav-link">About Us</a></li>
+            <li class="dropdown">
+                <a href="services.html" class="nav-link">Services <span class="dropdown-arrow" role="button" tabindex="0">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="recruitment.html">Recruitment & Talent Acquisition <span class="menu-arrow">→</span></a></li>
+                    <li><a href="outsourcing.html">Staff Outsourcing & Placement <span class="menu-arrow">→</span></a></li>
+                    <li><a href="training.html">Training & Capacity Building <span class="menu-arrow">→</span></a></li>
+                    <li><a href="career-coaching.html">Career Guidance & Coaching <span class="menu-arrow">→</span></a></li>
+                    <li><a href="data-analytics.html">Data Analytics <span class="menu-arrow">→</span></a></li>
+                </ul>
+            </li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
+            <li><a href="https://app.nedhubgh.com" class="nav-link" target="_blank">Bulk SMS App</a></li>
+        </ul>
+    </div>
+</nav>
 
     <main id="main-content">
         <section class="page-header">
@@ -145,11 +147,12 @@
         </section>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <h3>Nedhub</h3>
+                    <a href="index.html" class="footer-logo"><img src="Nedhubsymbol.PNG" alt="Nedhub Symbol"></a>
                     <p>Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
                 </div>
                 <div class="footer-links">
@@ -161,10 +164,19 @@
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
+                <div class="footer-services">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="recruitment.html">Recruitment</a></li>
+                        <li><a href="training.html">Training</a></li>
+                        <li><a href="data-analytics.html">Data Analytics</a></li>
+                        <li><a href="https://app.nedhubgh.com" target="_blank">Bulk SMS</a></li>
+                    </ul>
+                </div>
                 <div class="footer-contact">
                     <h4>Contact Us</h4>
                     <p>Phone: <a href="tel:+233271177321">+233 271 177 321</a></p>
-                    <p>Location: Roman Ridge</p>
+                    <p>Location: Roman Ridge, Accra, Ghana</p>
                     <div class="social-links">
                         <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
                             <i class="fab fa-facebook-f"></i>
@@ -182,12 +194,11 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom"><div class="footer-bottom-content"><p>&copy; 2025 Nedhub Ghana. All rights reserved.</p><p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Cookie Policy</a></p></div></div></div></footer>
+            <div class="footer-bottom"><div class="footer-bottom-content"><p>&copy; 2026 Nedhub Ghana. All rights reserved.</p><p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Cookie Policy</a></p><p class="developer-credits">Developed by Dromor Narh</p></div></div></div></footer>
 
     <script src="js/main.js" type="module"></script>
     <script src="js/animations.js" type="module"></script>
     <script src="js/navigation.js"></script>
-    <script src="js/cookie-modal.js"></script>
     <script src="js/privacy-modal.js"></script>
     <script src="js/terms-modal.js"></script>
 </body>

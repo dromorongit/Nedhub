@@ -311,22 +311,21 @@ function initDropdown() {
         console.log('No dropdown found');
         return;
     }
-    
-    var dropdownLink = dropdown.querySelector('.nav-link');
-    if (!dropdownLink) {
-        console.log('No dropdown link found');
+
+    var dropdownArrow = dropdown.querySelector('.dropdown-arrow');
+    if (!dropdownArrow) {
+        console.log('No dropdown arrow found');
         return;
     }
-    
+
     console.log('Dropdown initialized');
-    
-    dropdownLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation(); // Prevent event bubbling
-        
+
+    var closeTimeout;
+
+    function toggleDropdown() {
         var isOpen = dropdown.classList.contains('open');
-        console.log('Dropdown clicked, currently open:', isOpen);
-        
+        console.log('Dropdown toggled, currently open:', isOpen);
+
         if (isOpen) {
             dropdown.classList.remove('open');
             console.log('Dropdown closed');
@@ -334,8 +333,23 @@ function initDropdown() {
             dropdown.classList.add('open');
             console.log('Dropdown opened');
         }
+    }
+
+    dropdownArrow.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation(); // Prevent event bubbling
+        toggleDropdown();
     });
-    
+
+    // Keyboard support
+    dropdownArrow.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleDropdown();
+        }
+    });
+
     // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
         var target = e.target;
@@ -344,7 +358,7 @@ function initDropdown() {
             console.log('Dropdown closed by outside click');
         }
     });
-    
+
     // Close dropdown on escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && dropdown.classList.contains('open')) {
@@ -352,17 +366,20 @@ function initDropdown() {
             console.log('Dropdown closed by escape key');
         }
     });
-    
+
     // Handle hover for desktop (optional)
     if (window.innerWidth > 768) {
         dropdown.addEventListener('mouseenter', function() {
+            clearTimeout(closeTimeout);
             dropdown.classList.add('open');
         });
-        
+
         dropdown.addEventListener('mouseleave', function() {
-            dropdown.classList.remove('open');
+            closeTimeout = setTimeout(function() {
+                dropdown.classList.remove('open');
+            }, 300); // 300ms delay to allow moving to menu
         });
     }
-    
+
     console.log('Dropdown functionality initialized');
 }
