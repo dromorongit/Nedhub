@@ -135,7 +135,7 @@
     /* Mobile Navigation Buttons - Better Centering & Styling */
     .mobile-nav-buttons {
         display: flex;
-        gap: var(--space-md); /* Increased gap for better spacing */
+        gap: var(--space-sm); /* Reduced gap for better mobile fit */
         justify-content: center; /* Center the buttons */
         align-items: center;
         width: 100%;
@@ -144,10 +144,10 @@
     }
 
     .mobile-nav-buttons .btn {
-        padding: var(--space-xs) var(--space-md); /* Increased horizontal padding */
-        font-size: var(--font-size-sm);
+        padding: var(--space-xs) var(--space-sm); /* Reduced horizontal padding */
+        font-size: var(--font-size-xs); /* Smaller font size for mobile */
         font-weight: 600; /* Bold text for better visibility */
-        min-width: 100px; /* Minimum width for consistent sizing */
+        min-width: 85px; /* Reduced minimum width for better fit */
         text-align: center; /* Center button text */
     }
 
