@@ -132,26 +132,29 @@
         margin-bottom: 0;
     }
 
-    /* Mobile Navigation Buttons - Better Centering & Styling */
+    /* Mobile Navigation Buttons - Professional & Balanced */
     .mobile-nav-buttons {
         display: flex;
-        gap: 4px; /* Very minimal gap for better mobile fit */
+        gap: 8px; /* Comfortable spacing between buttons */
         justify-content: center; /* Center the buttons */
         align-items: center;
         width: 100%;
-        max-width: 360px; /* Reduced max width */
+        max-width: 420px; /* Increased max width for better fit */
         margin: 0 auto; /* Center the container */
         flex-wrap: nowrap; /* Prevent wrapping */
+        padding: 0 8px; /* Add some side padding */
     }
 
     .mobile-nav-buttons .btn {
-        padding: 4px 6px; /* Minimal padding */
-        font-size: 9px; /* Very small font size */
-        font-weight: 600; /* Bold text for better visibility */
-        min-width: auto; /* Remove minimum width, use auto */
-        width: auto; /* Allow natural width */
-        text-align: center; /* Center button text */
-        white-space: nowrap; /* Prevent text wrapping */
+        padding: 8px 10px; /* Comfortable padding */
+        font-size: 11px; /* Readable font size */
+        font-weight: 600; /* Bold text for visibility */
+        min-width: auto;
+        width: auto;
+        text-align: center;
+        white-space: nowrap;
+        border-radius: 6px; /* Rounded corners for professional look */
+        transition: all 0.3s ease;
     }
 
     /* Mobile Services Dropdown Styles */
