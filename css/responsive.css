@@ -135,20 +135,23 @@
     /* Mobile Navigation Buttons - Better Centering & Styling */
     .mobile-nav-buttons {
         display: flex;
-        gap: var(--space-sm); /* Reduced gap for better mobile fit */
+        gap: 4px; /* Very minimal gap for better mobile fit */
         justify-content: center; /* Center the buttons */
         align-items: center;
         width: 100%;
-        max-width: 400px; /* Prevent buttons from stretching too wide */
+        max-width: 360px; /* Reduced max width */
         margin: 0 auto; /* Center the container */
+        flex-wrap: nowrap; /* Prevent wrapping */
     }
 
     .mobile-nav-buttons .btn {
-        padding: var(--space-xs) var(--space-sm); /* Reduced horizontal padding */
-        font-size: var(--font-size-xs); /* Smaller font size for mobile */
+        padding: 4px 6px; /* Minimal padding */
+        font-size: 9px; /* Very small font size */
         font-weight: 600; /* Bold text for better visibility */
-        min-width: 85px; /* Reduced minimum width for better fit */
+        min-width: auto; /* Remove minimum width, use auto */
+        width: auto; /* Allow natural width */
         text-align: center; /* Center button text */
+        white-space: nowrap; /* Prevent text wrapping */
     }
 
     /* Mobile Services Dropdown Styles */
