@@ -4,6 +4,151 @@ export function initAnimations() {
     initButtonAnimations();
     initScrollAnimations();
     initFormAnimations();
+    initAnimatedCounters();
+    initTestimonialCarousel();
+}
+function initAnimatedCounters() {
+    const counters = document.querySelectorAll('.counter-number');
+    if (counters.length === 0)
+        return;
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5
+    };
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-target') || '0');
+                animateCounter(counter, target);
+                counterObserver.unobserve(counter);
+            }
+        });
+    }, observerOptions);
+    counters.forEach(counter => {
+        counterObserver.observe(counter);
+    });
+}
+function animateCounter(element, target) {
+    const duration = 2000;
+    const startTime = performance.now();
+    const startValue = 0;
+    function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const currentValue = Math.floor(startValue + (target - startValue) * easeOutQuart);
+        element.textContent = currentValue.toLocaleString();
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        }
+        else {
+            element.textContent = target.toLocaleString();
+        }
+    }
+    requestAnimationFrame(updateCounter);
+}
+function initTestimonialCarousel() {
+    const carousel = document.querySelector('.testimonials-carousel');
+    if (!carousel)
+        return;
+    const track = carousel.querySelector('.testimonial-track');
+    const cards = carousel.querySelectorAll('.testimonial-card');
+    const prevBtn = carousel.querySelector('.prev-btn');
+    const nextBtn = carousel.querySelector('.next-btn');
+    const dotsContainer = carousel.querySelector('.carousel-dots');
+    if (!track || cards.length === 0)
+        return;
+    let currentIndex = 0;
+    let autoPlayInterval = null;
+    cards.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+    const dots = dotsContainer.querySelectorAll('.carousel-dot');
+    function updateCarousel() {
+        cards.forEach((card, index) => {
+            card.classList.remove('active', 'prev');
+            if (index === currentIndex) {
+                card.classList.add('active');
+            }
+            else if (index === (currentIndex - 1 + cards.length) % cards.length) {
+                card.classList.add('prev');
+            }
+        });
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+    function goToSlide(index) {
+        currentIndex = index;
+        updateCarousel();
+        resetAutoPlay();
+    }
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % cards.length;
+        updateCarousel();
+        resetAutoPlay();
+    }
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        updateCarousel();
+        resetAutoPlay();
+    }
+    function startAutoPlay() {
+        autoPlayInterval = window.setInterval(nextSlide, 5000);
+    }
+    function resetAutoPlay() {
+        if (autoPlayInterval) {
+            clearInterval(autoPlayInterval);
+        }
+        startAutoPlay();
+    }
+    prevBtn === null || prevBtn === void 0 ? void 0 : prevBtn.addEventListener('click', prevSlide);
+    nextBtn === null || nextBtn === void 0 ? void 0 : nextBtn.addEventListener('click', nextSlide);
+    carousel.addEventListener('mouseenter', () => {
+        if (autoPlayInterval) {
+            clearInterval(autoPlayInterval);
+        }
+    });
+    carousel.addEventListener('mouseleave', startAutoPlay);
+    let touchStartX = 0;
+    let touchEndX = 0;
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    carousel.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                nextSlide();
+            }
+            else {
+                prevSlide();
+            }
+        }
+    }
+    document.addEventListener('keydown', (e) => {
+        if (carousel.getBoundingClientRect().top < window.innerHeight &&
+            carousel.getBoundingClientRect().bottom > 0) {
+            if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+            else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        }
+    });
+    startAutoPlay();
 }
 function initHeroAnimations() {
     const heroElements = document.querySelectorAll('.hero .animate-fade-in-up');
@@ -161,5 +306,5 @@ function debounce(func, wait = 100) {
         timeout = window.setTimeout(later, wait);
     };
 }
-export { initHeroAnimations, createHeroParticles, initCardAnimations, initButtonAnimations, createRippleEffect, initScrollAnimations, initFormAnimations, debounce };
+export { initHeroAnimations, createHeroParticles, initCardAnimations, initButtonAnimations, createRippleEffect, initScrollAnimations, initFormAnimations, initAnimatedCounters, animateCounter, initTestimonialCarousel, debounce };
 //# sourceMappingURL=animations.js.map

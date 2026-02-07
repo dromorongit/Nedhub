@@ -15,8 +15,18 @@ try {
         console.log('📁 Created dist directory');
     }
 
-    // Copy HTML files
-    const htmlFiles = ['index.html', 'about.html', 'services.html', 'contact.html'];
+    // Copy HTML files - all pages
+    const htmlFiles = [
+        'index.html',
+        'about.html',
+        'services.html',
+        'contact.html',
+        'career-coaching.html',
+        'data-analytics.html',
+        'outsourcing.html',
+        'recruitment.html',
+        'training.html'
+    ];
     htmlFiles.forEach(file => {
         if (fs.existsSync(file)) {
             fs.copyFileSync(file, path.join('dist', file));

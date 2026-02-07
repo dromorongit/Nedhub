@@ -1,4 +1,7 @@
 export declare function initAnimations(): void;
+declare function initAnimatedCounters(): void;
+declare function animateCounter(element: HTMLElement, target: number): void;
+declare function initTestimonialCarousel(): void;
 declare function initHeroAnimations(): void;
 declare function createHeroParticles(): void;
 declare function initCardAnimations(): void;
@@ -7,4 +10,4 @@ declare function createRippleEffect(button: Element, event: MouseEvent): void;
 declare function initScrollAnimations(): void;
 declare function initFormAnimations(): void;
 declare function debounce(func: Function, wait?: number): Function;
-export { initHeroAnimations, createHeroParticles, initCardAnimations, initButtonAnimations, createRippleEffect, initScrollAnimations, initFormAnimations, debounce };
+export { initHeroAnimations, createHeroParticles, initCardAnimations, initButtonAnimations, createRippleEffect, initScrollAnimations, initFormAnimations, initAnimatedCounters, animateCounter, initTestimonialCarousel, debounce };
