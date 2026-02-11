@@ -154,6 +154,10 @@ async function initiateHubtelPayment(paymentData) {
     // Create Basic Auth header with Merchant Account Number and API Key
     const authHeader = Buffer.from(`${hubtelAccount}:${apiKey}`).toString('base64');
 
+    console.log('[HUBTEL DEBUG] Account:', hubtelAccount);
+    console.log('[HUBTEL DEBUG] API Key length:', apiKey ? apiKey.length : 0);
+    console.log('[HUBTEL DEBUG] Auth header:', authHeader.substring(0, 10) + '...');
+
     // Hubtel request payload
     const apiBaseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
     const frontendUrl = process.env.FRONTEND_URL || `http://localhost:${process.env.PORT || 3000}`;
