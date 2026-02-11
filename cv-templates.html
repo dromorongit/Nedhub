@@ -396,27 +396,6 @@
             font-weight: 500;
         }
         
-        .cv-template-card .download-btn {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-            background: linear-gradient(135deg, #0B132B, #1a2342);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .cv-template-card .download-btn:hover {
-            background: linear-gradient(135deg, #10B981, #059669);
-            transform: translateY(-2px);
-        }
-        
         /* Buy Now Button - Professional Styling */
         .cv-template-card .buy-btn {
             width: 100%;
@@ -621,6 +600,380 @@
             flex-wrap: wrap;
         }
         
+        /* Modal Overlay - Hidden by default */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        /* Payment Modal */
+        .payment-modal {
+            background: white;
+            border-radius: 20px;
+            max-width: 520px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.4s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s;
+            z-index: 10;
+            line-height: 1;
+        }
+        
+        .modal-close:hover {
+            color: #333;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #0B132B 0%, #1a2342 100%);
+            color: white;
+            padding: 32px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .modal-body {
+            padding: 32px;
+        }
+        
+        .template-summary {
+            display: flex;
+            gap: 20px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 25px;
+        }
+        
+        .template-summary img {
+            width: 100px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .summary-details h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            color: #0B132B;
+        }
+        
+        .modal-price {
+            color: #10B981;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .form-section {
+            margin-bottom: 28px;
+        }
+        
+        .form-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            color: #0B132B;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #4b5563;
+            font-size: 0.95rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #10B981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        
+        .payment-option:hover {
+            border-color: #10B981;
+        }
+        
+        .payment-option input {
+            margin-right: 16px;
+            accent-color: #10B981;
+        }
+        
+        .payment-option input:checked + .payment-label {
+            color: #10B981;
+        }
+        
+        .payment-option:has(input:checked) {
+            border-color: #10B981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+        
+        .payment-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+        
+        .payment-label i {
+            font-size: 1.3rem;
+            color: #6b7280;
+        }
+        
+        .card-details {
+            display: none;
+        }
+        
+        .btn-full {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: linear-gradient(135deg, #0B132B, #1a2342);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-full:hover {
+            background: linear-gradient(135deg, #10B981, #059669);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+        }
+        
+        .secure-notice {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 0.9rem;
+            color: #10B981;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        /* Success Modal */
+        .success-modal {
+            background: white;
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            padding: 48px 32px;
+            text-align: center;
+            position: relative;
+            animation: modalSlideIn 0.4s ease;
+        }
+        
+        .success-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.35);
+        }
+        
+        .success-icon i {
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .success-modal h2 {
+            color: #10B981;
+            margin-bottom: 16px;
+            font-size: 1.75rem;
+        }
+        
+        .success-modal > p {
+            color: #6b7280;
+            margin-bottom: 24px;
+            font-size: 1rem;
+        }
+        
+        .success-details {
+            background: #f8fafc;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 28px;
+            text-align: left;
+        }
+        
+        .success-details p {
+            margin: 10px 0;
+            color: #4b5563;
+            font-size: 0.95rem;
+        }
+        
+        .success-modal .btn-primary {
+            width: 100%;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .success-modal .btn-primary:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+        }
+        
+        .email-notice {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+        
+        /* Preview Modal */
+        .preview-modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 95vw;
+            width: 900px;
+            max-height: 90vh;
+            overflow: hidden;
+            position: relative;
+            animation: modalSlideIn 0.4s ease;
+        }
+        
+        .preview-content {
+            padding: 20px;
+        }
+        
+        .preview-content img {
+            width: 100%;
+            height: auto;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        /* Download Notification */
+        .download-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 18px 28px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.35);
+            transform: translateY(120px);
+            opacity: 0;
+            transition: transform 0.4s, opacity 0.4s;
+            z-index: 1001;
+            font-weight: 500;
+        }
+        
+        .download-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .download-notification i {
+            font-size: 1.4rem;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .cv-hero-section {
@@ -671,6 +1024,24 @@
             
             .cv-features-section .features-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .payment-modal,
+            .success-modal {
+                margin: 10px;
+                max-height: 95vh;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-body {
+                padding: 24px;
+            }
+            
+            .modal-header {
+                padding: 24px;
             }
         }
     </style>
@@ -759,7 +1130,7 @@
                         <span class="badge-icon">✦</span>
                         <span>Professional Resume Templates</span>
                     </div>
-                    <h1 class="animate-fade-in-up delay-2">Stand Out with <span class="highlight-text">Professional CV Templates</span></h1>
+                    <h1 class="animate-fade-in-up delay-2">Stand out with <span class="highlight-text">Professional CV Templates</span></h1>
                     <p class="animate-fade-in-up delay-3">Download expertly designed, ATS-friendly resume templates that help you land your dream job. Modern, clean, and customized for success.</p>
                     <div class="hero-buttons animate-fade-in-up delay-4">
                         <a href="#templates-grid" class="btn btn-primary btn-large btn-with-icon">
@@ -850,7 +1221,7 @@
                                 <span class="price">₵120</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.9</span>
                             </div>
-                            <button class="buy-btn btn-primary" data-template="1" data-name="Modern Pro" data-price="120">
+                            <button class="buy-btn" data-template="1" data-name="Modern Pro" data-price="120">
                                 <i class="fas fa-shopping-cart"></i> Buy Now - ₵120
                             </button>
                         </div>
@@ -872,7 +1243,7 @@
                                 <span class="price">₵95</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.8</span>
                             </div>
-                            <button class="buy-btn btn-primary" data-template="2" data-name="Classic Elegance" data-price="95">
+                            <button class="buy-btn" data-template="2" data-name="Classic Elegance" data-price="95">
                                 <i class="fas fa-shopping-cart"></i> Buy Now - ₵95
                             </button>
                         </div>
@@ -894,7 +1265,7 @@
                                 <span class="price">₵155</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.7</span>
                             </div>
-                            <button class="buy-btn btn-primary" data-template="3" data-name="Creative Studio" data-price="155">
+                            <button class="buy-btn" data-template="3" data-name="Creative Studio" data-price="155">
                                 <i class="fas fa-shopping-cart"></i> Buy Now - ₵155
                             </button>
                         </div>
@@ -916,7 +1287,7 @@
                                 <span class="price">Free</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.6</span>
                             </div>
-                            <button class="download-free-btn btn-secondary" data-template="4" data-name="Professional Standard">
+                            <button class="download-free-btn" data-template="4" data-name="Professional Standard">
                                 <i class="fas fa-download"></i> Download Free
                             </button>
                         </div>
@@ -938,7 +1309,7 @@
                                 <span class="price">₵110</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.8</span>
                             </div>
-                            <button class="buy-btn btn-primary" data-template="5" data-name="Minimal Design" data-price="110">
+                            <button class="buy-btn" data-template="5" data-name="Minimal Design" data-price="110">
                                 <i class="fas fa-shopping-cart"></i> Buy Now - ₵110
                             </button>
                         </div>
@@ -960,7 +1331,7 @@
                                 <span class="price">₵180</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.9</span>
                             </div>
-                            <button class="buy-btn btn-primary" data-template="6" data-name="Executive Premium" data-price="180">
+                            <button class="buy-btn" data-template="6" data-name="Executive Premium" data-price="180">
                                 <i class="fas fa-shopping-cart"></i> Buy Now - ₵180
                             </button>
                         </div>
@@ -982,7 +1353,7 @@
                                 <span class="price">₵145</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.7</span>
                             </div>
-                            <button class="buy-btn btn-primary" data-template="7" data-name="Dynamic Flow" data-price="145">
+                            <button class="buy-btn" data-template="7" data-name="Dynamic Flow" data-price="145">
                                 <i class="fas fa-shopping-cart"></i> Buy Now - ₵145
                             </button>
                         </div>
@@ -1004,7 +1375,7 @@
                                 <span class="price">Free</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.5</span>
                             </div>
-                            <button class="download-free-btn btn-secondary" data-template="8" data-name="Basic Resume">
+                            <button class="download-free-btn" data-template="8" data-name="Basic Resume">
                                 <i class="fas fa-download"></i> Download Free
                             </button>
                         </div>
@@ -1116,7 +1487,7 @@
                             </label>
                         </div>
                         
-                        <div class="card-details" id="card-details" style="display: none;">
+                        <div class="card-details" id="card-details">
                             <div class="form-group">
                                 <label for="card-number">Card Number</label>
                                 <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
@@ -1134,7 +1505,7 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-full" id="complete-payment-btn">
+                    <button type="submit" class="btn-full" id="complete-payment-btn">
                         <i class="fas fa-lock"></i> Pay ₵<span id="pay-amount">0.00</span>
                     </button>
                     
@@ -1159,7 +1530,7 @@
                 <p><strong>Template:</strong> <span id="success-template-name">--</span></p>
                 <p><strong>Transaction ID:</strong> <span id="transaction-id">--</span></p>
             </div>
-            <button class="btn btn-primary" id="download-template-btn">
+            <button class="btn-primary" id="download-template-btn">
                 <i class="fas fa-download"></i> Download Template
             </button>
             <p class="email-notice">A confirmation email has been sent to your email address.</p>
