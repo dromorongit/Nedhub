@@ -2,7 +2,7 @@
 // Supports: Mobile Money, Bank Card, Hubtel Wallet, GhQR
 
 // API Configuration
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'https://nedhub-production.up.railway.app/api';
 const FRONTEND_URL = window.location.origin + window.location.pathname.replace('cv-templates.html', '');
 
 document.addEventListener('DOMContentLoaded', function() {
