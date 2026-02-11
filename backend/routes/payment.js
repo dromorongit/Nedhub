@@ -184,14 +184,29 @@ async function initiateHubtelPayment(paymentData) {
             body: JSON.stringify(hubtelPayload)
         });
 
-        const responseData = await response.json().catch(() => null);
+        let responseData;
+        let responseText;
+        
+        try {
+            // Try to parse JSON first
+            responseText = await response.text();
+            try {
+                responseData = JSON.parse(responseText);
+            } catch (parseError) {
+                responseData = null;
+            }
+        } catch (bodyError) {
+            console.error('[HUBTEL ERROR] Failed to read response body:', bodyError.message);
+            responseText = null;
+            responseData = null;
+        }
 
         console.log('[HUBTEL API RESPONSE] Status:', response.status);
         console.log('[HUBTEL API RESPONSE] Data:', responseData);
 
         if (!response.ok || !responseData) {
             console.error('[HUBTEL ERROR] Initiate failed with status:', response.status);
-            console.error('[HUBTEL ERROR] Raw response:', await response.text());
+            console.error('[HUBTEL ERROR] Raw response:', responseText);
             throw new Error(`HTTP ${response.status}: Hubtel API returned an error. Response: ${responseData?.message || responseData?.error || 'Unknown error'}`);
         }
 
