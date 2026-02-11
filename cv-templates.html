@@ -417,6 +417,112 @@
             transform: translateY(-2px);
         }
         
+        /* Buy Now Button - Professional Styling */
+        .cv-template-card .buy-btn {
+            width: 100%;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #0B132B 0%, #1a2342 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(11, 19, 43, 0.35);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .cv-template-card .buy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .cv-template-card .buy-btn:hover {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.45);
+        }
+        
+        .cv-template-card .buy-btn:hover::before {
+            left: 100%;
+        }
+        
+        .cv-template-card .buy-btn i {
+            font-size: 1.15rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .cv-template-card .buy-btn:hover i {
+            transform: scale(1.15);
+        }
+        
+        /* Download Free Button - Professional Styling */
+        .cv-template-card .download-free-btn {
+            width: 100%;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .cv-template-card .download-free-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .cv-template-card .download-free-btn:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.45);
+        }
+        
+        .cv-template-card .download-free-btn:hover::before {
+            left: 100%;
+        }
+        
+        .cv-template-card .download-free-btn i {
+            font-size: 1.15rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .cv-template-card .download-free-btn:hover i {
+            transform: scale(1.15);
+        }
+        
         /* Features Section */
         .cv-features-section {
             background: #fff;
