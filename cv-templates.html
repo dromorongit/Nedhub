@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Templates - Nedhub</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cv-templates.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Nedhubsymbol.PNG" alt="Nedhub Logo" class="logo-img">
+                    <span class="logo-text">Nedhub</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="careers.html">Careers</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cv-templates.html" class="active">CV Templates</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn btn-primary">Get Started</button>
+            </div>
+            <button class="mobile-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="cv-hero">
+        <div class="container">
+            <h1>Professional CV Templates</h1>
+            <p>Choose from our collection of professionally designed CV templates. Stand out from the crowd and land your dream job.</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Templates</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">10k+</span>
+                    <span class="stat-label">Downloads</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">4.9</span>
+                    <span class="stat-label">Rating</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label>Category:</label>
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="modern">Modern</option>
+                        <option value="classic">Classic</option>
+                        <option value="creative">Creative</option>
+                        <option value="professional">Professional</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Price:</label>
+                    <select id="price-filter">
+                        <option value="all">All Prices</option>
+                        <option value="free">Free</option>
+                        <option value="paid">Paid</option>
+                    </select>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="template-search" placeholder="Search templates...">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Templates Grid -->
+    <section class="templates-section">
+        <div class="container">
+            <div class="templates-grid" id="templates-grid">
+                <!-- Template 1 -->
+                <div class="template-card" data-category="modern" data-price="paid" data-id="1">
+                    <div class="template-preview">
+                        <img src="https://via.placeholder.com/400x500/4a90a4/ffffff?text=Modern+Pro+CV" alt="Modern Pro CV">
+                        <div class="template-overlay">
+                            <button class="preview-btn" data-template="1"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                    </div>
+                    <div class="template-info">
+                        <h3>Modern Pro</h3>
+                        <p class="template-desc">Clean and contemporary design perfect for corporate roles</p>
+                        <div class="template-meta">
+                            <span class="price">$9.99</span>
+                            <span class="rating"><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <button class="btn btn-primary buy-btn" data-template="1" data-name="Modern Pro" data-price="9.99">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Template 2 -->
+                <div class="template-card" data-category="classic" data-price="paid" data-id="2">
+                    <div class="template-preview">
+                        <img src="https://via.placeholder.com/400x500/2c3e50/ffffff?text=Classic+Elegance+CV" alt="Classic Elegance CV">
+                        <div class="template-overlay">
+                            <button class="preview-btn" data-template="2"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                    </div>
+                    <div class="template-info">
+                        <h3>Classic Elegance</h3>
+                        <p class="template-desc">Timeless design with a professional touch</p>
+                        <div class="template-meta">
+                            <span class="price">$7.99</span>
+                            <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <button class="btn btn-primary buy-btn" data-template="2" data-name="Classic Elegance" data-price="7.99">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Template 3 -->
+                <div class="template-card" data-category="creative" data-price="paid" data-id="3">
+                    <div class="template-preview">
+                        <img src="https://via.placeholder.com/400x500/e74c3c/ffffff?text=Creative+Studio+CV" alt="Creative Studio CV">
+                        <div class="template-overlay">
+                            <button class="preview-btn" data-template="3"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                    </div>
+                    <div class="template-info">
+                        <h3>Creative Studio</h3>
+                        <p class="template-desc">Bold and unique design for creative professionals</p>
+                        <div class="template-meta">
+                            <span class="price">$12.99</span>
+                            <span class="rating"><i class="fas fa-star"></i> 4.7</span>
+                        </div>
+                        <button class="btn btn-primary buy-btn" data-template="3" data-name="Creative Studio" data-price="12.99">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Template 4 -->
+                <div class="template-card" data-category="professional" data-price="free" data-id="4">
+                    <div class="template-preview">
+                        <img src="https://via.placeholder.com/400x500/27ae60/ffffff?text=Professional+Standard+CV" alt="Professional Standard CV">
+                        <div class="template-overlay">
+                            <button class="preview-btn" data-template="4"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                        <span class="free-badge">FREE</span>
+                    </div>
+                    <div class="template-info">
+                        <h3>Professional Standard</h3>
+                        <p class="template-desc">Essential template for all industries</p>
+                        <div class="template-meta">
+                            <span class="price">$0.00</span>
+                            <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+                        </div>
+                        <button class="btn btn-secondary download-free-btn" data-template="4" data-name="Professional Standard">
+                            <i class="fas fa-download"></i> Download Free
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Template 5 -->
+                <div class="template-card" data-category="modern" data-price="paid" data-id="5">
+                    <div class="template-preview">
+                        <img src="https://via.placeholder.com/400x500/9b59b6/ffffff?text=Minimal+Design+CV" alt="Minimal Design CV">
+                        <div class="template-overlay">
+                            <button class="preview-btn" data-template="5"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                    </div>
+                    <div class="template-info">
+                        <h3>Minimal Design</h3>
+                        <p class="template-desc">Simple and clean layout focusing on content</p>
+                        <div class="template-meta">
+                            <span class="price">$8.99</span>
+                            <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <button class="btn btn-primary buy-btn" data-template="5" data-name="Minimal Design" data-price="8.99">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Template 6 -->
+                <div class="template-card" data-category="classic" data-price="paid" data-id="6">
+                    <div class="template-preview">
+                        <img src="https://via.placeholder.com/400x500/34495e/ffffff?text=Executive+Premium+CV" alt="Executive Premium CV">
+                        <div class="template-overlay">
+                            <button class="preview-btn" data-template="6"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                    </div>
+                    <div class="template-info">
+                        <h3>Executive Premium</h3>
+                        <p class="template-desc">Sophisticated design for senior positions</p>
+                        <div class="template-meta">
+                            <span class="price">$14.99</span>
+                            <span class="rating"><i class="fas fa-star"></i> 4.9</span>
+                        </div>
+                        <button class="btn btn-primary buy-btn" data-template="6" data-name="Executive Premium" data-price="14.99">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Template 7 -->
+                <div class="template-card" data-category="creative" data-price="paid" data-id="7">
+                    <div class="template-preview">
+                        <img src="https://via.placeholder.com/400x500/e67e22/ffffff?text=Dynamic+Flow+CV" alt="Dynamic Flow CV">
+                        <div class="template-overlay">
+                            <button class="preview-btn" data-template="7"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                    </div>
+                    <div class="template-info">
+                        <h3>Dynamic Flow</h3>
+                        <p class="template-desc">Energetic design with modern typography</p>
+                        <div class="template-meta">
+                            <span class="price">$11.99</span>
+                            <span class="rating"><i class="fas fa-star"></i> 4.7</span>
+                        </div>
+                        <button class="btn btn-primary buy-btn" data-template="7" data-name="Dynamic Flow" data-price="11.99">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Template 8 -->
+                <div class="template-card" data-category="professional" data-price="free" data-id="8">
+                    <div class="template-preview">
+                        <img src="https://via.placeholder.com/400x500/16a085/ffffff?text=Basic+Resume+CV" alt="Basic Resume CV">
+                        <div class="template-overlay">
+                            <button class="preview-btn" data-template="8"><i class="fas fa-eye"></i> Preview</button>
+                        </div>
+                        <span class="free-badge">FREE</span>
+                    </div>
+                    <div class="template-info">
+                        <h3>Basic Resume</h3>
+                        <p class="template-desc">Simple and straightforward template</p>
+                        <div class="template-meta">
+                            <span class="price">$0.00</span>
+                            <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+                        </div>
+                        <button class="btn btn-secondary download-free-btn" data-template="8" data-name="Basic Resume">
+                            <i class="fas fa-download"></i> Download Free
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2>Why Choose Our CV Templates?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <h3>Easy to Edit</h3>
+                    <p>All templates come in Word and Google Docs format for easy editing</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>ATS Friendly</h3>
+                    <p>Optimized for Applicant Tracking Systems to pass automated screenings</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Customizable</h3>
+                    <p>Change colors, fonts, and layout to match your personal brand</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <h3>Instant Download</h3>
+                    <p>Get immediate access to your template after purchase</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Modal -->
+    <div class="modal-overlay" id="payment-modal">
+        <div class="payment-modal">
+            <button class="modal-close" id="close-payment-modal">&times;</button>
+            <div class="modal-header">
+                <h2>Complete Your Purchase</h2>
+            </div>
+            <div class="modal-body">
+                <div class="template-summary" id="template-summary">
+                    <img src="" alt="Template Preview" id="modal-template-img">
+                    <div class="summary-details">
+                        <h3 id="modal-template-name"></h3>
+                        <p class="modal-price">Price: $<span id="modal-template-price"></span></p>
+                    </div>
+                </div>
+                
+                <form id="payment-form">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-group">
+                            <label for="customer-name">Full Name</label>
+                            <input type="text" id="customer-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-email">Email Address</label>
+                            <input type="email" id="customer-email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Payment Method</h3>
+                        <div class="payment-methods">
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="card" checked>
+                                <span class="payment-label">
+                                    <i class="fas fa-credit-card"></i> Credit/Debit Card
+                                </span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="paypal">
+                                <span class="payment-label">
+                                    <i class="fab fa-paypal"></i> PayPal
+                                </span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="bank">
+                                <span class="payment-label">
+                                    <i class="fas fa-university"></i> Bank Transfer
+                                </span>
+                            </label>
+                        </div>
+                        
+                        <div class="card-details" id="card-details">
+                            <div class="form-group">
+                                <label for="card-number">Card Number</label>
+                                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="card-expiry">Expiry Date</label>
+                                    <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-cvc">CVC</label>
+                                    <input type="text" id="card-cvc" placeholder="123" maxlength="3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-full" id="complete-payment-btn">
+                        <i class="fas fa-lock"></i> Pay $<span id="pay-amount"></span>
+                    </button>
+                    
+                    <p class="secure-notice">
+                        <i class="fas fa-shield-alt"></i> Your payment is secured with 256-bit SSL encryption
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Payment Successful!</h2>
+            <p>Thank you for your purchase. Your CV template is ready to download.</p>
+            <div class="success-details">
+                <p><strong>Template:</strong> <span id="success-template-name"></span></p>
+                <p><strong>Transaction ID:</strong> <span id="transaction-id"></span></p>
+            </div>
+            <button class="btn btn-primary btn-full" id="download-template-btn">
+                <i class="fas fa-download"></i> Download Template
+            </button>
+            <p class="email-notice">A download link has also been sent to your email</p>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="modal-overlay" id="preview-modal">
+        <div class="preview-modal">
+            <button class="modal-close" id="close-preview-modal">&times;</button>
+            <div class="preview-content">
+                <img src="" alt="Template Preview Full" id="preview-full-img">
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Notification -->
+    <div class="download-notification" id="download-notification">
+        <i class="fas fa-check-circle"></i>
+        <span>Template downloaded successfully!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Nedhub</h4>
+                    <p>Your trusted partner for career development and professional growth.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> info@nedhub.com</p>
+                    <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Nedhub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/nav.js"></script>
+    <script src="js/cv-templates.js"></script>
+</body>
+</html>
