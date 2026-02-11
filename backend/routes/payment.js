@@ -155,12 +155,15 @@ async function initiateHubtelPayment(paymentData) {
     const authHeader = Buffer.from(`${hubtelAccount}:${apiKey}`).toString('base64');
 
     // Hubtel request payload
+    const apiBaseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+    const frontendUrl = process.env.FRONTEND_URL || `http://localhost:${process.env.PORT || 3000}`;
+    
     const hubtelPayload = {
         totalAmount: amount,
         description: description || 'Nedhub Payment',
-        callbackUrl: callbackUrl || `${process.env.API_BASE_URL}/api/payments/hubtel/callback`,
-        returnUrl: returnUrl || `${process.env.FRONTEND_URL}/cv-templates.html?payment=success`,
-        cancellationUrl: cancellationUrl || `${process.env.FRONTEND_URL}/cv-templates.html?payment=cancelled`,
+        callbackUrl: callbackUrl || `${apiBaseUrl}/api/payments/hubtel/callback`,
+        returnUrl: returnUrl || `${frontendUrl}/cv-templates.html?payment=success`,
+        cancellationUrl: cancellationUrl || `${frontendUrl}/cv-templates.html?payment=cancelled`,
         merchantAccountNumber: hubtelAccount,
         clientReference: clientReference
     };
@@ -168,8 +171,8 @@ async function initiateHubtelPayment(paymentData) {
     console.log('[HUBTEL REQUEST] Initiating payment');
     console.log('Client Reference:', clientReference);
     console.log('Amount:', amount);
-    console.log('API_BASE_URL:', process.env.API_BASE_URL);
-    console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
+    console.log('API_BASE_URL:', apiBaseUrl);
+    console.log('FRONTEND_URL:', frontendUrl);
 
     try {
         const response = await fetch('https://payproxyapi.hubtel.com/items/initiate', {
@@ -181,14 +184,15 @@ async function initiateHubtelPayment(paymentData) {
             body: JSON.stringify(hubtelPayload)
         });
 
-        const responseData = await response.json();
+        const responseData = await response.json().catch(() => null);
 
         console.log('[HUBTEL API RESPONSE] Status:', response.status);
-        console.log('[HUBTEL API RESPONSE] Data:', JSON.stringify(responseData, null, 2));
+        console.log('[HUBTEL API RESPONSE] Data:', responseData);
 
-        if (!response.ok) {
-            console.error('[HUBTEL ERROR] Initiate failed:', responseData);
-            throw new Error(responseData.message || responseData.error || `HTTP ${response.status}: Failed to initiate Hubtel payment`);
+        if (!response.ok || !responseData) {
+            console.error('[HUBTEL ERROR] Initiate failed with status:', response.status);
+            console.error('[HUBTEL ERROR] Raw response:', await response.text());
+            throw new Error(`HTTP ${response.status}: Hubtel API returned an error. Response: ${responseData?.message || responseData?.error || 'Unknown error'}`);
         }
 
         logHubtelResponse('Initiate', responseData);
