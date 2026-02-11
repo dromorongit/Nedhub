@@ -31,9 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentClientReference = null;
     let purchasedTemplates = JSON.parse(localStorage.getItem('purchasedTemplates')) || [];
 
-    // Check for payment callback result in URL
-    checkPaymentCallback();
-
     // Initialize
     init();
 
@@ -46,6 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update purchased template buttons
         updateTemplateButtons();
+
+        // Check if we should process a returning payment
+        checkPaymentReturn();
     }
 
     // Setup all event listeners
@@ -111,6 +111,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Check if returning from payment
+    function checkPaymentReturn() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ref = urlParams.get('ref');
+        
+        if (ref) {
+            // Clear URL without reload
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+
     // Fetch templates from backend API
     async function fetchTemplates() {
         try {
@@ -140,14 +151,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fallback templates when backend is unavailable
     function useFallbackTemplates() {
         templates = {
-            1: { name: 'Modern Pro', price: 9.99, image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&q=80' },
-            2: { name: 'Classic Elegance', price: 7.99, image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80' },
-            3: { name: 'Creative Studio', price: 12.99, image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80' },
-            4: { name: 'Professional Standard', price: 0.00, image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80' },
-            5: { name: 'Minimal Design', price: 8.99, image: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600&q=80' },
-            6: { name: 'Executive Premium', price: 14.99, image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80' },
-            7: { name: 'Dynamic Flow', price: 11.99, image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80' },
-            8: { name: 'Basic Resume', price: 0.00, image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80' }
+            1: { name: 'Modern Pro', price: 120, image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&q=80', isFree: false },
+            2: { name: 'Classic Elegance', price: 95, image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80', isFree: false },
+            3: { name: 'Creative Studio', price: 155, image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80', isFree: false },
+            4: { name: 'Professional Standard', price: 0, image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80', isFree: true },
+            5: { name: 'Minimal Design', price: 110, image: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600&q=80', isFree: false },
+            6: { name: 'Executive Premium', price: 180, image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80', isFree: false },
+            7: { name: 'Dynamic Flow', price: 145, image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80', isFree: false },
+            8: { name: 'Basic Resume', price: 0, image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80', isFree: true }
         };
     }
 
@@ -156,13 +167,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const templateId = e.target.closest('.buy-btn').dataset.template;
         currentTemplate = templates[templateId];
         
+        if (!currentTemplate) {
+            // Try to get from button attributes
+            currentTemplate = {
+                id: 'cv-' + templateId,
+                name: e.target.closest('.buy-btn').dataset.name,
+                price: parseFloat(e.target.closest('.buy-btn').dataset.price),
+                image: e.target.closest('.cv-template-card').querySelector('.template-preview img').src,
+                isFree: false
+            };
+        }
+        
         if (!currentTemplate) return;
 
         // Update modal content
-        document.getElementById('modal-template-img').src = currentTemplate.image;
-        document.getElementById('modal-template-name').textContent = currentTemplate.name;
-        document.getElementById('modal-template-price').textContent = currentTemplate.price.toFixed(2);
-        document.getElementById('pay-amount').textContent = currentTemplate.price.toFixed(2);
+        const modalImg = document.getElementById('modal-template-img');
+        const modalName = document.getElementById('modal-template-name');
+        const modalPrice = document.getElementById('modal-template-price');
+        const payAmount = document.getElementById('pay-amount');
+        
+        if (modalImg) modalImg.src = currentTemplate.image;
+        if (modalName) modalName.textContent = currentTemplate.name;
+        if (modalPrice) modalPrice.textContent = '₵' + currentTemplate.price.toFixed(2);
+        if (payAmount) payAmount.textContent = currentTemplate.price.toFixed(2);
 
         // Show/hide card details based on payment method
         handlePaymentMethodChange({ target: document.querySelector('input[name="payment-method"]:checked') });
@@ -216,9 +243,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const templateId = e.target.closest('.preview-btn').dataset.template;
         const template = templates[templateId];
         
+        if (!template) {
+            // Get from DOM
+            const card = e.target.closest('.cv-template-card');
+            template = {
+                id: 'cv-' + templateId,
+                name: card.querySelector('h3').textContent,
+                image: card.querySelector('.template-preview img').src
+            };
+        }
+        
         if (!template) return;
 
-        document.getElementById('preview-full-img').src = template.image;
+        const previewImg = document.getElementById('preview-full-img');
+        if (previewImg) previewImg.src = template.image;
+        
         openPreviewModal();
     }
 
@@ -226,10 +265,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function handlePaymentMethodChange(e) {
         const method = e.target?.value || 'hubtel';
         
-        if (method === 'card') {
-            cardDetails.style.display = 'block';
-        } else {
-            cardDetails.style.display = 'none';
+        if (cardDetails) {
+            cardDetails.style.display = method === 'card' ? 'block' : 'none';
         }
     }
 
@@ -246,9 +283,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Store payment data in localStorage for success page
+        localStorage.setItem('pendingTemplateName', currentTemplate.name);
+        localStorage.setItem('pendingAmount', currentTemplate.price.toString());
+        localStorage.setItem('pendingTemplateId', currentTemplate.id);
+
         // Show processing state
-        completePaymentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to Hubtel...';
-        completePaymentBtn.disabled = true;
+        if (completePaymentBtn) {
+            completePaymentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting to Hubtel...';
+            completePaymentBtn.disabled = true;
+        }
 
         try {
             // Initiate Hubtel payment
@@ -269,17 +313,23 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 // Store client reference for status checking
                 currentClientReference = data.data.clientReference;
+                localStorage.setItem('pendingClientReference', currentClientReference);
                 
                 console.log('[PAYMENT] Initiated:', data.data.clientReference);
                 console.log('[PAYMENT] Redirecting to:', data.data.checkoutUrl);
 
                 // Show redirect message
-                completePaymentBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Redirecting to Payment...';
+                if (completePaymentBtn) {
+                    completePaymentBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Redirecting to Payment...';
+                }
+                
+                // Close payment modal
+                closePaymentModal();
                 
                 // Redirect to Hubtel checkout
                 setTimeout(() => {
                     window.location.href = data.data.checkoutUrl;
-                }, 1500);
+                }, 1000);
             } else {
                 throw new Error(data.error || 'Failed to initiate payment');
             }
@@ -287,12 +337,20 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('[PAYMENT ERROR]:', error);
             
-            // Fallback to simulated payment
-            completePaymentBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Gateway Error - Using Demo Mode';
+            // Show error and redirect to error page
+            if (completePaymentBtn) {
+                completePaymentBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Gateway Error';
+                completePaymentBtn.disabled = false;
+            }
             
+            // Reset button text
             setTimeout(() => {
-                simulatePayment(customerName, customerEmail);
-            }, 2000);
+                if (completePaymentBtn) {
+                    completePaymentBtn.innerHTML = '<i class="fas fa-lock"></i> Pay ₵' + (currentTemplate?.price?.toFixed(2) || '0.00');
+                }
+            }, 3000);
+
+            showNotification('Payment gateway error. Please try again.', 'error');
         }
     }
 
@@ -302,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (currentTemplate) {
             purchasedTemplates.push({
-                id: currentTemplate.id,
+                id: currentTemplate.id.replace('cv-', ''),
                 name: currentTemplate.name,
                 price: currentTemplate.price,
                 transactionId: transactionId,
@@ -311,79 +369,28 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('purchasedTemplates', JSON.stringify(purchasedTemplates));
         }
 
-        document.getElementById('success-template-name').textContent = currentTemplate.name;
-        document.getElementById('transaction-id').textContent = transactionId + ' (Demo)';
+        const successTemplateName = document.getElementById('success-template-name');
+        const transactionIdEl = document.getElementById('transaction-id');
+        
+        if (successTemplateName) successTemplateName.textContent = currentTemplate?.name || 'CV Template';
+        if (transactionIdEl) transactionIdEl.textContent = transactionId + ' (Demo)';
 
         closePaymentModal();
         openSuccessModal();
 
-        completePaymentBtn.innerHTML = '<i class="fas fa-lock"></i> Pay $' + currentTemplate.price.toFixed(2);
-        completePaymentBtn.disabled = false;
+        if (completePaymentBtn) {
+            completePaymentBtn.innerHTML = '<i class="fas fa-lock"></i> Pay ₵' + (currentTemplate?.price?.toFixed(2) || '0.00');
+            completePaymentBtn.disabled = false;
+        }
 
-        paymentForm.reset();
+        if (paymentForm) paymentForm.reset();
         updateTemplateButtons();
-    }
-
-    // Check payment callback from URL
-    async function checkPaymentCallback() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const paymentStatus = urlParams.get('payment');
-        const clientRef = urlParams.get('ref');
-
-        if (paymentStatus && clientRef) {
-            console.log('[PAYMENT CALLBACK] Status:', paymentStatus, 'Reference:', clientRef);
-
-            if (paymentStatus === 'success') {
-                showNotification('Payment successful! Your template is ready.');
-                
-                // Poll for payment status to confirm
-                await pollPaymentStatus(clientRef);
-            } else if (paymentStatus === 'cancelled') {
-                showNotification('Payment was cancelled. Please try again.', 'error');
-            }
-
-            // Clean URL
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-    }
-
-    // Poll payment status
-    async function pollPaymentStatus(clientReference, maxAttempts = 10) {
-        for (let i = 0; i < maxAttempts; i++) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/payments/hubtel/status/${clientReference}`);
-                const data = await response.json();
-
-                if (data.success && data.data.status === 'paid') {
-                    showNotification('Payment confirmed! You can now download your template.');
-                    
-                    // Refresh page to update purchased templates
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
-                    
-                    return;
-                }
-
-                if (data.success && data.data.status === 'failed') {
-                    showNotification('Payment failed. Please try again.', 'error');
-                    return;
-                }
-
-                // Wait 2 seconds before next poll
-                await new Promise(resolve => setTimeout(resolve, 2000));
-
-            } catch (error) {
-                console.error('[POLL ERROR]:', error);
-                break;
-            }
-        }
     }
 
     // Handle template download
     function handleDownload() {
         if (currentTemplate) {
-            downloadTemplate(currentTemplate.id, currentTemplate.name, currentTemplate.price);
+            downloadTemplate(currentTemplate.id.replace('cv-', ''), currentTemplate.name, currentTemplate.price);
             closeSuccessModal();
         }
     }
@@ -636,7 +643,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.addEventListener('click', function() {
                     const template = templates[this.dataset.template];
                     if (template) {
-                        downloadTemplate(template.id, template.name, template.price);
+                        downloadTemplate(template.id.replace('cv-', ''), template.name, template.price);
+                    } else {
+                        // Fallback to button attributes
+                        downloadTemplate(this.dataset.template, this.dataset.name, parseFloat(this.dataset.price || 0));
                     }
                 });
             }

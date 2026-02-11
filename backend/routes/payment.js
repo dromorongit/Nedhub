@@ -312,8 +312,8 @@ router.post('/hubtel/initiate', async (req, res) => {
             amount: payment.amount,
             description: payment.description,
             clientReference: payment.clientReference,
-            returnUrl: `${process.env.FRONTEND_URL}/cv-templates.html?payment=success&ref=${clientReference}`,
-            cancellationUrl: `${process.env.FRONTEND_URL}/cv-templates.html?payment=cancelled&ref=${clientReference}`
+            returnUrl: `${process.env.FRONTEND_URL}/payment-success.html?ref=${clientReference}`,
+            cancellationUrl: `${process.env.FRONTEND_URL}/payment-cancelled.html?ref=${clientReference}`
         });
 
         // Update payment with Hubtel checkout ID
