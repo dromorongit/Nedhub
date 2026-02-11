@@ -103,25 +103,6 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 
 // =============================================================================
-// PAYMENT WEBHOOKS
-// =============================================================================
-
-/**
- * Hubtel Payment Callback
- * Hubtel sends payment results to this endpoint
- */
-app.post('/api/payments/hubtel/callback', express.raw({ type: 'application/json' }), (req, res) => {
-    console.log('\n========================================');
-    console.log('[HUBTEL CALLBACK] Payment callback received');
-    console.log('========================================\n');
-    
-    // The actual handling is done in routes/payment.js
-    // This route is already mounted with the payment routes
-    
-    res.status(200).json({ received: true });
-});
-
-// =============================================================================
 // ERROR HANDLING
 // =============================================================================
 

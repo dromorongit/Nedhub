@@ -168,6 +168,8 @@ async function initiateHubtelPayment(paymentData) {
     console.log('[HUBTEL REQUEST] Initiating payment');
     console.log('Client Reference:', clientReference);
     console.log('Amount:', amount);
+    console.log('API_BASE_URL:', process.env.API_BASE_URL);
+    console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
 
     try {
         const response = await fetch('https://payproxyapi.hubtel.com/items/initiate', {
@@ -181,9 +183,12 @@ async function initiateHubtelPayment(paymentData) {
 
         const responseData = await response.json();
 
+        console.log('[HUBTEL API RESPONSE] Status:', response.status);
+        console.log('[HUBTEL API RESPONSE] Data:', JSON.stringify(responseData, null, 2));
+
         if (!response.ok) {
             console.error('[HUBTEL ERROR] Initiate failed:', responseData);
-            throw new Error(responseData.message || `HTTP ${response.status}: Failed to initiate Hubtel payment`);
+            throw new Error(responseData.message || responseData.error || `HTTP ${response.status}: Failed to initiate Hubtel payment`);
         }
 
         logHubtelResponse('Initiate', responseData);
