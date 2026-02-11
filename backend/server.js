@@ -36,10 +36,18 @@ app.use(cors({
             'http://localhost:5500',
             'http://127.0.0.1:5500',
             'http://localhost:3000',
-            'http://127.0.0.1:3000'
+            'http://127.0.0.1:3000',
+            'https://www.nedhubgh.com',
+            'https://nedhubgh.com'
         ];
         
-        if (allowedOrigins.includes(origin) || process.env.NODE_ENV === 'development') {
+        // Also allow FRONTEND_URL from environment variable
+        const frontendUrl = process.env.FRONTEND_URL;
+        if (frontendUrl && !allowedOrigins.includes(frontendUrl)) {
+            allowedOrigins.push(frontendUrl);
+        }
+        
+        if (allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
