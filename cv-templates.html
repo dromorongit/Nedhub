@@ -6,12 +6,709 @@
     <meta name="description" content="Professional CV Templates - Nedhub offers modern, ATS-friendly resume templates to help you land your dream job">
     <title>CV Templates | Nedhub</title>
     <link rel="icon" type="image/png" href="Nedhubsymbol.PNG">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/privacy-modal.css">
-    <link rel="stylesheet" href="css/terms-modal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Payment Options Styling -->
+<style>
+    .payment-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .payment-option {
+        display: flex;
+        align-items: center;
+        padding: 14px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: #fff;
+    }
+    
+    .payment-option:hover {
+        border-color: #10B981;
+        background: rgba(16, 185, 129, 0.02);
+    }
+    
+    .payment-option input[type="radio"] {
+        display: none;
+    }
+    
+    .payment-option input[type="radio"]:checked + .payment-label {
+        color: #10B981;
+    }
+    
+    .payment-option:has(input:checked) {
+        border-color: #10B981;
+        background: rgba(16, 185, 129, 0.05);
+    }
+    
+    .payment-option .payment-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+        color: #374151;
+        width: 100%;
+    }
+    
+    .payment-option .payment-label i {
+        font-size: 1.2rem;
+        color: #64748b;
+        width: 24px;
+        text-align: center;
+    }
+    
+    .payment-option input[type="radio"]:checked + .payment-label i {
+        color: #10B981;
+    }
+    
+    .secure-notice {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+    
+    .secure-notice i {
+        color: #10B981;
+    }
+</style>
+<style>
+    /* Professional CV Templates Styling */
+    .cv-hero-section {
+        background: linear-gradient(135deg, #0B132B 0%, #1a2342 50%, #2d3a5c 100%);
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 100px;
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+    }
+    
+    .cv-hero-section .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+    }
+    
+    .cv-hero-section .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(11, 19, 43, 0.95) 0%, rgba(26, 35, 66, 0.85) 100%);
+    }
+    
+    .cv-hero-section .hero-gradient {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(ellipse at 30% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                    radial-gradient(ellipse at 70% 80%, rgba(247, 127, 0, 0.08) 0%, transparent 50%);
+    }
+    
+    .cv-hero-section .hero-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.3;
+    }
+    
+    .cv-hero-section .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .cv-hero-section .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        padding: 8px 20px;
+        border-radius: 50px;
+        color: #10B981;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 24px;
+    }
+    
+    .cv-hero-section h1 {
+        font-size: 3.2rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 20px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+    }
+    
+    .cv-hero-section h1 .highlight-text {
+        background: linear-gradient(135deg, #10B981, #34D399);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .cv-hero-section p {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.7;
+        margin-bottom: 36px;
+    }
+    
+    .cv-hero-section .hero-buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 48px;
+    }
+    
+    .cv-hero-section .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 48px;
+        flex-wrap: wrap;
+    }
+    
+    .cv-hero-section .stat-item {
+        text-align: center;
+    }
+    
+    .cv-hero-section .stat-number {
+        display: block;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #10B981;
+        line-height: 1;
+    }
+    
+    .cv-hero-section .stat-label {
+        display: block;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: 4px;
+    }
+    
+    /* Filter Section */
+    .cv-filter-section {
+        background: #fff;
+        padding: 30px 0;
+        border-bottom: 1px solid #e2e8f0;
+        position: sticky;
+        top: 70px;
+        z-index: 100;
+    }
+    
+    .cv-filter-section .filter-bar {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .cv-filter-section .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .cv-filter-section .filter-group label {
+        font-weight: 500;
+        color: #374151;
+        font-size: 0.9rem;
+    }
+    
+    .cv-filter-section .filter-group i {
+        color: #10B981;
+    }
+    
+    .cv-filter-section select {
+        padding: 12px 36px 12px 16px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        color: #374151;
+        background: #fff;
+        cursor: pointer;
+        min-width: 160px;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23374151' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        transition: all 0.2s ease;
+    }
+    
+    .cv-filter-section select:focus {
+        outline: none;
+        border-color: #10B981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+    
+    .cv-filter-section .search-box {
+        display: flex;
+        align-items: center;
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.2s ease;
+    }
+    
+    .cv-filter-section .search-box:focus-within {
+        border-color: #10B981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+    
+    .cv-filter-section .search-box input {
+        padding: 12px 16px;
+        border: none;
+        background: transparent;
+        font-size: 0.95rem;
+        width: 200px;
+    }
+    
+    .cv-filter-section .search-box input:focus {
+        outline: none;
+    }
+    
+    .cv-filter-section .search-btn {
+        padding: 12px 16px;
+        background: #10B981;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+    
+    .cv-filter-section .search-btn:hover {
+        background: #059669;
+    }
+    
+    /* Templates Section */
+    .cv-templates-section {
+        background: #f8fafc;
+        padding: 80px 0;
+    }
+    
+    .cv-templates-section .section-header {
+        margin-bottom: 50px;
+    }
+    
+    .cv-templates-section .section-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #0B132B;
+        margin-bottom: 12px;
+    }
+    
+    .cv-templates-section .section-subtitle {
+        font-size: 1.1rem;
+        color: #64748b;
+    }
+    
+    /* Templates Grid */
+    .templates-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 28px;
+    }
+    
+    /* Template Card */
+    .cv-template-card {
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+    }
+    
+    .cv-template-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border-color: rgba(16, 185, 129, 0.3);
+    }
+    
+    .cv-template-card .template-preview {
+        position: relative;
+        aspect-ratio: 4/3;
+        overflow: hidden;
+    }
+    
+    .cv-template-card .template-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+    
+    .cv-template-card:hover .template-preview img {
+        transform: scale(1.08);
+    }
+    
+    .cv-template-card .template-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(11, 19, 43, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .cv-template-card:hover .template-overlay {
+        opacity: 1;
+    }
+    
+    .cv-template-card .preview-btn {
+        padding: 12px 28px;
+        background: #fff;
+        color: #0B132B;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .cv-template-card .preview-btn:hover {
+        background: #10B981;
+        color: #fff;
+    }
+    
+    .cv-template-card .template-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .cv-template-card .template-badge.premium {
+        background: linear-gradient(135deg, #F77F00, #FF9F1C);
+        color: #fff;
+    }
+    
+    .cv-template-card .template-badge.free {
+        background: linear-gradient(135deg, #10B981, #34D399);
+        color: #fff;
+    }
+    
+    .cv-template-card .template-info {
+        padding: 20px;
+    }
+    
+    .cv-template-card .template-info h3 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #0B132B;
+        margin-bottom: 8px;
+    }
+    
+    .cv-template-card .template-desc {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin-bottom: 16px;
+        line-height: 1.5;
+    }
+    
+    .cv-template-card .template-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+    
+    .cv-template-card .price {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: #10B981;
+    }
+    
+    .cv-template-card .rating {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #F77F00;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    
+    .cv-template-card .buy-btn,
+    .cv-template-card .download-free-btn {
+        width: 100%;
+        padding: 14px;
+        border-radius: 10px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+    }
+    
+    .cv-template-card .buy-btn {
+        background: linear-gradient(135deg, #0B132B, #1a2342);
+        color: #fff;
+        border: none;
+    }
+    
+    .cv-template-card .buy-btn:hover {
+        background: linear-gradient(135deg, #10B981, #059669);
+        transform: translateY(-2px);
+    }
+    
+    .cv-template-card .download-free-btn {
+        background: #fff;
+        color: #10B981;
+        border: 2px solid #10B981;
+    }
+    
+    .cv-template-card .download-free-btn:hover {
+        background: #10B981;
+        color: #fff;
+    }
+    
+    /* Features Section */
+    .cv-features-section {
+        background: #fff;
+        padding: 80px 0;
+    }
+    
+    .cv-features-section .section-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #0B132B;
+        margin-bottom: 12px;
+    }
+    
+    .cv-features-section .section-subtitle {
+        font-size: 1.1rem;
+        color: #64748b;
+    }
+    
+    .cv-features-section .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 24px;
+    }
+    
+    .cv-feature-card {
+        background: #f8fafc;
+        padding: 32px;
+        border-radius: 16px;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+    }
+    
+    .cv-feature-card:hover {
+        border-color: rgba(16, 185, 129, 0.3);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+    
+    .cv-feature-card .feature-icon {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+    }
+    
+    .cv-feature-card .feature-icon i {
+        font-size: 1.8rem;
+        color: #10B981;
+    }
+    
+    .cv-feature-card h3 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #0B132B;
+        margin-bottom: 12px;
+    }
+    
+    .cv-feature-card p {
+        font-size: 0.95rem;
+        color: #64748b;
+        line-height: 1.6;
+    }
+    
+    /* CTA Section */
+    .cv-cta-section {
+        background: linear-gradient(135deg, #0B132B 0%, #1a2342 100%);
+        padding: 80px 0;
+        text-align: center;
+    }
+    
+    .cv-cta-section .cta-content h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 16px;
+    }
+    
+    .cv-cta-section .cta-content p {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 32px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .cv-cta-section .cta-buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    /* Payment Modal */
+    .payment-modal {
+        background: #fff;
+        border-radius: 20px;
+        max-width: 480px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+    }
+    
+    .payment-modal .modal-header {
+        background: linear-gradient(135deg, #0B132B, #1a2342);
+        color: #fff;
+        padding: 24px 28px;
+        border-radius: 20px 20px 0 0;
+    }
+    
+    .payment-modal .modal-header h2 {
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+    
+    .payment-modal .modal-body {
+        padding: 28px;
+    }
+    
+    .payment-modal .template-summary {
+        display: flex;
+        gap: 16px;
+        padding: 16px;
+        background: #f8fafc;
+        border-radius: 12px;
+        margin-bottom: 24px;
+    }
+    
+    .payment-modal .template-summary img {
+        width: 80px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    .payment-modal .summary-details h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0B132B;
+        margin-bottom: 4px;
+    }
+    
+    .payment-modal .modal-price {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #10B981;
+    }
+    
+    .payment-modal .modal-price span {
+        font-size: 1rem;
+        color: #64748b;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .cv-hero-section {
+            padding: 80px 0 60px;
+            min-height: auto;
+        }
+        
+        .cv-hero-section h1 {
+            font-size: 2rem;
+        }
+        
+        .cv-hero-section p {
+            font-size: 1rem;
+        }
+        
+        .cv-hero-section .hero-stats {
+            gap: 24px;
+        }
+        
+        .cv-hero-section .stat-number {
+            font-size: 1.8rem;
+        }
+        
+        .cv-filter-section .filter-bar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .cv-filter-section .filter-group {
+            justify-content: space-between;
+        }
+        
+        .cv-filter-section select {
+            flex: 1;
+        }
+        
+        .cv-filter-section .search-box {
+            width: 100%;
+        }
+        
+        .cv-filter-section .search-box input {
+            width: 100%;
+        }
+        
+        .templates-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .cv-features-section .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 </head>
 <body>
     <!-- Navigation will be loaded dynamically -->
@@ -184,10 +881,10 @@
                             <h3>Modern Pro</h3>
                             <p class="template-desc">Clean and contemporary design perfect for corporate roles</p>
                             <div class="template-meta">
-                                <span class="price">$9.99</span>
+                                <span class="price">₵120</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.9</span>
                             </div>
-                            <button class="btn btn-primary buy-btn" data-template="1" data-name="Modern Pro" data-price="9.99">
+                            <button class="btn btn-primary buy-btn" data-template="1" data-name="Modern Pro" data-price="120">
                                 <i class="fas fa-shopping-cart"></i> Buy Now
                             </button>
                         </div>
@@ -206,10 +903,10 @@
                             <h3>Classic Elegance</h3>
                             <p class="template-desc">Timeless design with a professional touch</p>
                             <div class="template-meta">
-                                <span class="price">$7.99</span>
+                                <span class="price">₵95</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.8</span>
                             </div>
-                            <button class="btn btn-primary buy-btn" data-template="2" data-name="Classic Elegance" data-price="7.99">
+                            <button class="btn btn-primary buy-btn" data-template="2" data-name="Classic Elegance" data-price="95">
                                 <i class="fas fa-shopping-cart"></i> Buy Now
                             </button>
                         </div>
@@ -228,10 +925,10 @@
                             <h3>Creative Studio</h3>
                             <p class="template-desc">Bold and unique design for creative professionals</p>
                             <div class="template-meta">
-                                <span class="price">$12.99</span>
+                                <span class="price">₵155</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.7</span>
                             </div>
-                            <button class="btn btn-primary buy-btn" data-template="3" data-name="Creative Studio" data-price="12.99">
+                            <button class="btn btn-primary buy-btn" data-template="3" data-name="Creative Studio" data-price="155">
                                 <i class="fas fa-shopping-cart"></i> Buy Now
                             </button>
                         </div>
@@ -272,10 +969,10 @@
                             <h3>Minimal Design</h3>
                             <p class="template-desc">Simple and clean layout focusing on content</p>
                             <div class="template-meta">
-                                <span class="price">$8.99</span>
+                                <span class="price">₵110</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.8</span>
                             </div>
-                            <button class="btn btn-primary buy-btn" data-template="5" data-name="Minimal Design" data-price="8.99">
+                            <button class="btn btn-primary buy-btn" data-template="5" data-name="Minimal Design" data-price="110">
                                 <i class="fas fa-shopping-cart"></i> Buy Now
                             </button>
                         </div>
@@ -294,10 +991,10 @@
                             <h3>Executive Premium</h3>
                             <p class="template-desc">Sophisticated design for senior positions</p>
                             <div class="template-meta">
-                                <span class="price">$14.99</span>
+                                <span class="price">₵180</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.9</span>
                             </div>
-                            <button class="btn btn-primary buy-btn" data-template="6" data-name="Executive Premium" data-price="14.99">
+                            <button class="btn btn-primary buy-btn" data-template="6" data-name="Executive Premium" data-price="180">
                                 <i class="fas fa-shopping-cart"></i> Buy Now
                             </button>
                         </div>
@@ -316,10 +1013,10 @@
                             <h3>Dynamic Flow</h3>
                             <p class="template-desc">Energetic design with modern typography</p>
                             <div class="template-meta">
-                                <span class="price">$11.99</span>
+                                <span class="price">₵145</span>
                                 <span class="rating"><i class="fas fa-star"></i> 4.7</span>
                             </div>
-                            <button class="btn btn-primary buy-btn" data-template="7" data-name="Dynamic Flow" data-price="11.99">
+                            <button class="btn btn-primary buy-btn" data-template="7" data-name="Dynamic Flow" data-price="145">
                                 <i class="fas fa-shopping-cart"></i> Buy Now
                             </button>
                         </div>
@@ -423,7 +1120,7 @@
                     <img src="" alt="Template Preview" id="modal-template-img">
                     <div class="summary-details">
                         <h3 id="modal-template-name"></h3>
-                        <p class="modal-price">Price: $<span id="modal-template-price"></span></p>
+                        <p class="modal-price">Price: <span style="color: #10B981; font-weight: 700;">₵<span id="modal-template-price"></span></span></p>
                     </div>
                 </div>
                 
@@ -442,23 +1139,24 @@
                     
                     <div class="form-section">
                         <h3>Payment Method</h3>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 16px;">Secure payment powered by Hubtel</p>
                         <div class="payment-methods">
                             <label class="payment-option">
-                                <input type="radio" name="payment-method" value="card" checked>
+                                <input type="radio" name="payment-method" value="hubtel" checked>
+                                <span class="payment-label">
+                                    <i class="fas fa-mobile-alt"></i> Mobile Money
+                                </span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="card">
                                 <span class="payment-label">
                                     <i class="fas fa-credit-card"></i> Credit/Debit Card
                                 </span>
                             </label>
                             <label class="payment-option">
-                                <input type="radio" name="payment-method" value="paypal">
+                                <input type="radio" name="payment-method" value="hubtel_wallet">
                                 <span class="payment-label">
-                                    <i class="fab fa-paypal"></i> PayPal
-                                </span>
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="payment-method" value="bank">
-                                <span class="payment-label">
-                                    <i class="fas fa-university"></i> Bank Transfer
+                                    <i class="fas fa-wallet"></i> Hubtel Wallet
                                 </span>
                             </label>
                         </div>
@@ -482,11 +1180,11 @@
                     </div>
                     
                     <button type="submit" class="btn btn-primary btn-full" id="complete-payment-btn">
-                        <i class="fas fa-lock"></i> Pay $<span id="pay-amount"></span>
+                        <i class="fas fa-lock"></i> Pay ₵<span id="pay-amount"></span>
                     </button>
                     
                     <p class="secure-notice">
-                        <i class="fas fa-shield-alt"></i> Your payment is secured with 256-bit SSL encryption
+                        <i class="fas fa-shield-alt"></i> Powered by Hubtel Ghana | Secure SSL Payment
                     </p>
                 </form>
             </div>
