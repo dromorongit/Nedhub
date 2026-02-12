@@ -70,6 +70,7 @@ function isHubtelSuccess(responseCode) {
 
 /**
  * Get OAuth token for Hubtel API
+ * Tries multiple OAuth endpoints
  */
 async function getHubtelOAuthToken() {
     // Check if we have a valid token
@@ -81,48 +82,75 @@ async function getHubtelOAuthToken() {
     // Get credentials from environment
     const clientId = process.env.HUBTEL_CLIENT_ID;
     const clientSecret = process.env.HUBTEL_CLIENT_SECRET;
-    const tokenUrl = process.env.HUBTEL_TOKEN_URL || 'https://api-txnstatus.hubtel.com/connect/token';
-
+    
     if (!clientId || !clientSecret) {
         throw new Error('Hubtel OAuth credentials not configured');
     }
 
-    console.log('[HUBTEL OAUTH] Requesting new access token...');
+    // Create Basic Auth header with Client ID and Client Secret
+    const authHeader = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
 
-    try {
-        // Create Basic Auth header with Client ID and Client Secret
-        const authHeader = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+    // Try multiple OAuth endpoints
+    const tokenUrls = [
+        'https://api.hubtel.com/connect/token',
+        'https://api-txnstatus.hubtel.com/connect/token',
+        'https://hubtel.com/connect/token'
+    ];
 
-        const response = await fetch(tokenUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': `Basic ${authHeader}`
-            },
-            body: 'grant_type=client_credentials'
-        });
+    let lastError = null;
 
-        const data = await response.json();
+    for (const tokenUrl of tokenUrls) {
+        console.log(`[HUBTEL OAUTH] Trying endpoint: ${tokenUrl}`);
+        
+        try {
+            const response = await fetch(tokenUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': `Basic ${authHeader}`
+                },
+                body: 'grant_type=client_credentials'
+            });
 
-        if (!response.ok) {
-            console.error('[HUBTEL OAUTH ERROR]:', data);
-            throw new Error(data.error_description || 'Failed to get OAuth token');
+            const responseText = await response.text();
+            console.log(`[HUBTEL OAUTH] Response status: ${response.status}`);
+            console.log(`[HUBTEL OAUTH] Response text (first 200 chars):`, responseText.substring(0, 200));
+
+            if (!response.ok) {
+                console.error(`[HUBTEL OAUTH ERROR] Endpoint ${tokenUrl} failed:`, responseText.substring(0, 200));
+                continue; // Try next endpoint
+            }
+
+            let data;
+            try {
+                data = JSON.parse(responseText);
+            } catch (parseError) {
+                console.error(`[HUBTEL OAUTH ERROR] Failed to parse JSON from ${tokenUrl}:`, parseError.message);
+                continue; // Try next endpoint
+            }
+
+            if (!data.access_token) {
+                console.error(`[HUBTEL OAUTH ERROR] No access_token in response from ${tokenUrl}:`, data);
+                continue; // Try next endpoint
+            }
+
+            // Store token with expiry
+            oauthTokens.set('access_token', {
+                value: data.access_token,
+                expiresAt: Date.now() + (data.expires_in * 1000) - 60000 // 1 minute buffer
+            });
+
+            console.log('[HUBTEL OAUTH] Token obtained successfully');
+            return data.access_token;
+
+        } catch (error) {
+            console.error(`[HUBTEL OAUTH ERROR] ${tokenUrl}:`, error.message);
+            lastError = error;
         }
-
-        // Store token with expiry
-        oauthTokens.set('access_token', {
-            value: data.access_token,
-            expiresAt: Date.now() + (data.expires_in * 1000) - 60000 // 1 minute buffer
-        });
-
-        console.log('[HUBTEL OAUTH] Token obtained successfully');
-
-        return data.access_token;
-
-    } catch (error) {
-        console.error('[HUBTEL OAUTH ERROR]:', error.message);
-        throw error;
     }
+
+    // All endpoints failed
+    throw new Error(`Failed to get OAuth token from all endpoints. Last error: ${lastError?.message || 'Unknown error'}`);
 }
 
 // =============================================================================
