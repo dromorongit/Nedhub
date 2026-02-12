@@ -132,6 +132,7 @@ async function getHubtelOAuthToken() {
 /**
  * Initiate Hubtel Payment
  * POST https://payproxyapi.hubtel.com/items/initiate
+ * Uses OAuth2 authentication
  */
 async function initiateHubtelPayment(paymentData) {
     const {
@@ -146,17 +147,18 @@ async function initiateHubtelPayment(paymentData) {
     // Get Hubtel credentials from environment
     const hubtelAccount = process.env.HUBTEL_POS_SALES_ID;
     const apiKey = process.env.HUBTEL_API_KEY;
+    const clientId = process.env.HUBTEL_CLIENT_ID;
 
     if (!hubtelAccount || !apiKey) {
         throw new Error('Hubtel credentials not configured');
     }
 
-    // Create Basic Auth header with Merchant Account Number and API Key
-    const authHeader = Buffer.from(`${hubtelAccount}:${apiKey}`).toString('base64');
-
     console.log('[HUBTEL DEBUG] Account:', hubtelAccount);
     console.log('[HUBTEL DEBUG] API Key length:', apiKey ? apiKey.length : 0);
-    console.log('[HUBTEL DEBUG] Auth header:', authHeader.substring(0, 10) + '...');
+    console.log('[HUBTEL DEBUG] Client ID:', clientId);
+
+    // Get OAuth token for Payproxy API
+    const accessToken = await getHubtelOAuthToken();
 
     // Hubtel request payload
     const apiBaseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
@@ -183,7 +185,7 @@ async function initiateHubtelPayment(paymentData) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Basic ${authHeader}`
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify(hubtelPayload)
         });
@@ -211,7 +213,7 @@ async function initiateHubtelPayment(paymentData) {
         if (!response.ok || !responseData) {
             console.error('[HUBTEL ERROR] Initiate failed with status:', response.status);
             console.error('[HUBTEL ERROR] Raw response:', responseText);
-            throw new Error(`HTTP ${response.status}: Hubtel API returned an error. Response: ${responseData?.message || responseData?.error || 'Unknown error'}`);
+            throw new Error(`HTTP ${response.status}: Hubtel API returned an error. Response: ${responseData?.message || responseData?.error || responseText || 'Unknown error'}`);
         }
 
         logHubtelResponse('Initiate', responseData);
