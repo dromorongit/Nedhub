@@ -10,7 +10,10 @@ const { validatePaymentRequest } = require('../middlewares/validation');
 // Health check endpoint
 router.get('/health', paymentController.healthCheck);
 
-// Initiate payment
+// Hubtel payment endpoints (matching frontend expectations)
+router.post('/payments/hubtel/initiate', validatePaymentRequest, paymentController.initiatePayment);
+
+// Alternative endpoint (shorter)
 router.post('/pay', validatePaymentRequest, paymentController.initiatePayment);
 
 // Hubtel callback webhook

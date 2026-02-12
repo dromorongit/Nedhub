@@ -96,12 +96,13 @@ const startServer = async () => {
     console.log(`[Server] Base URL: ${config.baseUrl}`);
     console.log('==========================================');
     console.log('[Server] Available endpoints:');
-    console.log('  GET  /                  - Health check');
-    console.log('  GET  /api/health        - API health check');
-    console.log('  POST /api/pay           - Initiate payment');
-    console.log('  POST /api/hubtel-callback - Hubtel callback');
+    console.log('  GET  /                       - Health check');
+    console.log('  GET  /api/health             - API health check');
+    console.log('  POST /api/payments/hubtel/initiate - Initiate payment (main)');
+    console.log('  POST /api/pay                - Initiate payment (alternative)');
+    console.log('  POST /api/hubtel-callback    - Hubtel callback');
     console.log('  GET  /api/check-status/:clientRef - Check status');
-    console.log('  GET  /api/order/:clientRef - Get order details');
+    console.log('  GET  /api/order/:clientRef   - Get order details');
     console.log('==========================================');
   });
 };
