@@ -11,26 +11,34 @@ class PaymentController {
    */
   async initiatePayment(req, res) {
     try {
+      console.log(`[PaymentController] Raw request body:`, JSON.stringify(req.body));
+
       // Support both 'amount' and 'totalAmount' from frontend
       let { amount, totalAmount, description, customerName, customerEmail, customerPhone, productId } = req.body;
 
-      // Use totalAmount if amount is not provided
-      const paymentAmount = amount || totalAmount;
+      console.log(`[PaymentController] Raw amount:`, amount, `totalAmount:`, totalAmount);
+
+      // Use amount if provided, fallback to totalAmount
+      const paymentAmount = amount !== undefined ? amount : totalAmount;
+
+      console.log(`[PaymentController] Using paymentAmount:`, paymentAmount);
 
       // Validate required fields
-      if (!paymentAmount) {
+      if (paymentAmount === undefined || paymentAmount === null || paymentAmount === '') {
         return res.status(400).json({
           success: false,
           error: 'Amount is required.'
         });
       }
 
-      // Parse and validate amount
-      const parsedAmount = parseFloat(paymentAmount);
+      // Parse and validate amount as a raw value first
+      const parsedAmount = Number(paymentAmount);
+      console.log(`[PaymentController] Parsed amount:`, parsedAmount, `isNaN:`, isNaN(parsedAmount));
+
       if (isNaN(parsedAmount)) {
         return res.status(400).json({
           success: false,
-          error: 'Invalid amount. Amount must be a valid number.'
+          error: `Invalid amount: ${paymentAmount}. Amount must be a valid number.`
         });
       }
 

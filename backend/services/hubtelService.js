@@ -48,7 +48,7 @@ class HubtelService {
   /**
    * Initiate a payment request with Hubtel
    * @param {Object} paymentData - Payment details
-   * @param {number} paymentData.totalAmount - Amount to charge
+   * @param {number} paymentData.amount - Amount to charge
    * @param {string} paymentData.description - Payment description
    * @param {string} paymentData.customerName - Customer name
    * @param {string} paymentData.customerEmail - Customer email
@@ -61,8 +61,15 @@ class HubtelService {
       throw new Error('Hubtel service is not configured. Please set HUBTEL_CLIENT_ID, HUBTEL_CLIENT_SECRET, and HUBTEL_POS_ID environment variables.');
     }
 
-    const { totalAmount, description, customerName, customerEmail, customerPhone } = paymentData;
-    
+    // Support both 'amount' and 'totalAmount' for flexibility
+    const amount = paymentData.amount !== undefined ? paymentData.amount : paymentData.totalAmount;
+
+    console.log(`[HubtelService] initiatePayment received amount:`, amount, `type:`, typeof amount);
+
+    if (amount === undefined || amount === null || isNaN(amount)) {
+      throw new Error(`Invalid amount received: ${amount}`);
+    }
+
     // Generate unique client reference
     const clientReference = `NH-${Date.now()}-${uuidv4().slice(0, 8)}`;
     
@@ -71,9 +78,12 @@ class HubtelService {
     const returnUrl = this.cleanUrl(`${this.baseUrlValue}/payment-success.html`);
     const cancellationUrl = this.cleanUrl(`${this.baseUrlValue}/payment-cancelled.html`);
 
+    // Ensure amount is a valid number
+    const numericAmount = parseFloat(amount);
+    
     const payload = {
-      totalAmount: parseFloat(totalAmount).toFixed(2),
-      description: description,
+      totalAmount: numericAmount.toFixed(2),
+      description: paymentData.description,
       callbackUrl: callbackUrl,
       returnUrl: returnUrl,
       cancellationUrl: cancellationUrl,
@@ -81,15 +91,15 @@ class HubtelService {
       clientReference: clientReference,
       paymentMethod: 'both', // Accept both mobile money and card
       customer: {
-        name: customerName || 'Customer',
-        email: customerEmail || '',
-        phone: customerPhone || ''
+        name: paymentData.customerName || 'Customer',
+        email: paymentData.customerEmail || '',
+        phone: paymentData.customerPhone || ''
       }
     };
 
     try {
       console.log(`[HubtelService] Initiating payment for clientReference: ${clientReference}`);
-      console.log(`[HubtelService] Payload:`, JSON.stringify(payload, null, 2));
+      console.log(`[HubtelService] Final payload amount:`, payload.totalAmount);
 
       const response = await axios.post(
         `${this.baseUrl}/items/initiate`,
