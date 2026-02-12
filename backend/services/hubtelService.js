@@ -113,13 +113,23 @@ class HubtelService {
         }
       );
 
-      console.log(`[HubtelService] Payment initiated successfully. Response:`, response.data);
+      console.log(`[HubtelService] Full Hubtel response:`, JSON.stringify(response.data, null, 2));
+
+      // Extract checkout URL from the nested response
+      const hubtelResponse = response.data;
+      const checkoutUrl = hubtelResponse.data?.checkoutUrl || hubtelResponse.checkoutUrl || hubtelResponse.data?.checkoutDirectUrl;
+
+      console.log(`[HubtelService] Extracted checkoutUrl:`, checkoutUrl);
+
+      if (!checkoutUrl) {
+        throw new Error('No checkout URL in Hubtel response');
+      }
 
       return {
         success: true,
-        checkoutUrl: response.data.checkoutUrl,
+        checkoutUrl: checkoutUrl,
         clientReference: clientReference,
-        data: response.data
+        data: hubtelResponse
       };
     } catch (error) {
       console.error(`[HubtelService] Payment initiation failed:`, error.response?.data || error.message);
