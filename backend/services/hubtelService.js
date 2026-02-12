@@ -39,6 +39,13 @@ class HubtelService {
   }
 
   /**
+   * Clean URL by removing double slashes (except in https://)
+   */
+  cleanUrl(url) {
+    return url.replace(/([^:]\/)\/+/g, '$1');
+  }
+
+  /**
    * Initiate a payment request with Hubtel
    * @param {Object} paymentData - Payment details
    * @param {number} paymentData.totalAmount - Amount to charge
@@ -59,10 +66,10 @@ class HubtelService {
     // Generate unique client reference
     const clientReference = `NH-${Date.now()}-${uuidv4().slice(0, 8)}`;
     
-    // Build callback URLs
-    const callbackUrl = `${this.baseUrlValue}/api/hubtel-callback`;
-    const returnUrl = `${this.baseUrlValue}/payment-success.html`;
-    const cancellationUrl = `${this.baseUrlValue}/payment-cancelled.html`;
+    // Build callback URLs (cleaned to avoid double slashes)
+    const callbackUrl = this.cleanUrl(`${this.baseUrlValue}/api/hubtel-callback`);
+    const returnUrl = this.cleanUrl(`${this.baseUrlValue}/payment-success.html`);
+    const cancellationUrl = this.cleanUrl(`${this.baseUrlValue}/payment-cancelled.html`);
 
     const payload = {
       totalAmount: parseFloat(totalAmount).toFixed(2),

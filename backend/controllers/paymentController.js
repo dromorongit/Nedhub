@@ -7,17 +7,37 @@ const Order = require('../models/Order');
 class PaymentController {
   /**
    * Initiate a new payment
-   * POST /api/pay
+   * POST /api/pay or POST /api/payments/hubtel/initiate
    */
   async initiatePayment(req, res) {
     try {
-      const { amount, description, customerName, customerEmail, customerPhone } = req.body;
+      // Support both 'amount' and 'totalAmount' from frontend
+      let { amount, totalAmount, description, customerName, customerEmail, customerPhone, productId } = req.body;
+
+      // Use totalAmount if amount is not provided
+      const paymentAmount = amount || totalAmount;
 
       // Validate required fields
-      if (!amount || isNaN(amount) || amount <= 0) {
+      if (!paymentAmount) {
         return res.status(400).json({
           success: false,
-          error: 'Invalid amount. Amount must be a positive number.'
+          error: 'Amount is required.'
+        });
+      }
+
+      // Parse and validate amount
+      const parsedAmount = parseFloat(paymentAmount);
+      if (isNaN(parsedAmount)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid amount. Amount must be a valid number.'
+        });
+      }
+
+      if (parsedAmount <= 0) {
+        return res.status(400).json({
+          success: false,
+          error: 'Amount must be greater than zero.'
         });
       }
 
@@ -30,12 +50,14 @@ class PaymentController {
 
       // Create order in database
       const orderData = {
-        amount: parseFloat(amount),
+        amount: parsedAmount,
         description: description.trim(),
         customerName: customerName || null,
         customerEmail: customerEmail || null,
         customerPhone: customerPhone || null
       };
+
+      console.log(`[PaymentController] Initiating payment for amount: ${parsedAmount}`);
 
       // Initiate payment with Hubtel
       const hubtelResponse = await hubtelService.initiatePayment(orderData);

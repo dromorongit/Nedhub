@@ -12,6 +12,7 @@ const mongoose = require('mongoose');
 
 const config = require('./config');
 const paymentRoutes = require('./routes/paymentRoutes');
+const productRoutes = require('./routes/productRoutes');
 const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 
 const app = express();
@@ -60,6 +61,7 @@ app.get('/', (req, res) => {
 
 // API routes
 app.use('/api', paymentRoutes);
+app.use('/api', productRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
@@ -96,13 +98,15 @@ const startServer = async () => {
     console.log(`[Server] Base URL: ${config.baseUrl}`);
     console.log('==========================================');
     console.log('[Server] Available endpoints:');
-    console.log('  GET  /                       - Health check');
-    console.log('  GET  /api/health             - API health check');
+    console.log('  GET  /                        - Health check');
+    console.log('  GET  /api/health              - API health check');
+    console.log('  GET  /api/products            - Get all CV templates');
+    console.log('  GET  /api/products/:id       - Get single product');
     console.log('  POST /api/payments/hubtel/initiate - Initiate payment (main)');
-    console.log('  POST /api/pay                - Initiate payment (alternative)');
-    console.log('  POST /api/hubtel-callback    - Hubtel callback');
+    console.log('  POST /api/pay                 - Initiate payment (alternative)');
+    console.log('  POST /api/hubtel-callback     - Hubtel callback');
     console.log('  GET  /api/check-status/:clientRef - Check status');
-    console.log('  GET  /api/order/:clientRef   - Get order details');
+    console.log('  GET  /api/order/:clientRef    - Get order details');
     console.log('==========================================');
   });
 };
