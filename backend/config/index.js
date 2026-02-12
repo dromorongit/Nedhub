@@ -15,5 +15,10 @@ module.exports = {
   
   baseUrl: process.env.BASE_URL || 'https://nedhub-production.up.railway.app',
   
-  corsOrigins: process.env.CORS_ORIGINS?.split(',') || ['*']
+  // Allow multiple origins including your frontend domains
+  corsOrigins: process.env.CORS_ORIGINS?.split(',') || [
+    'https://www.nedhubgh.com',
+    'https://nedhubgh.com',
+    'https://nedhub-production.up.railway.app'
+  ]
 };
