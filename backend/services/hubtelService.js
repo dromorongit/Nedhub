@@ -13,6 +13,7 @@ class HubtelService {
     this.baseUrl = config.hubtel.baseUrl;
     this.txnStatusUrl = config.hubtel.txnStatusUrl;
     this.baseUrlValue = config.baseUrl;
+    this.frontendUrl = config.frontendUrl;
 
     // Validate required configuration
     if (!this.clientId || !this.clientSecret || !this.posId) {
@@ -74,9 +75,11 @@ class HubtelService {
     const clientReference = `NH-${Date.now()}-${uuidv4().slice(0, 8)}`;
     
     // Build callback URLs (cleaned to avoid double slashes)
+    // Callback URL goes to backend API
     const callbackUrl = this.cleanUrl(`${this.baseUrlValue}/api/hubtel-callback`);
-    const returnUrl = this.cleanUrl(`${this.baseUrlValue}/payment-success.html`);
-    const cancellationUrl = this.cleanUrl(`${this.baseUrlValue}/payment-cancelled.html`);
+    // Return URLs go to frontend pages
+    const returnUrl = this.cleanUrl(`${this.frontendUrl}/payment-success.html`);
+    const cancellationUrl = this.cleanUrl(`${this.frontendUrl}/payment-cancelled.html`);
 
     // Ensure amount is a valid number
     const numericAmount = parseFloat(amount);

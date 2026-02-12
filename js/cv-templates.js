@@ -115,10 +115,49 @@ document.addEventListener('DOMContentLoaded', function() {
     function checkPaymentReturn() {
         const urlParams = new URLSearchParams(window.location.search);
         const ref = urlParams.get('ref');
+        const checkoutId = urlParams.get('checkoutid');
+        const status = urlParams.get('status');
         
-        if (ref) {
+        if (ref || checkoutId) {
             // Clear URL without reload
             window.history.replaceState({}, document.title, window.location.pathname);
+            
+            // Check if there's a pending purchase to process
+            const pendingTemplateId = localStorage.getItem('pendingTemplateId');
+            const pendingTemplateName = localStorage.getItem('pendingTemplateName');
+            const pendingAmount = localStorage.getItem('pendingAmount');
+            
+            if (pendingTemplateId && pendingTemplateName) {
+                // Check if this template is already in purchasedTemplates
+                const cleanTemplateId = pendingTemplateId.replace('cv-', '');
+                const alreadyPurchased = purchasedTemplates.some(t => t.id === cleanTemplateId);
+                
+                if (!alreadyPurchased) {
+                    // Add to purchased templates
+                    purchasedTemplates.push({
+                        id: cleanTemplateId,
+                        name: pendingTemplateName,
+                        price: parseFloat(pendingAmount) || 0,
+                        transactionId: ref || checkoutId || 'NED-' + Date.now().toString().slice(-8),
+                        date: new Date().toISOString()
+                    });
+                    localStorage.setItem('purchasedTemplates', JSON.stringify(purchasedTemplates));
+                    
+                    console.log('Payment completed. Template added to purchasedTemplates:', purchasedTemplates);
+                    
+                    // Show success notification
+                    showNotification('Payment successful! You can now download your template.');
+                }
+                
+                // Clear pending payment data
+                localStorage.removeItem('pendingTemplateId');
+                localStorage.removeItem('pendingTemplateName');
+                localStorage.removeItem('pendingAmount');
+                localStorage.removeItem('pendingClientReference');
+                
+                // Update buttons
+                updateTemplateButtons();
+            }
         }
     }
 

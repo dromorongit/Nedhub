@@ -13,7 +13,11 @@ module.exports = {
     merchantAccountNumber: process.env.HUBTEL_MERCHANT_ACCOUNT_NUMBER || ''
   },
   
+  // Backend URL for API callbacks
   baseUrl: process.env.BASE_URL || 'https://nedhub-production.up.railway.app',
+  
+  // Frontend URL for payment redirects (payment-success, payment-cancelled, payment-error)
+  frontendUrl: process.env.FRONTEND_URL || 'https://www.nedhubgh.com',
   
   // Allow multiple origins including your frontend domains
   corsOrigins: process.env.CORS_ORIGINS?.split(',') || [
