@@ -142,6 +142,15 @@ orderSchema.statics.markAsFailed = async function(clientReference, reason) {
   return order;
 };
 
+/**
+ * Find order by checkoutId
+ * @param {string} checkoutId - Hubtel checkout ID
+ * @returns {Promise<Object>} - Found order
+ */
+orderSchema.statics.findByCheckoutId = async function(checkoutId) {
+  return await this.findOne({ checkoutId });
+};
+
 const Order = mongoose.model('Order', orderSchema);
 
 module.exports = Order;

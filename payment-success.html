@@ -337,10 +337,11 @@
         // Get URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const clientRef = urlParams.get('ref') || urlParams.get('clientReference');
+        const checkoutId = urlParams.get('checkoutid');
         const status = urlParams.get('status');
 
         // Display transaction details
-        document.getElementById('transaction-id').textContent = clientRef || 'NED-' + Date.now().toString().slice(-8);
+        document.getElementById('transaction-id').textContent = clientRef || checkoutId || 'NED-' + Date.now().toString().slice(-8);
         document.getElementById('payment-date').textContent = new Date().toLocaleDateString('en-GH', {
             year: 'numeric',
             month: 'long',
@@ -350,8 +351,11 @@
         });
 
         // Store payment data in localStorage for CV templates page
-        if (clientRef) {
-            // Fetch payment details from backend
+        if (checkoutId) {
+            // Hubtel redirected with checkoutId - fetch payment details
+            fetchPaymentDetailsByCheckoutId(checkoutId);
+        } else if (clientRef) {
+            // Fetch payment details using clientReference
             fetchPaymentDetails(clientRef);
         } else {
             // Use stored payment data
@@ -401,6 +405,9 @@
                     localStorage.setItem('lastPayment', JSON.stringify(paymentData));
                     localStorage.setItem(`purchased_${payment.clientReference}`, JSON.stringify(paymentData));
                     
+                    // Also add to purchasedTemplates array for CV templates page
+                    addToPurchasedTemplates(payment.clientReference);
+                    
                     displayPaymentDetails(paymentData);
                 }
             } catch (error) {
@@ -412,6 +419,101 @@
                 };
                 document.getElementById('template-name').textContent = fallbackData.templateName;
                 document.getElementById('amount-paid').textContent = '₵' + fallbackData.amount;
+            }
+        }
+
+        async function fetchPaymentDetailsByCheckoutId(checkoutId) {
+            try {
+                const apiBaseUrl = 'https://nedhub-production.up.railway.app/api';
+                
+                // First, try to find order by checkoutId
+                // Since we don't have a direct endpoint, we'll use the stored pendingClientReference
+                const pendingClientReference = localStorage.getItem('pendingClientReference');
+                
+                if (pendingClientReference) {
+                    // Fetch payment details using clientReference
+                    await fetchPaymentDetails(pendingClientReference);
+                    return;
+                }
+                
+                // If no pendingClientReference, try to get order by checkoutId
+                const response = await fetch(`${apiBaseUrl}/orders/checkout/${checkoutId}`);
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    const order = data.data;
+                    
+                    // Get stored template info
+                    const templateName = localStorage.getItem('pendingTemplateName') || order.description?.replace('CV Template: ', '') || 'CV Template';
+                    const templateId = localStorage.getItem('pendingTemplateId') || '';
+                    
+                    // Store payment data
+                    const paymentData = {
+                        clientReference: order.clientReference,
+                        templateName: templateName,
+                        templateId: templateId,
+                        amount: order.amount,
+                        status: order.status,
+                        paidAt: order.paidAt || new Date().toISOString()
+                    };
+                    
+                    localStorage.setItem('lastPayment', JSON.stringify(paymentData));
+                    localStorage.setItem(`purchased_${order.clientReference}`, JSON.stringify(paymentData));
+                    
+                    // Add to purchasedTemplates array
+                    addToPurchasedTemplatesWithId(templateId, templateName, order.amount);
+                    
+                    displayPaymentDetails(paymentData);
+                } else {
+                    throw new Error('Order not found');
+                }
+            } catch (error) {
+                console.error('Error fetching payment details by checkoutId:', error);
+                // Fallback: Mark as purchased using stored data
+                const templateName = localStorage.getItem('pendingTemplateName') || 'CV Template';
+                const templateId = localStorage.getItem('pendingTemplateId') || '';
+                const amount = localStorage.getItem('pendingAmount') || '0.00';
+                
+                // Still add to purchased templates so download button appears
+                addToPurchasedTemplatesWithId(templateId, templateName, amount);
+                
+                document.getElementById('template-name').textContent = templateName;
+                document.getElementById('amount-paid').textContent = '₵' + amount;
+            }
+        }
+
+        function addToPurchasedTemplates(clientReference) {
+            // Get stored template info
+            const templateName = localStorage.getItem('pendingTemplateName') || 'CV Template';
+            const templateId = localStorage.getItem('pendingTemplateId') || '';
+            const amount = localStorage.getItem('pendingAmount') || '0.00';
+            
+            addToPurchasedTemplatesWithId(templateId, templateName, amount);
+        }
+
+        function addToPurchasedTemplatesWithId(templateId, templateName, amount) {
+            if (!templateId) return;
+            
+            // Remove 'cv-' prefix if present
+            const cleanTemplateId = templateId.replace('cv-', '');
+            
+            // Get existing purchased templates
+            let purchasedTemplates = JSON.parse(localStorage.getItem('purchasedTemplates')) || [];
+            
+            // Check if already purchased
+            const alreadyPurchased = purchasedTemplates.some(t => t.id === cleanTemplateId);
+            
+            if (!alreadyPurchased) {
+                purchasedTemplates.push({
+                    id: cleanTemplateId,
+                    name: templateName,
+                    price: parseFloat(amount) || 0,
+                    transactionId: checkoutId || 'NED-' + Date.now().toString().slice(-8),
+                    date: new Date().toISOString()
+                });
+                
+                localStorage.setItem('purchasedTemplates', JSON.stringify(purchasedTemplates));
+                console.log('Template added to purchasedTemplates:', purchasedTemplates);
             }
         }
 

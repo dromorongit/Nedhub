@@ -273,12 +273,70 @@ class PaymentController {
           status: order.status,
           transactionId: order.transactionId,
           paymentMethod: order.paymentMethod,
+          checkoutId: order.checkoutId,
           createdAt: order.createdAt,
           paidAt: order.paidAt
         }
       });
     } catch (error) {
       console.error(`[PaymentController] Get order error:`, error);
+
+      return res.status(500).json({
+        success: false,
+        error: 'Failed to retrieve order'
+      });
+    }
+  }
+
+  /**
+   * Get order by checkout ID
+   * GET /api/orders/checkout/:checkoutId
+   */
+  async getOrderByCheckoutId(req, res) {
+    try {
+      const { checkoutId } = req.params;
+
+      if (!checkoutId) {
+        return res.status(400).json({
+          success: false,
+          error: 'Checkout ID is required'
+        });
+      }
+
+      let order = null;
+      try {
+        order = await Order.findByCheckoutId(checkoutId);
+      } catch (dbError) {
+        console.warn(`[PaymentController] Database not available:`, dbError.message);
+      }
+
+      if (!order) {
+        return res.status(200).json({
+          success: false,
+          error: 'Order not found (database not available)',
+          data: {
+            checkoutId: checkoutId,
+            status: 'Unknown - database not connected'
+          }
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          clientReference: order.clientReference,
+          amount: order.amount,
+          description: order.description,
+          status: order.status,
+          transactionId: order.transactionId,
+          paymentMethod: order.paymentMethod,
+          checkoutId: order.checkoutId,
+          createdAt: order.createdAt,
+          paidAt: order.paidAt
+        }
+      });
+    } catch (error) {
+      console.error(`[PaymentController] Get order by checkout ID error:`, error);
 
       return res.status(500).json({
         success: false,

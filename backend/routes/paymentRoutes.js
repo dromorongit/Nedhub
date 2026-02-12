@@ -25,4 +25,7 @@ router.get('/check-status/:clientReference', paymentController.checkStatus);
 // Get order details
 router.get('/order/:clientReference', paymentController.getOrder);
 
+// Get order by checkout ID
+router.get('/orders/checkout/:checkoutId', paymentController.getOrderByCheckoutId);
+
 module.exports = router;
