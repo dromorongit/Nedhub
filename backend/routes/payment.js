@@ -8,7 +8,7 @@
  * - Hubtel Wallet
  * - GhQR
  * 
- * Authentication: OAuth2 with Client ID and Client Secret
+ * Authentication: HTTP Basic Auth with API ID and API Key
  */
 
 const express = require('express');
@@ -20,7 +20,6 @@ const { v4: uuidv4 } = require('uuid');
 // =============================================================================
 const payments = new Map();
 const processedCallbacks = new Set(); // Prevent duplicate callbacks
-const oauthTokens = new Map(); // Store OAuth tokens
 
 // Payment statuses
 const PaymentStatus = {
@@ -68,91 +67,6 @@ function isHubtelSuccess(responseCode) {
     return responseCode === '0000';
 }
 
-/**
- * Get OAuth token for Hubtel API
- * Tries multiple OAuth endpoints
- */
-async function getHubtelOAuthToken() {
-    // Check if we have a valid token
-    const existingToken = oauthTokens.get('access_token');
-    if (existingToken && existingToken.expiresAt > Date.now()) {
-        return existingToken.value;
-    }
-
-    // Get credentials from environment
-    const clientId = process.env.HUBTEL_CLIENT_ID;
-    const clientSecret = process.env.HUBTEL_CLIENT_SECRET;
-    
-    if (!clientId || !clientSecret) {
-        throw new Error('Hubtel OAuth credentials not configured');
-    }
-
-    // Create Basic Auth header with Client ID and Client Secret
-    const authHeader = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-
-    // Try multiple OAuth endpoints
-    const tokenUrls = [
-        'https://api.hubtel.com/connect/token',
-        'https://api-txnstatus.hubtel.com/connect/token',
-        'https://hubtel.com/connect/token'
-    ];
-
-    let lastError = null;
-
-    for (const tokenUrl of tokenUrls) {
-        console.log(`[HUBTEL OAUTH] Trying endpoint: ${tokenUrl}`);
-        
-        try {
-            const response = await fetch(tokenUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': `Basic ${authHeader}`
-                },
-                body: 'grant_type=client_credentials'
-            });
-
-            const responseText = await response.text();
-            console.log(`[HUBTEL OAUTH] Response status: ${response.status}`);
-            console.log(`[HUBTEL OAUTH] Response text (first 200 chars):`, responseText.substring(0, 200));
-
-            if (!response.ok) {
-                console.error(`[HUBTEL OAUTH ERROR] Endpoint ${tokenUrl} failed:`, responseText.substring(0, 200));
-                continue; // Try next endpoint
-            }
-
-            let data;
-            try {
-                data = JSON.parse(responseText);
-            } catch (parseError) {
-                console.error(`[HUBTEL OAUTH ERROR] Failed to parse JSON from ${tokenUrl}:`, parseError.message);
-                continue; // Try next endpoint
-            }
-
-            if (!data.access_token) {
-                console.error(`[HUBTEL OAUTH ERROR] No access_token in response from ${tokenUrl}:`, data);
-                continue; // Try next endpoint
-            }
-
-            // Store token with expiry
-            oauthTokens.set('access_token', {
-                value: data.access_token,
-                expiresAt: Date.now() + (data.expires_in * 1000) - 60000 // 1 minute buffer
-            });
-
-            console.log('[HUBTEL OAUTH] Token obtained successfully');
-            return data.access_token;
-
-        } catch (error) {
-            console.error(`[HUBTEL OAUTH ERROR] ${tokenUrl}:`, error.message);
-            lastError = error;
-        }
-    }
-
-    // All endpoints failed
-    throw new Error(`Failed to get OAuth token from all endpoints. Last error: ${lastError?.message || 'Unknown error'}`);
-}
-
 // =============================================================================
 // HUBTEL API CALLS (Server-side only)
 // =============================================================================
@@ -160,7 +74,7 @@ async function getHubtelOAuthToken() {
 /**
  * Initiate Hubtel Payment
  * POST https://payproxyapi.hubtel.com/items/initiate
- * Uses OAuth2 authentication
+ * Uses HTTP Basic Auth with API ID (POS Sales ID) and API Key
  */
 async function initiateHubtelPayment(paymentData) {
     const {
@@ -173,20 +87,21 @@ async function initiateHubtelPayment(paymentData) {
     } = paymentData;
 
     // Get Hubtel credentials from environment
-    const hubtelAccount = process.env.HUBTEL_POS_SALES_ID;
+    // API ID = POS Sales ID (merchant account number)
+    // API Key = the secret key
+    const apiId = process.env.HUBTEL_POS_SALES_ID;
     const apiKey = process.env.HUBTEL_API_KEY;
-    const clientId = process.env.HUBTEL_CLIENT_ID;
 
-    if (!hubtelAccount || !apiKey) {
+    if (!apiId || !apiKey) {
         throw new Error('Hubtel credentials not configured');
     }
 
-    console.log('[HUBTEL DEBUG] Account:', hubtelAccount);
-    console.log('[HUBTEL DEBUG] API Key length:', apiKey ? apiKey.length : 0);
-    console.log('[HUBTEL DEBUG] Client ID:', clientId);
+    // Create Basic Auth header: base64(API_ID:API_KEY)
+    const authHeader = Buffer.from(`${apiId}:${apiKey}`).toString('base64');
 
-    // Get OAuth token for Payproxy API
-    const accessToken = await getHubtelOAuthToken();
+    console.log('[HUBTEL DEBUG] API ID:', apiId);
+    console.log('[HUBTEL DEBUG] API Key length:', apiKey.length);
+    console.log('[HUBTEL DEBUG] Auth header:', authHeader.substring(0, 10) + '...');
 
     // Hubtel request payload
     const apiBaseUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
@@ -198,22 +113,22 @@ async function initiateHubtelPayment(paymentData) {
         callbackUrl: callbackUrl || `${apiBaseUrl}/api/payments/hubtel/callback`,
         returnUrl: returnUrl || `${frontendUrl}/cv-templates.html?payment=success`,
         cancellationUrl: cancellationUrl || `${frontendUrl}/cv-templates.html?payment=cancelled`,
-        merchantAccountNumber: hubtelAccount,
+        merchantAccountNumber: apiId,
         clientReference: clientReference
     };
 
     console.log('[HUBTEL REQUEST] Initiating payment');
     console.log('Client Reference:', clientReference);
     console.log('Amount:', amount);
-    console.log('API_BASE_URL:', apiBaseUrl);
-    console.log('FRONTEND_URL:', frontendUrl);
+    console.log('API Base URL:', apiBaseUrl);
+    console.log('Frontend URL:', frontendUrl);
 
     try {
         const response = await fetch('https://payproxyapi.hubtel.com/items/initiate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
+                'Authorization': `Basic ${authHeader}`
             },
             body: JSON.stringify(hubtelPayload)
         });
@@ -222,7 +137,6 @@ async function initiateHubtelPayment(paymentData) {
         let responseText;
         
         try {
-            // Try to parse JSON first
             responseText = await response.text();
             try {
                 responseData = JSON.parse(responseText);
@@ -261,28 +175,29 @@ async function initiateHubtelPayment(paymentData) {
 
 /**
  * Check Transaction Status (Fallback)
- * Uses OAuth2 authentication
+ * Uses HTTP Basic Auth
  */
 async function checkHubtelTransactionStatus(clientReference) {
-    const hubtelAccount = process.env.HUBTEL_POS_SALES_ID;
+    const apiId = process.env.HUBTEL_POS_SALES_ID;
+    const apiKey = process.env.HUBTEL_API_KEY;
 
-    if (!hubtelAccount) {
-        throw new Error('Hubtel account not configured');
+    if (!apiId || !apiKey) {
+        throw new Error('Hubtel credentials not configured');
     }
 
-    // Get OAuth token
-    const accessToken = await getHubtelOAuthToken();
+    // Create Basic Auth header
+    const authHeader = Buffer.from(`${apiId}:${apiKey}`).toString('base64');
 
     console.log('[HUBTEL STATUS] Checking transaction...');
     console.log('Client Reference:', clientReference);
 
     try {
         const response = await fetch(
-            `https://api-txnstatus.hubtel.com/transactions/${clientReference}/status`,
+            `https://payproxyapi.hubtel.com/items/status/${clientReference}`,
             {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${accessToken}`,
+                    'Authorization': `Basic ${authHeader}`,
                     'Content-Type': 'application/json'
                 }
             }
@@ -303,8 +218,6 @@ async function checkHubtelTransactionStatus(clientReference) {
  * Verify Callback Signature (if Hubtel provides one)
  */
 function verifyCallbackSignature(data, signature, secret) {
-    // Implement if Hubtel provides callback signatures
-    // This is optional security enhancement
     return true;
 }
 
@@ -438,7 +351,6 @@ router.post('/hubtel/callback', express.raw({ type: 'application/json' }), async
 
         if (!paymentRecord) {
             console.error('[HUBTEL CALLBACK] Payment not found for reference:', ClientReference);
-            // Still respond 200 to Hubtel
             return res.status(200).json({ received: true });
         }
 
@@ -480,7 +392,6 @@ router.post('/hubtel/callback', express.raw({ type: 'application/json' }), async
 
     } catch (error) {
         console.error('[HUBTEL CALLBACK ERROR]:', error);
-        // Still respond 200 to prevent Hubtel retries
         res.status(200).json({ received: true });
     }
 });
@@ -493,7 +404,6 @@ router.get('/hubtel/status/:clientReference', async (req, res) => {
     try {
         const { clientReference } = req.params;
 
-        // Find payment
         const paymentRecord = findPaymentByClientReference(clientReference);
 
         if (!paymentRecord) {
@@ -507,7 +417,6 @@ router.get('/hubtel/status/:clientReference', async (req, res) => {
 
         console.log(`[PAYMENT STATUS] Checking: ${clientReference} (Current: ${payment.status})`);
 
-        // If payment is still pending, check Hubtel status
         if (payment.status === PaymentStatus.PENDING) {
             try {
                 const hubtelStatus = await checkHubtelTransactionStatus(clientReference);
@@ -590,7 +499,6 @@ router.post('/hubtel/fallback-check', async (req, res) => {
             });
         }
 
-        // Check Hubtel status
         try {
             const hubtelStatus = await checkHubtelTransactionStatus(clientReference);
 
@@ -660,7 +568,6 @@ router.post('/hubtel/refund', async (req, res) => {
             });
         }
 
-        // Create refund record
         const refund = {
             id: `ref_${uuidv4().substring(0, 12)}`,
             paymentId: paymentId,
