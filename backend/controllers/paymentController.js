@@ -1,5 +1,6 @@
 const hubtelService = require('../services/hubtelService');
 const Order = require('../models/Order');
+const mongoose = require('mongoose');
 
 /**
  * Payment Controller for handling payment-related requests
@@ -56,7 +57,7 @@ class PaymentController {
         });
       }
 
-      // Create order in database
+      // Create order data
       const orderData = {
         amount: parsedAmount,
         description: description.trim(),
@@ -70,12 +71,19 @@ class PaymentController {
       // Initiate payment with Hubtel
       const hubtelResponse = await hubtelService.initiatePayment(orderData);
 
-      // Store order with client reference
-      orderData.clientReference = hubtelResponse.clientReference;
-      await Order.createOrUpdateOrder(orderData);
+      console.log(`[PaymentController] Payment initiated. ClientReference:`, hubtelResponse.clientReference);
 
-      console.log(`[PaymentController] Payment initiated. Order: ${hubtelResponse.clientReference}`);
+      // Try to save order to database (if MongoDB is available)
+      try {
+        orderData.clientReference = hubtelResponse.clientReference;
+        await Order.createOrUpdateOrder(orderData);
+        console.log(`[PaymentController] Order saved to database`);
+      } catch (dbError) {
+        // Log but don't fail - payment can still proceed
+        console.warn(`[PaymentController] Could not save order to database:`, dbError.message);
+      }
 
+      // Return success with checkout URL
       return res.status(200).json({
         success: true,
         message: 'Payment initiated successfully',
@@ -115,24 +123,23 @@ class PaymentController {
 
       const { clientReference, transactionId, paymentMethod, checkoutId } = hubtelService.processCallback(callbackData);
 
-      // Update order in database
-      const order = await Order.markAsPaid(clientReference, {
-        transactionId,
-        paymentMethod,
-        checkoutId,
-        hubtelResponse: callbackData
-      });
-
-      if (!order) {
-        console.warn(`[PaymentController] Order not found for clientReference: ${clientReference}`);
-        // Still return 200 to Hubtel to prevent retries
-        return res.status(200).json({
-          success: true,
-          message: 'Callback received but order not found'
+      // Try to update order in database
+      try {
+        const order = await Order.markAsPaid(clientReference, {
+          transactionId,
+          paymentMethod,
+          checkoutId,
+          hubtelResponse: callbackData
         });
-      }
 
-      console.log(`[PaymentController] Order ${clientReference} marked as paid. Transaction: ${transactionId}`);
+        if (order) {
+          console.log(`[PaymentController] Order ${clientReference} marked as paid. Transaction: ${transactionId}`);
+        } else {
+          console.warn(`[PaymentController] Order not found for clientReference: ${clientReference}`);
+        }
+      } catch (dbError) {
+        console.warn(`[PaymentController] Could not update order in database:`, dbError.message);
+      }
 
       return res.status(200).json({
         success: true,
@@ -164,18 +171,15 @@ class PaymentController {
         });
       }
 
-      // Find order in database first
-      const order = await Order.findOne({ clientReference });
-
-      if (!order) {
-        return res.status(404).json({
-          success: false,
-          error: 'Order not found'
-        });
+      // Try to find order in database first
+      let order = null;
+      try {
+        order = await Order.findOne({ clientReference });
+      } catch (dbError) {
+        console.warn(`[PaymentController] Database not available:`, dbError.message);
       }
 
-      // If order is already marked as paid, return immediately
-      if (order.status === 'Paid') {
+      if (order && order.status === 'Paid') {
         return res.status(200).json({
           success: true,
           data: {
@@ -193,19 +197,23 @@ class PaymentController {
 
       // Update order if Hubtel confirms payment
       if (hubtelResponse.status === 'Success' && hubtelResponse.responseCode === '0000') {
-        await Order.markAsPaid(clientReference, {
-          transactionId: hubtelResponse.data.transactionId,
-          paymentMethod: hubtelResponse.data.paymentMethod,
-          checkoutId: hubtelResponse.data.checkoutId,
-          hubtelResponse: hubtelResponse.data
-        });
+        try {
+          await Order.markAsPaid(clientReference, {
+            transactionId: hubtelResponse.data.transactionId,
+            paymentMethod: hubtelResponse.data.paymentMethod,
+            checkoutId: hubtelResponse.data.checkoutId,
+            hubtelResponse: hubtelResponse.data
+          });
+        } catch (dbError) {
+          console.warn(`[PaymentController] Could not update order:`, dbError.message);
+        }
 
         return res.status(200).json({
           success: true,
           data: {
-            clientReference: order.clientReference,
+            clientReference: clientReference,
             status: 'Paid',
-            amount: order.amount,
+            amount: order?.amount || 0,
             transactionId: hubtelResponse.data.transactionId
           }
         });
@@ -214,8 +222,8 @@ class PaymentController {
       return res.status(200).json({
         success: true,
         data: {
-          clientReference: order.clientReference,
-          status: order.status,
+          clientReference: clientReference,
+          status: order?.status || 'Pending',
           hubtelStatus: hubtelResponse.status,
           hubtelResponseCode: hubtelResponse.responseCode
         }
@@ -238,12 +246,21 @@ class PaymentController {
     try {
       const { clientReference } = req.params;
 
-      const order = await Order.findOne({ clientReference });
+      let order = null;
+      try {
+        order = await Order.findOne({ clientReference });
+      } catch (dbError) {
+        console.warn(`[PaymentController] Database not available:`, dbError.message);
+      }
 
       if (!order) {
-        return res.status(404).json({
+        return res.status(200).json({
           success: false,
-          error: 'Order not found'
+          error: 'Order not found (database not available)',
+          data: {
+            clientReference: clientReference,
+            status: 'Unknown - database not connected'
+          }
         });
       }
 
@@ -275,10 +292,19 @@ class PaymentController {
    * GET /api/health
    */
   async healthCheck(req, res) {
+    // Check if MongoDB is connected
+    let mongoStatus = 'disconnected';
+    try {
+      if (mongoose.connection.readyState === 1) {
+        mongoStatus = 'connected';
+      }
+    } catch (e) {}
+
     return res.status(200).json({
       success: true,
       message: 'Backend is running',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      database: mongoStatus
     });
   }
 }
