@@ -1,175 +1,122 @@
 /**
- * Nedhub Backend Server
- * Main entry point for the API server
- * 
- * Features:
- * - Hubtel Payment Integration (Ghana)
- * - CV Templates E-commerce
- * - Order Management
+ * Nedhub Backend - Hubtel Redirect Checkout Integration
+ * Main entry point for the Node.js Express server
  */
 
 require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
-const path = require('path');
+const helmet = require('helmet');
+const mongoose = require('mongoose');
 
-// Import routes
-const paymentRoutes = require('./routes/payment');
-const productRoutes = require('./routes/products');
-const orderRoutes = require('./routes/orders');
+const config = require('./config');
+const paymentRoutes = require('./routes/paymentRoutes');
+const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Get actual URLs from environment or use sensible defaults
-const API_BASE_URL = process.env.API_BASE_URL || `http://localhost:${PORT}`;
-const FRONTEND_URL = process.env.FRONTEND_URL || `http://localhost:${PORT}`;
-
-// =============================================================================
-// MIDDLEWARE
-// =============================================================================
+// Security middleware
+app.use(helmet({
+  contentSecurityPolicy: false, // Disabled for API
+  crossOriginEmbedderPolicy: false
+}));
 
 // CORS configuration
 app.use(cors({
-    origin: function(origin, callback) {
-        // Allow requests with no origin (mobile apps, curl, etc.)
-        if (!origin) return callback(null, true);
-        
-        const allowedOrigins = [
-            'http://localhost:5500',
-            'http://127.0.0.1:5500',
-            'http://localhost:3000',
-            'http://127.0.0.1:3000',
-            'https://www.nedhubgh.com',
-            'https://nedhubgh.com'
-        ];
-        
-        // Also allow FRONTEND_URL from environment variable
-        const frontendUrl = process.env.FRONTEND_URL;
-        if (frontendUrl && !allowedOrigins.includes(frontendUrl)) {
-            allowedOrigins.push(frontendUrl);
-        }
-        
-        if (allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-    credentials: true
+  origin: config.corsOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
-// Parse JSON bodies (but not for webhooks - raw body needed)
-app.use((req, res, next) => {
-    if (req.originalUrl === '/api/payments/hubtel/callback') {
-        next();
-    } else {
-        express.json()(req, res, next);
-    }
-});
-
-app.use(bodyParser.urlencoded({ extended: true }));
+// Body parsing middleware
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // Request logging middleware
 app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
-    next();
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.path}`);
+  next();
 });
 
-// Serve static files (for downloaded templates)
-app.use('/downloads', express.static(path.join(__dirname, 'downloads')));
-
-// =============================================================================
-// API ROUTES
-// =============================================================================
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-    res.json({ 
-        status: 'OK', 
-        message: 'Nedhub API is running',
-        timestamp: new Date().toISOString(),
-        version: '1.0.0',
-        paymentGateway: 'Hubtel',
-        environment: {
-            apiBaseUrl: API_BASE_URL,
-            frontendUrl: FRONTEND_URL
-        }
-    });
+// Health check endpoint (root)
+app.get('/', (req, res) => {
+  res.json({
+    service: 'Nedhub Payment Backend',
+    version: '1.0.0',
+    status: 'running',
+    timestamp: new Date().toISOString()
+  });
 });
 
-// Payment routes (Hubtel integration)
-app.use('/api/payments', paymentRoutes);
-
-// Product routes
-app.use('/api/products', productRoutes);
-
-// Order routes
-app.use('/api/orders', orderRoutes);
-
-// =============================================================================
-// ERROR HANDLING
-// =============================================================================
+// API routes
+app.use('/api', paymentRoutes);
 
 // 404 handler
-app.use((req, res) => {
-    res.status(404).json({ 
-        error: 'Endpoint not found',
-        path: req.originalUrl
-    });
-});
+app.use(notFoundHandler);
 
 // Global error handler
-app.use((err, req, res, next) => {
-    console.error('[ERROR]', err.stack);
-    
-    // Handle CORS errors
-    if (err.message === 'Not allowed by CORS') {
-        return res.status(403).json({
-            error: 'CORS not allowed',
-            message: err.message
-        });
+app.use(errorHandler);
+
+// Database connection (optional - for production)
+const connectDB = async () => {
+  if (process.env.MONGODB_URI) {
+    try {
+      await mongoose.connect(process.env.MONGODB_URI);
+      console.log('[Server] MongoDB connected successfully');
+    } catch (error) {
+      console.warn('[Server] MongoDB connection failed - running without database');
+      console.warn('[Server] Error:', error.message);
     }
+  } else {
+    console.log('[Server] No MongoDB URI provided - running in demo mode');
+  }
+};
 
-    res.status(500).json({
-        error: 'Internal server error',
-        message: process.env.NODE_ENV === 'development' ? err.message : undefined
-    });
+// Start server
+const startServer = async () => {
+  await connectDB();
+
+  const PORT = config.port;
+  
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log('==========================================');
+    console.log(`[Server] Nedhub Payment Backend Started`);
+    console.log(`[Server] Environment: ${config.nodeEnv}`);
+    console.log(`[Server] Port: ${PORT}`);
+    console.log(`[Server] Base URL: ${config.baseUrl}`);
+    console.log('==========================================');
+    console.log('[Server] Available endpoints:');
+    console.log('  GET  /                  - Health check');
+    console.log('  GET  /api/health        - API health check');
+    console.log('  POST /api/pay           - Initiate payment');
+    console.log('  POST /api/hubtel-callback - Hubtel callback');
+    console.log('  GET  /api/check-status/:clientRef - Check status');
+    console.log('  GET  /api/order/:clientRef - Get order details');
+    console.log('==========================================');
+  });
+};
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[Server] Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-// =============================================================================
-// SERVER STARTUP
-// =============================================================================
-
-// Check if Hubtel credentials are configured
-const hubtelConfigured = process.env.HUBTEL_POS_SALES_ID && process.env.HUBTEL_API_KEY;
-const envWarning = !hubtelConfigured ? '\n⚠️  WARNING: Hubtel credentials not configured!\n   Set HUBTEL_POS_SALES_ID and HUBTEL_API_KEY in Railway environment variables\n' : '';
-
-app.listen(PORT, () => {
-    console.log(`
-╔════════════════════════════════════════════════════════════════════╗
-║                                                                ║
-║   🚀 Nedhub Backend Server Started Successfully!                ║
-║                                                                ║
-║   Server:      ${API_BASE_URL}                        ║
-║   API Base:    ${API_BASE_URL}/api                      ║
-║   Health:      ${API_BASE_URL}/api/health               ║
-║                                                                ║
-║   Payment Gateway: ${hubtelConfigured ? '✓ Hubtel Configured' : '✗ Not Configured'}
-║${envWarning}║   Mode:        ${process.env.NODE_ENV || 'development'}                                 ║
-║                                                                ║
-║   Endpoints:                                                   ║
-║   • POST /api/payments/hubtel/initiate   - Start payment       ║
-║   • POST /api/payments/hubtel/callback    - Hubtel webhook      ║
-║   • GET  /api/payments/hubtel/status/:ref - Check status        ║
-║   • GET  /api/products                   - List products        ║
-║   • POST /api/orders/create              - Create order        ║
-║                                                                ║
-╚════════════════════════════════════════════════════════════════════╝
-    `);
+// Handle uncaught exceptions
+process.on('uncaughtException', (error) => {
+  console.error('[Server] Uncaught Exception:', error);
+  process.exit(1);
 });
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('[Server] SIGTERM received. Shutting down gracefully...');
+  process.exit(0);
+});
+
+// Start the server
+startServer();
 
 module.exports = app;
