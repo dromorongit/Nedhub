@@ -22,6 +22,10 @@ const orderRoutes = require('./routes/orders');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Get actual URLs from environment or use sensible defaults
+const API_BASE_URL = process.env.API_BASE_URL || `http://localhost:${PORT}`;
+const FRONTEND_URL = process.env.FRONTEND_URL || `http://localhost:${PORT}`;
+
 // =============================================================================
 // MIDDLEWARE
 // =============================================================================
@@ -89,7 +93,11 @@ app.get('/api/health', (req, res) => {
         message: 'Nedhub API is running',
         timestamp: new Date().toISOString(),
         version: '1.0.0',
-        paymentGateway: 'Hubtel'
+        paymentGateway: 'Hubtel',
+        environment: {
+            apiBaseUrl: API_BASE_URL,
+            frontendUrl: FRONTEND_URL
+        }
     });
 });
 
@@ -138,7 +146,7 @@ app.use((err, req, res, next) => {
 
 // Check if Hubtel credentials are configured
 const hubtelConfigured = process.env.HUBTEL_POS_SALES_ID && process.env.HUBTEL_API_KEY;
-const envWarning = !hubtelConfigured ? '\n⚠️  WARNING: Hubtel credentials not configured!\n   Copy .env.example to .env and add your credentials\n' : '';
+const envWarning = !hubtelConfigured ? '\n⚠️  WARNING: Hubtel credentials not configured!\n   Set HUBTEL_POS_SALES_ID and HUBTEL_API_KEY in Railway environment variables\n' : '';
 
 app.listen(PORT, () => {
     console.log(`
@@ -146,9 +154,9 @@ app.listen(PORT, () => {
 ║                                                                ║
 ║   🚀 Nedhub Backend Server Started Successfully!                ║
 ║                                                                ║
-║   Server:      http://localhost:${PORT}                          ║
-║   API Base:    http://localhost:${PORT}/api                      ║
-║   Health:      http://localhost:${PORT}/api/health               ║
+║   Server:      ${API_BASE_URL}                        ║
+║   API Base:    ${API_BASE_URL}/api                      ║
+║   Health:      ${API_BASE_URL}/api/health               ║
 ║                                                                ║
 ║   Payment Gateway: ${hubtelConfigured ? '✓ Hubtel Configured' : '✗ Not Configured'}
 ║${envWarning}║   Mode:        ${process.env.NODE_ENV || 'development'}                                 ║
