@@ -3,7 +3,7 @@
  * Main entry point for the Node.js Express server
  */
 
-require('dotenv').config();
+require('dotenv').config({ path: './.env' });
 
 const express = require('express');
 const cors = require('cors');
@@ -15,6 +15,13 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 
 const app = express();
+
+// Debug: Log environment variables (without exposing secrets)
+console.log('[Server] Environment check:');
+console.log('[Server] NODE_ENV:', process.env.NODE_ENV);
+console.log('[Server] HUBTEL_CLIENT_ID:', process.env.HUBTEL_CLIENT_ID ? '***set***' : 'NOT SET');
+console.log('[Server] HUBTEL_POS_ID:', process.env.HUBTEL_POS_ID || 'NOT SET');
+console.log('[Server] BASE_URL:', process.env.BASE_URL);
 
 // Security middleware
 app.use(helmet({

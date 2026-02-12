@@ -13,6 +13,14 @@ class HubtelService {
     this.baseUrl = config.hubtel.baseUrl;
     this.txnStatusUrl = config.hubtel.txnStatusUrl;
     this.baseUrlValue = config.baseUrl;
+
+    // Validate required configuration
+    if (!this.clientId || !this.clientSecret || !this.posId) {
+      console.warn('[HubtelService] WARNING: Hubtel credentials not fully configured!');
+      console.warn('[HubtelService] HUBTEL_CLIENT_ID:', this.clientId ? '***set***' : 'MISSING');
+      console.warn('[HubtelService] HUBTEL_CLIENT_SECRET:', this.clientSecret ? '***set***' : 'MISSING');
+      console.warn('[HubtelService] HUBTEL_POS_ID:', this.posId || 'MISSING');
+    }
   }
 
   /**
@@ -21,6 +29,13 @@ class HubtelService {
   getAuthHeader() {
     const credentials = Buffer.from(`${this.clientId}:${this.clientSecret}`).toString('base64');
     return `Basic ${credentials}`;
+  }
+
+  /**
+   * Check if service is properly configured
+   */
+  isConfigured() {
+    return !!(this.clientId && this.clientSecret && this.posId);
   }
 
   /**
@@ -34,6 +49,11 @@ class HubtelService {
    * @returns {Promise<Object>} - Hubtel response with checkout URL
    */
   async initiatePayment(paymentData) {
+    // Check configuration first
+    if (!this.isConfigured()) {
+      throw new Error('Hubtel service is not configured. Please set HUBTEL_CLIENT_ID, HUBTEL_CLIENT_SECRET, and HUBTEL_POS_ID environment variables.');
+    }
+
     const { totalAmount, description, customerName, customerEmail, customerPhone } = paymentData;
     
     // Generate unique client reference
@@ -110,6 +130,10 @@ class HubtelService {
    * @returns {Promise<Object>} - Transaction status
    */
   async checkTransactionStatus(clientReference) {
+    if (!this.isConfigured()) {
+      throw new Error('Hubtel service is not configured.');
+    }
+
     try {
       console.log(`[HubtelService] Checking status for clientReference: ${clientReference}`);
 
