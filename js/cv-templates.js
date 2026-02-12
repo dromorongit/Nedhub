@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function useFallbackTemplates() {
         templates = {
             1: { name: 'Modern Pro', price: 120, image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&q=80', isFree: false },
-            2: { name: 'Classic Elegance', price: 95, image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80', isFree: false },
+            2: { name: 'Classic Elegance', price: 1, image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80', isFree: false },
             3: { name: 'Creative Studio', price: 155, image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80', isFree: false },
             4: { name: 'Professional Standard', price: 0, image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80', isFree: true },
             5: { name: 'Minimal Design', price: 110, image: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600&q=80', isFree: false },

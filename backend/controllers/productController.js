@@ -17,7 +17,7 @@ const templates = [
   {
     id: 'cv-2',
     name: 'Classic Elegance',
-    price: 95,
+    price: 1,
     image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80',
     category: 'classic',
     downloadUrl: '#',
