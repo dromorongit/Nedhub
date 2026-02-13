@@ -705,7 +705,12 @@
     
     /* Mobile Cards Layout - 1 column for strict mobile (< 768px) */
     @media (max-width: 767px) {
-        .grid-container,
+        /* Override base grid-container from styles.css */
+        .grid-container {
+            grid-template-columns: repeat(1, 1fr);
+            gap: var(--space-md);
+        }
+        
         .cards-grid,
         .values-grid,
         .solutions-grid,
@@ -2556,4 +2561,5 @@
         background-color: #0B132B;
     }
 } */
+
 
