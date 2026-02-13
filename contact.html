@@ -132,98 +132,145 @@
             </div>
         </section>
 
-        <!-- Mobile Contact Section - Reordered for better UX -->
-        <section class="contact-section mobile-contact-layout">
+        <!-- Contact Section - Modern & Fully Responsive -->
+        <section class="contact-section">
             <div class="container">
-                <!-- Contact Form First - Most important action -->
-                <div class="contact-form scroll-animate mobile-form-first">
-                    <h2>Send Us A Message</h2>
-                    <p class="form-description">Fill out the form below and our team will get back to you within 24 hours.</p>
-                    
-                    <form id="contactForm" class="form modern-form">
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" required aria-required="true" placeholder="John Doe">
-                            <span class="error-message" id="name-error"></span>
+                <div class="contact-wrapper">
+                    <!-- Contact Form -->
+                    <div class="contact-form-container">
+                        <div class="contact-form-header">
+                            <span class="section-badge">
+                                <i class="fas fa-paper-plane"></i>
+                                Get In Touch
+                            </span>
+                            <h2>Send Us A Message</h2>
+                            <p class="form-description">Fill out the form below and our team will get back to you within 24 hours.</p>
                         </div>
+                        
+                        <form id="contactForm" class="modern-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">
+                                        <i class="fas fa-user"></i> Your Name
+                                    </label>
+                                    <input type="text" id="name" name="name" required aria-required="true" placeholder="John Doe">
+                                    <span class="error-message" id="name-error"></span>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" required aria-required="true" placeholder="john@example.com">
-                            <span class="error-message" id="email-error"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" placeholder="+233 271 177 321">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" required aria-required="true" placeholder="How can we help?">
-                            <span class="error-message" id="subject-error"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Your Message</label>
-                            <textarea id="message" name="message" rows="6" required aria-required="true" placeholder="Tell us about your needs..."></textarea>
-                            <span class="error-message" id="message-error"></span>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-submit btn-large">
-                            <span class="btn-text">Send Message</span>
-                            <span class="btn-icon">→</span>
-                        </button>
-
-                        <div id="form-status" class="form-status"></div>
-                    </form>
-                </div>
-
-                <!-- Contact Information Second -->
-                <div class="contact-info scroll-animate mobile-contact-second">
-                    <h2>Get In Touch</h2>
-                    <p class="contact-intro">Our team is ready to assist you with any questions or requirements you may have.</p>
-
-                    <div class="contact-details">
-                        <div class="contact-item scroll-animate delay-1">
-                            <div class="contact-icon">
-                                <span class="icon-phone"></span>
+                                <div class="form-group">
+                                    <label for="email">
+                                        <i class="fas fa-envelope"></i> Email Address
+                                    </label>
+                                    <input type="email" id="email" name="email" required aria-required="true" placeholder="john@example.com">
+                                    <span class="error-message" id="email-error"></span>
+                                </div>
                             </div>
-                            <div>
-                                <h3>Phone</h3>
-                                <p><a href="tel:+233271177321">+233 271 177 321</a></p>
-                            </div>
-                        </div>
 
-                        <div class="contact-item scroll-animate delay-2">
-                            <div class="contact-icon">
-                                <span class="icon-location"></span>
-                            </div>
-                            <div>
-                                <h3>Location</h3>
-                                <p>Roman Ridge</p>
-                            </div>
-                        </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">
+                                        <i class="fas fa-phone"></i> Phone Number
+                                    </label>
+                                    <input type="tel" id="phone" name="phone" placeholder="+233 271 177 321">
+                                </div>
 
-                        <div class="contact-item scroll-animate delay-3">
-                            <div class="contact-icon">
-                                <span class="icon-linkedin"></span>
+                                <div class="form-group">
+                                    <label for="subject">
+                                        <i class="fas fa-tag"></i> Subject
+                                    </label>
+                                    <input type="text" id="subject" name="subject" required aria-required="true" placeholder="How can we help?">
+                                    <span class="error-message" id="subject-error"></span>
+                                </div>
                             </div>
-                            <div>
-                                <h3>LinkedIn</h3>
-                                <p><a href="https://www.linkedin.com/company/hr-klinic/" target="_blank">linkedin.com/company/hr-klinic</a></p>
+
+                            <div class="form-group full-width">
+                                <label for="message">
+                                    <i class="fas fa-comment"></i> Your Message
+                                </label>
+                                <textarea id="message" name="message" rows="5" required aria-required="true" placeholder="Tell us about your needs..."></textarea>
+                                <span class="error-message" id="message-error"></span>
                             </div>
-                        </div>
+
+                            <button type="submit" class="btn btn-primary btn-submit">
+                                <span class="btn-text">Send Message</span>
+                                <span class="btn-icon">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </button>
+
+                            <div id="form-status" class="form-status"></div>
+                        </form>
                     </div>
 
-                    <!-- Business Hours -->
-                    <div class="business-hours scroll-animate delay-4">
-                        <h3>Business Hours</h3>
-                        <ul>
-                            <li><span>Monday - Friday:</span> 9:00 AM - 5:00 PM</li>
-                            <li><span>Saturday:</span> 10:00 AM - 2:00 PM</li>
-                            <li><span>Sunday:</span> Closed</li>
-                        </ul>
+                    <!-- Contact Information Sidebar -->
+                    <div class="contact-info-container">
+                        <div class="contact-info-card">
+                            <h3>Contact Information</h3>
+                            <p class="contact-intro">Our team is ready to assist you with any questions or requirements you may have.</p>
+
+                            <div class="contact-methods">
+                                <div class="contact-method">
+                                    <div class="method-icon">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </div>
+                                    <div class="method-details">
+                                        <h4>Phone</h4>
+                                        <a href="tel:+233271177321">+233 271 177 321</a>
+                                    </div>
+                                </div>
+
+                                <div class="contact-method">
+                                    <div class="method-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="method-details">
+                                        <h4>Location</h4>
+                                        <p>Roman Ridge, Accra, Ghana</p>
+                                    </div>
+                                </div>
+
+                                <div class="contact-method">
+                                    <div class="method-icon">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </div>
+                                    <div class="method-details">
+                                        <h4>LinkedIn</h4>
+                                        <a href="https://www.linkedin.com/company/hr-klinic/" target="_blank">linkedin.com/company/hr-klinic</a>
+                                    </div>
+                                </div>
+
+                                <div class="contact-method">
+                                    <div class="method-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="method-details">
+                                        <h4>Email</h4>
+                                        <a href="mailto:info@nedhub.com">info@nedhub.com</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Business Hours -->
+                            <div class="business-hours-card">
+                                <h4>
+                                    <i class="fas fa-clock"></i> Business Hours
+                                </h4>
+                                <ul class="hours-list">
+                                    <li>
+                                        <span class="day">Monday - Friday</span>
+                                        <span class="time">9:00 AM - 5:00 PM</span>
+                                    </li>
+                                    <li>
+                                        <span class="day">Saturday</span>
+                                        <span class="time">10:00 AM - 2:00 PM</span>
+                                    </li>
+                                    <li>
+                                        <span class="day">Sunday</span>
+                                        <span class="time">Closed</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -232,16 +279,26 @@
         <!-- Interactive Map Section -->
         <section class="map-section">
             <div class="container">
-                <h2>Our Location</h2>
-                <p class="map-description">Visit our office in Roman Ridge or connect with us online</p>
-                <div class="map-container scroll-animate">
+                <div class="section-header">
+                    <span class="section-badge">
+                        <i class="fas fa-map"></i>
+                        Visit Us
+                    </span>
+                    <h2>Our Location</h2>
+                    <p class="section-description">Visit our office in Roman Ridge or connect with us online</p>
+                </div>
+                <div class="map-container">
                     <div class="map-placeholder">
-                        <div class="map-overlay">
-                            <div class="map-icon">
+                        <div class="map-content">
+                            <div class="map-marker">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
-                            <p>Interactive map showing our location</p>
-                            <p class="map-address">Roman Ridge, Accra</p>
+                            <h3>Nedhub Headquarters</h3>
+                            <p>Roman Ridge, Accra, Ghana</p>
+                            <a href="https://maps.google.com/?q=Roman+Ridge+Accra+Ghana" target="_blank" class="btn btn-outline">
+                                <span>Get Directions</span>
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -251,42 +308,48 @@
         <!-- Social Media Section -->
         <section class="social-media-section">
             <div class="container">
-                <h2 class="text-center">Connect With Us</h2>
-                <p class="text-center">Follow us on social media for updates, insights, and professional content</p>
-                <div class="social-media-grid">
-                    <div class="social-card facebook scroll-animate">
-                        <div class="social-icon">
+                <div class="section-header centered">
+                    <span class="section-badge">
+                        <i class="fas fa-share-alt"></i>
+                        Stay Connected
+                    </span>
+                    <h2>Connect With Us</h2>
+                    <p class="section-description">Follow us on social media for updates, insights, and professional content</p>
+                </div>
+                <div class="social-cards-grid">
+                    <div class="social-card">
+                        <div class="social-card-icon facebook">
                             <i class="fab fa-facebook-f"></i>
                         </div>
                         <h3>Facebook</h3>
-                        <p>Stay updated with our latest news, events, and industry insights on Facebook.</p>
-                        <a href="https://www.facebook.com/" target="_blank">
-                            <span class="btn-text">Follow Us</span>
-                            <span class="btn-icon">→</span>
+                        <p>Stay updated with our latest news, events, and industry insights.</p>
+                        <a href="https://www.facebook.com/" target="_blank" class="social-link">
+                            <span>Follow Us</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                     
-                    <div class="social-card linkedin scroll-animate delay-1">
-                        <div class="social-icon">
+                    <div class="social-card">
+                        <div class="social-card-icon linkedin">
                             <i class="fab fa-linkedin-in"></i>
                         </div>
                         <h3>LinkedIn</h3>
-                        <p>Connect with us professionally and explore career opportunities on LinkedIn.</p>
-                        <a href="https://www.linkedin.com/company/hr-klinic/" target="_blank">
-                            <span class="btn-text">Connect</span>
-                            <span class="btn-icon">→</span>
+                        <p>Connect with us professionally and explore career opportunities.</p>
+                        <a href="https://www.linkedin.com/company/hr-klinic/" target="_blank" class="social-link">
+                            <span>Connect</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                     
-                    <div class="social-card whatsapp scroll-animate delay-2">
-                        <div class="social-icon">
+                    <div class="social-card">
+                        <div class="social-card-icon whatsapp">
                             <i class="fab fa-whatsapp"></i>
                         </div>
                         <h3>WhatsApp</h3>
-                        <p>Get instant support and quick responses through WhatsApp business.</p>
-                        <a href="https://wa.me/" target="_blank">
-                            <span class="btn-text">Message Us</span>
-                            <span class="btn-icon">→</span>
+                        <p>Get instant support and quick responses through WhatsApp.</p>
+                        <a href="https://wa.me/" target="_blank" class="social-link">
+                            <span>Message Us</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -296,45 +359,59 @@
         <!-- FAQ Section -->
         <section class="faq-section">
             <div class="container">
-                <h2 class="text-center">Frequently Asked Questions</h2>
-                <p class="text-center faq-intro">Find answers to common questions about our services</p>
+                <div class="section-header centered">
+                    <span class="section-badge">
+                        <i class="fas fa-question-circle"></i>
+                        Need Help?
+                    </span>
+                    <h2>Frequently Asked Questions</h2>
+                    <p class="section-description">Find answers to common questions about our services</p>
+                </div>
                 
-                <div class="faq-grid">
-                    <div class="faq-item scroll-animate">
-                        <div class="faq-question">
-                            <h3>What services does Nedhub offer?</h3>
-                            <span class="faq-icon">+</span>
-                        </div>
+                <div class="faq-accordion">
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>What services does Nedhub offer?</span>
+                            <span class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        </button>
                         <div class="faq-answer">
                             <p>We offer comprehensive corporate solutions including recruitment, staff outsourcing, training programs, career coaching, data analytics, and BULK SMS business communication solutions.</p>
                         </div>
                     </div>
 
-                    <div class="faq-item scroll-animate delay-1">
-                        <div class="faq-question">
-                            <h3>How can I get started with your services?</h3>
-                            <span class="faq-icon">+</span>
-                        </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>How can I get started with your services?</span>
+                            <span class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        </button>
                         <div class="faq-answer">
                             <p>Simply fill out our contact form or call us at +233 271 177 321. Our team will schedule a consultation to understand your needs and recommend the best solutions.</p>
                         </div>
                     </div>
 
-                    <div class="faq-item scroll-animate delay-2">
-                        <div class="faq-question">
-                            <h3>Do you offer customized solutions?</h3>
-                            <span class="faq-icon">+</span>
-                        </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Do you offer customized solutions?</span>
+                            <span class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        </button>
                         <div class="faq-answer">
                             <p>Yes, all our services are tailored to meet your specific business requirements. We work closely with you to develop solutions that address your unique challenges.</p>
                         </div>
                     </div>
 
-                    <div class="faq-item scroll-animate delay-3">
-                        <div class="faq-question">
-                            <h3>What industries do you serve?</h3>
-                            <span class="faq-icon">+</span>
-                        </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>What industries do you serve?</span>
+                            <span class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                        </button>
                         <div class="faq-answer">
                             <p>We serve diverse industries including technology, finance, healthcare, education, manufacturing, and more. Our solutions are adaptable to various sector requirements.</p>
                         </div>
