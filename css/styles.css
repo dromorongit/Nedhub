@@ -1266,6 +1266,13 @@ a:hover::after {
     gap: var(--space-xl);
 }
 
+/* Mobile responsive for Why Choose grid - 1 column on mobile */
+@media (max-width: 768px) {
+    .why-choose-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .why-choose-card {
     position: relative;
     border-radius: var(--radius-lg);
