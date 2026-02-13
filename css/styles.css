@@ -5132,6 +5132,328 @@ a:hover::after {
     font-weight: 500;
 }
 
+/* ===== ABOUT PAGE - ENHANCED IMAGE-BASED SECTIONS ===== */
+
+/* Mission & Vision Section - Image Based Cards */
+.mission-vision-section {
+    padding: var(--space-xxl) 0;
+    background: linear-gradient(135deg, rgba(247, 127, 0, 0.02) 0%, rgba(11, 19, 43, 0.01) 100%);
+}
+
+.mv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl);
+}
+
+.mv-card {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.mv-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+}
+
+.mv-image {
+    position: relative;
+    height: 320px;
+    overflow: hidden;
+}
+
+.mv-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.mv-card:hover .mv-image img {
+    transform: scale(1.08);
+}
+
+.mv-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(11, 19, 43, 0.3) 0%, rgba(11, 19, 43, 0.85) 100%);
+}
+
+.mv-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-xl);
+    color: var(--neutral-white);
+}
+
+.mv-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-orange), #e67000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-md);
+    box-shadow: 0 8px 20px rgba(247, 127, 0, 0.4);
+}
+
+.mv-icon i {
+    font-size: 24px;
+    color: var(--neutral-white);
+}
+
+.mv-content h3 {
+    font-size: var(--font-size-xxl);
+    margin-bottom: var(--space-sm);
+    color: var(--neutral-white);
+}
+
+.mv-content p {
+    font-size: var(--font-size-base);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Core Values Section - Image Based Cards */
+.core-values-section {
+    padding: var(--space-xxl) 0;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%);
+}
+
+.values-image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+}
+
+.value-image-card {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.value-image-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+}
+
+.value-image-bg {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+}
+
+.value-image-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.value-image-card:hover .value-image-bg img {
+    transform: scale(1.1);
+}
+
+.value-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(11, 19, 43, 0.2) 0%, rgba(11, 19, 43, 0.9) 100%);
+}
+
+.value-image-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-lg);
+    color: var(--neutral-white);
+}
+
+.value-image-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-orange), #e67000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-sm);
+    box-shadow: 0 6px 15px rgba(247, 127, 0, 0.35);
+}
+
+.value-image-icon i {
+    font-size: 20px;
+    color: var(--neutral-white);
+}
+
+.value-image-content h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-xs);
+    color: var(--neutral-white);
+}
+
+.value-image-content p {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+    display: none;
+}
+
+.value-image-card:hover .value-image-content p {
+    display: block;
+}
+
+/* Industries Section - Image Based Cards */
+.industries-section {
+    padding: var(--space-xxl) 0;
+    background: linear-gradient(135deg, rgba(247, 127, 0, 0.02) 0%, rgba(11, 19, 43, 0.01) 100%);
+}
+
+.industries-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+}
+
+.industry-card {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.industry-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+}
+
+.industry-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.industry-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.industry-card:hover .industry-image img {
+    transform: scale(1.1);
+}
+
+.industry-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(11, 19, 43, 0.1) 0%, rgba(11, 19, 43, 0.85) 100%);
+}
+
+.industry-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-lg);
+    color: var(--neutral-white);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.industry-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-orange), #e67000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 15px rgba(247, 127, 0, 0.35);
+    flex-shrink: 0;
+}
+
+.industry-icon i {
+    font-size: 18px;
+    color: var(--neutral-white);
+}
+
+.industry-content h3 {
+    font-size: var(--font-size-lg);
+    color: var(--neutral-white);
+    margin: 0;
+}
+
+.section-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-light);
+    max-width: 700px;
+    margin: 0 auto var(--space-xxl);
+    line-height: 1.7;
+}
+
+/* Responsive Styles for About Page */
+@media (max-width: 1024px) {
+    .values-image-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .industries-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .mv-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .mv-image {
+        height: 280px;
+    }
+    
+    .values-image-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .value-image-bg {
+        height: 200px;
+    }
+    
+    .value-image-content p {
+        display: block;
+    }
+    
+    .industries-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .industry-image {
+        height: 160px;
+    }
+}
+
+/* End of About Page Enhancements */
+
 /* ===== MODERN CONTACT PAGE ENHANCEMENTS ===== */
 
 /* Enhanced Contact Form Section */
