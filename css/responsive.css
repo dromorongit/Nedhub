@@ -73,6 +73,8 @@
         top: 100%;
         left: 0;
         right: 0;
+        max-height: 70vh;
+        overflow-y: auto;
         background: linear-gradient(180deg, #1a2342 0%, #0d1321 100%);
         padding: 0;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -80,7 +82,25 @@
         z-index: 1000;
         animation: mobileMenuSlideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         transform-origin: top;
-        overflow: hidden;
+        overflow-x: hidden;
+    }
+
+    /* Scrollbar styling for mobile menu */
+    .nav-menu.active::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .nav-menu.active::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-menu.active::-webkit-scrollbar-thumb {
+        background: rgba(247, 127, 0, 0.4);
+        border-radius: 3px;
+    }
+
+    .nav-menu.active::-webkit-scrollbar-thumb:hover {
+        background: rgba(247, 127, 0, 0.6);
     }
 
     /* Add a subtle pattern overlay */
@@ -124,14 +144,15 @@
         }
     }
 
-    /* Mobile menu items styling - Modern & Catchy */
+    /* Mobile menu items styling - Modern & Catchy - Reduced fonts & Pill shape */
     .nav-menu.active .nav-link {
-        padding: 18px 28px;
-        font-size: 16px;
+        padding: 14px 24px;
+        font-size: 14px;
         font-weight: 500;
         color: #ffffff;
         border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        margin: 0;
+        margin: 6px 12px;
+        border-radius: 25px;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         align-items: center;
@@ -139,6 +160,7 @@
         text-decoration: none;
         position: relative;
         overflow: hidden;
+        background: rgba(255, 255, 255, 0.03);
     }
 
     .nav-menu.active .nav-link::before {
@@ -160,8 +182,9 @@
     .nav-menu.active .nav-link:hover,
     .nav-menu.active .nav-link.active {
         color: #f77f00;
-        background: linear-gradient(90deg, rgba(247, 127, 0, 0.12) 0%, transparent 100%);
-        padding-left: 36px;
+        background: rgba(247, 127, 0, 0.12);
+        padding-left: 32px;
+        transform: translateX(4px);
     }
 
     .nav-menu.active .nav-link:hover::before,
@@ -171,8 +194,8 @@
 
     .nav-menu.active .nav-link::after {
         content: '';
-        width: 8px;
-        height: 8px;
+        width: 6px;
+        height: 6px;
         border-right: 2px solid rgba(255, 255, 255, 0.3);
         border-bottom: 2px solid rgba(255, 255, 255, 0.3);
         border-radius: 2px;
@@ -188,9 +211,9 @@
 
     /* Menu item icons */
     .nav-menu.active .nav-link .menu-icon {
-        margin-right: 16px;
-        font-size: 18px;
-        width: 24px;
+        margin-right: 12px;
+        font-size: 16px;
+        width: 20px;
         text-align: center;
         color: rgba(255, 255, 255, 0.7);
         transition: all 0.3s ease;
@@ -224,16 +247,18 @@
     }
 
     .nav-menu.active .dropdown-menu .nav-link {
-        padding: 16px 28px 16px 48px;
-        font-size: 15px;
+        padding: 12px 24px 12px 40px;
+        font-size: 13px;
         color: rgba(255, 255, 255, 0.8);
         border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        margin: 4px 12px;
+        border-radius: 20px;
     }
 
     .nav-menu.active .dropdown-menu .nav-link:hover {
         color: #f77f00;
-        padding-left: 56px;
-        background: linear-gradient(90deg, rgba(247, 127, 0, 0.1) 0%, transparent 100%);
+        padding-left: 48px;
+        background: rgba(247, 127, 0, 0.1);
     }
 
     /* Menu close button */
