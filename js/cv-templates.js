@@ -41,11 +41,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add event listeners
         setupEventListeners();
 
+        // Check if we should process a returning payment
+        // This must run before updateTemplateButtons to ensure purchased templates are loaded
+        await checkPaymentReturn();
+
         // Update purchased template buttons
         updateTemplateButtons();
-
-        // Check if we should process a returning payment
-        checkPaymentReturn();
     }
 
     // Setup all event listeners
@@ -112,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Check if returning from payment
-    function checkPaymentReturn() {
+    async function checkPaymentReturn() {
         const urlParams = new URLSearchParams(window.location.search);
         const ref = urlParams.get('ref');
         const checkoutId = urlParams.get('checkoutid');
@@ -154,9 +155,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.removeItem('pendingTemplateName');
                 localStorage.removeItem('pendingAmount');
                 localStorage.removeItem('pendingClientReference');
-                
-                // Update buttons
-                updateTemplateButtons();
             }
         }
     }
@@ -666,6 +664,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update template buttons for purchased templates
     function updateTemplateButtons() {
+        // Refresh purchased templates from localStorage
+        purchasedTemplates = JSON.parse(localStorage.getItem('purchasedTemplates')) || [];
+        
+        console.log('Updating template buttons. Purchased templates:', purchasedTemplates);
+
         purchasedTemplates.forEach(function(purchased) {
             const btn = document.querySelector('.buy-btn[data-template="' + purchased.id + '"]');
             if (btn) {
@@ -673,13 +676,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.classList.remove('btn-primary');
                 btn.classList.add('btn-secondary');
                 btn.dataset.name = purchased.name;
-            }
-        });
-
-        document.querySelectorAll('.btn-secondary').forEach(function(btn) {
-            if (btn.dataset.template && !btn.classList.contains('download-free-btn')) {
-                btn.removeEventListener('click', handleBuyClick);
-                btn.addEventListener('click', function() {
+                
+                // Remove old click handlers and add download handler
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                
+                newBtn.addEventListener('click', function() {
                     const template = templates[this.dataset.template];
                     if (template) {
                         downloadTemplate(template.id.replace('cv-', ''), template.name, template.price);
