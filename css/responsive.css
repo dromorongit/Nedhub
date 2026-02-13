@@ -625,6 +625,18 @@
         border-radius: var(--radius-full);
         opacity: 0.8;
     }
+    /* Hide mobile navigation elements on mobile as requested */
+    .header-bottom {
+        display: none !important;
+    }
+    
+    .mobile-nav-buttons {
+        display: none !important;
+    }
+    
+    .mobile-menu-btn {
+        display: none !important;
+    }
 }
 
 /* Tablet - 768px and up */
