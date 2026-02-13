@@ -634,8 +634,9 @@
         display: none !important;
     }
     
+    /* Hamburger menu should still be visible */
     .mobile-menu-btn {
-        display: none !important;
+        display: block !important;
     }
 }
 
