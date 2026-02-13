@@ -798,7 +798,6 @@ a:hover::after {
     padding-top: var(--space-xl);
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     max-width: 600px;
-    flex-wrap: wrap;
 }
 
 .hero-stats .stat-item {
@@ -974,7 +973,6 @@ a:hover::after {
     }
     
     .hero-stats {
-        flex-wrap: wrap;
         gap: var(--space-lg);
     }
     
