@@ -703,8 +703,35 @@
         }
     }
     
-    /* Mobile Cards Layout - 2 columns */
-    @media (max-width: 768px) {
+    /* Mobile Cards Layout - 1 column for strict mobile (< 768px) */
+    @media (max-width: 767px) {
+        .grid-container,
+        .cards-grid,
+        .values-grid,
+        .solutions-grid,
+        .faq-grid {
+            grid-template-columns: repeat(1, 1fr);
+            gap: var(--space-md);
+        }
+        
+        .services-showcase {
+            grid-template-columns: repeat(1, 1fr);
+            gap: var(--space-md);
+        }
+        
+        .card,
+        .mission-card,
+        .vision-card,
+        .value-card,
+        .solution-card,
+        .faq-item {
+            min-width: 0;
+            width: 100%;
+        }
+    }
+    
+    /* Tablet - 768px and up (2 columns) */
+    @media (min-width: 768px) and (max-width: 1024px) {
         .grid-container,
         .cards-grid,
         .values-grid,
@@ -713,25 +740,18 @@
             grid-template-columns: repeat(2, 1fr);
             gap: var(--space-md);
         }
-         
+        
+        .services-showcase {
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+        }
+        
         .card,
         .mission-card,
         .vision-card,
         .value-card,
         .solution-card,
         .faq-item {
-            min-width: 0;
-        }
-    }
-    
-    /* Services Page - 2 column layout for mobile */
-    @media (max-width: 768px) {
-        .services-showcase {
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-md);
-        }
-        
-        .services-showcase .card {
             min-width: 0;
         }
     }
@@ -2428,6 +2448,51 @@
         padding: var(--space-md);
         font-size: var(--font-size-lg);
     }
+
+    /* Touch feedback - Active state for buttons */
+    .btn:active {
+        transform: scale(0.97);
+        opacity: 0.9;
+    }
+
+    /* Touch feedback - Card tap effect */
+    .card:active,
+    .solution-card:active,
+    .value-card:active,
+    .mission-card:active,
+    .vision-card:active {
+        transform: scale(0.98);
+    }
+
+    /* Touch feedback - Link tap effect */
+    .nav-link:active {
+        color: var(--accent-orange);
+        background-color: rgba(247, 127, 0, 0.1);
+    }
+
+    /* Touch feedback - Service link tap effect */
+    .mobile-service-link:active {
+        background: rgba(247, 127, 0, 0.12);
+        color: var(--accent-orange);
+        transform: translateX(4px);
+    }
+
+    /* Touch feedback - Form button tap effect */
+    .btn-form-submit:active {
+        transform: scale(0.97);
+        box-shadow: 0 2px 8px rgba(247, 127, 0, 0.3);
+    }
+
+    /* Prevent text selection on touch */
+    .btn, .nav-link, .card, .solution-card, .value-card {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* Better tap highlight color */
+    * {
+        -webkit-tap-highlight-color: rgba(247, 127, 0, 0.2);
+    }
 }
 
 /* High Contrast Mode for Accessibility */
@@ -2491,3 +2556,4 @@
         background-color: #0B132B;
     }
 } */
+
