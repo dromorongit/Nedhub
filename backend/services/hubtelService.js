@@ -120,7 +120,22 @@ class HubtelService {
 
       // Extract checkout URL from the nested response
       const hubtelResponse = response.data;
+      const checkoutId = hubtelResponse.data?.checkoutId || hubtelResponse.checkoutId;
       const checkoutUrl = hubtelResponse.data?.checkoutUrl || hubtelResponse.checkoutUrl || hubtelResponse.data?.checkoutDirectUrl;
+      const responseCode = hubtelResponse.responseCode;
+      const status = hubtelResponse.status || hubtelResponse.data?.status;
+
+      // Structured logging for HUBTEL_INITIATE_RESPONSE
+      console.log(JSON.stringify({
+        logLabel: 'HUBTEL_INITIATE_RESPONSE',
+        timestamp: new Date().toISOString(),
+        clientReference: clientReference,
+        responseCode: responseCode,
+        status: status,
+        checkoutId: checkoutId,
+        checkoutUrl: checkoutUrl,
+        fullResponseBody: hubtelResponse
+      }, null, 2));
 
       console.log(`[HubtelService] Extracted checkoutUrl:`, checkoutUrl);
 
@@ -182,6 +197,19 @@ class HubtelService {
       );
 
       console.log(`[HubtelService] Status check response:`, response.data);
+
+      // Structured logging for HUBTEL_STATUS_CHECK_RESPONSE
+      const statusResponse = response.data;
+      console.log(JSON.stringify({
+        logLabel: 'HUBTEL_STATUS_CHECK_RESPONSE',
+        timestamp: new Date().toISOString(),
+        clientReference: clientReference,
+        responseCode: statusResponse.responseCode,
+        status: statusResponse.status,
+        transactionId: statusResponse.transactionId,
+        amount: statusResponse.amount,
+        fullResponseBody: statusResponse
+      }, null, 2));
 
       return {
         success: true,

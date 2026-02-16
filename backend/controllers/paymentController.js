@@ -112,6 +112,23 @@ class PaymentController {
 
       console.log(`[PaymentController] Received Hubtel callback:`, JSON.stringify(callbackData, null, 2));
 
+      // Structured logging for HUBTEL_CALLBACK_RECEIVED
+      console.log(JSON.stringify({
+        logLabel: 'HUBTEL_CALLBACK_RECEIVED',
+        timestamp: new Date().toISOString(),
+        clientReference: callbackData.ClientReference || callbackData.clientReference,
+        ResponseCode: callbackData.ResponseCode || callbackData.responseCode,
+        Status: callbackData.Status || callbackData.status,
+        Amount: callbackData.Amount || callbackData.amount,
+        PaymentDetails: {
+          transactionId: callbackData.TransactionId || callbackData.transactionId,
+          paymentMethod: callbackData.PaymentMethod || callbackData.paymentMethod,
+          checkoutId: callbackData.CheckoutId || callbackData.checkoutId,
+          merchantAccountNumber: callbackData.MerchantAccountNumber || callbackData.merchantAccountNumber
+        },
+        fullRequestBody: callbackData
+      }, null, 2));
+
       // Verify callback
       if (!hubtelService.verifyCallback(callbackData)) {
         console.warn(`[PaymentController] Invalid callback received`);
