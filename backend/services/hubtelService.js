@@ -175,6 +175,14 @@ class HubtelService {
    * @returns {Promise<Object>} - Transaction status
    */
   async checkTransactionStatus(clientReference) {
+    // Log when status check is initiated
+    console.log(JSON.stringify({
+      logLabel: 'HUBTEL_STATUS_CHECK_REQUEST',
+      timestamp: new Date().toISOString(),
+      clientReference: clientReference,
+      message: 'Initiating status check with Hubtel'
+    }, null, 2));
+
     if (!this.isConfigured()) {
       throw new Error('Hubtel service is not configured.');
     }
