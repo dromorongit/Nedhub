@@ -226,6 +226,15 @@ class HubtelService {
         data: response.data
       };
     } catch (error) {
+      // Structured logging for status check error
+      console.log(JSON.stringify({
+        logLabel: 'HUBTEL_STATUS_CHECK_ERROR',
+        timestamp: new Date().toISOString(),
+        clientReference: clientReference,
+        error: error.message,
+        errorDetails: error.response?.data || null
+      }, null, 2));
+
       console.error(`[HubtelService] Status check failed:`, error.response?.data || error.message);
       throw new Error(`STATUS_CHECK_FAILED: ${error.message}`);
     }
