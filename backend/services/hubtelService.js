@@ -190,12 +190,11 @@ class HubtelService {
     try {
       console.log(`[HubtelService] Checking status for clientReference: ${clientReference}`);
 
+      // Use the correct Hubtel transaction status endpoint
+      // The format should be: /items/verify/{clientReference}
       const response = await axios.get(
-        `${this.txnStatusUrl}/transactions/${this.posId}/status`,
+        `${this.baseUrl}/items/verify/${clientReference}`,
         {
-          params: {
-            clientReference: clientReference
-          },
           headers: {
             'Authorization': this.getAuthHeader(),
             'Content-Type': 'application/json'
