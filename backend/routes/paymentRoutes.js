@@ -22,6 +22,9 @@ router.post('/hubtel-callback', paymentController.handleCallback);
 // Check payment status
 router.get('/check-status/:clientReference', paymentController.checkStatus);
 
+// Alternative status endpoint (matching frontend expectations)
+router.get('/payments/hubtel/status/:clientReference', paymentController.checkStatus);
+
 // Get order details
 router.get('/order/:clientReference', paymentController.getOrder);
 
