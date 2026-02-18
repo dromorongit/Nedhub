@@ -14,6 +14,7 @@ class HubtelService {
     this.txnStatusUrl = config.hubtel.txnStatusUrl;
     this.baseUrlValue = config.baseUrl;
     this.frontendUrl = config.frontendUrl;
+    this.merchantAccountNumber = config.hubtel.merchantAccountNumber || this.posId;
 
     // Validate required configuration
     if (!this.clientId || !this.clientSecret || !this.posId) {
@@ -190,16 +191,16 @@ class HubtelService {
     try {
       console.log(`[HubtelService] Checking status for clientReference: ${clientReference}`);
       console.log(`[HubtelService] Using POS ID: ${this.posId}`);
+      console.log(`[HubtelService] Using merchantAccountNumber: ${this.merchantAccountNumber}`);
       console.log(`[HubtelService] Using txnStatusUrl: ${this.txnStatusUrl}`);
 
       // Debug: Log the full URL being requested
-      const fullUrl = `${this.txnStatusUrl}/transactions/${this.posId}/status?clientReference=${clientReference}`;
+      const fullUrl = `${this.txnStatusUrl}/transactions/${this.merchantAccountNumber}/status?clientReference=${clientReference}`;
       console.log(`[HubtelService] Full status check URL: ${fullUrl}`);
 
-      // Correct Hubtel transaction status endpoint
-      // URL: https://api-txnstatus.hubtel.com/transactions/{posId}/status?clientReference={clientReference}
+      // Use merchantAccountNumber instead of posId
       const response = await axios.get(
-        `${this.txnStatusUrl}/transactions/${this.posId}/status`,
+        `${this.txnStatusUrl}/transactions/${this.merchantAccountNumber}/status`,
         {
           params: {
             clientReference: clientReference
