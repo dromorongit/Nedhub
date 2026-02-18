@@ -189,6 +189,12 @@ class HubtelService {
 
     try {
       console.log(`[HubtelService] Checking status for clientReference: ${clientReference}`);
+      console.log(`[HubtelService] Using POS ID: ${this.posId}`);
+      console.log(`[HubtelService] Using txnStatusUrl: ${this.txnStatusUrl}`);
+
+      // Debug: Log the full URL being requested
+      const fullUrl = `${this.txnStatusUrl}/transactions/${this.posId}/status?clientReference=${clientReference}`;
+      console.log(`[HubtelService] Full status check URL: ${fullUrl}`);
 
       // Correct Hubtel transaction status endpoint
       // URL: https://api-txnstatus.hubtel.com/transactions/{posId}/status?clientReference={clientReference}
