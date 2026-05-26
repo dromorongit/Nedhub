@@ -1,0 +1,110 @@
+[
+  {
+    "id": "senior-recruitment-consultant",
+    "title": "Senior Recruitment Consultant",
+    "type": "Full-Time",
+    "location": "Roman Ridge, Accra",
+    "salary": "Competitive",
+    "description": "We are seeking an experienced Recruitment Consultant to join our growing team. You will be responsible for sourcing, screening, and placing top talent for our clients across various industries.",
+    "requirements": [
+      "Bachelor's degree in HR, Business, or related field",
+      "Minimum 3 years recruitment experience",
+      "Strong communication and negotiation skills",
+      "Proficiency in ATS systems"
+    ],
+    "icon": "fa-user-tie",
+    "deadline": "2026-06-30",
+    "active": true,
+    "postedDate": "2026-05-01"
+  },
+  {
+    "id": "data-analyst",
+    "title": "Data Analyst",
+    "type": "Full-Time",
+    "location": "Roman Ridge, Accra",
+    "salary": "Competitive",
+    "description": "Join our analytics team to provide data-driven insights to our clients. You will analyze complex datasets, create visualizations, and develop actionable recommendations.",
+    "requirements": [
+      "Bachelor's degree in Statistics, Data Science, or related field",
+      "Proficiency in SQL, Python, and data visualization tools",
+      "Experience with BI tools (Tableau, Power BI)",
+      "Strong analytical and problem-solving skills"
+    ],
+    "icon": "fa-chart-line",
+    "deadline": "2026-06-15",
+    "active": true,
+    "postedDate": "2026-05-02"
+  },
+  {
+    "id": "training-coordinator",
+    "title": "Training Coordinator",
+    "type": "Contract",
+    "location": "Roman Ridge, Accra",
+    "salary": "Competitive",
+    "description": "Help us design and deliver impactful training programs for our clients. You will coordinate training sessions, develop materials, and evaluate program effectiveness.",
+    "requirements": [
+      "Bachelor's degree in Education, HR, or related field",
+      "Experience in training program development",
+      "Excellent presentation and facilitation skills",
+      "Ability to work with diverse groups"
+    ],
+    "icon": "fa-graduation-cap",
+    "deadline": "2026-05-31",
+    "active": true,
+    "postedDate": "2026-05-03"
+  },
+  {
+    "id": "marketing-specialist",
+    "title": "Marketing Specialist",
+    "type": "Full-Time",
+    "location": "Roman Ridge, Accra",
+    "salary": "Competitive",
+    "description": "Drive our marketing initiatives to increase brand awareness and generate leads. You will manage campaigns, create content, and analyze marketing performance metrics.",
+    "requirements": [
+      "Bachelor's degree in Marketing, Communications, or related field",
+      "Minimum 2 years marketing experience",
+      "Proficiency in digital marketing tools and analytics",
+      "Strong creative and analytical skills"
+    ],
+    "icon": "fa-bullhorn",
+    "deadline": "2026-06-20",
+    "active": true,
+    "postedDate": "2026-05-04"
+  },
+  {
+    "id": "hr-officer",
+    "title": "HR Officer",
+    "type": "Full-Time",
+    "location": "Roman Ridge, Accra",
+    "salary": "Competitive",
+    "description": "Support our HR operations including recruitment, employee relations, performance management, and compliance. You will be the first point of contact for employee inquiries.",
+    "requirements": [
+      "Bachelor's degree in HR Management or related field",
+      "HR certification is a plus",
+      "Knowledge of Ghanaian labor laws",
+      "Strong interpersonal and organizational skills"
+    ],
+    "icon": "fa-users",
+    "deadline": "2026-06-25",
+    "active": true,
+    "postedDate": "2026-05-05"
+  },
+  {
+    "id": "it-support-specialist",
+    "title": "IT Support Specialist",
+    "type": "Full-Time",
+    "location": "Roman Ridge, Accra",
+    "salary": "Competitive",
+    "description": "Provide technical support and maintain our IT infrastructure. You will troubleshoot issues, implement solutions, and ensure smooth operations of all technology systems.",
+    "requirements": [
+      "Bachelor's degree in IT, Computer Science, or related field",
+      "Experience with Windows/Mac systems and networks",
+      "Knowledge of help desk software",
+      "Strong troubleshooting and problem-solving skills"
+    ],
+    "icon": "fa-laptop-code",
+    "deadline": "2026-07-10",
+    "active": true,
+    "postedDate": "2026-05-06"
+  }
+]

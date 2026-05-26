@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/privacy-modal.css">
     <link rel="stylesheet" href="css/terms-modal.css">
+    <link rel="stylesheet" href="css/jobs.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -668,6 +669,25 @@
             </div>
         </section>
 
+        <!-- Latest Jobs Preview Section -->
+        <section class="homepage-jobs-section section">
+            <div class="container">
+                <div class="section-header text-center mb-xxl">
+                    <h2 class="section-title animate-fade-in-up">Latest Job Opportunities</h2>
+                    <p class="section-subtitle animate-fade-in-up delay-1">Join our team and build your career with Nedhub</p>
+                </div>
+                <div id="homepage-jobs" class="jobs-grid">
+                    <!-- Jobs will be dynamically loaded here -->
+                </div>
+                <div class="text-center mt-xl">
+                    <a href="careers.html" class="btn btn-primary btn-large">
+                        <span class="btn-text">View All Positions</span>
+                        <span class="btn-icon">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- CTA Section -->
         <section class="cta-section section">
             <div class="container">
@@ -686,6 +706,20 @@
         <i class="fab fa-whatsapp"></i>
         <span class="whatsapp-tooltip">Chat with us</span>
     </a>
+
+    <!-- Hiring Now Floating Widget -->
+    <div id="hiring-widget" class="hiring-widget" style="display: none;">
+        <div class="hiring-widget-content">
+            <div class="hiring-widget-icon">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="hiring-widget-text">
+                <span class="hiring-widget-title">We're Hiring!</span>
+                <span class="hiring-widget-count" id="hiring-count">0</span>
+            </div>
+        </div>
+        <a href="careers.html" class="hiring-widget-link" aria-label="View open positions"></a>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -743,6 +777,7 @@
     <script src="js/navigation.js"></script>
     <script src="js/privacy-modal.js"></script>
     <script src="js/terms-modal.js"></script>
+    <script src="js/jobs.js"></script>
 </body>
 </html>
 
