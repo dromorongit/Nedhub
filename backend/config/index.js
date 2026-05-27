@@ -13,6 +13,13 @@ module.exports = {
     merchantAccountNumber: process.env.HUBTEL_MERCHANT_ACCOUNT_NUMBER || ''
   },
   
+  // Brevo Email Configuration
+  brevo: {
+    apiKey: process.env.BREVO_API_KEY || '',
+    senderEmail: process.env.BREVO_SENDER_EMAIL || 'careers@nedhubgh.com',
+    senderName: process.env.BREVO_SENDER_NAME || 'Nedhub Careers'
+  },
+  
   // Backend URL for API callbacks
   baseUrl: process.env.BASE_URL || 'https://nedhub-production.up.railway.app',
   

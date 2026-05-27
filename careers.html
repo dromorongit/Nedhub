@@ -823,127 +823,117 @@
                     <p class="section-subtitle">Submit your application and take the first step towards an exciting career</p>
                 </div>
                 
-                <div class="application-form">
+                <form id="careerForm" class="application-form">
                     <h2>Job Application Form</h2>
                     <p class="form-description">Complete the form below to apply for a position at Nedhub. Please ensure all required fields are filled and attach your CV and cover letter.</p>
                     
-                    <form id="careerForm" class="form">
-                        <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-md);">
-                            <div class="form-group">
-                                <label for="firstName">First Name <span style="color: var(--accent-orange);">*</span></label>
-                                <input type="text" id="firstName" name="firstName" required aria-required="true" placeholder="John">
-                                <span class="error-message" id="firstName-error"></span>
+                    <div class="form-group">
+                        <label for="fullName">Full Name <span style="color: var(--accent-orange);">*</span></label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name" aria-required="true">
+                        <span class="error-message" id="fullName-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address <span style="color: var(--accent-orange);">*</span></label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email address" aria-required="true">
+                        <span class="error-message" id="email-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span style="color: var(--accent-orange);">*</span></label>
+                        <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number" aria-required="true">
+                        <span class="error-message" id="phone-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="position">Position Applying For <span style="color: var(--accent-orange);">*</span></label>
+                        <select id="position" name="position" required aria-required="true">
+                            <option value="">Select a position</option>
+                            <!-- Options will be dynamically populated by jobs.js -->
+                            <option value="Other">Other</option>
+                        </select>
+                        <span class="error-message" id="position-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="linkedin">LinkedIn Profile (Optional)</label>
+                        <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Years of Relevant Experience <span style="color: var(--accent-orange);">*</span></label>
+                        <select id="experience" name="experience" required aria-required="true">
+                            <option value="">Select experience level</option>
+                            <option value="0-1">0-1 years</option>
+                            <option value="1-3">1-3 years</option>
+                            <option value="3-5">3-5 years</option>
+                            <option value="5-10">5-10 years</option>
+                            <option value="10+">10+ years</option>
+                        </select>
+                        <span class="error-message" id="experience-error"></span>
+                    </div>
+                    
+                    <div class="file-upload-group">
+                        <label class="file-upload-label">Upload CV/Resume <span style="color: var(--accent-orange);">*</span></label>
+                        <div class="file-upload-area" id="cvDropZone">
+                            <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                            <p class="file-upload-text"><strong>Click to upload</strong> or drag and drop</p>
+                            <p class="file-upload-hint">PDF, DOC, or DOCX (Max 5MB)</p>
+                            <input type="file" id="cvFile" name="cvFile" class="file-upload-input" accept=".pdf,.doc,.docx" required>
+                        </div>
+                        <div class="file-preview" id="cvPreview">
+                            <div class="file-preview-icon">
+                                <i class="fas fa-file-pdf"></i>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="lastName">Last Name <span style="color: var(--accent-orange);">*</span></label>
-                                <input type="text" id="lastName" name="lastName" required aria-required="true" placeholder="Doe">
-                                <span class="error-message" id="lastName-error"></span>
+                            <div class="file-preview-info">
+                                <p class="file-preview-name" id="cvFileName">resume.pdf</p>
+                                <p class="file-preview-size" id="cvFileSize">2.5 MB</p>
                             </div>
+                            <button type="button" class="file-remove-btn" onclick="removeFile('cv')">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="email">Email Address <span style="color: var(--accent-orange);">*</span></label>
-                            <input type="email" id="email" name="email" required aria-required="true" placeholder="john.doe@example.com">
-                            <span class="error-message" id="email-error"></span>
+                    </div>
+                    
+                    <div class="file-upload-group">
+                        <label class="file-upload-label">Upload Cover Letter</label>
+                        <div class="file-upload-area" id="coverDropZone">
+                            <i class="fas fa-file-alt file-upload-icon"></i>
+                            <p class="file-upload-text"><strong>Click to upload</strong> or drag and drop</p>
+                            <p class="file-upload-hint">PDF, DOC, or DOCX (Max 5MB)</p>
+                            <input type="file" id="coverFile" name="coverFile" class="file-upload-input" accept=".pdf,.doc,.docx">
                         </div>
-                        
-                        <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-md);">
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" name="phone" placeholder="+233 271 177 321">
+                        <div class="file-preview" id="coverPreview">
+                            <div class="file-preview-icon">
+                                <i class="fas fa-file-alt"></i>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="position">Position Applied For <span style="color: var(--accent-orange);">*</span></label>
-                                <select id="position" name="position" required aria-required="true" style="width: 100%; padding: var(--space-md); border: 2px solid var(--border-color); border-radius: var(--radius-md); font-family: inherit; font-size: var(--font-size-base); transition: all 0.3s ease; background-color: var(--neutral-white); color: var(--text-dark);">
-                                        <option value="">Select a position</option>
-                                        <!-- Options will be dynamically populated by jobs.js -->
-                                        <option value="Other">Other</option>
-                                    </select>
-                                <span class="error-message" id="position-error"></span>
+                            <div class="file-preview-info">
+                                <p class="file-preview-name" id="coverFileName">cover_letter.pdf</p>
+                                <p class="file-preview-size" id="coverFileSize">1.2 MB</p>
                             </div>
+                            <button type="button" class="file-remove-btn" onclick="removeFile('cover')">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="linkedin">LinkedIn Profile (Optional)</label>
-                            <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="experience">Years of Relevant Experience <span style="color: var(--accent-orange);">*</span></label>
-                            <select id="experience" name="experience" required aria-required="true" style="width: 100%; padding: var(--space-md); border: 2px solid var(--border-color); border-radius: var(--radius-md); font-family: inherit; font-size: var(--font-size-base); transition: all 0.3s ease; background-color: var(--neutral-white); color: var(--text-dark);">
-                                <option value="">Select experience level</option>
-                                <option value="0-1">0-1 years</option>
-                                <option value="1-3">1-3 years</option>
-                                <option value="3-5">3-5 years</option>
-                                <option value="5-10">5-10 years</option>
-                                <option value="10+">10+ years</option>
-                            </select>
-                            <span class="error-message" id="experience-error"></span>
-                        </div>
-                        
-                        <div class="file-upload-group">
-                            <label class="file-upload-label">Upload CV/Resume <span style="color: var(--accent-orange);">*</span></label>
-                            <div class="file-upload-area" id="cvDropZone">
-                                <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
-                                <p class="file-upload-text"><strong>Click to upload</strong> or drag and drop</p>
-                                <p class="file-upload-hint">PDF, DOC, or DOCX (Max 5MB)</p>
-                                <input type="file" id="cvFile" name="cvFile" class="file-upload-input" accept=".pdf,.doc,.docx" required>
-                            </div>
-                            <div class="file-preview" id="cvPreview">
-                                <div class="file-preview-icon">
-                                    <i class="fas fa-file-pdf"></i>
-                                </div>
-                                <div class="file-preview-info">
-                                    <p class="file-preview-name" id="cvFileName">resume.pdf</p>
-                                    <p class="file-preview-size" id="cvFileSize">2.5 MB</p>
-                                </div>
-                                <button type="button" class="file-remove-btn" onclick="removeFile('cv')">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="file-upload-group">
-                            <label class="file-upload-label">Upload Cover Letter</label>
-                            <div class="file-upload-area" id="coverDropZone">
-                                <i class="fas fa-file-alt file-upload-icon"></i>
-                                <p class="file-upload-text"><strong>Click to upload</strong> or drag and drop</p>
-                                <p class="file-upload-hint">PDF, DOC, or DOCX (Max 5MB)</p>
-                                <input type="file" id="coverFile" name="coverFile" class="file-upload-input" accept=".pdf,.doc,.docx">
-                            </div>
-                            <div class="file-preview" id="coverPreview">
-                                <div class="file-preview-icon">
-                                    <i class="fas fa-file-alt"></i>
-                                </div>
-                                <div class="file-preview-info">
-                                    <p class="file-preview-name" id="coverFileName">cover_letter.pdf</p>
-                                    <p class="file-preview-size" id="coverFileSize">1.2 MB</p>
-                                </div>
-                                <button type="button" class="file-remove-btn" onclick="removeFile('cover')">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="coverLetter">Or Write Your Cover Letter</label>
-                            <textarea id="coverLetter" name="coverLetter" rows="5" placeholder="Tell us why you're the perfect fit for this role..."></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="additionalInfo">Additional Information (Optional)</label>
-                            <textarea id="additionalInfo" name="additionalInfo" rows="3" placeholder="Any other details you'd like to share..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-submit btn-large" style="width: 100%; margin-top: var(--space-lg);">
-                            <span class="btn-text">Submit Application</span>
-                            <span class="btn-icon">→</span>
-                        </button>
-                        
-                        <div id="careerFormStatus" class="form-status"></div>
-                    </form>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="coverLetter">Or Write Your Cover Letter</label>
+                        <textarea id="coverLetter" name="coverLetter" rows="5" placeholder="Tell us why you're the perfect fit for this role..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="additionalInfo">Additional Information (Optional)</label>
+                        <textarea id="additionalInfo" name="additionalInfo" rows="3" placeholder="Any other details you'd like to share..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-submit btn-large">
+                        <span class="btn-text">Submit Application</span>
+                        <span class="btn-icon">→</span>
+                    </button>
+                    
+                    <div id="careerFormStatus" class="form-status"></div>
+                </form>
                 </div>
             </div>
         </section>
@@ -1053,314 +1043,10 @@
      </a>
 
     <script src="js/main.js" type="module"></script>
-     <script src="js/animations.js" type="module"></script>
-     <script src="js/navigation.js"></script>
-      <!-- EmailJS for email delivery -->
-      <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-      <!-- Cloudinary for file uploads -->
-      <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
-      <script>
-          // Initialize EmailJS
-          (function() {
-              emailjs.init('user_8Gv6J5K2L9M1N0O3P4Q5R6S7T8U9V0W1'); // EmailJS Public Key
-          })();
-          
-          // Cloudinary configuration
-          const CLOUDINARY_CONFIG = {
-              cloudName: 'nedhubgh', // Cloudinary Cloud Name
-              uploadPreset: 'nedhub_careers_unsigned' // Unsigned upload preset
-          };
-         
-         // Function to select a job and scroll to application form
-         function selectJob(position) {
-             const select = document.getElementById('position');
-             select.value = position;
-             select.scrollIntoView({ behavior: 'smooth', block: 'center' });
-         }
-
-        // File upload functionality
-        function setupFileUpload(inputId, dropZoneId, previewId, fileNameId, fileSizeId) {
-            const input = document.getElementById(inputId);
-            const dropZone = document.getElementById(dropZoneId);
-            const preview = document.getElementById(previewId);
-
-            // Click to upload
-            dropZone.addEventListener('click', () => input.click());
-
-            // Drag and drop
-            dropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropZone.classList.add('dragover');
-            });
-
-            dropZone.addEventListener('dragleave', () => {
-                dropZone.classList.remove('dragover');
-            });
-
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-                if (e.dataTransfer.files.length) {
-                    input.files = e.dataTransfer.files;
-                    handleFileSelect(input.files[0], previewId, fileNameId, fileSizeId);
-                }
-            });
-
-            // File selection
-            input.addEventListener('change', () => {
-                if (input.files.length) {
-                    handleFileSelect(input.files[0], previewId, fileNameId, fileSizeId);
-                }
-            });
-        }
-
-        function handleFileSelect(file, previewId, fileNameId, fileSizeId) {
-            const preview = document.getElementById(previewId);
-            const nameEl = document.getElementById(fileNameId);
-            const sizeEl = document.getElementById(fileSizeId);
-
-            // Validate file size (5MB max)
-            if (file.size > 5 * 1024 * 1024) {
-                alert('File size must be less than 5MB');
-                return;
-            }
-
-            // Validate file type
-            const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-            if (!validTypes.includes(file.type)) {
-                alert('Please upload a PDF, DOC, or DOCX file');
-                return;
-            }
-
-            // Show preview
-            nameEl.textContent = file.name;
-            sizeEl.textContent = formatFileSize(file.size);
-            preview.classList.add('active');
-        }
-
-        function removeFile(type) {
-            if (type === 'cv') {
-                document.getElementById('cvFile').value = '';
-                document.getElementById('cvPreview').classList.remove('active');
-            } else if (type === 'cover') {
-                document.getElementById('coverFile').value = '';
-                document.getElementById('coverPreview').classList.remove('active');
-            }
-        }
-
-        function formatFileSize(bytes) {
-             if (bytes < 1024) return bytes + ' B';
-             else if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-             else return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-         }
-
-         // Initialize file uploads
-          setupFileUpload('cvFile', 'cvDropZone', 'cvPreview', 'cvFileName', 'cvFileSize');
-          setupFileUpload('coverFile', 'coverDropZone', 'coverPreview', 'coverFileName', 'coverFileSize');
-          
-          // Enhanced form validation with real-time feedback
-          setupCareerFormValidation();
-          
-          // Form submission
-          document.getElementById('careerForm').addEventListener('submit', async function(e) {
-              e.preventDefault();
-             
-             const statusEl = document.getElementById('careerFormStatus');
-             const submitBtn = document.querySelector('.btn-submit');
-             
-             // Basic validation
-             const firstName = document.getElementById('firstName').value.trim();
-             const lastName = document.getElementById('lastName').value.trim();
-             const email = document.getElementById('email').value.trim();
-             const phone = document.getElementById('phone').value.trim();
-             const position = document.getElementById('position').value;
-             const experience = document.getElementById('experience').value;
-             const linkedin = document.getElementById('linkedin').value.trim();
-             const coverLetter = document.getElementById('coverLetter').value.trim();
-             const additionalInfo = document.getElementById('additionalInfo').value.trim();
-             const cvFile = document.getElementById('cvFile').files[0];
-             const coverFile = document.getElementById('coverFile').files[0];
- 
-             // Validate required fields
-             if (!firstName || !lastName || !email || !position || !experience || !cvFile) {
-                 statusEl.textContent = 'Please fill in all required fields and upload your CV.';
-                 statusEl.className = 'form-status error';
-                 return;
-             }
- 
-             // Email validation
-             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-             if (!emailRegex.test(email)) {
-                 statusEl.textContent = 'Please enter a valid email address.';
-                 statusEl.className = 'form-status error';
-                 return;
-             }
- 
-             // Phone validation (optional but if provided, must be valid)
-             if (phone && !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im.test(phone)) {
-                 statusEl.textContent = 'Please enter a valid phone number.';
-                 statusEl.className = 'form-status error';
-                 return;
-             }
- 
-             // LinkedIn validation (optional but if provided, must be valid URL)
-             if (linkedin && !/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(linkedin)) {
-                 statusEl.textContent = 'Please enter a valid LinkedIn URL.';
-                 statusEl.className = 'form-status error';
-                 return;
-             }
- 
-             // File validation
-             const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-             if (cvFile && !validTypes.includes(cvFile.type)) {
-                 statusEl.textContent = 'Please upload a valid CV file (PDF, DOC, or DOCX).';
-                 statusEl.className = 'form-status error';
-                 return;
-             }
-             
-             if (coverFile && !validTypes.includes(coverFile.type)) {
-                 statusEl.textContent = 'Please upload a valid cover letter file (PDF, DOC, or DOCX).';
-                 statusEl.className = 'form-status error';
-                 return;
-             }
- 
-             // File size validation (5MB max)
-             const maxSize = 5 * 1024 * 1024; // 5MB
-             if (cvFile && cvFile.size > maxSize) {
-                 statusEl.textContent = 'CV file size must be less than 5MB.';
-                 statusEl.className = 'form-status error';
-                 return;
-             }
-             
-             if (coverFile && coverFile.size > maxSize) {
-                 statusEl.textContent = 'Cover letter file size must be less than 5MB.';
-                 statusEl.className = 'form-status error';
-                 return;
-             }
- 
-             // Show loading state
-             statusEl.textContent = 'Submitting your application...';
-             statusEl.className = 'form-status info';
-             submitBtn.disabled = true;
-             submitBtn.innerHTML = '<span class="btn-text">Submitting...</span><span class="btn-icon">→</span>';
- 
-             try {
-                 // Upload CV to Cloudinary
-                 const cvUrl = await uploadToCloudinary(cvFile);
-                 const coverUrl = coverFile ? await uploadToCloudinary(coverFile) : null;
- 
-                 // Prepare email data
-                 const applicantName = `${firstName} ${lastName}`;
-                 const emailSubject = `New Job Application: ${applicantName} - ${position}`;
-                 
-                 let emailBody = `
-                 <h2>New Job Application Received</h2>
-                 <p><strong>Applicant Name:</strong> ${applicantName}</p>
-                 <p><strong>Email:</strong> ${email}</p>
-                 <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
-                 <p><strong>Position Applied For:</strong> ${position}</p>
-                 <p><strong>Years of Experience:</strong> ${experience}</p>
-                 <p><strong>LinkedIn Profile:</strong> ${linkedin || 'Not provided'}</p>
-                 <p><strong>Cover Letter:</strong> ${coverLetter || 'Not provided'}</p>
-                 <p><strong>Additional Information:</strong> ${additionalInfo || 'Not provided'}</p>
-                 <p><strong>CV/Resume:</strong> <a href="${cvUrl}" target="_blank">Download CV</a></p>
-                 ${coverUrl ? `<p><strong>Cover Letter:</strong> <a href="${coverUrl}" target="_blank">Download Cover Letter</a></p>` : ''}
-                 <hr>
-                 <p><em>This application was submitted via the Nedhub Careers portal on ${new Date().toLocaleString()}</em></p>
-                 `;
- 
-                 // Send email via EmailJS
-                 await emailjs.send('service_nedhubgh', 'template_career_application', {
-                     to_email: 'careers@nedhubgh.com',
-                     from_name: applicantName,
-                     from_email: email,
-                     subject: emailSubject,
-                     message: emailBody
-                 });
- 
-                 // Show success modal
-                 showSuccessModal();
-                 
-                 // Reset form
-                 this.reset();
-                 removeFile('cv');
-                 removeFile('cover');
-                 
-             } catch (error) {
-                 console.error('Application submission error:', error);
-                 statusEl.textContent = 'Submission failed. Please try again or contact us directly.';
-                 statusEl.className = 'form-status error';
-             } finally {
-                 submitBtn.disabled = false;
-                 submitBtn.innerHTML = '<span class="btn-text">Submit Application</span><span class="btn-icon">→</span>';
-             }
-         });
-
-         // Smooth scroll for anchor links
-         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-             anchor.addEventListener('click', function(e) {
-                 e.preventDefault();
-                 const target = document.querySelector(this.getAttribute('href'));
-                 if (target) {
-                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                 }
-             });
-         });
-         
-         // Upload file to Cloudinary
-         function uploadToCloudinary(file) {
-             return new Promise((resolve, reject) => {
-                 const uploadUrl = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/auto/upload`;
-                 
-                 const formData = new FormData();
-                 formData.append('file', file);
-                 formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-                 
-                 fetch(uploadUrl, {
-                     method: 'POST',
-                     body: formData
-                 })
-                 .then(response => response.json())
-                 .then(data => {
-                     resolve(data.secure_url);
-                 })
-                 .catch(error => {
-                     reject(error);
-                 });
-             });
-         }
-         
-         // Show success modal
-         function showSuccessModal() {
-             const successModal = document.getElementById('successModal');
-             if (successModal) {
-                 successModal.classList.add('active');
-                 document.body.style.overflow = 'hidden';
-                 
-                 // Close modal on button click
-                 document.getElementById('successModalClose').addEventListener('click', () => {
-                     successModal.classList.remove('active');
-                     document.body.style.overflow = '';
-                 });
-                 
-                 // Close modal on overlay click
-                 successModal.querySelector('.success-modal-overlay').addEventListener('click', () => {
-                     successModal.classList.remove('active');
-                     document.body.style.overflow = '';
-                 });
-                 
-                 // Close modal on escape key
-                 const handleEscapeKey = (e) => {
-                     if (e.key === 'Escape') {
-                         successModal.classList.remove('active');
-                         document.body.style.overflow = '';
-                         document.removeEventListener('keydown', handleEscapeKey);
-                     }
-                 };
-                 document.addEventListener('keydown', handleEscapeKey);
-             }
-         }
-     </script>
+      <script src="js/animations.js" type="module"></script>
+      <script src="js/navigation.js"></script>
+      <!-- Application Form Module -->
+      <script src="js/application-form.js"></script>
 </body>
 </html>
 

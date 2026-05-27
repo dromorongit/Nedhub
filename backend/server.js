@@ -13,6 +13,8 @@ const mongoose = require('mongoose');
 const config = require('./config');
 const paymentRoutes = require('./routes/paymentRoutes');
 const productRoutes = require('./routes/productRoutes');
+const careerRoutes = require('./routes/careerRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 
 const app = express();
@@ -22,6 +24,7 @@ console.log('[Server] Environment check:');
 console.log('[Server] NODE_ENV:', process.env.NODE_ENV);
 console.log('[Server] HUBTEL_CLIENT_ID:', process.env.HUBTEL_CLIENT_ID ? '***set***' : 'NOT SET');
 console.log('[Server] HUBTEL_POS_ID:', process.env.HUBTEL_POS_ID || 'NOT SET');
+console.log('[Server] BREVO_API_KEY:', process.env.BREVO_API_KEY ? '***set***' : 'NOT SET');
 console.log('[Server] BASE_URL:', process.env.BASE_URL);
 
 // Security middleware
@@ -62,6 +65,8 @@ app.get('/', (req, res) => {
 // API routes
 app.use('/api', paymentRoutes);
 app.use('/api', productRoutes);
+app.use('/api', careerRoutes);
+app.use('/api', adminRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
@@ -107,6 +112,15 @@ const startServer = async () => {
     console.log('  POST /api/hubtel-callback     - Hubtel callback');
     console.log('  GET  /api/check-status/:clientRef - Check status');
     console.log('  GET  /api/order/:clientRef    - Get order details');
+    console.log('  POST /api/careers/apply       - Submit job application');
+    console.log('  GET  /api/careers/health    - Career API health check');
+    console.log('  POST /api/admin/login       - Admin login');
+    console.log('  GET  /api/admin/jobs        - Get all jobs (admin)');
+    console.log('  POST /api/admin/jobs        - Create job (admin)');
+    console.log('  PUT  /api/admin/jobs/:id    - Update job (admin)');
+    console.log('  DELETE /api/admin/jobs/:id  - Delete job (admin)');
+    console.log('  GET  /api/admin/applications - Get all applications (admin)');
+    console.log('  PUT  /api/admin/applications/:id/status - Update application status (admin)');
     console.log('==========================================');
   });
 };

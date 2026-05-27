@@ -552,6 +552,29 @@
     display: block;
 }
 
+/* Form Select Styling */
+.form-group select {
+    width: 100%;
+    padding: var(--space-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    transition: all 0.3s ease;
+    background-color: var(--neutral-white);
+    color: var(--text-dark);
+    min-height: 48px;
+    cursor: pointer;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-orange);
+    border-width: 3px;
+    box-shadow: 0 0 0 3px rgba(247, 127, 0, 0.1);
+    background-color: var(--neutral-white);
+}
+
 /* Upload Progress */
 .upload-progress {
     margin-top: var(--space-sm);

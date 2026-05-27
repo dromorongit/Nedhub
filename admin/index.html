@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Dashboard - Nedhub GH Careers System">
+    <title>Admin Dashboard | Nedhub GH</title>
+    <link rel="icon" type="image/png" href="../Nedhubsymbol.PNG">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-header">
+            <div class="admin-logo">
+                <img src="../Nedhublogo.PNG" alt="Nedhub GH" style="height: 30px;">
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="admin-nav">
+            <a href="#jobs" class="admin-nav-item active" data-section="jobs">
+                <i class="fas fa-briefcase"></i>
+                <span>Jobs</span>
+            </a>
+            <a href="#applications" class="admin-nav-item" data-section="applications">
+                <i class="fas fa-users"></i>
+                <span>Applications</span>
+            </a>
+            <a href="#settings" class="admin-nav-item" data-section="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#" class="admin-nav-item" id="adminLogout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <header class="admin-header">
+            <h1 id="adminSectionTitle">Job Management</h1>
+            <div class="admin-header-actions">
+                <button class="btn btn-primary" id="addJobBtn">
+                    <i class="fas fa-plus"></i> Add Job
+                </button>
+            </div>
+        </header>
+
+        <div class="admin-content">
+            <!-- Jobs Section -->
+            <section class="admin-section active" id="jobsSection">
+                <div class="admin-section-header">
+                    <h2>Job Postings</h2>
+                    <p>Manage all job listings</p>
+                </div>
+                
+                <div class="admin-table-container">
+                    <table class="admin-table" id="jobsTable">
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th>Department</th>
+                                <th>Location</th>
+                                <th>Type</th>
+                                <th>Deadline</th>
+                                <th>Status</th>
+                                <th>Applications</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jobsTableBody">
+                            <tr>
+                                <td colspan="8" class="loading-state">
+                                    <i class="fas fa-spinner fa-spin"></i> Loading jobs...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Applications Section -->
+            <section class="admin-section" id="applicationsSection">
+                <div class="admin-section-header">
+                    <h2>Job Applications</h2>
+                    <p>View and manage applicant submissions</p>
+                </div>
+                
+                <div class="admin-filters">
+                    <select id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Reviewed">Reviewed</option>
+                        <option value="Shortlisted">Shortlisted</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                    <input type="text" id="searchApplications" placeholder="Search applicants...">
+                </div>
+                
+                <div class="admin-table-container">
+                    <table class="admin-table" id="applicationsTable">
+                        <thead>
+                            <tr>
+                                <th>Applicant</th>
+                                <th>Email</th>
+                                <th>Position</th>
+                                <th>Experience</th>
+                                <th>Submitted</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationsTableBody">
+                            <tr>
+                                <td colspan="7" class="loading-state">
+                                    <i class="fas fa-spinner fa-spin"></i> Loading applications...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Settings Section (Placeholder) -->
+            <section class="admin-section" id="settingsSection">
+                <div class="admin-section-header">
+                    <h2>Settings</h2>
+                    <p>Configure admin panel settings</p>
+                </div>
+                
+                <div class="admin-card">
+                    <h3>Admin Configuration</h3>
+                    <p>Settings panel is under development. Check back later for more options.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Job Modal -->
+    <div class="admin-modal" id="jobModal">
+        <div class="admin-modal-overlay"></div>
+        <div class="admin-modal-container">
+            <div class="admin-modal-content">
+                <div class="admin-modal-header">
+                    <h2 id="jobModalTitle">Add New Job</h2>
+                    <button class="admin-modal-close" aria-label="Close modal">&times;</button>
+                </div>
+                <form id="jobForm" class="admin-form">
+                    <input type="hidden" id="jobId" value="">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title *</label>
+                            <input type="text" id="jobTitle" name="title" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="jobDepartment">Department</label>
+                            <input type="text" id="jobDepartment" name="department" value="General">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobLocation">Location *</label>
+                            <input type="text" id="jobLocation" name="location" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="jobType">Job Type *</label>
+                            <select id="jobType" name="type" required>
+                                <option value="Full-Time">Full-Time</option>
+                                <option value="Part-Time">Part-Time</option>
+                                <option value="Remote">Remote</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jobDescription">Description *</label>
+                        <textarea id="jobDescription" name="description" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jobRequirements">Requirements (one per line)</label>
+                        <textarea id="jobRequirements" name="requirements" rows="4" placeholder="Enter each requirement on a new line"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobDeadline">Application Deadline</label>
+                            <input type="date" id="jobDeadline" name="deadline">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="jobFeatured" name="featured">
+                                <span>Featured Position</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="jobActive" name="active" checked>
+                            <span>Active (visible to applicants)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="admin-modal-footer">
+                        <button type="button" class="btn btn-secondary" id="cancelJobBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveJobBtn">
+                            <span class="btn-text">Save Job</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Detail Modal -->
+    <div class="admin-modal" id="applicationModal">
+        <div class="admin-modal-overlay"></div>
+        <div class="admin-modal-container">
+            <div class="admin-modal-content">
+                <div class="admin-modal-header">
+                    <h2>Application Details</h2>
+                    <button class="admin-modal-close" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="admin-modal-body" id="applicationModalBody">
+                    <!-- Application details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="admin-modal" id="deleteModal">
+        <div class="admin-modal-overlay"></div>
+        <div class="admin-modal-container">
+            <div class="admin-modal-content">
+                <div class="admin-modal-header">
+                    <h2>Confirm Deletion</h2>
+                </div>
+                <div class="admin-modal-body">
+                    <p>Are you sure you want to mark this job as inactive? This action will hide it from applicants.</p>
+                    <div class="admin-modal-footer">
+                        <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                            <span class="btn-text">Mark Inactive</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/admin.js"></script>
+</body>
+</html>
