@@ -3,6 +3,7 @@ const { requireAdminAuth, handleAdminLogin, handleAdminLogout, handleOwnerRegist
 const jobController = require('../controllers/jobController');
 const applicationController = require('../controllers/applicationController');
 const adminController = require('../controllers/adminController');
+const { Admin } = require('../models/Admin');
 
 const router = express.Router();
 
@@ -245,6 +246,133 @@ router.delete('/admin/users/:id', requireAdminAuth, (req, res, next) => {
         });
     }
     return adminController.deleteAdmin(req, res, next);
+});
+
+// ==================== JOB STATUS ROUTES ====================
+
+/**
+ * @route PUT /api/admin/jobs/:id/status
+ * @desc Update job status (Draft/Published/Archived)
+ * @access Private (Owner, Admin)
+ */
+router.put('/admin/jobs/:id/status', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can update job status.'
+        });
+    }
+    return jobController.updateJobStatus(req, res, next);
+});
+
+// ==================== DASHBOARD ROUTES ====================
+
+/**
+ * @route GET /api/admin/dashboard/stats
+ * @desc Get dashboard statistics
+ * @access Private (Owner, Admin)
+ */
+router.get('/admin/dashboard/stats', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can view dashboard stats.'
+        });
+    }
+    return jobController.getDashboardStats(req, res, next);
+});
+
+/**
+ * @route GET /api/admin/dashboard/analytics
+ * @desc Get analytics data
+ * @access Private (Owner, Admin)
+ */
+router.get('/admin/dashboard/analytics', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can view analytics.'
+        });
+    }
+    return jobController.getAnalytics(req, res, next);
+});
+
+/**
+ * @route GET /api/admin/dashboard/recent-applications
+ * @desc Get recent applications
+ * @access Private (Owner, Admin)
+ */
+router.get('/admin/dashboard/recent-applications', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can view applications.'
+        });
+    }
+    return jobController.getRecentApplications(req, res, next);
+});
+
+// ==================== PROFILE ROUTES ====================
+
+/**
+ * @route GET /api/admin/profile
+ * @desc Get admin profile
+ * @access Private
+ */
+router.get('/admin/profile', requireAdminAuth, async (req, res) => {
+    try {
+        const admin = await Admin.findById(req.admin.adminId).select('-passwordHash');
+        if (!admin) {
+            return res.status(404).json({ success: false, message: 'Admin not found.' });
+        }
+        res.json({ success: true, data: admin });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Failed to get profile.' });
+    }
+});
+
+/**
+ * @route PUT /api/admin/profile
+ * @desc Update admin profile
+ * @access Private
+ */
+router.put('/admin/profile', requireAdminAuth, adminController.updateProfile.bind(adminController));
+
+/**
+ * @route PUT /api/admin/password
+ * @desc Change admin password
+ * @access Private
+ */
+router.put('/admin/password', requireAdminAuth, adminController.changePassword.bind(adminController));
+
+/**
+ * @route GET /api/admin/settings
+ * @desc Get platform settings
+ * @access Private (Owner only)
+ */
+router.get('/admin/settings', requireAdminAuth, (req, res, next) => {
+    if (req.admin.role !== 'owner') {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners can manage settings.'
+        });
+    }
+    return adminController.getSettings(req, res, next);
+});
+
+/**
+ * @route PUT /api/admin/settings
+ * @desc Update platform settings
+ * @access Private (Owner only)
+ */
+router.put('/admin/settings', requireAdminAuth, (req, res, next) => {
+    if (req.admin.role !== 'owner') {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners can manage settings.'
+        });
+    }
+    return adminController.updateSettings(req, res, next);
 });
 
 // ==================== HEALTH CHECK ====================

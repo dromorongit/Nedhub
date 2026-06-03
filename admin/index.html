@@ -58,6 +58,23 @@
                 <button class="btn btn-primary" id="addJobBtn">
                     <i class="fas fa-plus"></i> Add Job
                 </button>
+                <div class="profile-dropdown-container">
+                    <button class="profile-trigger-btn" id="profileTrigger" title="Profile">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="#profile" class="profile-dropdown-item" data-section="profile">
+                            <i class="fas fa-user"></i> My Profile
+                        </a>
+                        <a href="#change-password" class="profile-dropdown-item" data-section="change-password">
+                            <i class="fas fa-key"></i> Change Password
+                        </a>
+                        <div class="profile-dropdown-divider"></div>
+                        <a href="#" class="profile-dropdown-item" id="headerLogout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -75,12 +92,47 @@
                         <p class="stat-value" id="totalJobsCount">0</p>
                     </div>
                     <div class="admin-card">
+                        <h3><i class="fas fa-check-circle"></i> Active Jobs</h3>
+                        <p class="stat-value" id="activeJobsCount">0</p>
+                    </div>
+                    <div class="admin-card">
+                        <h3><i class="fas fa-building"></i> Internal Jobs</h3>
+                        <p class="stat-value" id="internalJobsCount">0</p>
+                    </div>
+                    <div class="admin-card">
+                        <h3><i class="fas fa-external-link-alt"></i> External Jobs</h3>
+                        <p class="stat-value" id="externalJobsCount">0</p>
+                    </div>
+                    <div class="admin-card">
                         <h3><i class="fas fa-users"></i> Total Applications</h3>
                         <p class="stat-value" id="totalApplicationsCount">0</p>
                     </div>
                     <div class="admin-card">
-                        <h3><i class="fas fa-user-cog"></i> Admin Users</h3>
-                        <p class="stat-value" id="totalUsersCount">0</p>
+                        <h3><i class="fas fa-clock"></i> Pending Applications</h3>
+                        <p class="stat-value" id="pendingApplicationsCount">0</p>
+                    </div>
+                    <div class="admin-card">
+                        <h3><i class="fas fa-star"></i> Shortlisted Applications</h3>
+                        <p class="stat-value" id="shortlistedApplicationsCount">0</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-summary">
+                    <div class="dashboard-summary-col">
+                        <div class="dashboard-summary-card">
+                            <h3><i class="fas fa-file-alt"></i> Recent Applications</h3>
+                            <div id="recentApplicationsList" class="dashboard-summary-list">
+                                <p class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-summary-col">
+                        <div class="dashboard-summary-card">
+                            <h3><i class="fas fa-briefcase"></i> Recently Added Jobs</h3>
+                            <div id="recentJobsList" class="dashboard-summary-list">
+                                <p class="loading-state"><i class="fas fa-spinner fa-spin"></i> Loading...</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -159,17 +211,136 @@
                 </div>
             </section>
 
-            <!-- Settings Section (Placeholder) -->
+            <!-- Settings Section -->
             <section class="admin-section" id="settingsSection">
                 <div class="admin-section-header">
-                    <h2>Settings</h2>
-                    <p>Configure admin panel settings</p>
+                    <h2>Platform Settings</h2>
+                    <p>Configure platform-wide settings (Owner only)</p>
                 </div>
                 
-                <div class="admin-card">
-                    <h3>Admin Configuration</h3>
-                    <p>Settings panel is under development. Check back later for more options.</p>
+                <form id="settingsForm" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="settingsCompanyName">Company Name</label>
+                            <input type="text" id="settingsCompanyName" name="companyName">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsCompanyLogo">Company Logo URL</label>
+                            <input type="text" id="settingsCompanyLogo" name="companyLogo" placeholder="https://...">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="settingsRecruitmentEmail">Recruitment Email</label>
+                            <input type="email" id="settingsRecruitmentEmail" name="recruitmentEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsContactNumber">Contact Number</label>
+                            <input type="text" id="settingsContactNumber" name="contactNumber">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="settingsCompanyAddress">Company Address</label>
+                        <input type="text" id="settingsCompanyAddress" name="companyAddress">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="settingsWebsiteUrl">Website URL</label>
+                        <input type="url" id="settingsWebsiteUrl" name="websiteUrl" placeholder="https://...">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="settingsFacebookUrl">Facebook URL</label>
+                            <input type="url" id="settingsFacebookUrl" name="facebookUrl" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsInstagramUrl">Instagram URL</label>
+                            <input type="url" id="settingsInstagramUrl" name="instagramUrl" placeholder="https://...">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="settingsLinkedinUrl">LinkedIn URL</label>
+                            <input type="url" id="settingsLinkedinUrl" name="linkedinUrl" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsTwitterUrl">Twitter/X URL</label>
+                            <input type="url" id="settingsTwitterUrl" name="twitterUrl" placeholder="https://...">
+                        </div>
+                    </div>
+                    
+                    <div class="admin-modal-footer">
+                        <button type="submit" class="btn btn-primary" id="saveSettingsBtn">
+                            <span class="btn-text">Save Settings</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+            
+            <!-- Profile Section -->
+            <section class="admin-section" id="profileSection">
+                <div class="admin-section-header">
+                    <h2>My Profile</h2>
+                    <p>Manage your account information</p>
                 </div>
+                
+                <form id="profileForm" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="profileFullName">Full Name</label>
+                            <input type="text" id="profileFullName" name="fullName">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileEmail">Email</label>
+                            <input type="email" id="profileEmail" name="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="profileUsername">Username</label>
+                        <input type="text" id="profileUsername" name="username" readonly>
+                    </div>
+                    
+                    <div class="admin-modal-footer">
+                        <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+                            <span class="btn-text">Update Profile</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+            
+            <!-- Change Password Section -->
+            <section class="admin-section" id="changePasswordSection">
+                <div class="admin-section-header">
+                    <h2>Change Password</h2>
+                    <p>Update your account password</p>
+                </div>
+                
+                <form id="passwordChangeForm" class="admin-form">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password *</label>
+                        <input type="password" id="currentPassword" name="currentPassword" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newPassword">New Password *</label>
+                        <input type="password" id="newPassword" name="newPassword" required placeholder="Min 8 chars, include uppercase, lowercase, number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password *</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    
+                    <div class="admin-modal-footer">
+                        <button type="submit" class="btn btn-primary" id="changePasswordBtn">
+                            <span class="btn-text">Change Password</span>
+                        </button>
+                    </div>
+                </form>
             </section>
 
             <!-- Users Section -->
@@ -231,7 +402,7 @@
                         
                         <div class="form-group">
                             <label for="jobDepartment">Department</label>
-                            <input type="text" id="jobDepartment" name="department" value="General">
+<input type="text" id="jobDepartment" name="department" value="General">
                         </div>
                     </div>
                     
@@ -259,16 +430,68 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="jobRequirements">Requirements (one per line)</label>
-                        <textarea id="jobRequirements" name="requirements" rows="4" placeholder="Enter each requirement on a new line"></textarea>
+                        <label for="applicationMethod">Application Method *</label>
+                        <select id="applicationMethod" name="applicationMethod" required>
+                            <option value="internal">Internal Application</option>
+                            <option value="external">External Application</option>
+                        </select>
+                    </div>
+                    
+                    <!-- External Job Fields -->
+                    <div id="externalJobFields" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="companyName">Company Name *</label>
+                                <input type="text" id="companyName" name="companyName">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyLogo">Company Logo URL</label>
+                                <input type="text" id="companyLogo" name="companyLogo" placeholder="https://...">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="applicationUrl">Application URL *</label>
+                                <input type="url" id="applicationUrl" name="applicationUrl" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label for="source">Source</label>
+                                <input type="text" id="source" name="source" placeholder="e.g., LinkedIn, Glassdoor">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Internal Job Fields -->
+                    <div id="internalJobFields">
+                        <div class="form-group">
+                            <label for="jobRequirements">Requirements (one per line)</label>
+                            <textarea id="jobRequirements" name="requirements" rows="4" placeholder="Enter each requirement on a new line"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jobResponsibilities">Responsibilities (one per line)</label>
+                        <textarea id="jobResponsibilities" name="responsibilities" rows="4" placeholder="Enter each responsibility on a new line"></textarea>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
+                            <label for="jobStatus">Job Status</label>
+                            <select id="jobStatus" name="status">
+                                <option value="Published">Published</option>
+                                <option value="Draft">Draft</option>
+                                <option value="Archived">Archived</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
                             <label for="jobDeadline">Application Deadline</label>
                             <input type="date" id="jobDeadline" name="deadline">
                         </div>
-                        
+                    </div>
+                    
+<div class="form-row">
                         <div class="form-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" id="jobFeatured" name="featured">
@@ -276,14 +499,7 @@
                             </label>
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="jobActive" name="active" checked>
-                            <span>Active (visible to applicants)</span>
-                        </label>
-                    </div>
-                    
+                     
                     <div class="admin-modal-footer">
                         <button type="button" class="btn btn-secondary" id="cancelJobBtn">Cancel</button>
                         <button type="submit" class="btn btn-primary" id="saveJobBtn">
@@ -294,7 +510,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Application Detail Modal -->
     <div class="admin-modal" id="applicationModal">
         <div class="admin-modal-overlay"></div>
@@ -310,21 +526,21 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Delete Confirmation Modal -->
     <div class="admin-modal" id="deleteModal">
         <div class="admin-modal-overlay"></div>
         <div class="admin-modal-container">
             <div class="admin-modal-content">
                 <div class="admin-modal-header">
-                    <h2>Confirm Deletion</h2>
+                    <h2>Confirm Action</h2>
                 </div>
                 <div class="admin-modal-body">
-                    <p>Are you sure you want to mark this job as inactive? This action will hide it from applicants.</p>
+                    <p id="deleteModalMessage">Are you sure you want to archive this job? This action will hide it from applicants.</p>
                     <div class="admin-modal-footer">
                         <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
                         <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
-                            <span class="btn-text">Mark Inactive</span>
+                            <span class="btn-text">Archive Job</span>
                         </button>
                     </div>
                 </div>

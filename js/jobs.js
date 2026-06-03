@@ -41,7 +41,7 @@ function updateHiringWidget() {
     const widget = document.getElementById('hiring-widget');
     const countEl = document.getElementById('hiring-count');
     if (!widget || !countEl) return;
-
+    
     const activeJobs = getActiveJobs();
     if (activeJobs.length > 0) {
         countEl.textContent = activeJobs.length;
@@ -50,8 +50,6 @@ function updateHiringWidget() {
         widget.style.display = 'none';
     }
 }
-
-// Helper function to get job type class
 function getJobTypeClass(type) {
     const typeMap = {
         'Full-Time': 'job-type-full-time',
@@ -76,19 +74,24 @@ function isDeadlineExpired(deadline) {
 function renderJobs() {
     const jobsGrid = document.querySelector('#jobs-container');
     if (!jobsGrid) return;
-
-    // Filter active jobs
-    const activeJobs = jobsData.filter(job => job.active);
-
+    
+    // Filter published jobs and sort by featured first
+    const activeJobs = jobsData.filter(job => job.status === 'Published');
+    
     if (activeJobs.length === 0) {
         showEmptyState(jobsGrid);
         return;
     }
-
+    
     jobsGrid.innerHTML = activeJobs.map((job, index) => {
         const deadlineExpired = isDeadlineExpired(job.deadline);
         const deadlineClass = deadlineExpired ? 'deadline-badge expired' : 'deadline-badge';
         const jobTypeClass = getJobTypeClass(job.type);
+        const isExternal = job.applicationMethod === 'external';
+        
+        const applyBtnClass = isExternal ? 'btn-external' : '';
+        const applyBtnIcon = isExternal ? '<i class="fas fa-external-link-alt"></i>' : '→';
+        const applyBtnText = isExternal ? 'Apply on Company Website' : 'View Details & Apply';
         
         return `
         <div class="job-card scroll-animate${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}" data-job-id="${job.id}">
@@ -97,8 +100,15 @@ function renderJobs() {
                     <i class="fas ${job.icon}"></i>
                 </div>
                 <span class="job-badge ${jobTypeClass}">${job.type}</span>
+                ${job.featured ? '<span class="job-badge featured-badge">Featured</span>' : ''}
+                ${isExternal ? '<span class="job-badge external-badge">External</span>' : ''}
             </div>
             <h3 class="job-title">${job.title}</h3>
+            ${isExternal && job.companyName ? `
+            <div class="company-info" style="margin-bottom: var(--space-sm); color: var(--text-light);">
+                <i class="fas fa-building"></i> ${escapeHtml(job.companyName)}
+            </div>
+            ` : ''}
             <div class="job-details">
                 <div class="job-detail">
                     <i class="fas fa-map-marker-alt"></i>
@@ -120,20 +130,22 @@ function renderJobs() {
                 ` : ''}
             </div>
             <p class="job-description">${job.description}</p>
+            ${!isExternal ? `
             <div class="job-requirements">
                 <h4>Key Requirements</h4>
                 <ul>
                     ${job.requirements.map(req => `<li><i class="fas fa-check"></i> ${req}</li>`).join('')}
                 </ul>
             </div>
-            <button class="btn btn-primary view-job-details" data-job-id="${job.id}" style="width: 100%; justify-content: center;">
-                <span class="btn-text">View Details & Apply</span>
-                <span class="btn-icon">→</span>
+            ` : ''}
+            <button class="btn btn-primary view-job-details ${applyBtnClass}" data-job-id="${job.id}" style="width: 100%; justify-content: center;">
+                <span class="btn-text">${applyBtnText}</span>
+                <span class="btn-icon">${applyBtnIcon}</span>
             </button>
         </div>
     `;
     }).join('');
-
+    
     // Add event listeners to job detail buttons
     setupJobDetailButtons();
 }
@@ -142,10 +154,10 @@ function renderJobs() {
 function renderHomepageJobs() {
     const homepageJobsContainer = document.getElementById('homepage-jobs');
     if (!homepageJobsContainer) return;
-
-    // Get latest 3 active jobs
-    const latestJobs = jobsData.filter(job => job.active).slice(0, 3);
-
+    
+    // Get latest 3 published jobs
+    const latestJobs = jobsData.filter(job => job.status === 'Published').slice(0, 3);
+    
     if (latestJobs.length === 0) {
         homepageJobsContainer.innerHTML = `
             <div class="empty-state" style="text-align: center; padding: var(--space-xxl);">
@@ -156,9 +168,11 @@ function renderHomepageJobs() {
         `;
         return;
     }
-
+    
     homepageJobsContainer.innerHTML = latestJobs.map((job, index) => {
         const jobTypeClass = getJobTypeClass(job.type);
+        const isExternal = job.applicationMethod === 'external';
+        
         return `
         <div class="job-card scroll-animate${index > 0 ? ` delay-${index}` : ''}" data-job-id="${job.id}">
             <div class="job-header">
@@ -186,7 +200,7 @@ function renderHomepageJobs() {
         </div>
     `;
     }).join('');
-
+    
     // Add event listeners to job detail buttons
     setupJobDetailButtons();
 }
@@ -235,14 +249,32 @@ function setupJobDetailButtons() {
 function openJobModal(jobId) {
     const job = jobsData.find(j => j.id === jobId);
     if (!job) return;
-
+    
     // Create modal if it doesn't exist
     let modal = document.getElementById('job-modal');
     if (!modal) {
         modal = createJobModal();
         document.body.appendChild(modal);
     }
-
+    
+    const isExternal = job.applicationMethod === 'external';
+    const applyButton = isExternal 
+        ? `<a href="${job.applicationUrl}" target="_blank" class="btn btn-primary btn-large" onclick="trackExternalApplication('${job.id}')">
+                <span class="btn-text">Apply on Company Website</span>
+                <span class="btn-icon"><i class="fas fa-external-link-alt"></i></span>
+            </a>`
+        : `<a href="#apply" class="btn btn-primary btn-large" onclick="selectJob('${job.title}')">
+                <span class="btn-text">Apply for this Position</span>
+                <span class="btn-icon">→</span>
+            </a>`;
+    
+    const companyInfo = isExternal ? `
+        <div class="company-info" style="margin-bottom: var(--space-lg); padding: var(--space-md); background: rgba(247, 127, 0, 0.1); border-radius: var(--radius-md);">
+            <h4 style="margin-bottom: var(--space-xs);"><i class="fas fa-building"></i> External Opportunity</h4>
+            <p style="margin: 0;">This position is posted by <strong>${escapeHtml(job.companyName)}</strong>. Click the button below to apply directly on their website.</p>
+        </div>
+    ` : '';
+    
     // Populate modal with job data
     const modalContent = modal.querySelector('.modal-content');
     modalContent.innerHTML = `
@@ -251,10 +283,12 @@ function openJobModal(jobId) {
                 <i class="fas ${job.icon}"></i>
             </div>
             <span class="job-badge">${job.type}</span>
+            ${job.featured ? '<span class="job-badge featured-badge">Featured</span>' : ''}
             <button class="modal-close" aria-label="Close modal">&times;</button>
         </div>
         <div class="modal-body">
             <h2 class="job-title" style="font-size: var(--font-size-xxxl); margin-bottom: var(--space-md);">${job.title}</h2>
+            ${companyInfo}
             <div class="job-details" style="margin-bottom: var(--space-lg);">
                 <div class="job-detail">
                     <i class="fas fa-map-marker-alt"></i>
@@ -276,39 +310,44 @@ function openJobModal(jobId) {
                 ` : ''}
             </div>
             <p class="job-description" style="margin-bottom: var(--space-lg);">${job.description}</p>
+            ${!isExternal ? `
             <div class="job-requirements">
                 <h4 style="margin-bottom: var(--space-sm);">Key Requirements</h4>
                 <ul>
                     ${job.requirements.map(req => `<li><i class="fas fa-check"></i> ${req}</li>`).join('')}
                 </ul>
             </div>
+            ` : ''}
         </div>
         <div class="modal-footer">
-            <a href="#apply" class="btn btn-primary btn-large" onclick="selectJob('${job.title}')">
-                <span class="btn-text">Apply for this Position</span>
-                <span class="btn-icon">→</span>
-            </a>
+            ${applyButton}
             <button class="btn btn-secondary btn-large modal-close">
                 <span class="btn-text">Close</span>
             </button>
         </div>
     `;
-
+    
     // Show modal
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
-
+    
     // Setup close handlers
     const closeButtons = modal.querySelectorAll('.modal-close');
     closeButtons.forEach(btn => {
         btn.addEventListener('click', closeJobModal);
     });
-
+    
     // Close on overlay click
     modal.querySelector('.modal-overlay').addEventListener('click', closeJobModal);
-
+    
     // Close on escape key
     document.addEventListener('keydown', handleEscapeKey);
+}
+
+// Track external application click
+function trackExternalApplication(jobId) {
+    // Could log analytics here
+    closeJobModal();
 }
 
 // Create job modal element
@@ -365,28 +404,28 @@ function getJobById(id) {
 
 // Get all active jobs
 function getActiveJobs() {
-    return jobsData.filter(job => job.active);
+    return jobsData.filter(job => job.status === 'Published');
 }
 
 // Populate position dropdown dynamically
 function populatePositionDropdown() {
     const positionSelect = document.getElementById('position');
     if (!positionSelect) return;
-
+    
     // Clear existing options except the first one
     const firstOption = positionSelect.querySelector('option[value=""]');
     positionSelect.innerHTML = '';
     positionSelect.appendChild(firstOption);
-
-    // Add job options
-    const activeJobs = getActiveJobs();
-    activeJobs.forEach(job => {
+    
+    // Add only internal job options
+    const internalJobs = getActiveJobs().filter(job => job.applicationMethod !== 'external');
+    internalJobs.forEach(job => {
         const option = document.createElement('option');
         option.value = job.title;
         option.textContent = job.title;
         positionSelect.appendChild(option);
     });
-
+    
     // Add "Other" option
     const otherOption = document.createElement('option');
     otherOption.value = 'Other';

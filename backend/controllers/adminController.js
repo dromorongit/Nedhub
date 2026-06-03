@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
     async getAllAdmins(req, res) {
+    async getAllAdmins(req, res) {
         try {
             if (!isDBConnected()) {
                 return res.status(503).json({
@@ -347,6 +348,174 @@ module.exports = {
             res.status(500).json({
                 success: false,
                 message: 'Failed to delete admin.'
+            });
+        }
+    },
+
+    // ==================== PROFILE MANAGEMENT ====================
+
+    async getProfile(req, res) {
+        try {
+            const admin = await Admin.findById(req.admin.adminId).select('-passwordHash');
+            
+            if (!admin) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Admin not found.'
+                });
+            }
+            
+            res.json({
+                success: true,
+                data: admin
+            });
+        } catch (error) {
+            console.error('[AdminController] Error fetching profile:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to fetch profile.'
+            });
+        }
+    },
+
+    async updateProfile(req, res) {
+        try {
+            const { fullName, email, username } = req.body;
+            
+            const admin = await Admin.findById(req.admin.adminId);
+            
+            if (!admin) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Admin not found.'
+                });
+            }
+            
+            if (fullName) admin.fullName = String(fullName).trim();
+            if (email) admin.email = String(email).toLowerCase().trim();
+            if (username) admin.username = String(username).toLowerCase().trim();
+            
+            await admin.save();
+            
+            await logActivity(req.admin.adminId, ACTIVITY_ACTIONS[22], 'admin', admin._id.toString(), {
+                email: admin.email
+            });
+            
+            res.json({
+                success: true,
+                message: 'Profile updated successfully.',
+                data: admin.toSafeObject()
+            });
+        } catch (error) {
+            console.error('[AdminController] Error updating profile:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to update profile.'
+            });
+        }
+    },
+
+    async changePassword(req, res) {
+        try {
+            const { currentPassword, newPassword } = req.body;
+            const adminId = req.admin.adminId;
+            
+            if (!currentPassword || !newPassword) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Current password and new password are required.'
+                });
+            }
+            
+            const admin = await Admin.findById(adminId);
+            
+            if (!admin) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Admin not found.'
+                });
+            }
+            
+            const isMatch = await admin.comparePassword(currentPassword);
+            if (!isMatch) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Current password is incorrect.'
+                });
+            }
+            
+            if (newPassword.length < 8) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Password must be at least 8 characters long.'
+                });
+            }
+            
+            if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Password must contain uppercase, lowercase, and numeric characters.'
+                });
+            }
+            
+            admin.passwordHash = await bcrypt.hash(newPassword, 12);
+            await admin.save();
+            
+            await logActivity(adminId, ACTIVITY_ACTIONS[23], 'admin', adminId, {
+                email: admin.email
+            });
+            
+            res.json({
+                success: true,
+                message: 'Password changed successfully.'
+            });
+        } catch (error) {
+            console.error('[AdminController] Error changing password:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to change password.'
+            });
+        }
+    },
+
+    // ==================== SETTINGS MANAGEMENT ====================
+
+    async getSettings(req, res) {
+        try {
+            const { Settings } = require('../models/Settings');
+            const settings = await Settings.getSettings();
+            
+            res.json({
+                success: true,
+                data: settings
+            });
+        } catch (error) {
+            console.error('[AdminController] Error fetching settings:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to fetch settings.'
+            });
+        }
+    },
+
+    async updateSettings(req, res) {
+        try {
+            const updates = req.body;
+            const { Settings } = require('../models/Settings');
+            const settings = await Settings.updateSettings(updates);
+            
+            await logActivity(req.admin.adminId, ACTIVITY_ACTIONS[24], 'settings', settings._id.toString(), {});
+            
+            res.json({
+                success: true,
+                message: 'Settings updated successfully.',
+                data: settings
+            });
+        } catch (error) {
+            console.error('[AdminController] Error updating settings:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to update settings.'
             });
         }
     }

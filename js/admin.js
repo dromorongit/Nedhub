@@ -104,6 +104,29 @@ function initDashboard() {
         });
     }
     
+    // Profile dropdown
+    const profileTrigger = document.getElementById('profileTrigger');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const headerLogout = document.getElementById('headerLogout');
+    
+    if (profileTrigger && profileDropdown) {
+        profileTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('active');
+        });
+    }
+    
+    if (headerLogout) {
+        headerLogout.addEventListener('click', function(e) {
+            e.preventDefault();
+            logout();
+        });
+    }
+    
+    document.addEventListener('click', function() {
+        if (profileDropdown) profileDropdown.classList.remove('active');
+    });
+    
     // Add Job Button
     const addJobBtn = document.getElementById('addJobBtn');
     if (addJobBtn) {
@@ -146,6 +169,14 @@ function initDashboard() {
         jobForm.addEventListener('submit', handleJobSubmit);
     }
     
+    // Application Method Toggle
+    const applicationMethodSelect = document.getElementById('applicationMethod');
+    if (applicationMethodSelect) {
+        applicationMethodSelect.addEventListener('change', function() {
+            toggleApplicationMethodFields(this.value);
+        });
+    }
+    
     // Modal Close Buttons
     const closeButtons = document.querySelectorAll('.admin-modal-close');
     closeButtons.forEach(btn => {
@@ -182,7 +213,26 @@ function initDashboard() {
         searchApplications.addEventListener('input', renderApplications);
     }
     
+    // Profile Form
+    const profileForm = document.getElementById('profileForm');
+    if (profileForm) {
+        profileForm.addEventListener('submit', handleProfileSubmit);
+    }
+    
+    // Password Change Form
+    const passwordChangeForm = document.getElementById('passwordChangeForm');
+    if (passwordChangeForm) {
+        passwordChangeForm.addEventListener('submit', handlePasswordChangeSubmit);
+    }
+    
+    // Settings Form
+    const settingsForm = document.getElementById('settingsForm');
+    if (settingsForm) {
+        settingsForm.addEventListener('submit', handleSettingsSubmit);
+    }
+    
     // Load initial data
+    loadDashboardStats();
     loadJobs();
     loadApplications();
     loadUsers();
@@ -209,7 +259,9 @@ function switchSection(section) {
         jobs: 'Job Management',
         applications: 'Application Management',
         users: 'User Management',
-        settings: 'Settings'
+        settings: 'Platform Settings',
+        profile: 'My Profile',
+        'change-password': 'Change Password'
     };
     document.getElementById('adminSectionTitle').textContent = titles[section] || 'Dashboard';
     
@@ -221,6 +273,14 @@ function switchSection(section) {
     }
     if (addUserBtn) {
         addUserBtn.style.display = section === 'users' ? 'flex' : 'none';
+    }
+    
+    // Load section-specific data
+    if (section === 'settings') {
+        loadSettings();
+    }
+    if (section === 'profile') {
+        loadProfile();
     }
 }
 
@@ -276,7 +336,7 @@ function renderJobs() {
     if (jobs.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="8" class="loading-state">
+                <td colspan="9" class="loading-state">
                     <i class="fas fa-briefcase"></i> No jobs found
                 </td>
             </tr>
@@ -284,10 +344,18 @@ function renderJobs() {
         return;
     }
     
-    tbody.innerHTML = jobs.map(job => `
+    tbody.innerHTML = jobs.map(job => {
+        const statusClass = job.status === 'Published' ? 'status-active' : 
+            job.status === 'Draft' ? 'status-pending' : 'status-inactive';
+        const methodBadge = job.applicationMethod === 'external' ? 
+            '<span class="status-badge status-external">External</span>' : '';
+        const featuredBadge = job.featured ? '<span class="status-badge status-featured">Featured</span>' : '';
+        
+        return `
         <tr data-job-id="${job.id}">
             <td>
                 <strong>${escapeHtml(job.title)}</strong>
+                ${featuredBadge}
             </td>
             <td>${escapeHtml(job.department || 'General')}</td>
             <td>${escapeHtml(job.location)}</td>
@@ -298,10 +366,11 @@ function renderJobs() {
             </td>
             <td>${job.deadline ? formatDate(job.deadline) : 'No deadline'}</td>
             <td>
-                <span class="status-badge ${job.active ? 'status-active' : 'status-inactive'}">
-                    ${job.active ? 'Active' : 'Inactive'}
+                <span class="status-badge ${statusClass}">
+                    ${escapeHtml(job.status)}
                 </span>
             </td>
+            <td>${methodBadge}</td>
             <td>
                 <span class="status-badge ${job.applicationCount > 0 ? 'status-shortlisted' : 'status-pending'}">
                     ${job.applicationCount || 0}
@@ -312,13 +381,14 @@ function renderJobs() {
                     <button class="btn btn-secondary edit-job" data-job-id="${job.id}" title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-danger delete-job" data-job-id="${job.id}" title="Delete">
-                        <i class="fas fa-trash"></i>
+                    <button class="btn btn-danger delete-job" data-job-id="${job.id}" title="Archive">
+                        <i class="fas fa-archive"></i>
                     </button>
                 </div>
             </td>
         </tr>
-    `).join('');
+    `;
+    }).join('');
     
     // Add event listeners
     document.querySelectorAll('.edit-job').forEach(btn => {
@@ -340,9 +410,32 @@ function openJobModal() {
     currentJobId = null;
     document.getElementById('jobModalTitle').textContent = 'Add New Job';
     document.getElementById('jobForm').reset();
-    document.getElementById('jobActive').checked = true;
+    document.getElementById('jobStatus').value = 'Published';
+    document.getElementById('applicationMethod').value = 'internal';
+    toggleApplicationMethodFields('internal');
     document.getElementById('jobModal').classList.add('active');
     document.body.style.overflow = 'hidden';
+}
+
+function toggleApplicationMethodFields(method) {
+    const externalFields = document.getElementById('externalJobFields');
+    const internalFields = document.getElementById('internalJobFields');
+    
+    if (externalFields && internalFields) {
+        if (method === 'external') {
+            externalFields.style.display = 'block';
+            internalFields.style.display = 'none';
+            document.getElementById('companyName').required = true;
+            document.getElementById('applicationUrl').required = true;
+            document.getElementById('jobRequirements').required = false;
+        } else {
+            externalFields.style.display = 'none';
+            internalFields.style.display = 'block';
+            document.getElementById('companyName').required = false;
+            document.getElementById('applicationUrl').required = false;
+            document.getElementById('jobRequirements').required = false;
+        }
+    }
 }
 
 function editJob(jobId) {
@@ -358,9 +451,17 @@ function editJob(jobId) {
     document.getElementById('jobType').value = job.type;
     document.getElementById('jobDescription').value = job.description;
     document.getElementById('jobRequirements').value = job.requirements ? job.requirements.join('\n') : '';
+    document.getElementById('jobResponsibilities').value = job.responsibilities ? job.responsibilities.join('\n') : '';
     document.getElementById('jobDeadline').value = job.deadline || '';
     document.getElementById('jobFeatured').checked = job.featured || false;
-    document.getElementById('jobActive').checked = job.active;
+    document.getElementById('jobStatus').value = job.status || 'Published';
+    document.getElementById('applicationMethod').value = job.applicationMethod || 'internal';
+    document.getElementById('companyName').value = job.companyName || '';
+    document.getElementById('companyLogo').value = job.companyLogo || '';
+    document.getElementById('applicationUrl').value = job.applicationUrl || '';
+    document.getElementById('source').value = job.source || '';
+    
+    toggleApplicationMethodFields(job.applicationMethod || 'internal');
     
     document.getElementById('jobModal').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -384,16 +485,24 @@ async function handleJobSubmit(e) {
             .split('\n')
             .map(r => r.trim())
             .filter(r => r),
+        responsibilities: document.getElementById('jobResponsibilities').value
+            .split('\n')
+            .map(r => r.trim())
+            .filter(r => r),
         deadline: document.getElementById('jobDeadline').value,
         featured: document.getElementById('jobFeatured').checked,
-        active: document.getElementById('jobActive').checked
+        status: document.getElementById('jobStatus').value,
+        applicationMethod: document.getElementById('applicationMethod').value,
+        companyName: document.getElementById('companyName').value,
+        companyLogo: document.getElementById('companyLogo').value,
+        applicationUrl: document.getElementById('applicationUrl').value,
+        source: document.getElementById('source').value
     };
     
     try {
         let response;
         
         if (currentJobId) {
-            // Update existing job
             response = await fetch(`${CONFIG.apiBaseUrl}/admin/jobs/${currentJobId}`, {
                 method: 'PUT',
                 headers: {
@@ -403,7 +512,6 @@ async function handleJobSubmit(e) {
                 body: JSON.stringify(formData)
             });
         } else {
-            // Create new job
             response = await fetch(`${CONFIG.apiBaseUrl}/admin/jobs`, {
                 method: 'POST',
                 headers: {
@@ -419,12 +527,14 @@ async function handleJobSubmit(e) {
         if (result.success) {
             closeJobModal();
             loadJobs();
+            loadDashboardStats();
+            showNotification('Job saved successfully!', 'success');
         } else {
-            alert(result.message || 'Failed to save job');
+            showNotification(result.message || 'Failed to save job', 'error');
         }
     } catch (error) {
         console.error('Error saving job:', error);
-        alert('Failed to save job. Please try again.');
+        showNotification('Failed to save job. Please try again.', 'error');
     }
 }
 
@@ -453,12 +563,14 @@ async function confirmDeleteJob() {
         if (result.success) {
             closeDeleteModal();
             loadJobs();
+            loadDashboardStats();
+            showNotification('Job archived successfully!', 'success');
         } else {
-            alert(result.message || 'Failed to delete job');
+            showNotification(result.message || 'Failed to archive job', 'error');
         }
     } catch (error) {
-        console.error('Error deleting job:', error);
-        alert('Failed to delete job. Please try again.');
+        console.error('Error archiving job:', error);
+        showNotification('Failed to archive job. Please try again.', 'error');
     }
 }
 
@@ -989,29 +1101,271 @@ async function updateApplicationStatus(appId, status) {
         const result = await response.json();
         
         if (result.success) {
-            // Update local state
             const app = applications.find(a => a.id === appId);
             if (app) {
                 app.status = status;
             }
             renderApplications();
             
-            // Close modal if open
             const modal = document.getElementById('applicationModal');
             if (modal && modal.classList.contains('active')) {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
             }
+            
+            loadDashboardStats();
+            showNotification('Application status updated!', 'success');
         } else {
-            alert(result.message || 'Failed to update status');
+            showNotification(result.message || 'Failed to update status', 'error');
         }
     } catch (error) {
         console.error('Error updating application status:', error);
-        alert('Failed to update status. Please try again.');
+        showNotification('Failed to update status. Please try again.', 'error');
+    }
+}
+
+// ==================== DASHBOARD STATS ====================
+
+async function loadDashboardStats() {
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/dashboard/stats`, {
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            }
+        });
+        
+        if (!response.ok) return;
+        
+        const result = await response.json();
+        const stats = result.data;
+        
+        document.getElementById('totalJobsCount').textContent = stats.totalJobs || 0;
+        document.getElementById('activeJobsCount').textContent = stats.activeJobs || 0;
+        document.getElementById('internalJobsCount').textContent = stats.internalJobs || 0;
+        document.getElementById('externalJobsCount').textContent = stats.externalJobs || 0;
+        document.getElementById('totalApplicationsCount').textContent = stats.totalApplications || 0;
+        document.getElementById('pendingApplicationsCount').textContent = stats.pendingApplications || 0;
+        document.getElementById('shortlistedApplicationsCount').textContent = stats.shortlistedApplications || 0;
+        
+        loadRecentApplications();
+    } catch (error) {
+        console.error('Error loading dashboard stats:', error);
+    }
+}
+
+async function loadRecentApplications() {
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/dashboard/recent-applications`, {
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            }
+        });
+        
+        if (!response.ok) return;
+        
+        const result = await response.json();
+        const list = document.getElementById('recentApplicationsList');
+        
+        if (result.data && result.data.length > 0) {
+            list.innerHTML = result.data.map(app => `
+                <div class="dashboard-summary-item">
+                    <strong>${escapeHtml(app.applicantName)}</strong>
+                    <span>${escapeHtml(app.positionName)}</span>
+                    <small>${formatDateTime(app.submittedAt)}</small>
+                </div>
+            `).join('');
+        } else {
+            list.innerHTML = '<p class="loading-state">No recent applications</p>';
+        }
+    } catch (error) {
+        console.error('Error loading recent applications:', error);
+    }
+}
+
+// ==================== PROFILE MANAGEMENT ====================
+
+async function loadProfile() {
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/profile`, {
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            }
+        });
+        
+        if (!response.ok) return;
+        
+        const result = await response.json();
+        const admin = result.data;
+        
+        document.getElementById('profileFullName').value = admin.fullName || '';
+        document.getElementById('profileEmail').value = admin.email || '';
+        document.getElementById('profileUsername').value = admin.username || '';
+    } catch (error) {
+        console.error('Error loading profile:', error);
+    }
+}
+
+async function handleProfileSubmit(e) {
+    e.preventDefault();
+    
+    const formData = {
+        fullName: document.getElementById('profileFullName').value,
+        email: document.getElementById('profileEmail').value
+    };
+    
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/profile`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('Profile updated successfully!', 'success');
+        } else {
+            showNotification(result.message || 'Failed to update profile', 'error');
+        }
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        showNotification('Failed to update profile.', 'error');
+    }
+}
+
+async function handlePasswordChangeSubmit(e) {
+    e.preventDefault();
+    
+    const currentPassword = document.getElementById('currentPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (newPassword !== confirmPassword) {
+        showNotification('Passwords do not match.', 'error');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/password`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify({
+                currentPassword,
+                newPassword
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('Password changed successfully!', 'success');
+            document.getElementById('passwordChangeForm').reset();
+            switchSection('dashboard');
+        } else {
+            showNotification(result.message || 'Failed to change password', 'error');
+        }
+    } catch (error) {
+        console.error('Error changing password:', error);
+        showNotification('Failed to change password.', 'error');
+    }
+}
+
+// ==================== SETTINGS MANAGEMENT ====================
+
+async function loadSettings() {
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/settings`, {
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            }
+        });
+        
+        if (!response.ok) return;
+        
+        const result = await response.json();
+        const settings = result.data;
+        
+        document.getElementById('settingsCompanyName').value = settings.companyName || '';
+        document.getElementById('settingsCompanyLogo').value = settings.companyLogo || '';
+        document.getElementById('settingsRecruitmentEmail').value = settings.recruitmentEmail || '';
+        document.getElementById('settingsContactNumber').value = settings.contactNumber || '';
+        document.getElementById('settingsCompanyAddress').value = settings.companyAddress || '';
+        document.getElementById('settingsWebsiteUrl').value = settings.websiteUrl || '';
+        document.getElementById('settingsFacebookUrl').value = settings.facebookUrl || '';
+        document.getElementById('settingsInstagramUrl').value = settings.instagramUrl || '';
+        document.getElementById('settingsLinkedinUrl').value = settings.linkedinUrl || '';
+        document.getElementById('settingsTwitterUrl').value = settings.twitterUrl || '';
+    } catch (error) {
+        console.error('Error loading settings:', error);
+    }
+}
+
+async function handleSettingsSubmit(e) {
+    e.preventDefault();
+    
+    const formData = {
+        companyName: document.getElementById('settingsCompanyName').value,
+        companyLogo: document.getElementById('settingsCompanyLogo').value,
+        recruitmentEmail: document.getElementById('settingsRecruitmentEmail').value,
+        contactNumber: document.getElementById('settingsContactNumber').value,
+        companyAddress: document.getElementById('settingsCompanyAddress').value,
+        websiteUrl: document.getElementById('settingsWebsiteUrl').value,
+        facebookUrl: document.getElementById('settingsFacebookUrl').value,
+        instagramUrl: document.getElementById('settingsInstagramUrl').value,
+        linkedinUrl: document.getElementById('settingsLinkedinUrl').value,
+        twitterUrl: document.getElementById('settingsTwitterUrl').value
+    };
+    
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/settings`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showNotification('Settings saved successfully!', 'success');
+        } else {
+            showNotification(result.message || 'Failed to save settings', 'error');
+        }
+    } catch (error) {
+        console.error('Error saving settings:', error);
+        showNotification('Failed to save settings.', 'error');
     }
 }
 
 // ==================== UTILITIES ====================
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i>
+        <span>${escapeHtml(message)}</span>
+    `;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
 function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');

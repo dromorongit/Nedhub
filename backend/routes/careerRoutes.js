@@ -26,7 +26,13 @@ function formatJobPublic(job) {
         icon: job.icon || getIconForJob(job),
         salary: 'Competitive',
         deadline: job.deadline,
-        active: job.active
+        active: job.status === 'Published',
+        status: job.status,
+        applicationMethod: job.applicationMethod,
+        companyName: job.companyName,
+        companyLogo: job.companyLogo,
+        applicationUrl: job.applicationUrl,
+        source: job.source
     };
 }
 
@@ -178,7 +184,7 @@ router.get('/careers/jobs', async (req, res) => {
             });
         }
         
-        const jobs = await Job.find({ active: true }).sort({ createdAt: -1 });
+        const jobs = await Job.find({ status: 'Published' }).sort({ featured: -1, createdAt: -1 });
         const formattedJobs = jobs.map(formatJobPublic);
         
         res.json({
@@ -190,6 +196,29 @@ router.get('/careers/jobs', async (req, res) => {
         res.status(500).json({
             success: false,
             message: 'Failed to fetch jobs'
+        });
+    }
+});
+
+/**
+ * @route GET /api/careers/settings
+ * @desc Get public settings (for footer, contact info, etc)
+ * @access Public
+ */
+router.get('/careers/settings', async (req, res) => {
+    try {
+        const { Settings } = require('../models/Settings');
+        const settings = await Settings.getSettings();
+        
+        res.json({
+            success: true,
+            data: settings
+        });
+    } catch (error) {
+        console.error('[CareerRoutes] Error fetching settings:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch settings'
         });
     }
 });
