@@ -6,7 +6,6 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
     async getAllAdmins(req, res) {
-    async getAllAdmins(req, res) {
         try {
             if (!isDBConnected()) {
                 return res.status(503).json({
