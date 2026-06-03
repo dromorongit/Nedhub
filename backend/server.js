@@ -15,6 +15,9 @@ const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 
+// Trust proxy for Railway deployment (for rate limiting to work correctly)
+app.set('trust proxy', true);
+
 // Debug: Log environment variables (without exposing secrets)
 console.log('[Server] Environment check:');
 console.log('[Server] NODE_ENV:', process.env.NODE_ENV);
