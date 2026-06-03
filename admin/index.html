@@ -23,13 +23,21 @@
         </div>
         
         <nav class="admin-nav">
-            <a href="#jobs" class="admin-nav-item active" data-section="jobs">
+            <a href="#dashboard" class="admin-nav-item active" data-section="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#jobs" class="admin-nav-item" data-section="jobs">
                 <i class="fas fa-briefcase"></i>
                 <span>Jobs</span>
             </a>
             <a href="#applications" class="admin-nav-item" data-section="applications">
                 <i class="fas fa-users"></i>
                 <span>Applications</span>
+            </a>
+            <a href="#users" class="admin-nav-item" data-section="users">
+                <i class="fas fa-user-cog"></i>
+                <span>Users</span>
             </a>
             <a href="#settings" class="admin-nav-item" data-section="settings">
                 <i class="fas fa-cog"></i>
@@ -54,6 +62,29 @@
         </header>
 
         <div class="admin-content">
+            <!-- Dashboard Section -->
+            <section class="admin-section" id="dashboardSection">
+                <div class="admin-section-header">
+                    <h2>Dashboard</h2>
+                    <p>Overview and statistics</p>
+                </div>
+                
+                <div class="admin-stats-grid" id="adminStatsGrid">
+                    <div class="admin-card">
+                        <h3><i class="fas fa-briefcase"></i> Total Jobs</h3>
+                        <p class="stat-value" id="totalJobsCount">0</p>
+                    </div>
+                    <div class="admin-card">
+                        <h3><i class="fas fa-users"></i> Total Applications</h3>
+                        <p class="stat-value" id="totalApplicationsCount">0</p>
+                    </div>
+                    <div class="admin-card">
+                        <h3><i class="fas fa-user-cog"></i> Admin Users</h3>
+                        <p class="stat-value" id="totalUsersCount">0</p>
+                    </div>
+                </div>
+            </section>
+
             <!-- Jobs Section -->
             <section class="admin-section active" id="jobsSection">
                 <div class="admin-section-header">
@@ -138,6 +169,43 @@
                 <div class="admin-card">
                     <h3>Admin Configuration</h3>
                     <p>Settings panel is under development. Check back later for more options.</p>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section class="admin-section" id="usersSection">
+                <div class="admin-section-header">
+                    <h2>Admin Users</h2>
+                    <p>Manage administrator accounts</p>
+                </div>
+                
+                <div class="admin-header-actions" id="usersHeaderActions">
+                    <button class="btn btn-primary" id="addUserBtn">
+                        <i class="fas fa-plus"></i> Add User
+                    </button>
+                </div>
+                
+                <div class="admin-table-container">
+                    <table class="admin-table" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Last Login</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td colspan="7" class="loading-state">
+                                    <i class="fas fa-spinner fa-spin"></i> Loading users...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </div>
@@ -260,6 +328,85 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Modal -->
+    <div class="admin-modal" id="userModal">
+        <div class="admin-modal-overlay"></div>
+        <div class="admin-modal-container">
+            <div class="admin-modal-content">
+                <div class="admin-modal-header">
+                    <h2 id="userModalTitle">Add New User</h2>
+                    <button class="admin-modal-close" aria-label="Close modal">&times;</button>
+                </div>
+                <form id="userForm" class="admin-form">
+                    <input type="hidden" id="userId" value="">
+                    
+                    <div class="form-group">
+                        <label for="userFullName">Full Name *</label>
+                        <input type="text" id="userFullName" name="fullName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userEmail">Email *</label>
+                        <input type="email" id="userEmail" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userUsername">Username *</label>
+                        <input type="text" id="userUsername" name="username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userPassword">Password *</label>
+                        <input type="password" id="userPassword" name="password" required placeholder="Min 8 chars, include uppercase, lowercase, number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userRole">Role *</label>
+                        <select id="userRole" name="role" required>
+                            <option value="admin">Admin</option>
+                            <option value="owner">Owner</option>
+                        </select>
+                    </div>
+                    
+                    <div class="admin-modal-footer">
+                        <button type="button" class="btn btn-secondary" id="cancelUserBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveUserBtn">
+                            <span class="btn-text">Save User</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Reset Modal -->
+    <div class="admin-modal" id="passwordModal">
+        <div class="admin-modal-overlay"></div>
+        <div class="admin-modal-container">
+            <div class="admin-modal-content">
+                <div class="admin-modal-header">
+                    <h2>Reset Password</h2>
+                    <button class="admin-modal-close" aria-label="Close modal">&times;</button>
+                </div>
+                <form id="passwordForm" class="admin-form">
+                    <input type="hidden" id="passwordUserId" value="">
+                    
+                    <div class="form-group">
+                        <label for="newPassword">New Password *</label>
+                        <input type="password" id="newPassword" name="password" required placeholder="Min 8 chars, include uppercase, lowercase, number">
+                    </div>
+                    
+                    <div class="admin-modal-footer">
+                        <button type="button" class="btn btn-secondary" id="cancelPasswordBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="resetPasswordBtn">
+                            <span class="btn-text">Reset Password</span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

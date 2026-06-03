@@ -11,11 +11,13 @@ const CONFIG = {
 
 // State
 let currentToken = null;
-let currentSection = 'jobs';
+let currentSection = 'dashboard';
 let jobs = [];
 let applications = [];
+let users = [];
 let currentJobId = null;
 let currentApplicationId = null;
+let currentUserId = null;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
@@ -43,6 +45,7 @@ function initLogin() {
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        const email = document.getElementById('adminEmail').value;
         const password = document.getElementById('adminPassword').value;
         
         try {
@@ -51,7 +54,7 @@ function initLogin() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ password })
+                body: JSON.stringify({ email, password })
             });
             
             const result = await response.json();
@@ -107,10 +110,34 @@ function initDashboard() {
         addJobBtn.addEventListener('click', openJobModal);
     }
     
-    // Cancel Job Button
-    const cancelJobBtn = document.getElementById('cancelJobBtn');
-    if (cancelJobBtn) {
-        cancelJobBtn.addEventListener('click', closeJobModal);
+    // Add User Button
+    const addUserBtn = document.getElementById('addUserBtn');
+    if (addUserBtn) {
+        addUserBtn.addEventListener('click', openUserModal);
+    }
+    
+    // Cancel User Button
+    const cancelUserBtn = document.getElementById('cancelUserBtn');
+    if (cancelUserBtn) {
+        cancelUserBtn.addEventListener('click', closeUserModal);
+    }
+    
+    // User Form
+    const userForm = document.getElementById('userForm');
+    if (userForm) {
+        userForm.addEventListener('submit', handleUserSubmit);
+    }
+    
+    // Cancel Password Button
+    const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
+    if (cancelPasswordBtn) {
+        cancelPasswordBtn.addEventListener('click', closePasswordModal);
+    }
+    
+    // Password Form
+    const passwordForm = document.getElementById('passwordForm');
+    if (passwordForm) {
+        passwordForm.addEventListener('submit', handlePasswordSubmit);
     }
     
     // Job Form
@@ -158,6 +185,7 @@ function initDashboard() {
     // Load initial data
     loadJobs();
     loadApplications();
+    loadUsers();
 }
 
 // ==================== SECTION SWITCHING ====================
@@ -180,14 +208,19 @@ function switchSection(section) {
     const titles = {
         jobs: 'Job Management',
         applications: 'Application Management',
+        users: 'User Management',
         settings: 'Settings'
     };
     document.getElementById('adminSectionTitle').textContent = titles[section] || 'Dashboard';
     
-    // Show/hide add button
+    // Show/hide add buttons
     const addJobBtn = document.getElementById('addJobBtn');
+    const addUserBtn = document.getElementById('addUserBtn');
     if (addJobBtn) {
         addJobBtn.style.display = section === 'jobs' ? 'flex' : 'none';
+    }
+    if (addUserBtn) {
+        addUserBtn.style.display = section === 'users' ? 'flex' : 'none';
     }
 }
 
@@ -538,6 +571,358 @@ function renderApplications() {
             updateApplicationStatus(appId, status);
         });
     });
+}
+
+// ==================== USERS ====================
+async function loadUsers() {
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/users`, {
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to load users');
+        }
+        
+        const result = await response.json();
+        users = result.data || [];
+        renderUsers();
+    } catch (error) {
+        console.error('Error loading users:', error);
+        const usersTableBody = document.getElementById('usersTableBody');
+        if (usersTableBody) {
+            usersTableBody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="loading-state">
+                        <i class="fas fa-exclamation-triangle"></i> Failed to load users
+                    </td>
+                </tr>
+            `;
+        }
+    }
+}
+
+function renderUsers() {
+    const tbody = document.getElementById('usersTableBody');
+    
+    if (users.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="loading-state">
+                    <i class="fas fa-user-cog"></i> No users found
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    tbody.innerHTML = users.map(user => `
+        <tr data-user-id="${user.id}">
+            <td>
+                <strong>${escapeHtml(user.fullName)}</strong>
+            </td>
+            <td>${escapeHtml(user.email)}</td>
+            <td>${escapeHtml(user.username)}</td>
+            <td>
+                <span class="status-badge ${user.role === 'owner' ? 'status-active' : 'status-pending'}">
+                    ${escapeHtml(user.role)}
+                </span>
+            </td>
+            <td>
+                <span class="status-badge ${user.isActive ? 'status-active' : 'status-inactive'}">
+                    ${user.isActive ? 'Active' : 'Inactive'}
+                </span>
+            </td>
+            <td>${user.lastLogin ? formatDateTime(user.lastLogin) : 'Never'}</td>
+            <td>
+                <div class="admin-actions">
+                    <button class="btn btn-secondary edit-user" data-user-id="${user.id}" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-secondary reset-password" data-user-id="${user.id}" title="Reset Password">
+                        <i class="fas fa-key"></i>
+                    </button>
+                    <button class="btn btn-secondary toggle-status" data-user-id="${user.id}" data-active="${user.isActive}" title="${user.isActive ? 'Disable' : 'Enable'}">
+                        <i class="fas ${user.isActive ? 'fa-ban' : 'fa-check'}"></i>
+                    </button>
+                    <button class="btn btn-secondary change-role" data-user-id="${user.id}" data-role="${user.role}" title="Change Role">
+                        <i class="fas fa-user-tag"></i>
+                    </button>
+                    <button class="btn btn-danger delete-user" data-user-id="${user.id}" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+    
+    // Add event listeners
+    document.querySelectorAll('.edit-user').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            editUser(userId);
+        });
+    });
+    
+    document.querySelectorAll('.reset-password').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            openPasswordModal(userId);
+        });
+    });
+    
+    document.querySelectorAll('.toggle-status').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            toggleUserStatus(userId);
+        });
+    });
+    
+    document.querySelectorAll('.change-role').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            changeUserRole(userId);
+        });
+    });
+    
+    document.querySelectorAll('.delete-user').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            deleteUser(userId);
+        });
+    });
+}
+
+function openUserModal() {
+    currentUserId = null;
+    document.getElementById('userModalTitle').textContent = 'Add New User';
+    document.getElementById('userForm').reset();
+    document.getElementById('userRole').value = 'admin';
+    document.getElementById('userModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function editUser(userId) {
+    const user = users.find(u => u.id === userId);
+    if (!user) return;
+    
+    currentUserId = userId;
+    document.getElementById('userModalTitle').textContent = 'Edit User';
+    document.getElementById('userId').value = user.id;
+    document.getElementById('userFullName').value = user.fullName;
+    document.getElementById('userEmail').value = user.email;
+    document.getElementById('userUsername').value = user.username;
+    document.getElementById('userRole').value = user.role;
+    
+    document.getElementById('userModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeUserModal() {
+    document.getElementById('userModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+async function handleUserSubmit(e) {
+    e.preventDefault();
+    
+    const formData = {
+        fullName: document.getElementById('userFullName').value.trim(),
+        email: document.getElementById('userEmail').value.trim(),
+        username: document.getElementById('userUsername').value.trim(),
+        password: document.getElementById('userPassword').value,
+        role: document.getElementById('userRole').value
+    };
+    
+    if (!formData.fullName || !formData.email || !formData.username) {
+        alert('All fields except password are required.');
+        return;
+    }
+    
+    try {
+        let response;
+        
+        if (currentUserId) {
+            response = await fetch(`${CONFIG.apiBaseUrl}/admin/users/${currentUserId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${currentToken}`
+                },
+                body: JSON.stringify({
+                    fullName: formData.fullName,
+                    email: formData.email,
+                    username: formData.username,
+                    role: formData.role
+                })
+            });
+        } else {
+            response = await fetch(`${CONFIG.apiBaseUrl}/admin/users`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${currentToken}`
+                },
+                body: JSON.stringify(formData)
+            });
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            closeUserModal();
+            loadUsers();
+        } else {
+            alert(result.message || 'Failed to save user');
+        }
+    } catch (error) {
+        console.error('Error saving user:', error);
+        alert('Failed to save user. Please try again.');
+    }
+}
+
+function openPasswordModal(userId) {
+    currentUserId = userId;
+    document.getElementById('passwordForm').reset();
+    document.getElementById('passwordModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePasswordModal() {
+    document.getElementById('passwordModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+async function handlePasswordSubmit(e) {
+    e.preventDefault();
+    
+    const password = document.getElementById('newPassword').value;
+    
+    if (password.length < 8) {
+        alert('Password must be at least 8 characters.');
+        return;
+    }
+    
+    if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
+        alert('Password must contain uppercase, lowercase, and numeric characters.');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/users/${currentUserId}/password`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify({ password })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            closePasswordModal();
+            alert('Password reset successfully.');
+        } else {
+            alert(result.message || 'Failed to reset password');
+        }
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        alert('Failed to reset password. Please try again.');
+    }
+}
+
+async function toggleUserStatus(userId) {
+    const user = users.find(u => u.id === userId);
+    if (!user) return;
+    
+    if (!confirm(`Are you sure you want to ${user.isActive ? 'disable' : 'enable'} this user?`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/users/${userId}/status`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            loadUsers();
+        } else {
+            alert(result.message || 'Failed to update user status');
+        }
+    } catch (error) {
+        console.error('Error toggling user status:', error);
+        alert('Failed to update user status. Please try again.');
+    }
+}
+
+async function changeUserRole(userId) {
+    const user = users.find(u => u.id === userId);
+    if (!user) return;
+    
+    const newRole = user.role === 'owner' ? 'admin' : 'owner';
+    
+    if (!confirm(`Are you sure you want to change this user's role to ${newRole}?`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/users/${userId}/role`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify({ role: newRole })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            loadUsers();
+        } else {
+            alert(result.message || 'Failed to change user role');
+        }
+    } catch (error) {
+        console.error('Error changing user role:', error);
+        alert('Failed to change user role. Please try again.');
+    }
+}
+
+async function deleteUser(userId) {
+    const user = users.find(u => u.id === userId);
+    if (!user) return;
+    
+    if (!confirm(`Are you sure you want to delete this user? This action cannot be undone.`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            loadUsers();
+        } else {
+            alert(result.message || 'Failed to delete user');
+        }
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        alert('Failed to delete user. Please try again.');
+    }
 }
 
 function viewApplication(appId) {

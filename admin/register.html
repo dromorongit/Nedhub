@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Registration - Nedhub GH Careers System">
+    <title>Admin Registration | Nedhub GH</title>
+    <link rel="icon" type="image/png" href="../Nedhubsymbol.PNG">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-login-body">
+    <div class="admin-login-container">
+        <div class="admin-login-card">
+            <div class="admin-login-header">
+                <div class="admin-logo">
+                    <img src="../Nedhublogo.PNG" alt="Nedhub GH" style="height: 40px;">
+                </div>
+                <h1>Platform Setup</h1>
+                <p>Create your Owner account to access the admin panel</p>
+            </div>
+            
+            <form id="adminRegisterForm" class="admin-login-form">
+                <div class="form-group">
+                    <label for="registerFullName">
+                        <i class="fas fa-user"></i> Full Name
+                    </label>
+                    <input 
+                        type="text" 
+                        id="registerFullName" 
+                        name="fullName" 
+                        placeholder="Enter your full name"
+                        required
+                        autocomplete="name"
+                    >
+                    <div class="error-message" id="registerError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerEmail">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="registerEmail" 
+                        name="email" 
+                        placeholder="Enter your email"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerUsername">
+                        <i class="fas fa-at"></i> Username
+                    </label>
+                    <input 
+                        type="text" 
+                        id="registerUsername" 
+                        name="username" 
+                        placeholder="Choose a username"
+                        required
+                        autocomplete="username"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerPassword">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="registerPassword" 
+                        name="password" 
+                        placeholder="Min 8 chars, include uppercase, lowercase, number"
+                        required
+                        autocomplete="new-password"
+                    >
+                    <span class="password-hint">Password must be at least 8 characters with uppercase, lowercase, and a number</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerConfirmPassword">
+                        <i class="fas fa-lock"></i> Confirm Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="registerConfirmPassword" 
+                        name="confirmPassword" 
+                        placeholder="Confirm your password"
+                        required
+                        autocomplete="new-password"
+                    >
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">
+                    <span class="btn-text">Create Owner Account</span>
+                    <span class="btn-icon">→</span>
+                </button>
+            </form>
+            
+            <div class="admin-login-footer">
+                <a href="../index.html">← Back to Website</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CONFIG = {
+            apiBaseUrl: 'https://nedhub-production.up.railway.app/api',
+            tokenKey: 'nedhub_admin_token'
+        };
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check if admin already exists - if so, redirect to login
+            try {
+                const response = await fetch(`${CONFIG.apiBaseUrl}/admin/health`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const result = await response.json();
+                if (result.adminCount > 0) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+            } catch (error) {
+                // If API fails, allow registration (fallback mode)
+            }
+
+            const form = document.getElementById('adminRegisterForm');
+            const errorEl = document.getElementById('registerError');
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const fullName = document.getElementById('registerFullName').value.trim();
+                const email = document.getElementById('registerEmail').value.trim();
+                const username = document.getElementById('registerUsername').value.trim();
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+                if (password !== confirmPassword) {
+                    errorEl.textContent = 'Passwords do not match.';
+                    return;
+                }
+
+                if (password.length < 8) {
+                    errorEl.textContent = 'Password must be at least 8 characters.';
+                    return;
+                }
+
+                if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
+                    errorEl.textContent = 'Password must contain uppercase, lowercase, and numeric characters.';
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${CONFIG.apiBaseUrl}/admin/register`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ fullName, email, username, password, confirmPassword })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        localStorage.setItem(CONFIG.tokenKey, result.token);
+                        window.location.href = 'index.html';
+                    } else {
+                        errorEl.textContent = result.message || 'Registration failed.';
+                    }
+                } catch (error) {
+                    errorEl.textContent = 'Connection error. Please try again.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

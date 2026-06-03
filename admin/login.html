@@ -23,6 +23,20 @@
             
             <form id="adminLoginForm" class="admin-login-form">
                 <div class="form-group">
+                    <label for="adminEmail">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="adminEmail" 
+                        name="email" 
+                        placeholder="Enter your email"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+                
+                <div class="form-group">
                     <label for="adminPassword">
                         <i class="fas fa-lock"></i> Password
                     </label>
@@ -30,7 +44,7 @@
                         type="password" 
                         id="adminPassword" 
                         name="password" 
-                        placeholder="Enter admin password"
+                        placeholder="Enter your password"
                         required
                         autocomplete="current-password"
                     >
@@ -44,11 +58,63 @@
             </form>
             
             <div class="admin-login-footer">
+                <a href="register.html" id="registerLink" style="display: none;">Initial Setup - Create Owner Account</a>
                 <a href="../index.html">← Back to Website</a>
             </div>
         </div>
     </div>
 
-    <script src="../js/admin.js"></script>
+    <script>
+        const CONFIG = {
+            apiBaseUrl: 'https://nedhub-production.up.railway.app/api',
+            tokenKey: 'nedhub_admin_token'
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if no admins exist and show registration link
+            fetch(`${CONFIG.apiBaseUrl}/admin/health`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.adminCount === 0) {
+                    document.getElementById('registerLink').style.display = 'block';
+                }
+            })
+            .catch(() => {});
+
+            const form = document.getElementById('adminLoginForm');
+            const errorEl = document.getElementById('loginError');
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('adminEmail').value;
+                const password = document.getElementById('adminPassword').value;
+                
+                try {
+                    const response = await fetch(`${CONFIG.apiBaseUrl}/admin/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email, password })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        localStorage.setItem(CONFIG.tokenKey, result.token);
+                        window.location.href = 'index.html';
+                    } else {
+                        errorEl.textContent = result.message || 'Login failed';
+                    }
+                } catch (error) {
+                    errorEl.textContent = 'Connection error. Please try again.';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

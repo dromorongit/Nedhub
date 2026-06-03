@@ -17,14 +17,15 @@ function initJobs() {
     setupJobEventListeners();
 }
 
-// Load jobs from JSON file
+// Load jobs from API endpoint
 async function loadJobs() {
     try {
-        const response = await fetch('data/jobs.json');
+        const response = await fetch('api/careers/jobs');
         if (!response.ok) {
             throw new Error('Failed to load jobs data');
         }
-        jobsData = await response.json();
+        const result = await response.json();
+        jobsData = result.success ? result.data : (result.data || []);
         renderJobs();
         renderHomepageJobs();
         populatePositionDropdown();

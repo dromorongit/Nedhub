@@ -499,6 +499,40 @@
     margin-bottom: var(--space-md);
 }
 
+/* Admin Stats Grid */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-orange);
+    margin: 0;
+}
+
+/* Password Hint */
+.password-hint {
+    display: block;
+    color: var(--text-light);
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-xs);
+}
+
+/* Role Badge */
+.role-owner {
+    background: rgba(247, 127, 0, 0.1);
+    color: var(--accent-orange);
+}
+
+.role-admin {
+    background: rgba(11, 19, 43, 0.1);
+    color: var(--primary-dark);
+}
+
 /* Filters */
 .admin-filters {
     display: flex;
