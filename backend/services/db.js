@@ -51,7 +51,8 @@ async function connectDB(retries = 0) {
             maxPoolSize: 10,
             serverSelectionTimeoutMS: 5000,
             socketTimeoutMS: 45000,
-            ...dbConfig
+            retryWrites: dbConfig.retryWrites,
+            w: dbConfig.w
         };
 
         connection = await mongoose.connect(MONGODB_URI, options);
