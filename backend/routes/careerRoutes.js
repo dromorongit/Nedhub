@@ -14,6 +14,7 @@ const router = express.Router();
 
 // Format job for public API response
 function formatJobPublic(job) {
+    const isActive = job.active !== false && job.status === 'Published';
     return {
         id: job._id,
         title: job.title,
@@ -26,7 +27,7 @@ function formatJobPublic(job) {
         icon: job.icon || getIconForJob(job),
         salary: 'Competitive',
         deadline: job.deadline,
-        active: job.status === 'Published',
+        active: isActive,
         status: job.status,
         applicationMethod: job.applicationMethod,
         companyName: job.companyName,
@@ -184,7 +185,13 @@ router.get('/careers/jobs', async (req, res) => {
             });
         }
         
-        const jobs = await Job.find({ status: 'Published' }).sort({ featured: -1, createdAt: -1 });
+        const jobs = await Job.find({
+            status: 'Published',
+            $or: [
+                { active: true },
+                { active: { $exists: false } }
+            ]
+        }).sort({ featured: -1, createdAt: -1 });
         const formattedJobs = jobs.map(formatJobPublic);
         
         res.json({

@@ -5,6 +5,7 @@ const { logActivity } = require('../middlewares/auth');
 const { isDBConnected } = require('../services/db');
 
 function formatJob(job) {
+    const isActive = job.active !== false && job.status === 'Published';
     return {
         id: job._id,
         title: job.title,
@@ -16,7 +17,7 @@ function formatJob(job) {
         responsibilities: job.responsibilities,
         deadline: job.deadline,
         featured: job.featured,
-        active: job.status === 'Published',
+        active: isActive,
         status: job.status,
         applicationMethod: job.applicationMethod,
         companyName: job.companyName,
@@ -36,7 +37,7 @@ async function checkExpiredJobs() {
         const now = new Date();
         await Job.updateMany(
             { deadline: { $lt: now }, status: 'Published' },
-            { $set: { status: 'Archived' } }
+            { $set: { status: 'Archived', active: false } }
         );
     } catch (error) {
         console.error('[JobController] Error checking expired jobs:', error.message);
@@ -153,6 +154,7 @@ module.exports = {
                     : [],
                 deadline: deadline ? new Date(deadline) : null,
                 featured: Boolean(featured),
+                active: true,
                 status: status || 'Published',
                 applicationMethod: appMethod,
                 companyName: companyName ? String(companyName).trim() : '',
@@ -214,7 +216,7 @@ module.exports = {
                 });
             }
             
-            const allowedFields = ['title', 'department', 'location', 'type', 'description', 'requirements', 'responsibilities', 'deadline', 'featured', 'status', 'applicationMethod', 'companyName', 'companyLogo', 'applicationUrl', 'source'];
+            const allowedFields = ['title', 'department', 'location', 'type', 'description', 'requirements', 'responsibilities', 'deadline', 'featured', 'active', 'status', 'applicationMethod', 'companyName', 'companyLogo', 'applicationUrl', 'source'];
             
             allowedFields.forEach(field => {
                 if (updates[field] !== undefined) {
@@ -222,7 +224,7 @@ module.exports = {
                         job[field] = updates[field].map(r => String(r).trim()).filter(r => r);
                     } else if (field === 'responsibilities' && Array.isArray(updates[field])) {
                         job[field] = updates[field].map(r => String(r).trim()).filter(r => r);
-                    } else if (field === 'featured') {
+                    } else if (field === 'featured' || field === 'active') {
                         job[field] = Boolean(updates[field]);
                     } else if (field === 'status') {
                         job[field] = updates[field];
@@ -276,6 +278,7 @@ module.exports = {
             }
             
             job.status = 'Archived';
+            job.active = false;
             await job.save();
             
             if (req.admin?.adminId) {
@@ -320,6 +323,7 @@ module.exports = {
             
             const oldStatus = job.status;
             job.status = status;
+            job.active = status === 'Published';
             await job.save();
             
             if (req.admin?.adminId) {
@@ -356,9 +360,20 @@ module.exports = {
             }
             
             const totalJobs = await Job.countDocuments();
-            const activeJobs = await Job.countDocuments({ status: 'Published' });
-            const internalJobs = await Job.countDocuments({ applicationMethod: 'internal', status: 'Published' });
-            const externalJobs = await Job.countDocuments({ applicationMethod: 'external', status: 'Published' });
+            const activeJobs = await Job.countDocuments({ 
+                status: 'Published', 
+                $or: [{ active: true }, { active: { $exists: false } }] 
+            });
+            const internalJobs = await Job.countDocuments({ 
+                applicationMethod: 'internal', 
+                status: 'Published',
+                $or: [{ active: true }, { active: { $exists: false } }]
+            });
+            const externalJobs = await Job.countDocuments({ 
+                applicationMethod: 'external', 
+                status: 'Published',
+                $or: [{ active: true }, { active: { $exists: false } }]
+            });
             
             const applicationCounts = await ApplicationModel.countDocuments();
             const pendingApps = await ApplicationModel.countDocuments({ status: 'pending' });
@@ -452,8 +467,15 @@ module.exports = {
                 { $limit: 10 }
             ]);
             
-            const activeJobsCount = await Job.countDocuments({ status: 'Published' });
-            const externalJobsCount = await Job.countDocuments({ applicationMethod: 'external', status: 'Published' });
+            const activeJobsCount = await Job.countDocuments({ 
+                status: 'Published',
+                $or: [{ active: true }, { active: { $exists: false } }]
+            });
+            const externalJobsCount = await Job.countDocuments({ 
+                applicationMethod: 'external', 
+                status: 'Published',
+                $or: [{ active: true }, { active: { $exists: false } }]
+            });
             
             res.json({
                 success: true,

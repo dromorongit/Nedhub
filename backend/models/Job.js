@@ -53,6 +53,10 @@ const jobSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    active: {
+        type: Boolean,
+        default: true
+    },
     status: {
         type: String,
         enum: JOB_STATUS_ENUM,
@@ -113,7 +117,7 @@ jobSchema.pre('validate', function(next) {
 });
 
 jobSchema.virtual('isActive').get(function() {
-    return this.status === 'Published';
+    return this.active !== false && this.status === 'Published';
 });
 
 jobSchema.methods.toPublicObject = function() {
@@ -128,7 +132,7 @@ jobSchema.methods.toPublicObject = function() {
         responsibilities: this.responsibilities,
         deadline: this.deadline,
         featured: this.featured,
-        active: this.status === 'Published',
+        active: this.active !== false && this.status === 'Published',
         status: this.status,
         applicationMethod: this.applicationMethod,
         companyName: this.companyName,

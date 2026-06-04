@@ -6,7 +6,7 @@
 // Configuration
 const CONFIG = {
     cloudinary: {
-        cloudName: 'nedhubgh',
+        cloudName: 'ddohto2tl',
         uploadPreset: 'nedhub_careers_unsigned'
     },
     maxFileSize: 5 * 1024 * 1024, // 5MB
