@@ -86,68 +86,68 @@ function renderJobs() {
         return;
     }
     
-    jobsGrid.innerHTML = activeJobs.map((job, index) => {
-        const deadlineExpired = isDeadlineExpired(job.deadline);
-        const deadlineClass = deadlineExpired ? 'deadline-badge expired' : 'deadline-badge';
-        const jobTypeClass = getJobTypeClass(job.type);
-        const isExternal = job.applicationMethod === 'external';
-        
-        const applyBtnClass = isExternal ? 'btn-external' : '';
-        const applyBtnIcon = isExternal ? '<i class="fas fa-external-link-alt"></i>' : '→';
-        const applyBtnText = isExternal ? 'Apply on Company Website' : 'View Details & Apply';
-        
-        return `
-        <div class="job-card scroll-animate${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}" data-job-id="${job.id}">
-            <div class="job-header">
-                <div class="job-icon">
-                    <i class="fas ${job.icon}"></i>
-                </div>
-                <span class="job-badge ${jobTypeClass}">${job.type}</span>
-                ${job.featured ? '<span class="job-badge featured-badge">Featured</span>' : ''}
-                ${isExternal ? '<span class="job-badge external-badge">External</span>' : ''}
-            </div>
-            <h3 class="job-title">${job.title}</h3>
-            ${isExternal && job.companyName ? `
-            <div class="company-info" style="margin-bottom: var(--space-sm); color: var(--text-light);">
-                <i class="fas fa-building"></i> ${escapeHtml(job.companyName)}
-            </div>
-            ` : ''}
-            <div class="job-details">
-                <div class="job-detail">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>${job.location}</span>
-                </div>
-                <div class="job-detail">
-                    <i class="fas fa-clock"></i>
-                    <span>${job.type}</span>
-                </div>
-                <div class="job-detail">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <span>${job.salary}</span>
-                </div>
-                ${job.deadline ? `
-                <div class="job-detail">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Deadline: ${formatDate(job.deadline)}</span>
-                </div>
-                ` : ''}
-            </div>
-            <p class="job-description">${job.description}</p>
-            ${!isExternal ? `
-            <div class="job-requirements">
-                <h4>Key Requirements</h4>
-                <ul>
-                    ${job.requirements.map(req => `<li><i class="fas fa-check"></i> ${req}</li>`).join('')}
-                </ul>
-            </div>
-            ` : ''}
-            <button class="btn btn-primary view-job-details ${applyBtnClass}" data-job-id="${job.id}" style="width: 100%; justify-content: center;">
-                <span class="btn-text">${applyBtnText}</span>
-                <span class="btn-icon">${applyBtnIcon}</span>
-            </button>
-        </div>
-    `;
-    }).join('');
+jobsGrid.innerHTML = activeJobs.map((job, index) => {
+         const deadlineExpired = isDeadlineExpired(job.deadline);
+         const deadlineClass = deadlineExpired ? 'deadline-badge expired' : 'deadline-badge';
+         const jobTypeClass = getJobTypeClass(job.type);
+         const isExternal = job.applicationMethod === 'external';
+         
+         const applyBtnClass = isExternal ? 'btn-external' : '';
+         const applyBtnIcon = isExternal ? '<i class="fas fa-external-link-alt"></i>' : '→';
+         const applyBtnText = isExternal ? 'Apply on Company Website' : 'View Details & Apply';
+         
+         return `
+         <div class="job-card scroll-animate visible${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}" data-job-id="${job.id}">
+             <div class="job-header">
+                 <div class="job-icon">
+                     <i class="fas ${job.icon}"></i>
+                 </div>
+                 <span class="job-badge ${jobTypeClass}">${job.type}</span>
+                 ${job.featured ? '<span class="job-badge featured-badge">Featured</span>' : ''}
+                 ${isExternal ? '<span class="job-badge external-badge">External</span>' : ''}
+             </div>
+             <h3 class="job-title">${job.title}</h3>
+             ${isExternal && job.companyName ? `
+             <div class="company-info" style="margin-bottom: var(--space-sm); color: var(--text-light);">
+                 <i class="fas fa-building"></i> ${escapeHtml(job.companyName)}
+             </div>
+             ` : ''}
+             <div class="job-details">
+                 <div class="job-detail">
+                     <i class="fas fa-map-marker-alt"></i>
+                     <span>${job.location}</span>
+                 </div>
+                 <div class="job-detail">
+                     <i class="fas fa-clock"></i>
+                     <span>${job.type}</span>
+                 </div>
+                 <div class="job-detail">
+                     <i class="fas fa-money-bill-wave"></i>
+                     <span>${job.salary}</span>
+                 </div>
+                 ${job.deadline ? `
+                 <div class="job-detail">
+                     <i class="fas fa-calendar-alt"></i>
+                     <span>Deadline: ${formatDate(job.deadline)}</span>
+                 </div>
+                 ` : ''}
+             </div>
+             <p class="job-description">${job.description}</p>
+             ${!isExternal ? `
+             <div class="job-requirements">
+                 <h4>Key Requirements</h4>
+                 <ul>
+                     ${(job.requirements || []).map(req => `<li><i class="fas fa-check"></i> ${req}</li>`).join('')}
+                 </ul>
+             </div>
+             ` : ''}
+             <button class="btn btn-primary view-job-details ${applyBtnClass}" data-job-id="${job.id}" style="width: 100%; justify-content: center;">
+                 <span class="btn-text">${applyBtnText}</span>
+                 <span class="btn-icon">${applyBtnIcon}</span>
+             </button>
+         </div>
+     `;
+     }).join('');
     
     // Add event listeners to job detail buttons
     setupJobDetailButtons();
@@ -172,12 +172,12 @@ function renderHomepageJobs() {
         return;
     }
     
-    homepageJobsContainer.innerHTML = latestJobs.map((job, index) => {
-        const jobTypeClass = getJobTypeClass(job.type);
-        const isExternal = job.applicationMethod === 'external';
-        
-        return `
-        <div class="job-card scroll-animate${index > 0 ? ` delay-${index}` : ''}" data-job-id="${job.id}">
+homepageJobsContainer.innerHTML = latestJobs.map((job, index) => {
+         const jobTypeClass = getJobTypeClass(job.type);
+         const isExternal = job.applicationMethod === 'external';
+         
+         return `
+         <div class="job-card scroll-animate visible${index > 0 ? ` delay-${index}` : ''}" data-job-id="${job.id}">
             <div class="job-header">
                 <div class="job-icon">
                     <i class="fas ${job.icon}"></i>
@@ -278,7 +278,7 @@ function openJobModal(jobId) {
         </div>
     ` : '';
     
-    // Populate modal with job data
+// Populate modal with job data
     const modalContent = modal.querySelector('.modal-content');
     modalContent.innerHTML = `
         <div class="modal-header">
@@ -317,7 +317,7 @@ function openJobModal(jobId) {
             <div class="job-requirements">
                 <h4 style="margin-bottom: var(--space-sm);">Key Requirements</h4>
                 <ul>
-                    ${job.requirements.map(req => `<li><i class="fas fa-check"></i> ${req}</li>`).join('')}
+                    ${(job.requirements || []).map(req => `<li><i class="fas fa-check"></i> ${req}</li>`).join('')}
                 </ul>
             </div>
             ` : ''}
