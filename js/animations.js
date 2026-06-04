@@ -235,7 +235,6 @@ function createRippleEffect(button, event) {
     }, 600);
 }
 function initScrollAnimations() {
-    const scrollElements = document.querySelectorAll('.scroll-animate');
     const elementInView = (el, dividend = 1) => {
         const elementTop = el.getBoundingClientRect().top;
         return elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend;
@@ -243,12 +242,27 @@ function initScrollAnimations() {
     const displayScrollElement = (element) => {
         element.classList.add('visible');
     };
+    // Don't hide elements that already have visible class or are in jobs container
+    const hideScrollElement = (element) => {
+        if (element.classList.contains('visible') || element.closest('#jobs-container')) {
+            return;
+        }
+        element.classList.remove('visible');
+    };
     const handleScrollAnimation = () => {
+        // Re-query to catch dynamically added elements (job cards)
+        const scrollElements = document.querySelectorAll('.scroll-animate:not(#jobs-container .scroll-animate)');
         scrollElements.forEach((element) => {
             if (elementInView(element, 1.25)) {
                 displayScrollElement(element);
             }
+            else {
+                hideScrollElement(element);
+            }
         });
+        // Keep job cards visible that were pre-rendered with visible class
+        const jobElements = document.querySelectorAll('#jobs-container .scroll-animate');
+        jobElements.forEach(el => el.classList.add('visible'));
     };
     handleScrollAnimation();
     window.addEventListener('scroll', debounce(handleScrollAnimation, 50));

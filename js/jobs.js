@@ -76,17 +76,19 @@ function isDeadlineExpired(deadline) {
 // Render jobs on careers page
 function renderJobs() {
     const jobsGrid = document.querySelector('#jobs-container');
+    console.log('renderJobs: jobsGrid element', jobsGrid);
     if (!jobsGrid) return;
-    
+
     // Filter published jobs and sort by featured first
     const activeJobs = jobsData.filter(job => job.status === 'Published');
-    
+    console.log('renderJobs: activeJobs count', activeJobs.length);
+
     if (activeJobs.length === 0) {
         showEmptyState(jobsGrid);
         return;
     }
-    
-jobsGrid.innerHTML = activeJobs.map((job, index) => {
+
+    jobsGrid.innerHTML = activeJobs.map((job, index) => {
          const deadlineExpired = isDeadlineExpired(job.deadline);
          const deadlineClass = deadlineExpired ? 'deadline-badge expired' : 'deadline-badge';
          const jobTypeClass = getJobTypeClass(job.type);
@@ -146,9 +148,11 @@ jobsGrid.innerHTML = activeJobs.map((job, index) => {
                  <span class="btn-icon">${applyBtnIcon}</span>
              </button>
          </div>
-     `;
-     }).join('');
-    
+`;
+      }).join('');
+     
+    console.log('renderJobs: jobs grid populated, child count', jobsGrid.children.length);
+     
     // Add event listeners to job detail buttons
     setupJobDetailButtons();
 }

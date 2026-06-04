@@ -1,42 +1,6 @@
 import { initNavigation } from './nav.js';
 import { initAnimations } from './animations.js';
 import { initFormValidation } from './form-validation.js';
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Nedhub Website Initialized');
-    initNavigation();
-    initAnimations();
-    initFormValidation();
-    setupScrollAnimations();
-    setupStickyNavbar();
-    setupSmoothScrolling();
-    setupMobileBehaviors();
-    setupFAQ();
-});
-function setupScrollAnimations() {
-    const scrollElements = document.querySelectorAll('.scroll-animate');
-    const elementInView = (el, dividend = 1) => {
-        const elementTop = el.getBoundingClientRect().top;
-        return elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend;
-    };
-    const displayScrollElement = (element) => {
-        element.classList.add('visible');
-    };
-    const hideScrollElement = (element) => {
-        element.classList.remove('visible');
-    };
-    const handleScrollAnimation = () => {
-        scrollElements.forEach((element) => {
-            if (elementInView(element, 1.25)) {
-                displayScrollElement(element);
-            }
-            else {
-                hideScrollElement(element);
-            }
-        });
-    };
-    handleScrollAnimation();
-    window.addEventListener('scroll', handleScrollAnimation);
-}
 function setupStickyNavbar() {
     const navbar = document.getElementById('main-nav');
     if (!navbar)
@@ -145,5 +109,15 @@ function debounce(func, wait = 100) {
         timeout = window.setTimeout(later, wait);
     };
 }
-export { setupScrollAnimations, setupStickyNavbar, setupSmoothScrolling, setupMobileBehaviors, debounce };
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Nedhub Website Initialized');
+    initNavigation();
+    initAnimations();
+    initFormValidation();
+    setupStickyNavbar();
+    setupSmoothScrolling();
+    setupMobileBehaviors();
+    setupFAQ();
+});
+export { setupStickyNavbar, setupSmoothScrolling, setupMobileBehaviors, debounce };
 //# sourceMappingURL=main.js.map
