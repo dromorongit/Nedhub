@@ -235,37 +235,62 @@ function createRippleEffect(button, event) {
     }, 600);
 }
 function initScrollAnimations() {
-    const elementInView = (el, dividend = 1) => {
-        const elementTop = el.getBoundingClientRect().top;
-        return elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend;
-    };
-    const displayScrollElement = (element) => {
-        element.classList.add('visible');
-    };
-    // Don't hide elements that already have visible class or are in jobs container
-    const hideScrollElement = (element) => {
-        if (element.classList.contains('visible') || element.closest('#jobs-container')) {
-            return;
-        }
-        element.classList.remove('visible');
-    };
-    const handleScrollAnimation = () => {
-        // Re-query to catch dynamically added elements (job cards)
-        const scrollElements = document.querySelectorAll('.scroll-animate:not(#jobs-container .scroll-animate)');
-        scrollElements.forEach((element) => {
-            if (elementInView(element, 1.25)) {
-                displayScrollElement(element);
-            }
-            else {
-                hideScrollElement(element);
+    let scrollObserver = null;
+    
+    const handleIntersection = (entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Once visible, stop observing - never remove visibility
+                scrollObserver.unobserve(entry.target);
             }
         });
-        // Keep job cards visible that were pre-rendered with visible class
-        const jobElements = document.querySelectorAll('#jobs-container .scroll-animate');
-        jobElements.forEach(el => el.classList.add('visible'));
     };
-    handleScrollAnimation();
-    window.addEventListener('scroll', debounce(handleScrollAnimation, 50));
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+    
+    // Initialize IntersectionObserver
+    scrollObserver = new IntersectionObserver(handleIntersection, observerOptions);
+    
+    // Observe all existing scroll-animate elements
+    const observeElements = (container = document) => {
+        const scrollElements = container.querySelectorAll('.scroll-animate:not(.visible)');
+        scrollElements.forEach(element => {
+            scrollObserver.observe(element);
+        });
+    };
+    
+    // Initial observation
+    observeElements();
+    
+    // MutationObserver to handle dynamically added elements (jobs, API content)
+    const mutationObserver = new MutationObserver((mutations) => {
+        mutations.forEach(mutation => {
+            mutation.addedNodes.forEach(node => {
+                if (node.nodeType === 1) { // Element node
+                    // Skip elements that already have visible class (pre-rendered content)
+                    if (node.classList && node.classList.contains('scroll-animate') && !node.classList.contains('visible')) {
+                        scrollObserver.observe(node);
+                    }
+                    // Check for scroll-animate elements within added subtrees
+                    const scrollElements = node.querySelectorAll && node.querySelectorAll('.scroll-animate:not(.visible)');
+                    if (scrollElements) {
+                        scrollElements.forEach(el => scrollObserver.observe(el));
+                    }
+                }
+            });
+        });
+    });
+    
+    // Observe the entire document for added elements
+    mutationObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
 }
 function initFormAnimations() {
     const forms = document.querySelectorAll('.form');
