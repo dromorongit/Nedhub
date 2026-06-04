@@ -17,10 +17,13 @@ function initJobs() {
     setupJobEventListeners();
 }
 
+// API base URL for production deployment
+const API_BASE = 'https://nedhub-production.up.railway.app';
+
 // Load jobs from API endpoint
 async function loadJobs() {
     try {
-        const response = await fetch('api/careers/jobs');
+        const response = await fetch(`${API_BASE}/api/careers/jobs`);
         if (!response.ok) {
             throw new Error('Failed to load jobs data');
         }
@@ -446,3 +449,10 @@ window.selectJob = function(jobTitle) {
     }
     closeJobModal();
 };
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
