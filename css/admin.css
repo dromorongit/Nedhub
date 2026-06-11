@@ -219,12 +219,15 @@
 
 .admin-section-header {
     margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
 }
 
 .admin-section-header h2 {
     font-size: var(--font-size-xxxl);
     color: var(--primary-dark);
     margin-bottom: var(--space-xs);
+    margin: 0;
 }
 
 .admin-section-header p {
@@ -551,6 +554,13 @@
 .admin-filters input {
     flex: 1;
     min-width: 200px;
+}
+
+/* Section Header Actions */
+.admin-header-actions {
+    display: none;
+    justify-content: flex-end;
+    margin-bottom: var(--space-lg);
 }
 
 /* Application Detail View */

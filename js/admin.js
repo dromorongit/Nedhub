@@ -265,14 +265,15 @@ function switchSection(section) {
     };
     document.getElementById('adminSectionTitle').textContent = titles[section] || 'Dashboard';
     
-    // Show/hide add buttons
-    const addJobBtn = document.getElementById('addJobBtn');
-    const addUserBtn = document.getElementById('addUserBtn');
-    if (addJobBtn) {
-        addJobBtn.style.display = section === 'jobs' ? 'flex' : 'none';
+    // Show/hide section header actions
+    const jobsHeaderActions = document.getElementById('jobsHeaderActions');
+    const usersHeaderActions = document.getElementById('usersHeaderActions');
+    
+    if (jobsHeaderActions) {
+        jobsHeaderActions.style.display = section === 'jobs' ? 'block' : 'none';
     }
-    if (addUserBtn) {
-        addUserBtn.style.display = section === 'users' ? 'flex' : 'none';
+    if (usersHeaderActions) {
+        usersHeaderActions.style.display = section === 'users' ? 'block' : 'none';
     }
     
     // Load section-specific data

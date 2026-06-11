@@ -54,33 +54,28 @@
     <main class="admin-main">
         <header class="admin-header">
             <h1 id="adminSectionTitle">Job Management</h1>
-            <div class="admin-header-actions">
-                <button class="btn btn-primary" id="addJobBtn">
-                    <i class="fas fa-plus"></i> Add Job
+            <div class="profile-dropdown-container">
+                <button class="profile-trigger-btn" id="profileTrigger" title="Profile">
+                    <i class="fas fa-user-circle"></i>
                 </button>
-                <div class="profile-dropdown-container">
-                    <button class="profile-trigger-btn" id="profileTrigger" title="Profile">
-                        <i class="fas fa-user-circle"></i>
-                    </button>
-                    <div class="profile-dropdown" id="profileDropdown">
-                        <a href="#profile" class="profile-dropdown-item" data-section="profile">
-                            <i class="fas fa-user"></i> My Profile
-                        </a>
-                        <a href="#change-password" class="profile-dropdown-item" data-section="change-password">
-                            <i class="fas fa-key"></i> Change Password
-                        </a>
-                        <div class="profile-dropdown-divider"></div>
-                        <a href="#" class="profile-dropdown-item" id="headerLogout">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </a>
-                    </div>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <a href="#profile" class="profile-dropdown-item" data-section="profile">
+                        <i class="fas fa-user"></i> My Profile
+                    </a>
+                    <a href="#change-password" class="profile-dropdown-item" data-section="change-password">
+                        <i class="fas fa-key"></i> Change Password
+                    </a>
+                    <div class="profile-dropdown-divider"></div>
+                    <a href="#" class="profile-dropdown-item" id="headerLogout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 </div>
             </div>
         </header>
 
         <div class="admin-content">
             <!-- Dashboard Section -->
-            <section class="admin-section" id="dashboardSection">
+            <section class="admin-section active" id="dashboardSection">
                 <div class="admin-section-header">
                     <h2>Dashboard</h2>
                     <p>Overview and statistics</p>
@@ -137,37 +132,43 @@
                 </div>
             </section>
 
-            <!-- Jobs Section -->
-            <section class="admin-section active" id="jobsSection">
-                <div class="admin-section-header">
-                    <h2>Job Postings</h2>
-                    <p>Manage all job listings</p>
-                </div>
-                
-                <div class="admin-table-container">
-                    <table class="admin-table" id="jobsTable">
-                        <thead>
-                            <tr>
-                                <th>Position</th>
-                                <th>Department</th>
-                                <th>Location</th>
-                                <th>Type</th>
-                                <th>Deadline</th>
-                                <th>Status</th>
-                                <th>Applications</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="jobsTableBody">
-                            <tr>
-                                <td colspan="8" class="loading-state">
-                                    <i class="fas fa-spinner fa-spin"></i> Loading jobs...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+<!-- Jobs Section -->
+             <section class="admin-section" id="jobsSection">
+                 <div class="admin-section-header">
+                     <h2>Job Postings</h2>
+                     <p>Manage all job listings</p>
+                 </div>
+                 
+                 <div class="admin-header-actions" id="jobsHeaderActions">
+                     <button class="btn btn-primary" id="addJobBtn">
+                         <i class="fas fa-plus"></i> Add Job
+                     </button>
+                 </div>
+                 
+                 <div class="admin-table-container">
+                     <table class="admin-table" id="jobsTable">
+                         <thead>
+                             <tr>
+                                 <th>Position</th>
+                                 <th>Department</th>
+                                 <th>Location</th>
+                                 <th>Type</th>
+                                 <th>Deadline</th>
+                                 <th>Status</th>
+                                 <th>Applications</th>
+                                 <th>Actions</th>
+                             </tr>
+                         </thead>
+                         <tbody id="jobsTableBody">
+                             <tr>
+                                 <td colspan="8" class="loading-state">
+                                     <i class="fas fa-spinner fa-spin"></i> Loading jobs...
+                                 </td>
+                             </tr>
+                         </tbody>
+                     </table>
+                 </div>
+             </section>
 
             <!-- Applications Section -->
             <section class="admin-section" id="applicationsSection">
