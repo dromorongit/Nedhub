@@ -73,6 +73,13 @@ function isDeadlineExpired(deadline) {
     return deadlineDate < today;
 }
 
+// Check if value looks like an email
+function isEmail(value) {
+    if (!value) return false;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(value);
+}
+
 // Render jobs on careers page
 function renderJobs() {
     const jobsGrid = document.querySelector('#jobs-container');
@@ -93,10 +100,11 @@ function renderJobs() {
          const deadlineClass = deadlineExpired ? 'deadline-badge expired' : 'deadline-badge';
          const jobTypeClass = getJobTypeClass(job.type);
          const isExternal = job.applicationMethod === 'external';
+         const isEmailApply = isExternal && isEmail(job.applicationUrl);
          
-         const applyBtnClass = isExternal ? 'btn-external' : '';
+         const applyBtnText = isEmailApply ? 'Apply via Email' : 
+             isExternal ? 'Apply Now' : 'View Details & Apply';
          const applyBtnIcon = isExternal ? '<i class="fas fa-external-link-alt"></i>' : '→';
-         const applyBtnText = isExternal ? 'Apply on Company Website' : 'View Details & Apply';
          
          return `
          <div class="job-card scroll-animate visible${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}" data-job-id="${job.id}">
@@ -143,21 +151,21 @@ function renderJobs() {
                  </ul>
              </div>
              ` : ''}
-             <button class="btn btn-primary view-job-details ${applyBtnClass}" data-job-id="${job.id}" style="width: 100%; justify-content: center;">
-                 <span class="btn-text">${applyBtnText}</span>
-                 <span class="btn-icon">${applyBtnIcon}</span>
-             </button>
-         </div>
-`;
-      }).join('');
-     
-    console.log('renderJobs: jobs grid populated, child count', jobsGrid.children.length);
-     
-    // Add event listeners to job detail buttons
-    setupJobDetailButtons();
-}
+<button class="btn btn-primary view-job-details" data-job-id="${job.id}" data-apply-type="${isEmailApply ? 'email' : isExternal ? 'url' : 'internal'}" style="width: 100%; justify-content: center;">
+                  <span class="btn-text">${applyBtnText}</span>
+                  <span class="btn-icon">${applyBtnIcon}</span>
+              </button>
+          </div>
+ `;
+       }).join('');
+         
+     console.log('renderJobs: jobs grid populated, child count', jobsGrid.children.length);
+         
+     // Add event listeners to job detail buttons
+     setupJobDetailButtons();
+ }
 
-// Render latest jobs on homepage
+ // Render latest jobs on homepage
 function renderHomepageJobs() {
     const homepageJobsContainer = document.getElementById('homepage-jobs');
     if (!homepageJobsContainer) return;
@@ -264,21 +272,26 @@ function openJobModal(jobId) {
         document.body.appendChild(modal);
     }
     
-    const isExternal = job.applicationMethod === 'external';
+const isExternal = job.applicationMethod === 'external';
+    const isEmailApply = isExternal && isEmail(job.applicationUrl);
+    const applyHref = isEmailApply ? `mailto:${job.applicationUrl}` : job.applicationUrl;
+    const applyTarget = isEmailApply ? '' : ' target="_blank"';
+    const applyText = isEmailApply ? 'Apply via Email' : 'Apply on Company Website';
+    
     const applyButton = isExternal 
-        ? `<a href="${job.applicationUrl}" target="_blank" class="btn btn-primary btn-large" onclick="trackExternalApplication('${job.id}')">
-                <span class="btn-text">Apply on Company Website</span>
-                <span class="btn-icon"><i class="fas fa-external-link-alt"></i></span>
-            </a>`
+        ? `<a href="${applyHref}"${applyTarget} class="btn btn-primary btn-large" onclick="trackExternalApplication('${job.id}')">
+            <span class="btn-text">${applyText}</span>
+            <span class="btn-icon"><i class="fas ${isEmailApply ? 'fa-envelope' : 'fa-external-link-alt'}"></i></span>
+        </a>`
         : `<a href="#apply" class="btn btn-primary btn-large" onclick="selectJob('${job.title}')">
-                <span class="btn-text">Apply for this Position</span>
-                <span class="btn-icon">→</span>
-            </a>`;
+            <span class="btn-text">Apply for this Position</span>
+            <span class="btn-icon">→</span>
+        </a>`;
     
     const companyInfo = isExternal ? `
         <div class="company-info" style="margin-bottom: var(--space-lg); padding: var(--space-md); background: rgba(247, 127, 0, 0.1); border-radius: var(--radius-md);">
             <h4 style="margin-bottom: var(--space-xs);"><i class="fas fa-building"></i> External Opportunity</h4>
-            <p style="margin: 0;">This position is posted by <strong>${escapeHtml(job.companyName)}</strong>. Click the button below to apply directly on their website.</p>
+            <p style="margin: 0;">This position is posted by <strong>${escapeHtml(job.companyName)}</strong>. ${isEmailApply ? 'Click the button below to apply via email.' : 'Click the button below to apply directly on their website.'}</p>
         </div>
     ` : '';
     

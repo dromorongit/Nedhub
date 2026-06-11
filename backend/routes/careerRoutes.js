@@ -15,6 +15,8 @@ const router = express.Router();
 // Format job for public API response
 function formatJobPublic(job) {
     const isActive = job.active !== false && job.status === 'Published';
+    const isEmailDestination = job.applicationMethod === 'external' && 
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(job.applicationUrl);
     return {
         id: job._id,
         title: job.title,
@@ -33,6 +35,7 @@ function formatJobPublic(job) {
         companyName: job.companyName,
         companyLogo: job.companyLogo,
         applicationUrl: job.applicationUrl,
+        isEmailDestination: isEmailDestination,
         source: job.source
     };
 }

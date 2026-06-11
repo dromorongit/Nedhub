@@ -145,6 +145,12 @@ function initDashboard() {
         cancelUserBtn.addEventListener('click', closeUserModal);
     }
     
+    // Cancel Job Button
+    const cancelJobBtn = document.getElementById('cancelJobBtn');
+    if (cancelJobBtn) {
+        cancelJobBtn.addEventListener('click', closeJobModal);
+    }
+    
     // User Form
     const userForm = document.getElementById('userForm');
     if (userForm) {
@@ -351,12 +357,16 @@ function renderJobs() {
         const methodBadge = job.applicationMethod === 'external' ? 
             '<span class="status-badge status-external">External</span>' : '';
         const featuredBadge = job.featured ? '<span class="status-badge status-featured">Featured</span>' : '';
+        const archivedBadge = job.archived ? '<span class="status-badge status-inactive">Archived</span>' : '';
+        
+        const isArchived = job.status === 'Archived';
         
         return `
         <tr data-job-id="${job.id}">
             <td>
                 <strong>${escapeHtml(job.title)}</strong>
                 ${featuredBadge}
+                ${archivedBadge}
             </td>
             <td>${escapeHtml(job.department || 'General')}</td>
             <td>${escapeHtml(job.location)}</td>
@@ -382,9 +392,14 @@ function renderJobs() {
                     <button class="btn btn-secondary edit-job" data-job-id="${job.id}" title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-danger delete-job" data-job-id="${job.id}" title="Archive">
-                        <i class="fas fa-archive"></i>
-                    </button>
+                    ${isArchived 
+                        ? `<button class="btn btn-secondary restore-job" data-job-id="${job.id}" title="Restore">
+                            <i class="fas fa-undo"></i>
+                        </button>`
+                        : `<button class="btn btn-danger delete-job" data-job-id="${job.id}" title="Archive">
+                            <i class="fas fa-archive"></i>
+                        </button>`
+                    }
                 </div>
             </td>
         </tr>
@@ -403,6 +418,13 @@ function renderJobs() {
         btn.addEventListener('click', function() {
             const jobId = this.getAttribute('data-job-id');
             openDeleteModal(jobId);
+        });
+    });
+    
+    document.querySelectorAll('.restore-job').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const jobId = this.getAttribute('data-job-id');
+            restoreJob(jobId);
         });
     });
 }
@@ -500,6 +522,21 @@ async function handleJobSubmit(e) {
         source: document.getElementById('source').value
     };
     
+    // Client-side validation for external job application destination
+    if (formData.applicationMethod === 'external') {
+        const dest = formData.applicationUrl.trim();
+        const urlPattern = /^https?:\/\/.+/i;
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!dest) {
+            showNotification('Application destination is required for external jobs.', 'error');
+            return;
+        }
+        if (!urlPattern.test(dest) && !emailPattern.test(dest)) {
+            showNotification('Application destination must be a valid URL (https://...) or email address.', 'error');
+            return;
+        }
+    }
+    
     try {
         let response;
         
@@ -572,6 +609,36 @@ async function confirmDeleteJob() {
     } catch (error) {
         console.error('Error archiving job:', error);
         showNotification('Failed to archive job. Please try again.', 'error');
+    }
+}
+
+async function restoreJob(jobId) {
+    if (!confirm('Are you sure you want to restore this archived job? It will reappear on the public careers page.')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/jobs/${jobId}/status`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify({ status: 'Published' })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            loadJobs();
+            loadDashboardStats();
+            showNotification('Job restored successfully!', 'success');
+        } else {
+            showNotification(result.message || 'Failed to restore job', 'error');
+        }
+    } catch (error) {
+        console.error('Error restoring job:', error);
+        showNotification('Failed to restore job. Please try again.', 'error');
     }
 }
 

@@ -4,8 +4,29 @@ const { ActivityLog, ACTIVITY_ACTIONS } = require('../models/ActivityLog');
 const { logActivity } = require('../middlewares/auth');
 const { isDBConnected } = require('../services/db');
 
+function isValidUrl(value) {
+    try {
+        const url = new URL(value);
+        return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch {
+        return false;
+    }
+}
+
+function isValidEmail(value) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(value);
+}
+
+function validateApplicationDestination(value) {
+    if (!value || String(value).trim() === '') return false;
+    return isValidUrl(value) || isValidEmail(value);
+}
+
 function formatJob(job) {
     const isActive = job.active !== false && job.status === 'Published';
+    const isArchived = job.status === 'Archived';
+    const isEmailDestination = job.applicationMethod === 'external' && isValidEmail(job.applicationUrl);
     return {
         id: job._id,
         title: job.title,
@@ -18,11 +39,13 @@ function formatJob(job) {
         deadline: job.deadline,
         featured: job.featured,
         active: isActive,
+        archived: isArchived,
         status: job.status,
         applicationMethod: job.applicationMethod,
         companyName: job.companyName,
         companyLogo: job.companyLogo,
         applicationUrl: job.applicationUrl,
+        isEmailDestination: isEmailDestination,
         source: job.source,
         createdBy: job.createdBy,
         createdAt: job.createdAt,
@@ -135,7 +158,13 @@ module.exports = {
                 if (!applicationUrl || String(applicationUrl).trim() === '') {
                     return res.status(400).json({
                         success: false,
-                        message: 'Application URL is required for external jobs.'
+                        message: 'Application destination is required for external jobs.'
+                    });
+                }
+                if (!validateApplicationDestination(applicationUrl)) {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Application destination must be a valid URL or email address.'
                     });
                 }
             }
@@ -217,6 +246,25 @@ module.exports = {
             }
             
             const allowedFields = ['title', 'department', 'location', 'type', 'description', 'requirements', 'responsibilities', 'deadline', 'featured', 'active', 'status', 'applicationMethod', 'companyName', 'companyLogo', 'applicationUrl', 'source'];
+            
+            // Validate applicationUrl for external jobs
+            const targetAppMethod = updates.applicationMethod || job.applicationMethod;
+            if (updates.applicationUrl !== undefined) {
+                if (targetAppMethod === 'external') {
+                    if (!updates.applicationUrl || String(updates.applicationUrl).trim() === '') {
+                        return res.status(400).json({
+                            success: false,
+                            message: 'Application destination is required for external jobs.'
+                        });
+                    }
+                    if (!validateApplicationDestination(updates.applicationUrl)) {
+                        return res.status(400).json({
+                            success: false,
+                            message: 'Application destination must be a valid URL or email address.'
+                        });
+                    }
+                }
+            }
             
             allowedFields.forEach(field => {
                 if (updates[field] !== undefined) {

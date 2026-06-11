@@ -110,7 +110,13 @@ jobSchema.pre('validate', function(next) {
             this.invalidate('companyName', 'Company name is required for external jobs');
         }
         if (!this.applicationUrl || this.applicationUrl.trim() === '') {
-            this.invalidate('applicationUrl', 'Application URL is required for external jobs');
+            this.invalidate('applicationUrl', 'Application destination is required for external jobs');
+        }
+        // Validate as either URL or email
+        const urlPattern = /^https?:\/\/.+/i;
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!urlPattern.test(this.applicationUrl) && !emailPattern.test(this.applicationUrl)) {
+            this.invalidate('applicationUrl', 'Application destination must be a valid URL (https://...) or email address');
         }
     }
     next();
@@ -121,6 +127,8 @@ jobSchema.virtual('isActive').get(function() {
 });
 
 jobSchema.methods.toPublicObject = function() {
+    const isEmailDestination = this.applicationMethod === 'external' && 
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.applicationUrl);
     return {
         id: this._id,
         title: this.title,
@@ -138,6 +146,7 @@ jobSchema.methods.toPublicObject = function() {
         companyName: this.companyName,
         companyLogo: this.companyLogo,
         applicationUrl: this.applicationUrl,
+        isEmailDestination: isEmailDestination,
         source: this.source,
         createdBy: this.createdBy,
         icon: this.icon,
