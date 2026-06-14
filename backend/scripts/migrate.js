@@ -1,6 +1,6 @@
 require('dotenv').config({ path: '../.env' });
 const { connectDB } = require('../services/db');
-const { Job, JOB_TYPES } = require('../models/Job');
+const { Job, JOB_TYPES, JOB_CATEGORIES } = require('../models/Job');
 const { Application, APPLICATION_STATUSES } = require('../models/Application');
 const { Admin, ADMIN_ROLES } = require('../models/Admin');
 const fs = require('fs').promises;
@@ -29,6 +29,16 @@ async function migrateJobs() {
     
     if (count > 0) {
         console.log(`[Migration] Jobs already exist in database (${count} records)`);
+        // Migrate existing jobs without category to add default category
+        const jobsWithoutCategory = await Job.countDocuments({ category: { $exists: false } });
+        if (jobsWithoutCategory > 0) {
+            console.log(`[Migration] Updating ${jobsWithoutCategory} jobs without category to 'Other Jobs'`);
+            await Job.updateMany(
+                { category: { $exists: false } },
+                { $set: { category: 'Other Jobs' } }
+            );
+            console.log('[Migration] Default category added to existing jobs');
+        }
         return;
     }
     
@@ -48,6 +58,7 @@ async function migrateJobs() {
             await Job.create({
                 title: job.title,
                 department: job.department || 'General',
+                category: job.category || 'Other Jobs',
                 location: job.location,
                 type: JOB_TYPES.includes(job.type) ? job.type : 'Full-Time',
                 description: job.description,

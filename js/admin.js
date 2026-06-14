@@ -343,7 +343,7 @@ function renderJobs() {
     if (jobs.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="9" class="loading-state">
+                <td colspan="10" class="loading-state">
                     <i class="fas fa-briefcase"></i> No jobs found
                 </td>
             </tr>
@@ -368,6 +368,7 @@ function renderJobs() {
                 ${featuredBadge}
                 ${archivedBadge}
             </td>
+            <td>${escapeHtml(job.category || 'Other Jobs')}</td>
             <td>${escapeHtml(job.department || 'General')}</td>
             <td>${escapeHtml(job.location)}</td>
             <td>
@@ -434,6 +435,7 @@ function openJobModal() {
     document.getElementById('jobModalTitle').textContent = 'Add New Job';
     document.getElementById('jobForm').reset();
     document.getElementById('jobStatus').value = 'Published';
+    document.getElementById('jobCategory').value = 'Other Jobs';
     document.getElementById('applicationMethod').value = 'internal';
     toggleApplicationMethodFields('internal');
     document.getElementById('jobModal').classList.add('active');
@@ -470,6 +472,7 @@ function editJob(jobId) {
     document.getElementById('jobId').value = job.id;
     document.getElementById('jobTitle').value = job.title;
     document.getElementById('jobDepartment').value = job.department || 'General';
+    document.getElementById('jobCategory').value = job.category || 'Other Jobs';
     document.getElementById('jobLocation').value = job.location;
     document.getElementById('jobType').value = job.type;
     document.getElementById('jobDescription').value = job.description;
@@ -501,6 +504,7 @@ async function handleJobSubmit(e) {
     const formData = {
         title: document.getElementById('jobTitle').value,
         department: document.getElementById('jobDepartment').value,
+        category: document.getElementById('jobCategory').value,
         location: document.getElementById('jobLocation').value,
         type: document.getElementById('jobType').value,
         description: document.getElementById('jobDescription').value,

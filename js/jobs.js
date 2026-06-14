@@ -5,6 +5,7 @@
 
 // Job data cache
 let jobsData = [];
+let activeCategory = null;
 
 // Initialize jobs system when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -20,6 +21,40 @@ function initJobs() {
 // API base URL for production deployment
 const API_BASE = 'https://nedhub-production.up.railway.app';
 
+// All available categories
+const ALL_CATEGORIES = [
+    'Administration & Office Support',
+    'Accounting, Finance & Audit',
+    'Banking & Financial Services',
+    'Human Resources',
+    'Information Technology (IT)',
+    'Engineering & Technical',
+    'Healthcare & Medical',
+    'Education & Training',
+    'Sales & Marketing',
+    'Customer Service & Call Centre',
+    'Procurement, Logistics & Supply Chain',
+    'Hospitality, Hotel & Restaurant',
+    'Retail & FMCG',
+    'Oil & Gas / Fuel Station Jobs',
+    'Construction & Real Estate',
+    'Manufacturing & Production',
+    'Agriculture & Agribusiness',
+    'Domestic & Household Services',
+    'Drivers & Transportation',
+    'Security & Safety',
+    'Cleaning & Maintenance',
+    'Skilled Trades & Artisans',
+    'Legal & Compliance',
+    'NGO, Development & Social Impact',
+    'Executive & Management',
+    'Internships & Graduate Trainee',
+    'Remote & Freelance Jobs',
+    'Part-Time & Temporary Jobs',
+    'Government & Public Sector',
+    'Other Jobs'
+];
+
 // Load jobs from API endpoint
 async function loadJobs() {
     try {
@@ -29,6 +64,7 @@ async function loadJobs() {
         }
         const result = await response.json();
         jobsData = result.success ? result.data : (result.data || []);
+        renderCategoryFilters();
         renderJobs();
         renderHomepageJobs();
         populatePositionDropdown();
@@ -53,6 +89,7 @@ function updateHiringWidget() {
         widget.style.display = 'none';
     }
 }
+
 function getJobTypeClass(type) {
     const typeMap = {
         'Full-Time': 'job-type-full-time',
@@ -80,18 +117,74 @@ function isEmail(value) {
     return emailRegex.test(value);
 }
 
+// Render category filter chips
+function renderCategoryFilters() {
+    const filterContainer = document.getElementById('category-filters');
+    if (!filterContainer) return;
+
+    // Get job counts by category
+    const publishedJobs = jobsData.filter(job => job.status === 'Published');
+    const categoryCounts = {};
+    publishedJobs.forEach(job => {
+        const cat = job.category || 'Other Jobs';
+        categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+    });
+
+    // Build filter HTML
+    let html = '<button class="category-chip active" data-category="all">All (' + publishedJobs.length + ')</button>';
+    
+    ALL_CATEGORIES.forEach(category => {
+        if (categoryCounts[category] && categoryCounts[category] > 0) {
+            const count = categoryCounts[category];
+            const isActive = activeCategory === category;
+            html += `<button class="category-chip ${isActive ? 'active' : ''}" data-category="${escapeHtml(category)}">${escapeHtml(category)} (${count})</button>`;
+        }
+    });
+
+    filterContainer.innerHTML = html;
+
+    // Add event listeners
+    const chips = filterContainer.querySelectorAll('.category-chip');
+    chips.forEach(chip => {
+        chip.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            setActiveCategoryFilter(category);
+        });
+    });
+}
+
+// Set active category and re-render
+function setActiveCategoryFilter(category) {
+    const chips = document.querySelectorAll('.category-chip');
+    chips.forEach(c => c.classList.remove('active'));
+    
+    if (category === 'all') {
+        activeCategory = null;
+        document.querySelector('.category-chip[data-category="all"]').classList.add('active');
+    } else {
+        activeCategory = category;
+        document.querySelector(`.category-chip[data-category="${CSS.escape(category)}"]`).classList.add('active');
+    }
+    
+    renderJobs();
+}
+
 // Render jobs on careers page
 function renderJobs() {
     const jobsGrid = document.querySelector('#jobs-container');
     console.log('renderJobs: jobsGrid element', jobsGrid);
     if (!jobsGrid) return;
 
-    // Filter published jobs and sort by featured first
-    const activeJobs = jobsData.filter(job => job.status === 'Published');
+    // Filter by category first, then by published status
+    let filteredJobs = jobsData;
+    if (activeCategory) {
+        filteredJobs = filteredJobs.filter(job => job.category === activeCategory);
+    }
+    const activeJobs = filteredJobs.filter(job => job.status === 'Published');
     console.log('renderJobs: activeJobs count', activeJobs.length);
 
     if (activeJobs.length === 0) {
-        showEmptyState(jobsGrid);
+        showEmptyState(jobsGrid, activeCategory);
         return;
     }
 
@@ -101,13 +194,16 @@ function renderJobs() {
          const jobTypeClass = getJobTypeClass(job.type);
          const isExternal = job.applicationMethod === 'external';
          const isEmailApply = isExternal && isEmail(job.applicationUrl);
-         
+          
          const applyBtnText = isEmailApply ? 'Apply via Email' : 
              isExternal ? 'Apply Now' : 'View Details & Apply';
          const applyBtnIcon = isExternal ? '<i class="fas fa-external-link-alt"></i>' : '→';
-         
+          
+         // Category badge
+         const categoryBadge = job.category ? `<span class="job-badge category-badge" style="background: linear-gradient(135deg, #6366f1, #4f46e5);"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : '';
+          
          return `
-         <div class="job-card scroll-animate visible${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}" data-job-id="${job.id}">
+         <div class="job-card scroll-animate visible${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}" data-job-id="${job.id}" data-category="${job.category || ''}">
              <div class="job-header">
                  <div class="job-icon">
                      <i class="fas ${job.icon}"></i>
@@ -115,6 +211,7 @@ function renderJobs() {
                  <span class="job-badge ${jobTypeClass}">${job.type}</span>
                  ${job.featured ? '<span class="job-badge featured-badge">Featured</span>' : ''}
                  ${isExternal ? '<span class="job-badge external-badge">External</span>' : ''}
+                 ${categoryBadge}
              </div>
              <h3 class="job-title">${job.title}</h3>
              ${isExternal && job.companyName ? `
@@ -152,20 +249,20 @@ function renderJobs() {
              </div>
              ` : ''}
 <button class="btn btn-primary view-job-details" data-job-id="${job.id}" data-apply-type="${isEmailApply ? 'email' : isExternal ? 'url' : 'internal'}" style="width: 100%; justify-content: center;">
-                  <span class="btn-text">${applyBtnText}</span>
-                  <span class="btn-icon">${applyBtnIcon}</span>
-              </button>
-          </div>
- `;
-       }).join('');
-         
+                   <span class="btn-text">${applyBtnText}</span>
+                   <span class="btn-icon">${applyBtnIcon}</span>
+               </button>
+           </div>
+   `;
+      }).join('');
+          
      console.log('renderJobs: jobs grid populated, child count', jobsGrid.children.length);
-         
+          
      // Add event listeners to job detail buttons
      setupJobDetailButtons();
- }
+}
 
- // Render latest jobs on homepage
+// Render latest jobs on homepage
 function renderHomepageJobs() {
     const homepageJobsContainer = document.getElementById('homepage-jobs');
     if (!homepageJobsContainer) return;
@@ -184,49 +281,50 @@ function renderHomepageJobs() {
         return;
     }
     
-homepageJobsContainer.innerHTML = latestJobs.map((job, index) => {
+    homepageJobsContainer.innerHTML = latestJobs.map((job, index) => {
          const jobTypeClass = getJobTypeClass(job.type);
          const isExternal = job.applicationMethod === 'external';
-         
+          
          return `
          <div class="job-card scroll-animate visible${index > 0 ? ` delay-${index}` : ''}" data-job-id="${job.id}">
-            <div class="job-header">
-                <div class="job-icon">
-                    <i class="fas ${job.icon}"></i>
-                </div>
-                <span class="job-badge ${jobTypeClass}">${job.type}</span>
-            </div>
-            <h3 class="job-title">${job.title}</h3>
-            <div class="job-details">
-                <div class="job-detail">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>${job.location}</span>
-                </div>
-                <div class="job-detail">
-                    <i class="fas fa-clock"></i>
-                    <span>${job.type}</span>
-                </div>
-            </div>
-            <p class="job-description">${job.description.substring(0, 120)}...</p>
-            <button class="btn btn-primary view-job-details" data-job-id="${job.id}" style="width: 100%; justify-content: center;">
-                <span class="btn-text">View Details</span>
-                <span class="btn-icon">→</span>
-            </button>
-        </div>
-    `;
-    }).join('');
+             <div class="job-header">
+                 <div class="job-icon">
+                     <i class="fas ${job.icon}"></i>
+                 </div>
+                 <span class="job-badge ${jobTypeClass}">${job.type}</span>
+             </div>
+             <h3 class="job-title">${job.title}</h3>
+             <div class="job-details">
+                 <div class="job-detail">
+                     <i class="fas fa-map-marker-alt"></i>
+                     <span>${job.location}</span>
+                 </div>
+                 <div class="job-detail">
+                     <i class="fas fa-clock"></i>
+                     <span>${job.type}</span>
+                 </div>
+             </div>
+             <p class="job-description">${job.description.substring(0, 120)}...</p>
+             <button class="btn btn-primary view-job-details" data-job-id="${job.id}" style="width: 100%; justify-content: center;">
+                 <span class="btn-text">View Details</span>
+                 <span class="btn-icon">→</span>
+             </button>
+         </div>
+     `;
+     }).join('');
     
     // Add event listeners to job detail buttons
     setupJobDetailButtons();
 }
 
 // Show empty state
-function showEmptyState(container) {
+function showEmptyState(container, category) {
+    const message = category ? `No jobs found in "${escapeHtml(category)}" category.` : 'We don\'t have any open positions at the moment.';
     container.innerHTML = `
         <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: var(--space-xxl);">
             <i class="fas fa-briefcase" style="font-size: 4rem; color: var(--accent-orange); margin-bottom: var(--space-lg);"></i>
             <h3>No Open Positions</h3>
-            <p>We don't have any open positions at the moment. Please check back later or contact us for future opportunities.</p>
+            <p>${message} Please check back later or contact us for future opportunities.</p>
             <a href="contact.html" class="btn btn-primary" style="margin-top: var(--space-md);">
                 <span class="btn-text">Contact Us</span>
                 <span class="btn-icon">→</span>
@@ -272,7 +370,7 @@ function openJobModal(jobId) {
         document.body.appendChild(modal);
     }
     
-const isExternal = job.applicationMethod === 'external';
+    const isExternal = job.applicationMethod === 'external';
     const isEmailApply = isExternal && isEmail(job.applicationUrl);
     const applyHref = isEmailApply ? `mailto:${job.applicationUrl}` : job.applicationUrl;
     const applyTarget = isEmailApply ? '' : ' target="_blank"';
@@ -295,7 +393,7 @@ const isExternal = job.applicationMethod === 'external';
         </div>
     ` : '';
     
-// Populate modal with job data
+    // Populate modal with job data
     const modalContent = modal.querySelector('.modal-content');
     modalContent.innerHTML = `
         <div class="modal-header">
@@ -451,6 +549,12 @@ function populatePositionDropdown() {
     otherOption.value = 'Other';
     otherOption.textContent = 'Other';
     positionSelect.appendChild(otherOption);
+}
+
+// Filter jobs by category
+function filterJobsByCategory(category) {
+    activeCategory = category;
+    renderJobs();
 }
 
 // Make functions available globally for inline handlers

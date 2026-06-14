@@ -1,4 +1,4 @@
-const { Job, JOB_TYPES, JOB_STATUSES, APPLICATION_METHODS } = require('../models/Job');
+const { Job, JOB_TYPES, JOB_STATUSES, APPLICATION_METHODS, JOB_CATEGORIES } = require('../models/Job');
 const { Application: ApplicationModel, APPLICATION_STATUSES } = require('../models/Application');
 const { ActivityLog, ACTIVITY_ACTIONS } = require('../models/ActivityLog');
 const { logActivity } = require('../middlewares/auth');
@@ -31,6 +31,7 @@ function formatJob(job) {
         id: job._id,
         title: job.title,
         department: job.department,
+        category: job.category,
         location: job.location,
         type: job.type,
         description: job.description,
@@ -111,6 +112,7 @@ module.exports = {
             const {
                 title,
                 department,
+                category,
                 location,
                 type,
                 description,
@@ -137,6 +139,13 @@ module.exports = {
                 return res.status(400).json({
                     success: false,
                     message: `Invalid job type. Must be one of: ${JOB_TYPES.join(', ')}`
+                });
+            }
+            
+            if (!category || !JOB_CATEGORIES.includes(category)) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Invalid job category. Must be one of: ${JOB_CATEGORIES.join(', ')}`
                 });
             }
             
@@ -172,6 +181,7 @@ module.exports = {
             const job = await Job.create({
                 title: String(title).trim(),
                 department: department ? String(department).trim() : 'General',
+                category: category,
                 location: String(location).trim(),
                 type,
                 description: String(description).trim(),
@@ -238,6 +248,13 @@ module.exports = {
                 });
             }
             
+            if (updates.category && !JOB_CATEGORIES.includes(updates.category)) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Invalid job category. Must be one of: ${JOB_CATEGORIES.join(', ')}`
+                });
+            }
+            
             if (updates.status && !JOB_STATUSES.includes(updates.status)) {
                 return res.status(400).json({
                     success: false,
@@ -245,7 +262,7 @@ module.exports = {
                 });
             }
             
-            const allowedFields = ['title', 'department', 'location', 'type', 'description', 'requirements', 'responsibilities', 'deadline', 'featured', 'active', 'status', 'applicationMethod', 'companyName', 'companyLogo', 'applicationUrl', 'source'];
+            const allowedFields = ['title', 'department', 'category', 'location', 'type', 'description', 'requirements', 'responsibilities', 'deadline', 'featured', 'active', 'status', 'applicationMethod', 'companyName', 'companyLogo', 'applicationUrl', 'source'];
             
             // Validate applicationUrl for external jobs
             const targetAppMethod = updates.applicationMethod || job.applicationMethod;
@@ -575,6 +592,71 @@ module.exports = {
             res.status(500).json({
                 success: false,
                 message: 'Failed to fetch recent applications.'
+            });
+        }
+    },
+
+    async getJobsByCategoryStats(req, res) {
+        try {
+            if (!isDBConnected()) {
+                return res.status(503).json({
+                    success: false,
+                    message: 'Database not available'
+                });
+            }
+            
+            const jobsByCategory = await Job.aggregate([
+                { $match: { status: 'Published' } },
+                { $group: { _id: '$category', count: { $sum: 1 } } },
+                { $sort: { count: -1 } }
+            ]);
+            
+            res.json({
+                success: true,
+                data: jobsByCategory
+            });
+        } catch (error) {
+            console.error('[JobController] Error fetching jobs by category:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to fetch category statistics.'
+            });
+        }
+    },
+
+    async getApplicationsByCategoryStats(req, res) {
+        try {
+            if (!isDBConnected()) {
+                return res.status(503).json({
+                    success: false,
+                    message: 'Database not available'
+                });
+            }
+            
+            const applicationsByCategory = await ApplicationModel.aggregate([
+                { $match: { jobId: { $ne: null } } },
+                {
+                    $lookup: {
+                        from: 'jobs',
+                        localField: 'jobId',
+                        foreignField: '_id',
+                        as: 'job'
+                    }
+                },
+                { $unwind: '$job' },
+                { $group: { _id: '$job.category', count: { $sum: 1 } } },
+                { $sort: { count: -1 } }
+            ]);
+            
+            res.json({
+                success: true,
+                data: applicationsByCategory
+            });
+        } catch (error) {
+            console.error('[JobController] Error fetching applications by category:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to fetch application category statistics.'
             });
         }
     }

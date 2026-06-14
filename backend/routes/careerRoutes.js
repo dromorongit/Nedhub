@@ -4,7 +4,7 @@
  */
 
 const express = require('express');
-const { Job, JOB_TYPES } = require('../models/Job');
+const { Job, JOB_TYPES, JOB_CATEGORIES } = require('../models/Job');
 const { Application, APPLICATION_STATUSES } = require('../models/Application');
 const { ActivityLog, ACTIVITY_ACTIONS } = require('../models/ActivityLog');
 const { isDBConnected } = require('../services/db');
@@ -21,6 +21,7 @@ function formatJobPublic(job) {
         id: job._id,
         title: job.title,
         department: job.department,
+        category: job.category,
         location: job.location,
         type: job.type,
         description: job.description,
@@ -175,10 +176,10 @@ router.get('/careers/health', (req, res) => {
 // ==================== PUBLIC JOBS ENDPOINT ====================
 
 /**
- * @route GET /api/careers/jobs
- * @desc Get all active jobs (public endpoint)
- * @access Public
- */
+  * @route GET /api/careers/jobs
+  * @desc Get all active jobs (public endpoint) with optional category filter
+  * @access Public
+  */
 router.get('/careers/jobs', async (req, res) => {
     try {
         if (!isDBConnected()) {
@@ -188,13 +189,20 @@ router.get('/careers/jobs', async (req, res) => {
             });
         }
         
-        const jobs = await Job.find({
+        const { category } = req.query;
+        const query = {
             status: 'Published',
             $or: [
                 { active: true },
                 { active: { $exists: false } }
             ]
-        }).sort({ featured: -1, createdAt: -1 });
+        };
+        
+        if (category && JOB_CATEGORIES.includes(category)) {
+            query.category = category;
+        }
+        
+        const jobs = await Job.find(query).sort({ featured: -1, createdAt: -1 });
         const formattedJobs = jobs.map(formatJobPublic);
         
         res.json({

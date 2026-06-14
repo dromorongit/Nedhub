@@ -148,25 +148,26 @@
                  <div class="admin-table-container">
                      <table class="admin-table" id="jobsTable">
 <thead>
-                              <tr>
-                                  <th>Position</th>
-                                  <th>Department</th>
-                                  <th>Location</th>
-                                  <th>Type</th>
-                                  <th>Deadline</th>
-                                  <th>Status</th>
-                                  <th>Method</th>
-                                  <th>Applications</th>
-                                  <th>Actions</th>
-                              </tr>
-                          </thead>
+                               <tr>
+                                   <th>Position</th>
+                                   <th>Category</th>
+                                   <th>Department</th>
+                                   <th>Location</th>
+                                   <th>Type</th>
+                                   <th>Deadline</th>
+                                   <th>Status</th>
+                                   <th>Method</th>
+                                   <th>Applications</th>
+                                   <th>Actions</th>
+                               </tr>
+                           </thead>
 <tbody id="jobsTableBody">
-                              <tr>
-                                  <td colspan="9" class="loading-state">
-                                      <i class="fas fa-spinner fa-spin"></i> Loading jobs...
-                                 </td>
-                             </tr>
-                         </tbody>
+                               <tr>
+                                   <td colspan="10" class="loading-state">
+                                       <i class="fas fa-spinner fa-spin"></i> Loading jobs...
+                                  </td>
+                              </tr>
+                          </tbody>
                      </table>
                  </div>
              </section>
@@ -408,7 +409,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-row">
+<div class="form-row">
                         <div class="form-group">
                             <label for="jobLocation">Location *</label>
                             <input type="text" id="jobLocation" name="location" required>
@@ -424,6 +425,43 @@
                                 <option value="Internship">Internship</option>
                             </select>
                         </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jobCategory">Job Category *</label>
+                        <select id="jobCategory" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="Administration & Office Support">Administration & Office Support</option>
+                            <option value="Accounting, Finance & Audit">Accounting, Finance & Audit</option>
+                            <option value="Banking & Financial Services">Banking & Financial Services</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Information Technology (IT)">Information Technology (IT)</option>
+                            <option value="Engineering & Technical">Engineering & Technical</option>
+                            <option value="Healthcare & Medical">Healthcare & Medical</option>
+                            <option value="Education & Training">Education & Training</option>
+                            <option value="Sales & Marketing">Sales & Marketing</option>
+                            <option value="Customer Service & Call Centre">Customer Service & Call Centre</option>
+                            <option value="Procurement, Logistics & Supply Chain">Procurement, Logistics & Supply Chain</option>
+                            <option value="Hospitality, Hotel & Restaurant">Hospitality, Hotel & Restaurant</option>
+                            <option value="Retail & FMCG">Retail & FMCG</option>
+                            <option value="Oil & Gas / Fuel Station Jobs">Oil & Gas / Fuel Station Jobs</option>
+                            <option value="Construction & Real Estate">Construction & Real Estate</option>
+                            <option value="Manufacturing & Production">Manufacturing & Production</option>
+                            <option value="Agriculture & Agribusiness">Agriculture & Agribusiness</option>
+                            <option value="Domestic & Household Services">Domestic & Household Services</option>
+                            <option value="Drivers & Transportation">Drivers & Transportation</option>
+                            <option value="Security & Safety">Security & Safety</option>
+                            <option value="Cleaning & Maintenance">Cleaning & Maintenance</option>
+                            <option value="Skilled Trades & Artisans">Skilled Trades & Artisans</option>
+                            <option value="Legal & Compliance">Legal & Compliance</option>
+                            <option value="NGO, Development & Social Impact">NGO, Development & Social Impact</option>
+                            <option value="Executive & Management">Executive & Management</option>
+                            <option value="Internships & Graduate Trainee">Internships & Graduate Trainee</option>
+                            <option value="Remote & Freelance Jobs">Remote & Freelance Jobs</option>
+                            <option value="Part-Time & Temporary Jobs">Part-Time & Temporary Jobs</option>
+                            <option value="Government & Public Sector">Government & Public Sector</option>
+                            <option value="Other Jobs">Other Jobs</option>
+                        </select>
                     </div>
                     
                     <div class="form-group">

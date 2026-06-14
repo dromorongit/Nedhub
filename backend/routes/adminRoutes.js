@@ -312,6 +312,36 @@ router.get('/admin/dashboard/recent-applications', requireAdminAuth, (req, res, 
     return jobController.getRecentApplications(req, res, next);
 });
 
+/**
+ * @route GET /api/admin/dashboard/jobs-by-category
+ * @desc Get job count by category for analytics
+ * @access Private (Owner, Admin)
+ */
+router.get('/admin/dashboard/jobs-by-category', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can view analytics.'
+        });
+    }
+    return jobController.getJobsByCategoryStats(req, res, next);
+});
+
+/**
+ * @route GET /api/admin/dashboard/applications-by-category
+ * @desc Get application count by category for analytics
+ * @access Private (Owner, Admin)
+ */
+router.get('/admin/dashboard/applications-by-category', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can view analytics.'
+        });
+    }
+    return jobController.getApplicationsByCategoryStats(req, res, next);
+});
+
 // ==================== PROFILE ROUTES ====================
 
 /**

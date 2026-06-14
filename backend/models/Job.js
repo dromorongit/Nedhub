@@ -9,6 +9,39 @@ const JOB_STATUS_ENUM = JOB_STATUSES;
 const APPLICATION_METHODS = ['internal', 'external'];
 const APPLICATION_METHOD_ENUM = APPLICATION_METHODS;
 
+const JOB_CATEGORIES = [
+    'Administration & Office Support',
+    'Accounting, Finance & Audit',
+    'Banking & Financial Services',
+    'Human Resources',
+    'Information Technology (IT)',
+    'Engineering & Technical',
+    'Healthcare & Medical',
+    'Education & Training',
+    'Sales & Marketing',
+    'Customer Service & Call Centre',
+    'Procurement, Logistics & Supply Chain',
+    'Hospitality, Hotel & Restaurant',
+    'Retail & FMCG',
+    'Oil & Gas / Fuel Station Jobs',
+    'Construction & Real Estate',
+    'Manufacturing & Production',
+    'Agriculture & Agribusiness',
+    'Domestic & Household Services',
+    'Drivers & Transportation',
+    'Security & Safety',
+    'Cleaning & Maintenance',
+    'Skilled Trades & Artisans',
+    'Legal & Compliance',
+    'NGO, Development & Social Impact',
+    'Executive & Management',
+    'Internships & Graduate Trainee',
+    'Remote & Freelance Jobs',
+    'Part-Time & Temporary Jobs',
+    'Government & Public Sector',
+    'Other Jobs'
+];
+
 const jobSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -20,6 +53,12 @@ const jobSchema = new mongoose.Schema({
         type: String,
         trim: true,
         default: 'General'
+    },
+    category: {
+        type: String,
+        enum: JOB_CATEGORIES,
+        required: [true, 'Job category is required'],
+        default: 'Other Jobs'
     },
     location: {
         type: String,
@@ -103,6 +142,7 @@ const jobSchema = new mongoose.Schema({
 
 jobSchema.index({ status: 1, featured: -1 });
 jobSchema.index({ applicationMethod: 1 });
+jobSchema.index({ category: 1 });
 
 jobSchema.pre('validate', function(next) {
     if (this.applicationMethod === 'external') {
@@ -133,6 +173,7 @@ jobSchema.methods.toPublicObject = function() {
         id: this._id,
         title: this.title,
         department: this.department,
+        category: this.category,
         location: this.location,
         type: this.type,
         description: this.description,
@@ -159,5 +200,6 @@ module.exports = {
     Job: mongoose.model('Job', jobSchema),
     JOB_TYPES,
     JOB_STATUSES,
-    APPLICATION_METHODS
+    APPLICATION_METHODS,
+    JOB_CATEGORIES
 };
