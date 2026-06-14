@@ -188,73 +188,64 @@ function renderJobs() {
         return;
     }
 
-    jobsGrid.innerHTML = activeJobs.map((job, index) => {
+jobsGrid.innerHTML = activeJobs.map((job, index) => {
          const deadlineExpired = isDeadlineExpired(job.deadline);
-         const deadlineClass = deadlineExpired ? 'deadline-badge expired' : 'deadline-badge';
+         const deadlineText = job.deadline ? `Deadline: ${formatDate(job.deadline)}` : 'No deadline';
+         const deadlineClass = deadlineExpired ? 'expired' : '';
          const jobTypeClass = getJobTypeClass(job.type);
+         const categoryClass = getCategoryClass(job.category);
          const isExternal = job.applicationMethod === 'external';
          const isEmailApply = isExternal && isEmail(job.applicationUrl);
-          
-         const applyBtnText = isEmailApply ? 'Apply via Email' : 
-             isExternal ? 'Apply Now' : 'View Details & Apply';
-         const applyBtnIcon = isExternal ? '<i class="fas fa-external-link-alt"></i>' : '→';
-          
-         // Category badge
-         const categoryBadge = job.category ? `<span class="job-badge category-badge" style="background: linear-gradient(135deg, #6366f1, #4f46e5);"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : '';
-          
+         
+         const viewBtnText = 'View Details';
+         const applyBtnText = isEmailApply ? 'Apply via Email' : isExternal ? 'Apply Now' : 'Apply';
+         const applyBtnClass = isExternal ? 'btn-primary' : 'btn-secondary';
+         const applyBtnIcon = isExternal ? '<i class="fas fa-external-link-alt"></i>' : '<i class="fas fa-paper-plane"></i>';
+         
          return `
-         <div class="job-card scroll-animate visible${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}" data-job-id="${job.id}" data-category="${job.category || ''}">
-             <div class="job-header">
-                 <div class="job-icon">
-                     <i class="fas ${job.icon}"></i>
-                 </div>
-                 <span class="job-badge ${jobTypeClass}">${job.type}</span>
-                 ${job.featured ? '<span class="job-badge featured-badge">Featured</span>' : ''}
-                 ${isExternal ? '<span class="job-badge external-badge">External</span>' : ''}
-                 ${categoryBadge}
+         <div class="job-card scroll-animate visible${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}${job.featured ? ' featured' : ''}" data-job-id="${job.id}" data-category="${job.category || ''}">
+             <div class="job-card-header">
+                 ${job.featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>' : ''}
+                 <a href="#" class="job-title-link view-job-details" data-job-id="${job.id}">${escapeHtml(job.title)}</a>
+                 ${job.category ? `<span class="category-badge ${categoryClass}"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : ''}
              </div>
-             <h3 class="job-title">${job.title}</h3>
-             ${isExternal && job.companyName ? `
-             <div class="company-info" style="margin-bottom: var(--space-sm); color: var(--text-light);">
-                 <i class="fas fa-building"></i> ${escapeHtml(job.companyName)}
-             </div>
-             ` : ''}
-             <div class="job-details">
-                 <div class="job-detail">
-                     <i class="fas fa-map-marker-alt"></i>
-                     <span>${job.location}</span>
-                 </div>
-                 <div class="job-detail">
-                     <i class="fas fa-clock"></i>
-                     <span>${job.type}</span>
-                 </div>
-                 <div class="job-detail">
-                     <i class="fas fa-money-bill-wave"></i>
-                     <span>${job.salary}</span>
-                 </div>
-                 ${job.deadline ? `
-                 <div class="job-detail">
-                     <i class="fas fa-calendar-alt"></i>
-                     <span>Deadline: ${formatDate(job.deadline)}</span>
-                 </div>
+             
+             <div class="job-company">
+                 ${isExternal && job.companyName ? `
+                     <h4 class="company-name">${escapeHtml(job.companyName)}</h4>
                  ` : ''}
+                 <div class="job-location">
+                     <i class="fas fa-map-marker-alt"></i>
+                     <span>${escapeHtml(job.location)}</span>
+                 </div>
              </div>
-             <p class="job-description">${job.description}</p>
-             ${!isExternal ? `
-             <div class="job-requirements">
-                 <h4>Key Requirements</h4>
-                 <ul>
-                     ${(job.requirements || []).map(req => `<li><i class="fas fa-check"></i> ${req}</li>`).join('')}
-                 </ul>
+             
+             <p class="job-summary">${job.description.length > 150 ? job.description.substring(0, 150) + '...' : job.description}</p>
+             
+             <div class="job-metadata-row">
+                 <span class="job-chip employment-type"><i class="fas fa-briefcase"></i> ${escapeHtml(job.type)}</span>
+                 ${job.remote ? `<span class="job-chip remote-onsite"><i class="fas fa-wifi"></i> ${job.remote}</span>` : ''}
+                 <span class="job-chip experience-level"><i class="fas fa-chart-line"></i> ${getExperienceLevel(job)}</span>
              </div>
-             ` : ''}
-<button class="btn btn-primary view-job-details" data-job-id="${job.id}" data-apply-type="${isEmailApply ? 'email' : isExternal ? 'url' : 'internal'}" style="width: 100%; justify-content: center;">
-                   <span class="btn-text">${applyBtnText}</span>
-                   <span class="btn-icon">${applyBtnIcon}</span>
-               </button>
-           </div>
-   `;
-      }).join('');
+             
+             <div class="job-footer">
+                 <div class="job-deadline ${deadlineClass}">
+                     <i class="fas fa-calendar-alt"></i>
+                     <span>${deadlineText}</span>
+                 </div>
+                 <div class="job-actions">
+                     <button class="btn btn-secondary view-job-details" data-job-id="${job.id}" data-apply-type="${isEmailApply ? 'email' : isExternal ? 'url' : 'internal'}" style="flex: 1;">
+                         <span class="btn-text">${viewBtnText}</span>
+                     </button>
+                     <button class="btn ${applyBtnClass} view-job-details" data-job-id="${job.id}" data-apply-type="${isEmailApply ? 'email' : isExternal ? 'url' : 'internal'}" style="flex: 1;">
+                         <span class="btn-text">${applyBtnText}</span>
+                         <span class="btn-icon">${applyBtnIcon}</span>
+                     </button>
+                 </div>
+             </div>
+         </div>
+    `;
+       }).join('');
           
      console.log('renderJobs: jobs grid populated, child count', jobsGrid.children.length);
           
@@ -281,34 +272,42 @@ function renderHomepageJobs() {
         return;
     }
     
-    homepageJobsContainer.innerHTML = latestJobs.map((job, index) => {
+homepageJobsContainer.innerHTML = latestJobs.map((job, index) => {
          const jobTypeClass = getJobTypeClass(job.type);
+         const categoryClass = getCategoryClass(job.category);
          const isExternal = job.applicationMethod === 'external';
-          
+         
          return `
          <div class="job-card scroll-animate visible${index > 0 ? ` delay-${index}` : ''}" data-job-id="${job.id}">
-             <div class="job-header">
-                 <div class="job-icon">
-                     <i class="fas ${job.icon}"></i>
-                 </div>
-                 <span class="job-badge ${jobTypeClass}">${job.type}</span>
+             <div class="job-card-header">
+                 <a href="#" class="job-title-link view-job-details" data-job-id="${job.id}">${escapeHtml(job.title)}</a>
+                 ${job.category ? `<span class="category-badge ${categoryClass}"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : ''}
              </div>
-             <h3 class="job-title">${job.title}</h3>
-             <div class="job-details">
-                 <div class="job-detail">
+             
+             <div class="job-company">
+                 ${isExternal && job.companyName ? `<h4 class="company-name">${escapeHtml(job.companyName)}</h4>` : ''}
+                 <div class="job-location">
                      <i class="fas fa-map-marker-alt"></i>
-                     <span>${job.location}</span>
-                 </div>
-                 <div class="job-detail">
-                     <i class="fas fa-clock"></i>
-                     <span>${job.type}</span>
+                     <span>${escapeHtml(job.location)}</span>
                  </div>
              </div>
-             <p class="job-description">${job.description.substring(0, 120)}...</p>
-             <button class="btn btn-primary view-job-details" data-job-id="${job.id}" style="width: 100%; justify-content: center;">
-                 <span class="btn-text">View Details</span>
-                 <span class="btn-icon">→</span>
-             </button>
+             
+             <p class="job-summary">${job.description.length > 120 ? job.description.substring(0, 120) + '...' : job.description}</p>
+             
+             <div class="job-metadata-row">
+                 <span class="job-chip employment-type"><i class="fas fa-briefcase"></i> ${escapeHtml(job.type)}</span>
+                 <span class="job-chip experience-level"><i class="fas fa-chart-line"></i> ${getExperienceLevel(job)}</span>
+             </div>
+             
+             <div class="job-actions">
+                 <button class="btn btn-secondary view-job-details" data-job-id="${job.id}" style="flex: 1;">
+                     <span class="btn-text">View Details</span>
+                 </button>
+                 <button class="btn btn-primary view-job-details" data-job-id="${job.id}" style="flex: 1;">
+                     <span class="btn-text">Apply</span>
+                     <span class="btn-icon">→</span>
+                 </button>
+             </div>
          </div>
      `;
      }).join('');
@@ -321,11 +320,11 @@ function renderHomepageJobs() {
 function showEmptyState(container, category) {
     const message = category ? `No jobs found in "${escapeHtml(category)}" category.` : 'We don\'t have any open positions at the moment.';
     container.innerHTML = `
-        <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: var(--space-xxl);">
-            <i class="fas fa-briefcase" style="font-size: 4rem; color: var(--accent-orange); margin-bottom: var(--space-lg);"></i>
+        <div class="empty-state-jobs scroll-animate visible">
+            <i class="fas fa-briefcase"></i>
             <h3>No Open Positions</h3>
             <p>${message} Please check back later or contact us for future opportunities.</p>
-            <a href="contact.html" class="btn btn-primary" style="margin-top: var(--space-md);">
+            <a href="contact.html" class="btn btn-primary">
                 <span class="btn-text">Contact Us</span>
                 <span class="btn-icon">→</span>
             </a>
@@ -518,6 +517,33 @@ function formatDate(dateString) {
 // Get job by ID
 function getJobById(id) {
     return jobsData.find(job => job.id === id);
+}
+
+// Get category class for styling
+function getCategoryClass(category) {
+    if (!category) return 'category-default';
+    const catLower = category.toLowerCase();
+    if (catLower.includes('it') || catLower.includes('information technology')) return 'category-it';
+    if (catLower.includes('finance') || catLower.includes('accounting')) return 'category-finance';
+    if (catLower.includes('healthcare') || catLower.includes('medical')) return 'category-healthcare';
+    if (catLower.includes('engineering') || catLower.includes('technical')) return 'category-engineering';
+    if (catLower.includes('remote') || catLower.includes('freelance')) return 'category-remote';
+    if (catLower.includes('human resource') || catLower.includes('hr')) return 'category-hr';
+    if (catLower.includes('executive') || catLower.includes('management')) return 'category-executive';
+    if (catLower.includes('intern') || catLower.includes('graduate trainee')) return 'category-intern';
+    return 'category-default';
+}
+
+// Get experience level from job requirements or type
+function getExperienceLevel(job) {
+    // Check if job has explicit experienceLevel field
+    if (job.experienceLevel) return job.experienceLevel;
+    
+    // Derive from type or title
+    const title = (job.title || '').toLowerCase();
+    if (title.includes('senior') || title.includes('lead')) return 'Senior';
+    if (title.includes('junior') || title.includes('entry')) return 'Entry';
+    return 'Mid';
 }
 
 // Get all active jobs

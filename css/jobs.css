@@ -607,3 +607,23 @@
         font-size: var(--font-size-xxl);
     }
 }
+
+/* Premium Job Cards for Homepage */
+.homepage-jobs-section .jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-md);
+}
+
+/* Responsive for Homepage Jobs */
+@media (max-width: 768px) {
+    .homepage-jobs-section .jobs-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .homepage-jobs-section .jobs-grid {
+        gap: var(--space-sm);
+    }
+}
