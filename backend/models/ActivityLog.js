@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+﻿const mongoose = require('mongoose');
 
 const ACTIVITY_ACTIONS = [
     'JOB_CREATED',
@@ -26,14 +26,19 @@ const ACTIVITY_ACTIONS = [
     'JOB_FEATURED',
     'PROFILE_UPDATED',
     'PASSWORD_CHANGED',
-    'SETTINGS_UPDATED'
+    'SETTINGS_UPDATED',
+    'CV_TEMPLATE_CREATED',
+    'CV_TEMPLATE_UPDATED',
+    'CV_TEMPLATE_ARCHIVED',
+    'CV_TEMPLATE_RESTORED',
+    'CV_TEMPLATE_DOWNLOADED'
 ];
 
 const activityLogSchema = new mongoose.Schema({
-    adminId: {
+adminId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
-        required: true
+        required: false
     },
     action: {
         type: String,

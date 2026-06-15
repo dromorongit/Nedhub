@@ -15,9 +15,11 @@ let currentSection = 'dashboard';
 let jobs = [];
 let applications = [];
 let users = [];
+let cvTemplates = [];
 let currentJobId = null;
 let currentApplicationId = null;
 let currentUserId = null;
+let currentCVTemplateId = null;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
@@ -133,6 +135,24 @@ function initDashboard() {
         addJobBtn.addEventListener('click', openJobModal);
     }
     
+    // Add CV Template Button
+    const addCVTemplateBtn = document.getElementById('addCVTemplateBtn');
+    if (addCVTemplateBtn) {
+        addCVTemplateBtn.addEventListener('click', openCVTemplateModal);
+    }
+    
+    // Cancel CV Template Button
+    const cancelCVTemplateBtn = document.getElementById('cancelCVTemplateBtn');
+    if (cancelCVTemplateBtn) {
+        cancelCVTemplateBtn.addEventListener('click', closeCVTemplateModal);
+    }
+    
+    // CV Template Form
+    const cvTemplateForm = document.getElementById('cvTemplateForm');
+    if (cvTemplateForm) {
+        cvTemplateForm.addEventListener('submit', handleCVTemplateSubmit);
+    }
+    
     // Add User Button
     const addUserBtn = document.getElementById('addUserBtn');
     if (addUserBtn) {
@@ -237,6 +257,18 @@ function initDashboard() {
         settingsForm.addEventListener('submit', handleSettingsSubmit);
     }
     
+    // CV Template Delete Modal
+    const cancelCVTemplateDeleteBtn = document.getElementById('cancelCVTemplateDeleteBtn');
+    const confirmCVTemplateDeleteBtn = document.getElementById('confirmCVTemplateDeleteBtn');
+    
+    if (cancelCVTemplateDeleteBtn) {
+        cancelCVTemplateDeleteBtn.addEventListener('click', closeCVTemplateDeleteModal);
+    }
+    
+    if (confirmCVTemplateDeleteBtn) {
+        confirmCVTemplateDeleteBtn.addEventListener('click', confirmDeleteCVTemplate);
+    }
+    
     // Load initial data
     loadDashboardStats();
     loadJobs();
@@ -267,19 +299,24 @@ function switchSection(section) {
         users: 'User Management',
         settings: 'Platform Settings',
         profile: 'My Profile',
-        'change-password': 'Change Password'
+        'change-password': 'Change Password',
+        cvtemplates: 'CV Template Management'
     };
     document.getElementById('adminSectionTitle').textContent = titles[section] || 'Dashboard';
     
     // Show/hide section header actions
     const jobsHeaderActions = document.getElementById('jobsHeaderActions');
     const usersHeaderActions = document.getElementById('usersHeaderActions');
+    const cvTemplatesHeaderActions = document.getElementById('cvTemplatesHeaderActions');
     
     if (jobsHeaderActions) {
         jobsHeaderActions.style.display = section === 'jobs' ? 'block' : 'none';
     }
     if (usersHeaderActions) {
         usersHeaderActions.style.display = section === 'users' ? 'block' : 'none';
+    }
+    if (cvTemplatesHeaderActions) {
+        cvTemplatesHeaderActions.style.display = section === 'cvtemplates' ? 'block' : 'none';
     }
     
     // Load section-specific data
@@ -288,6 +325,9 @@ function switchSection(section) {
     }
     if (section === 'profile') {
         loadProfile();
+    }
+    if (section === 'cvtemplates') {
+        loadCVTemplates();
     }
 }
 
@@ -1219,6 +1259,32 @@ async function loadDashboardStats() {
         document.getElementById('pendingApplicationsCount').textContent = stats.pendingApplications || 0;
         document.getElementById('shortlistedApplicationsCount').textContent = stats.shortlistedApplications || 0;
         
+        // Load CV template stats
+        try {
+            const cvStatsResponse = await fetch(`${CONFIG.apiBaseUrl}/admin/cv-templates/stats`, {
+                headers: {
+                    'Authorization': `Bearer ${currentToken}`
+                }
+            });
+const cvStatsResult = await cvStatsResponse.json();
+            
+            if (cvStatsResult.success) {
+                const cvStats = cvStatsResult.data;
+                const totalTemplatesEl = document.getElementById('totalTemplatesCount');
+                const totalDownloadsEl = document.getElementById('totalTemplatesDownloads');
+                const freeTemplatesEl = document.getElementById('freeTemplatesCount');
+                const premiumTemplatesEl = document.getElementById('premiumTemplatesCount');
+                const totalRevenueEl = document.getElementById('totalRevenue');
+                if (totalTemplatesEl) totalTemplatesEl.textContent = cvStats.totalTemplates || 0;
+                if (totalDownloadsEl) totalDownloadsEl.textContent = cvStats.totalDownloads || 0;
+                if (freeTemplatesEl) freeTemplatesEl.textContent = cvStats.freeTemplates || 0;
+                if (premiumTemplatesEl) premiumTemplatesEl.textContent = cvStats.premiumTemplates || 0;
+                if (totalRevenueEl) totalRevenueEl.textContent = '₵' + (cvStats.totalRevenue || 0).toFixed(2);
+            }
+        } catch (cvError) {
+            console.error('Error loading CV template stats:', cvError);
+        }
+        
         loadRecentApplications();
     } catch (error) {
         console.error('Error loading dashboard stats:', error);
@@ -1465,3 +1531,273 @@ function formatDateTime(dateString) {
 
 // Make functions available globally
 window.updateApplicationStatus = updateApplicationStatus;
+
+// ==================== CV TEMPLATES ====================
+
+async function loadCVTemplates() {
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/cv-templates`, {
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to load CV templates');
+        }
+        
+        const result = await response.json();
+        cvTemplates = result.data || [];
+        renderCVTemplates();
+    } catch (error) {
+        console.error('Error loading CV templates:', error);
+        const tbody = document.getElementById('cvTemplatesTableBody');
+        if (tbody) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="loading-state">
+                        <i class="fas fa-exclamation-triangle"></i> Failed to load CV templates
+                    </td>
+                </tr>
+            `;
+        }
+    }
+}
+
+function renderCVTemplates() {
+    const tbody = document.getElementById('cvTemplatesTableBody');
+    
+    if (cvTemplates.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="loading-state">
+                    <i class="fas fa-file-alt"></i> No CV templates found
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    tbody.innerHTML = cvTemplates.map(template => {
+        const statusClass = template.status === 'Published' ? 'status-active' : 
+            template.status === 'Draft' ? 'status-pending' : 'status-inactive';
+        const featuredBadge = template.featured ? '<span class="status-badge status-featured">Featured</span>' : '';
+        const priceBadge = template.price > 0 
+            ? `<span class="status-badge status-premium">GHS ${template.price}</span>`
+            : '<span class="status-badge status-free">FREE</span>';
+        
+        const isArchived = template.status === 'Archived';
+        
+        return `
+            <tr data-cv-template-id="${template.id}">
+                <td>
+                    ${template.thumbnailUrl 
+                        ? `<img src="${escapeHtml(template.thumbnailUrl)}" alt="${escapeHtml(template.name)}" style="width: 80px; height: 60px; object-fit: cover; border-radius: 4px;">`
+                        : '<i class="fas fa-file-alt" style="font-size: 2rem; color: #10B981;"></i>'
+                    }
+                </td>
+                <td>
+                    <strong>${escapeHtml(template.name)}</strong>
+                    ${featuredBadge}
+                </td>
+                <td>${escapeHtml(template.category || 'Other')}</td>
+                <td>${priceBadge}</td>
+                <td>${template.downloadCount || 0}</td>
+                <td>
+                    <span class="status-badge ${statusClass}">
+                        ${escapeHtml(template.status)}
+                    </span>
+                </td>
+                <td>
+                    <div class="admin-actions">
+                        <button class="btn btn-secondary edit-cv-template" data-cv-template-id="${template.id}" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        ${isArchived 
+                            ? `<button class="btn btn-secondary restore-cv-template" data-cv-template-id="${template.id}" title="Restore">
+                                <i class="fas fa-undo"></i>
+                              </button>`
+                            : `<button class="btn btn-danger delete-cv-template" data-cv-template-id="${template.id}" title="Archive">
+                                <i class="fas fa-archive"></i>
+                              </button>`
+                        }
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+    
+    document.querySelectorAll('.edit-cv-template').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const templateId = this.getAttribute('data-cv-template-id');
+            editCVTemplate(templateId);
+        });
+    });
+    
+    document.querySelectorAll('.delete-cv-template').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const templateId = this.getAttribute('data-cv-template-id');
+            openCVTemplateDeleteModal(templateId);
+        });
+    });
+    
+    document.querySelectorAll('.restore-cv-template').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const templateId = this.getAttribute('data-cv-template-id');
+            restoreCVTemplate(templateId);
+        });
+    });
+}
+
+function openCVTemplateModal() {
+    currentCVTemplateId = null;
+    document.getElementById('cvTemplateModalTitle').textContent = 'Add CV Template';
+    document.getElementById('cvTemplateForm').reset();
+    document.getElementById('cvTemplateStatus').value = 'Draft';
+    document.getElementById('cvTemplateCategory').value = '';
+    document.getElementById('cvTemplateModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCVTemplateModal() {
+    document.getElementById('cvTemplateModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function editCVTemplate(templateId) {
+    const template = cvTemplates.find(t => t.id === templateId);
+    if (!template) return;
+    
+    currentCVTemplateId = templateId;
+    document.getElementById('cvTemplateModalTitle').textContent = 'Edit CV Template';
+    document.getElementById('cvTemplateId').value = template.id;
+    document.getElementById('cvTemplateName').value = template.name;
+    document.getElementById('cvTemplateCategory').value = template.category || '';
+    document.getElementById('cvTemplateDescription').value = template.description || '';
+    document.getElementById('cvTemplateThumbnail').value = template.thumbnailUrl || '';
+    document.getElementById('cvTemplateFile').value = template.templateFileUrl || '';
+    document.getElementById('cvTemplatePrice').value = template.price || 0;
+    document.getElementById('cvTemplateFeatured').checked = template.featured || false;
+    document.getElementById('cvTemplateStatus').value = template.status || 'Draft';
+    
+    document.getElementById('cvTemplateModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+async function handleCVTemplateSubmit(e) {
+    e.preventDefault();
+    
+    const priceValue = document.getElementById('cvTemplatePrice').value;
+    const formData = {
+        name: document.getElementById('cvTemplateName').value,
+        category: document.getElementById('cvTemplateCategory').value,
+        description: document.getElementById('cvTemplateDescription').value,
+        thumbnailUrl: document.getElementById('cvTemplateThumbnail').value,
+        templateFileUrl: document.getElementById('cvTemplateFile').value,
+        featured: document.getElementById('cvTemplateFeatured').checked,
+        status: document.getElementById('cvTemplateStatus').value,
+        price: priceValue !== '' ? Number(priceValue) : 0
+    };
+    
+    try {
+        let response;
+        
+        if (currentCVTemplateId) {
+            response = await fetch(`${CONFIG.apiBaseUrl}/admin/cv-templates/${currentCVTemplateId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${currentToken}`
+                },
+                body: JSON.stringify(formData)
+            });
+        } else {
+            response = await fetch(`${CONFIG.apiBaseUrl}/admin/cv-templates`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${currentToken}`
+                },
+                body: JSON.stringify(formData)
+            });
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            closeCVTemplateModal();
+            loadCVTemplates();
+            loadDashboardStats();
+            showNotification('CV Template saved successfully!', 'success');
+        } else {
+            showNotification(result.message || 'Failed to save CV template', 'error');
+        }
+    } catch (error) {
+        console.error('Error saving CV template:', error);
+        showNotification('Failed to save CV template. Please try again.', 'error');
+    }
+}
+
+function openCVTemplateDeleteModal(templateId) {
+    currentCVTemplateId = templateId;
+    document.getElementById('cvTemplateDeleteModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCVTemplateDeleteModal() {
+    document.getElementById('cvTemplateDeleteModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+async function confirmDeleteCVTemplate() {
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/cv-templates/${currentCVTemplateId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            closeCVTemplateDeleteModal();
+            loadCVTemplates();
+            loadDashboardStats();
+            showNotification('CV Template archived successfully!', 'success');
+        } else {
+            showNotification(result.message || 'Failed to archive CV template', 'error');
+        }
+    } catch (error) {
+        console.error('Error archiving CV template:', error);
+        showNotification('Failed to archive CV template. Please try again.', 'error');
+    }
+}
+
+async function restoreCVTemplate(templateId) {
+    if (!confirm('Are you sure you want to restore this archived CV template? It will reappear on the public CV templates page.')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${CONFIG.apiBaseUrl}/admin/cv-templates/${templateId}/restore`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${currentToken}`
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            loadCVTemplates();
+            loadDashboardStats();
+            showNotification('CV Template restored successfully!', 'success');
+        } else {
+            showNotification(result.message || 'Failed to restore CV template', 'error');
+        }
+    } catch (error) {
+        console.error('Error restoring CV template:', error);
+        showNotification('Failed to restore CV template. Please try again.', 'error');
+    }
+}

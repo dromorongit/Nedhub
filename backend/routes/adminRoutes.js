@@ -1,8 +1,9 @@
-const express = require('express');
+﻿const express = require('express');
 const { requireAdminAuth, handleAdminLogin, handleAdminLogout, handleOwnerRegistration, ACTIVITY_ACTIONS, logActivity } = require('../middlewares/auth');
 const jobController = require('../controllers/jobController');
 const applicationController = require('../controllers/applicationController');
 const adminController = require('../controllers/adminController');
+const cvTemplateController = require('../controllers/cvTemplateController');
 const { Admin } = require('../models/Admin');
 
 const router = express.Router();
@@ -423,4 +424,141 @@ router.get('/admin/health', async (req, res) => {
     });
 });
 
+// ==================== CV TEMPLATE MANAGEMENT ROUTES ====================
+
+/**
+ * @route GET /api/admin/cv-templates
+ * @desc Get all CV templates (admin view)
+ * @access Private (Owner, Admin)
+ */
+router.get('/admin/cv-templates', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can manage CV templates.'
+        });
+    }
+    return cvTemplateController.getAllCVTemplates(req, res, next);
+});
+
+/**
+ * @route POST /api/admin/cv-templates
+ * @desc Create a new CV template
+ * @access Private (Owner, Admin)
+ */
+router.post('/admin/cv-templates', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can create CV templates.'
+        });
+    }
+    return cvTemplateController.createCVTemplate(req, res, next);
+});
+
+/**
+ * @route PUT /api/admin/cv-templates/:id
+ * @desc Update a CV template
+ * @access Private (Owner, Admin)
+ */
+router.put('/admin/cv-templates/:id', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can update CV templates.'
+        });
+    }
+    return cvTemplateController.updateCVTemplate(req, res, next);
+});
+
+/**
+ * @route DELETE /api/admin/cv-templates/:id
+ * @desc Archive a CV template
+ * @access Private (Owner, Admin)
+ */
+router.delete('/admin/cv-templates/:id', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can delete CV templates.'
+        });
+    }
+    return cvTemplateController.deleteCVTemplate(req, res, next);
+});
+
+/**
+ * @route PUT /api/admin/cv-templates/:id/status
+ * @desc Update CV template status (Draft/Published/Archived)
+ * @access Private (Owner, Admin)
+ */
+router.put('/admin/cv-templates/:id/status', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can update CV template status.'
+        });
+    }
+    return cvTemplateController.updateCVTemplate(req, res, next);
+});
+
+/**
+ * @route PUT /api/admin/cv-templates/:id/restore
+ * @desc Restore an archived CV template
+ * @access Private (Owner, Admin)
+ */
+router.put('/admin/cv-templates/:id/restore', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can restore CV templates.'
+        });
+    }
+    return cvTemplateController.restoreCVTemplate(req, res, next);
+});
+
+/**
+  * @route GET /api/admin/cv-templates/stats
+  * @desc Get CV template statistics
+  * @access Private (Owner, Admin)
+  */
+router.get('/admin/cv-templates/stats', requireAdminAuth, (req, res, next) => {
+    if (!['owner', 'admin'].includes(req.admin.role)) {
+        return res.status(403).json({
+            success: false,
+            message: 'Access denied. Only owners and admins can view CV template stats.'
+        });
+    }
+    return cvTemplateController.getCVTemplateStats(req, res, next);
+});
+
+/**
+  * @route POST /api/admin/cv-templates/:id/init-payment
+  * @desc Initialize payment for premium template
+  * @access Public
+  */
+router.post('/admin/cv-templates/:id/init-payment', cvTemplateController.initPayment.bind(cvTemplateController));
+
+/**
+  * @route GET /api/admin/cv-templates/verify-payment/:clientReference
+  * @desc Verify payment status
+  * @access Public
+  */
+router.get('/admin/cv-templates/verify-payment/:clientReference', cvTemplateController.verifyPayment.bind(cvTemplateController));
+
+/**
+  * @route POST /api/admin/cv-templates/download/:clientReference
+  * @desc Authorize download for premium template
+  * @access Public
+  */
+router.post('/admin/cv-templates/download/:clientReference', cvTemplateController.downloadPremium.bind(cvTemplateController));
+
+/**
+  * @route GET /api/admin/cv-templates/authorize/:templateId
+  * @desc Check if user can download template
+  * @access Public
+  */
+router.get('/admin/cv-templates/authorize/:templateId', cvTemplateController.checkDownloadAuthorization.bind(cvTemplateController));
+
 module.exports = router;
+
+
