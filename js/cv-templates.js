@@ -24,115 +24,142 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchBtn = document.querySelector('.search-btn');
     const templatesGrid = document.querySelector('.templates-grid');
 
-    // Template data (will be fetched from backend)
-    let templates = {};
+// Template data (will be fetched from backend)
+     let templates = [];
 
-    // Current purchase state
-    let currentTemplate = null;
-    let currentClientReference = null;
-    let purchasedTemplates = JSON.parse(localStorage.getItem('purchasedTemplates')) || [];
+     // Current purchase state
+     let currentTemplate = null;
+     let currentClientReference = null;
+     let purchasedTemplates = JSON.parse(localStorage.getItem('purchasedTemplates')) || [];
 
-    // Initialize
-    init();
+     // Initialize
+     init();
 
-    async function init() {
-        // Fetch templates from database
-        await fetchTemplatesFromDB();
-        
-        // Update templates in localStorage if we have database templates
-        if (Object.keys(templates).length === 0) {
-            useFallbackTemplates();
-            await updateTemplatesGrid();
-        }
+     async function init() {
+         // Fetch templates from database
+         const fetched = await fetchTemplatesFromDB();
 
-        // Add event listeners
-        setupEventListeners();
+         if (!fetched) {
+             showErrorState();
+             return;
+         }
 
-        // Check if we should process a returning payment
-        await checkPaymentReturn();
+         // Update the templates grid dynamically from database
+         await updateTemplatesGrid();
 
-        // Update purchased template buttons
-        updateTemplateButtons();
-    }
+         // Add event listeners
+         setupEventListeners();
 
-    // Fetch templates from database API
-    async function fetchTemplatesFromDB() {
-        try {
-            const response = await fetch(`${API_BASE_URL}/careers/cv-templates`);
-            const data = await response.json();
-            
-if (data.success) {
-                 data.data.forEach(template => {
-                     templates[template.id] = {
-                         id: template.id,
-                         name: template.name,
-                         price: template.price || 0,
-                         image: template.thumbnailUrl || template.image,
-                         downloadUrl: template.templateFileUrl || template.downloadUrl,
-                         isFree: !template.isPremium && template.price === 0,
-                         category: template.category,
-                         description: template.description,
-                         downloadCount: template.downloadCount || 0,
-                         isPremium: template.price > 0, featured: template.featured
-                     };
-                 });
-                 console.log('Templates loaded from database:', Object.keys(templates).length);
+         // Check if we should process a returning payment
+         await checkPaymentReturn();
+
+         // Update purchased template buttons
+         updateTemplateButtons();
+     }
+
+// Fetch templates from database API
+     async function fetchTemplatesFromDB() {
+         try {
+             const response = await fetch(`${API_BASE_URL}/careers/cv-templates`);
+             const data = await response.json();
+
+             if (data.success) {
+                 templates = data.data.map(template => ({
+                     id: template.id,
+                     name: template.name,
+                     price: template.price || 0,
+                     image: template.thumbnailUrl || template.image,
+                     downloadUrl: template.templateFileUrl || template.downloadUrl,
+                     isFree: !template.isPremium && template.price === 0,
+                     category: template.category,
+                     description: template.description,
+                     downloadCount: template.downloadCount || 0,
+                     isPremium: template.price > 0,
+                     featured: template.featured || false
+                 }));
+                 console.log('Templates loaded from database:', templates.length);
+                 return true;
              }
-        } catch (error) {
-            console.warn('Database not available, will use fallback:', error);
-        }
-    }
+             return false;
+         } catch (error) {
+             console.error('Failed to fetch templates from database:', error);
+             return false;
+         }
+     }
 
-    // Fallback templates when database is unavailable
-    function useFallbackTemplates() {
-        templates = {
-            1: { name: 'Modern Pro', price: 120, image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&q=80', isFree: false, category: 'modern' },
-            2: { name: 'Classic Elegance', price: 0, image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80', isFree: true, category: 'classic' },
-            3: { name: 'Creative Studio', price: 155, image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80', isFree: false, category: 'creative' },
-            4: { name: 'Professional Standard', price: 0, image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80', isFree: true, category: 'professional' },
-            5: { name: 'Minimal Design', price: 110, image: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600&q=80', isFree: false, category: 'modern' },
-            6: { name: 'Executive Premium', price: 180, image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80', isFree: false, category: 'professional' },
-            7: { name: 'Dynamic Flow', price: 145, image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80', isFree: false, category: 'creative' },
-            8: { name: 'Basic Resume', price: 0, image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80', isFree: true, category: 'basic' }
-        };
-    }
+     // Show empty state when no templates exist
+     function showEmptyState() {
+         if (!templatesGrid) return;
 
-    // Update the templates grid dynamically from database
-    async function updateTemplatesGrid() {
-        if (!templatesGrid) return;
-        
-        templatesGrid.innerHTML = Object.entries(templates).map(([id, template]) => {
-            const priceLabel = template.isFree ? 'Free' : `₵${template.price}`;
-            const badgeClass = template.isFree ? 'free' : 'premium';
-            const badgeText = template.isFree ? 'FREE' : 'Premium';
-            const btnClass = template.isFree ? 'download-free-btn' : 'buy-btn';
-            const btnIcon = template.isFree ? 'fa-download' : 'fa-shopping-cart';
-            const btnText = template.isFree ? 'Download Free' : `Buy Now - ₵${template.price}`;
-            
-            return `
-                <div class="cv-template-card scroll-animate" data-category="${template.category?.toLowerCase() || 'other'}" data-price="${template.isFree ? 'free' : 'paid'}" data-id="${id}">
-                    <div class="template-preview">
-                        <img loading="lazy" src="${template.image}" alt="${template.name}">
-                        <div class="template-overlay">
-                            <button class="preview-btn" data-template="${id}"><i class="fas fa-eye"></i> Preview</button>
-                        </div>
-                        <span class="template-badge ${badgeClass}">${badgeText}</span>
-                    </div>
-                    <div class="template-info">
-                        <h3>${template.name}</h3>
-                        <p class="template-desc">${template.description || ''}</p>
-                        <div class="template-meta">
-                            <span class="price">${priceLabel}</span>
-                            <span class="rating"><i class="fas fa-star"></i> 4.9</span>
-                        </div>
-                        <button class="${btnClass}" data-template="${id}" data-name="${template.name}" data-price="${template.price}">
-                            <i class="fas ${btnIcon}"></i> ${btnText}
-                        </button>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
+         templatesGrid.innerHTML = `
+             <div class="cv-empty-state" style="grid-column: 1/-1; text-align: center; padding: 80px 20px; background: #fff; border-radius: 16px; border: 1px dashed #e2e8f0;">
+                 <div style="width: 80px; height: 80px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                     <i class="fas fa-folder-open" style="font-size: 2.5rem; color: #10B981;"></i>
+                 </div>
+                 <h3 style="font-size: 1.5rem; color: #0B132B; margin-bottom: 12px; font-weight: 600;">No CV Templates Available</h3>
+                 <p style="color: #64748b; max-width: 500px; margin: 0 auto 24px; line-height: 1.6;">We're currently updating our template collection. Please check back soon or contact us to request a specific template design.</p>
+                 <a href="contact.html" class="btn btn-primary btn-large">Contact Us</a>
+             </div>
+         `;
+     }
+
+     // Show error state when API request fails
+     function showErrorState() {
+         if (!templatesGrid) return;
+
+         templatesGrid.innerHTML = `
+             <div class="cv-error-state" style="grid-column: 1/-1; text-align: center; padding: 80px 20px; background: #fff; border-radius: 16px; border: 1px solid #fee2e2;">
+                 <div style="width: 80px; height: 80px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                     <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; color: #ef4444;"></i>
+                 </div>
+                 <h3 style="font-size: 1.5rem; color: #0B132B; margin-bottom: 12px; font-weight: 600;">Unable to Load Templates</h3>
+                 <p style="color: #64748b; max-width: 500px; margin: 0 auto 24px; line-height: 1.6;">We're experiencing technical difficulties. Please refresh the page or try again later.</p>
+                 <button onclick="location.reload()" class="btn btn-primary btn-large">Retry</button>
+             </div>
+         `;
+     }
+
+// Update the templates grid dynamically from database
+     async function updateTemplatesGrid() {
+         if (!templatesGrid) return;
+
+         if (templates.length === 0) {
+             showEmptyState();
+             return;
+         }
+
+         templatesGrid.innerHTML = templates.map(template => {
+             const priceLabel = template.isFree ? 'Free' : `₵${template.price}`;
+             const badgeClass = template.isFree ? 'free' : 'premium';
+             const badgeText = template.isFree ? 'FREE' : 'Premium';
+             const btnClass = template.isFree ? 'download-free-btn' : 'buy-btn';
+             const btnIcon = template.isFree ? 'fa-download' : 'fa-shopping-cart';
+             const btnText = template.isFree ? 'Download Free' : `Buy Now - ₵${template.price}`;
+
+             return `
+                 <div class="cv-template-card scroll-animate" data-category="${template.category?.toLowerCase() || 'other'}" data-price="${template.isFree ? 'free' : 'paid'}" data-id="${template.id}">
+                     <div class="template-preview">
+                         <img loading="lazy" src="${template.image}" alt="${template.name}">
+                         <div class="template-overlay">
+                             <button class="preview-btn" data-template="${template.id}"><i class="fas fa-eye"></i> Preview</button>
+                         </div>
+                         <span class="template-badge ${badgeClass}">${badgeText}</span>
+                     </div>
+                     <div class="template-info">
+                         <h3>${template.name}</h3>
+                         <p class="template-desc">${template.description || ''}</p>
+                         <div class="template-meta">
+                             <span class="price">${priceLabel}</span>
+                             <span class="rating"><i class="fas fa-star"></i> 4.9</span>
+                         </div>
+                         <button class="${btnClass}" data-template="${template.id}" data-name="${template.name}" data-price="${template.price}">
+                             <i class="fas ${btnIcon}"></i> ${btnText}
+                         </button>
+                     </div>
+                 </div>
+             `;
+         }).join('');
+     }
 
     // Setup all event listeners
     function setupEventListeners() {
@@ -233,90 +260,85 @@ if (data.success) {
         }
     }
 
-    // Handle buy button click
-    function handleBuyClick(e) {
-        const btn = e.target.closest('.buy-btn');
-        const templateId = btn.dataset.template;
-        currentTemplate = templates[templateId];
-        
-        if (!currentTemplate) {
-            currentTemplate = {
-                id: 'cv-' + templateId,
-                name: btn.dataset.name,
-                price: parseFloat(btn.dataset.price),
-                image: btn.closest('.cv-template-card').querySelector('.template-preview img').src,
-                isFree: false
-            };
-        }
-        
-        if (!currentTemplate) return;
+// Handle buy button click
+     function handleBuyClick(e) {
+         const btn = e.target.closest('.buy-btn');
+         const templateId = btn.dataset.template;
+         currentTemplate = templates.find(t => t.id === templateId) || {
+             id: templateId,
+             name: btn.dataset.name,
+             price: parseFloat(btn.dataset.price),
+             image: btn.closest('.cv-template-card').querySelector('.template-preview img').src,
+             isFree: false
+         };
 
-        const modalImg = document.getElementById('modal-template-img');
-        const modalName = document.getElementById('modal-template-name');
-        const modalPrice = document.getElementById('modal-template-price');
-        const payAmount = document.getElementById('pay-amount');
-        
-        if (modalImg) modalImg.src = currentTemplate.image;
-        if (modalName) modalName.textContent = currentTemplate.name;
-        if (modalPrice) modalPrice.textContent = '₵' + currentTemplate.price.toFixed(2);
-        if (payAmount) payAmount.textContent = currentTemplate.price.toFixed(2);
+         if (!currentTemplate) return;
 
-        handlePaymentMethodChange({ target: document.querySelector('input[name="payment-method"]:checked') });
-        openPaymentModal();
-    }
+         const modalImg = document.getElementById('modal-template-img');
+         const modalName = document.getElementById('modal-template-name');
+         const modalPrice = document.getElementById('modal-template-price');
+         const payAmount = document.getElementById('pay-amount');
 
-    // Handle free template download
-    async function handleFreeDownload(e) {
-        const btn = e.target.closest('.download-free-btn');
-        const templateId = btn.dataset.template;
-        const templateName = btn.dataset.name;
+         if (modalImg) modalImg.src = currentTemplate.image;
+         if (modalName) modalName.textContent = currentTemplate.name;
+         if (modalPrice) modalPrice.textContent = '₵' + currentTemplate.price.toFixed(2);
+         if (payAmount) payAmount.textContent = currentTemplate.price.toFixed(2);
 
-        try {
-            const customerEmail = prompt('Please enter your email for the download link:');
-            if (!customerEmail) return;
+         handlePaymentMethodChange({ target: document.querySelector('input[name="payment-method"]:checked') });
+         openPaymentModal();
+     }
 
-            // Track download via API
-            const response = await fetch(`${API_BASE_URL}/careers/cv-templates/${templateId}/download`, {
-                method: 'POST'
-            });
+// Handle free template download
+     async function handleFreeDownload(e) {
+         const btn = e.target.closest('.download-free-btn');
+         const templateId = btn.dataset.template;
+         const template = templates.find(t => t.id === templateId);
 
-            const data = await response.json();
+         if (!template) {
+             showNotification('Template not found. Please refresh the page.', 'error');
+             return;
+         }
 
-            if (data.success) {
-purchasedTemplates.push({
-                         id: templateId,
-                         name: templateName,
-                         price: template?.price || 0,
-                         transactionId: data.data.orderId || 'FREE-' + Date.now().toString(36).toUpperCase(),
-                         date: new Date().toISOString()
-                     });
-                localStorage.setItem('purchasedTemplates', JSON.stringify(purchasedTemplates));
-                showNotification('Template downloaded! Your download has been counted.');
-            }
-        } catch (error) {
-            downloadTemplate(templateId, templateName);
-            showNotification(`"${templateName}" downloaded successfully!`);
-        }
-    }
+         try {
+             const customerEmail = prompt('Please enter your email for the download link:');
+             if (!customerEmail) return;
 
-    // Handle preview button click
-    function handlePreviewClick(e) {
-        const btn = e.target.closest('.preview-btn');
-        const templateId = btn.dataset.template;
-        const template = templates[templateId];
-        
-        if (!template) {
-            const card = e.target.closest('.cv-template-card');
-            const previewImg = document.getElementById('preview-full-img');
-            if (previewImg) previewImg.src = card.querySelector('.template-preview img').src;
-            openPreviewModal();
-            return;
-        }
-        
-        const previewImg = document.getElementById('preview-full-img');
-        if (previewImg) previewImg.src = template.image;
-        openPreviewModal();
-    }
+             const response = await fetch(`${API_BASE_URL}/careers/cv-templates/${templateId}/download`, {
+                 method: 'POST'
+             });
+
+             const data = await response.json();
+
+             if (data.success) {
+                 purchasedTemplates.push({
+                     id: templateId,
+                     name: template.name,
+                     price: template.price || 0,
+                     transactionId: data.data.orderId || 'FREE-' + Date.now().toString(36).toUpperCase(),
+                     date: new Date().toISOString()
+                 });
+                 localStorage.setItem('purchasedTemplates', JSON.stringify(purchasedTemplates));
+                 showNotification('Template downloaded! Your download has been counted.');
+                 updateTemplateButtons();
+             } else {
+                 throw new Error(data.message || 'Download failed');
+             }
+         } catch (error) {
+             console.error('Download error:', error);
+             showNotification('Unable to process download. Please try again later.', 'error');
+         }
+     }
+
+// Handle preview button click
+     function handlePreviewClick(e) {
+         const btn = e.target.closest('.preview-btn');
+         const templateId = btn.dataset.template;
+         const template = templates.find(t => t.id === templateId);
+
+         const previewImg = document.getElementById('preview-full-img');
+         if (previewImg) previewImg.src = template?.image || btn.closest('.cv-template-card').querySelector('.template-preview img').src;
+         openPreviewModal();
+     }
 
     // Handle payment method change
     function handlePaymentMethodChange(e) {
@@ -396,13 +418,13 @@ purchasedTemplates.push({
         }
     }
 
-    // Handle template download
-    function handleDownload() {
-        if (currentTemplate) {
-            downloadTemplate(currentTemplate.id.replace('cv-', ''), currentTemplate.name, currentTemplate.price);
-            closeSuccessModal();
-        }
-    }
+// Handle template download
+     function handleDownload() {
+         if (currentTemplate) {
+             downloadTemplate(currentTemplate.id, currentTemplate.name, currentTemplate.price);
+             closeSuccessModal();
+         }
+     }
 
     // Download template
     function downloadTemplate(templateId, templateName, price) {
@@ -634,30 +656,30 @@ purchasedTemplates.push({
         });
     }
 
-    // Update template buttons for purchased templates
-    function updateTemplateButtons() {
-        purchasedTemplates = JSON.parse(localStorage.getItem('purchasedTemplates')) || [];
-        
-        purchasedTemplates.forEach(function(purchased) {
-            const btn = document.querySelector('.buy-btn[data-template="' + purchased.id + '"]');
-            if (btn) {
-                btn.innerHTML = '<i class="fas fa-download"></i> Download Again';
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-secondary');
-                btn.dataset.name = purchased.name;
-                
-                const newBtn = btn.cloneNode(true);
-                btn.parentNode.replaceChild(newBtn, btn);
-                
-                newBtn.addEventListener('click', function() {
-                    const template = templates[this.dataset.template];
-                    if (template) {
-                        downloadTemplate(template.id.replace('cv-', ''), template.name, template.price);
-                    } else {
-                        downloadTemplate(this.dataset.template, this.dataset.name, parseFloat(this.dataset.price || 0));
-                    }
-                });
-            }
-        });
-    }
+// Update template buttons for purchased templates
+     function updateTemplateButtons() {
+         purchasedTemplates = JSON.parse(localStorage.getItem('purchasedTemplates')) || [];
+
+         purchasedTemplates.forEach(function(purchased) {
+             const btn = document.querySelector('.buy-btn[data-template="' + purchased.id + '"]');
+             if (btn) {
+                 btn.innerHTML = '<i class="fas fa-download"></i> Download Again';
+                 btn.classList.remove('btn-primary');
+                 btn.classList.add('btn-secondary');
+                 btn.dataset.name = purchased.name;
+
+                 const newBtn = btn.cloneNode(true);
+                 btn.parentNode.replaceChild(newBtn, btn);
+
+                 newBtn.addEventListener('click', function() {
+                     const template = templates.find(t => t.id === this.dataset.template);
+                     if (template) {
+                         downloadTemplate(template.id, template.name, template.price);
+                     } else {
+                         downloadTemplate(this.dataset.template, this.dataset.name, parseFloat(this.dataset.price || 0));
+                     }
+                 });
+             }
+         });
+     }
 });
