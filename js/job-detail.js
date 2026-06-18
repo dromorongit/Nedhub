@@ -65,8 +65,20 @@ function renderJobDetails(job) {
     
     // Update hero section
     document.getElementById('job-title').textContent = job.title || 'Untitled Position';
-    document.getElementById('job-category-badge').textContent = job.category || 'Category';
-    document.getElementById('job-type-badge').textContent = job.type || 'Full-Time';
+    
+    // Update category badge
+    const categoryBadge = document.getElementById('job-category-badge');
+    const categorySpan = categoryBadge.querySelector('span');
+    if (categorySpan) {
+        categorySpan.textContent = job.category || 'Category';
+    }
+    
+    // Update type badge
+    const typeBadge = document.getElementById('job-type-badge');
+    const typeSpan = typeBadge.querySelector('span');
+    if (typeSpan) {
+        typeSpan.textContent = job.type || 'Full-Time';
+    }
     
     // Handle featured badge
     const featuredBadge = document.getElementById('job-featured-badge');
@@ -76,7 +88,6 @@ function renderJobDetails(job) {
     
     // Handle company info for external jobs
     const companyInfo = document.getElementById('job-company-info');
-    const locationElement = document.getElementById('job-location');
     
     if (job.applicationMethod === 'external' && job.companyName) {
         companyInfo.style.display = 'flex';
@@ -86,17 +97,21 @@ function renderJobDetails(job) {
         }
     }
     
-    locationElement.querySelector('span').textContent = job.location || 'Location not specified';
-    
-    // Update overview section
-    document.getElementById('job-type-value').textContent = job.type || 'Not specified';
-    document.getElementById('job-location-value').textContent = job.location || 'Not specified';
-    document.getElementById('job-category-value').textContent = job.category || 'Not specified';
+    // Update meta row
+    document.getElementById('job-location-text').textContent = job.location || 'Location not specified';
     
     // Format posted date
     if (job.createdAt) {
         const postedDate = new Date(job.createdAt);
-        document.getElementById('job-posted-date').textContent = formatPostedDate(postedDate);
+        document.getElementById('job-posted-date').textContent = `Posted: ${formatPostedDate(postedDate)}`;
+    }
+    
+    // Update deadline in hero
+    const deadlineHero = document.getElementById('job-deadline-hero');
+    const deadlineText = document.getElementById('job-deadline-text');
+    if (job.deadline) {
+        deadlineHero.style.display = 'flex';
+        deadlineText.textContent = `Deadline: ${formatDate(job.deadline)}`;
     }
     
     // Update description
@@ -133,29 +148,37 @@ function renderJobDetails(job) {
             .join('');
     }
     
-    // Update deadline
-    const deadlineCard = document.getElementById('deadline-card');
-    const deadlineValue = document.getElementById('job-deadline');
-    const deadlineStatus = document.getElementById('deadline-status');
+    // Update sidebar details
+    document.getElementById('sidebar-job-type').textContent = job.type || 'Not specified';
+    document.getElementById('sidebar-job-category').textContent = job.category || 'Not specified';
+    document.getElementById('sidebar-job-location').textContent = job.location || 'Not specified';
+    
+    const applicationMethod = job.applicationMethod === 'external' ? 'External' : 'Internal';
+    document.getElementById('sidebar-application-method').textContent = applicationMethod;
+    
+    // Update deadline in sidebar
+    const sidebarDeadline = document.getElementById('sidebar-deadline');
+    const sidebarDeadlineValue = document.getElementById('sidebar-deadline-value');
+    const sidebarDeadlineStatus = document.getElementById('sidebar-deadline-status');
     
     if (job.deadline) {
         const deadlineDate = new Date(job.deadline);
         const now = new Date();
-        deadlineValue.textContent = formatDate(job.deadline);
+        sidebarDeadlineValue.textContent = formatDate(job.deadline);
         
         if (deadlineDate < now) {
-            deadlineStatus.textContent = 'Application closed';
-            deadlineStatus.classList.add('expired');
-            deadlineStatus.classList.remove('active');
+            sidebarDeadlineStatus.textContent = 'Closed';
+            sidebarDeadlineStatus.classList.add('expired');
+            sidebarDeadlineStatus.classList.remove('active');
         } else {
-            deadlineStatus.textContent = 'Applications open';
-            deadlineStatus.classList.add('active');
-            deadlineStatus.classList.remove('expired');
+            sidebarDeadlineStatus.textContent = 'Open';
+            sidebarDeadlineStatus.classList.add('active');
+            sidebarDeadlineStatus.classList.remove('expired');
         }
     } else {
-        deadlineValue.textContent = 'Rolling applications';
-        deadlineStatus.textContent = 'Ongoing';
-        deadlineStatus.classList.add('active');
+        sidebarDeadlineValue.textContent = 'Rolling applications';
+        sidebarDeadlineStatus.textContent = 'Ongoing';
+        sidebarDeadlineStatus.classList.add('active');
     }
     
     // Update apply button
@@ -265,44 +288,37 @@ async function loadRelatedJobs(category, currentJobId) {
     }
 }
 
-// Create a job card for related jobs
+// Create a premium job card for related jobs
 function createRelatedJobCard(job) {
-    const categoryClass = getCategoryClass(job.category);
+    const deadlineInfo = job.deadline ? formatDate(job.deadline) : 'Rolling applications';
     
     return `
-    <div class="job-card" data-job-id="${job.id}">
-        <div class="job-card-header">
-            ${job.featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>' : ''}
-            <a href="job.html?id=${job.id}" class="job-title-link-job">${escapeHtml(job.title)}</a>
-            ${job.category ? `<span class="category-badge ${categoryClass}"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : ''}
+    <div class="related-job-card" data-job-id="${job.id}">
+        <div class="related-job-header">
+            <h3 class="related-job-title">
+                <a href="job.html?id=${job.id}" class="related-job-title-link">${escapeHtml(job.title)}</a>
+            </h3>
+            ${job.featured ? '<span class="related-job-featured"><i class="fas fa-star"></i> Featured</span>' : ''}
         </div>
-        <div class="job-company">
-            <div class="job-location">
+        <div class="related-job-meta">
+            <div class="related-job-meta-item">
                 <i class="fas fa-map-marker-alt"></i>
                 <span>${escapeHtml(job.location)}</span>
             </div>
+            ${job.category ? `<span class="related-job-category"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : ''}
+            <div class="related-job-deadline">
+                <i class="fas fa-hourglass-half"></i>
+                <span>Deadline: ${deadlineInfo}</span>
+            </div>
         </div>
-        <p class="job-summary">${job.description.length > 120 ? job.description.substring(0, 120) + '...' : job.description}</p>
-        <div class="job-metadata-row">
-            <span class="job-chip employment-type"><i class="fas fa-briefcase"></i> ${escapeHtml(job.type)}</span>
+        <div class="related-job-footer">
+            <a href="job.html?id=${job.id}" class="related-job-btn">
+                <span>View Job</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
     </div>
     `;
-}
-
-// Get category class for styling
-function getCategoryClass(category) {
-    if (!category) return 'category-default';
-    const catLower = category.toLowerCase();
-    if (catLower.includes('it') || catLower.includes('information technology')) return 'category-it';
-    if (catLower.includes('finance') || catLower.includes('accounting')) return 'category-finance';
-    if (catLower.includes('healthcare') || catLower.includes('medical')) return 'category-healthcare';
-    if (catLower.includes('engineering') || catLower.includes('technical')) return 'category-engineering';
-    if (catLower.includes('remote') || catLower.includes('freelance')) return 'category-remote';
-    if (catLower.includes('human resource') || catLower.includes('hr')) return 'category-hr';
-    if (catLower.includes('executive') || catLower.includes('management')) return 'category-executive';
-    if (catLower.includes('intern') || catLower.includes('graduate trainee')) return 'category-intern';
-    return 'category-default';
 }
 
 // Update SEO meta tags
@@ -350,7 +366,7 @@ function setupShareButtons() {
         const url = window.location.href;
         try {
             await navigator.clipboard.writeText(url);
-            showCopyFeedback(this, 'Link copied!');
+            showCopyToast('Link copied to clipboard!');
         } catch (err) {
             // Fallback for older browsers
             const textarea = document.createElement('textarea');
@@ -359,7 +375,7 @@ function setupShareButtons() {
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
-            showCopyFeedback(this, 'Link copied!');
+            showCopyToast('Link copied to clipboard!');
         }
     });
     
@@ -381,23 +397,23 @@ function setupShareButtons() {
         } else {
             // Fallback: copy link and show message
             await navigator.clipboard.writeText(url);
-            showCopyFeedback(this, 'Link copied to share!');
+            showCopyToast('Link copied to share!');
         }
     });
 }
 
-// Show copy feedback
-function showCopyFeedback(button, message) {
-    const originalText = button.innerHTML;
-    button.innerHTML = `<i class="fas fa-check"></i> <span>${message}</span>`;
-    button.classList.add('btn-primary');
-    button.classList.remove('btn-secondary');
+// Show copy toast notification
+function showCopyToast(message) {
+    const toast = document.getElementById('copy-toast');
+    const toastText = toast.querySelector('span');
+    if (toastText) {
+        toastText.textContent = message;
+    }
+    toast.classList.add('show');
     
     setTimeout(() => {
-        button.innerHTML = originalText;
-        button.classList.remove('btn-primary');
-        button.classList.add('btn-secondary');
-    }, 2000);
+        toast.classList.remove('show');
+    }, 3000);
 }
 
 // Show error state

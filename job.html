@@ -83,165 +83,199 @@
 
     <!-- Job Detail Content -->
     <main id="main-content" class="job-detail-page" style="display: none;">
-        <!-- Hero Section -->
-        <section class="job-hero">
+        <!-- Premium Hero Section -->
+        <section class="job-hero-premium">
             <div class="container">
                 <div class="job-hero-content">
                     <div class="job-hero-header">
-                        <span id="job-category-badge" class="job-category-badge">Category</span>
-                        <span id="job-type-badge" class="job-type-badge">Type</span>
-                        <span id="job-featured-badge" class="job-featured-badge" style="display: none;">
-                            <i class="fas fa-star"></i> Featured
-                        </span>
-                    </div>
-                    <h1 id="job-title" class="job-hero-title">Job Title Loading...</h1>
-                    <div id="job-company-info" class="job-company-info" style="display: none;">
-                        <div class="company-logo-wrapper">
-                            <img id="job-company-logo" src="" alt="Company Logo" class="job-company-logo">
-                            <h2 id="job-company-name" class="job-company-name">Company Name</h2>
+                        <div class="job-badges-row">
+                            <span id="job-category-badge" class="job-badge job-category-badge">
+                                <i class="fas fa-tag"></i> <span>Category</span>
+                            </span>
+                            <span id="job-type-badge" class="job-badge job-type-badge">
+                                <i class="fas fa-briefcase"></i> <span>Type</span>
+                            </span>
+                            <span id="job-featured-badge" class="job-badge job-featured-badge" style="display: none;">
+                                <i class="fas fa-star"></i> <span>Featured</span>
+                            </span>
                         </div>
-                        <span class="job-source-label">External Opportunity</span>
-                    </div>
-                    <p id="job-location" class="job-hero-location">
-                        <i class="fas fa-map-marker-alt"></i> <span>Location</span>
-                    </p>
-                    <div class="job-share-section">
-                        <button id="copy-link-btn" class="btn btn-secondary btn-share">
-                            <i class="fas fa-link"></i> <span>Copy Link</span>
-                        </button>
-                        <button id="share-btn" class="btn btn-secondary btn-share">
-                            <i class="fas fa-share-alt"></i> <span>Share Job</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Job Overview Section -->
-        <section class="job-overview-section">
-            <div class="container">
-                <div class="job-overview-grid">
-                    <div class="job-overview-card">
-                        <div class="overview-icon">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                        <div class="overview-content">
-                            <span class="overview-label">Job Type</span>
-                            <span id="job-type-value" class="overview-value">Full-Time</span>
+                        <h1 id="job-title" class="job-hero-title">Job Title Loading...</h1>
+                        <div id="job-company-info" class="job-company-info" style="display: none;">
+                            <div class="company-logo-wrapper">
+                                <img id="job-company-logo" src="" alt="Company Logo" class="job-company-logo">
+                                <h2 id="job-company-name" class="job-company-name">Company Name</h2>
+                            </div>
+                            <span class="job-source-label">External Opportunity</span>
                         </div>
                     </div>
-                    <div class="job-overview-card">
-                        <div class="overview-icon">
+                    <div class="job-meta-row">
+                        <div class="job-meta-item">
                             <i class="fas fa-map-marker-alt"></i>
+                            <span id="job-location-text">Location</span>
                         </div>
-                        <div class="overview-content">
-                            <span class="overview-label">Location</span>
-                            <span id="job-location-value" class="overview-value">Accra, Ghana</span>
+                        <div class="job-meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span id="job-posted-date">Posted: Recently</span>
                         </div>
-                    </div>
-                    <div class="job-overview-card">
-                        <div class="overview-icon">
-                            <i class="fas fa-folder"></i>
-                        </div>
-                        <div class="overview-content">
-                            <span class="overview-label">Category</span>
-                            <span id="job-category-value" class="overview-value">Category</span>
-                        </div>
-                    </div>
-                    <div class="job-overview-card">
-                        <div class="overview-icon">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <div class="overview-content">
-                            <span class="overview-label">Posted</span>
-                            <span id="job-posted-date" class="overview-value">Recently</span>
+                        <div id="job-deadline-hero" class="job-meta-item" style="display: none;">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span id="job-deadline-text">Deadline: Not set</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Main Content Sections -->
-        <section class="job-details-section">
+        <!-- Job Content Layout -->
+        <section class="job-content-section">
             <div class="container">
-                <div class="job-details-grid">
+                <div class="job-layout-grid">
                     <!-- Left Column - Main Content -->
-                    <div class="job-details-main">
+                    <div class="job-main-content">
                         <!-- Description Section -->
-                        <div class="job-section-card">
-                            <h2 class="job-section-title">
-                                <i class="fas fa-info-circle"></i> Job Description
-                            </h2>
-                            <div id="job-description" class="job-section-content">
+                        <div class="job-content-card">
+                            <div class="job-content-header">
+                                <div class="job-content-icon">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <h2 class="job-content-title">Job Description</h2>
+                            </div>
+                            <div id="job-description" class="job-content-body">
                                 Loading description...
                             </div>
                         </div>
 
                         <!-- Responsibilities Section -->
-                        <div id="responsibilities-section" class="job-section-card" style="display: none;">
-                            <h2 class="job-section-title">
-                                <i class="fas fa-tasks"></i> Responsibilities
-                            </h2>
-                            <ul id="job-responsibilities" class="job-responsibilities-list">
+                        <div id="responsibilities-section" class="job-content-card" style="display: none;">
+                            <div class="job-content-header">
+                                <div class="job-content-icon">
+                                    <i class="fas fa-tasks"></i>
+                                </div>
+                                <h2 class="job-content-title">Responsibilities</h2>
+                            </div>
+                            <ul id="job-responsibilities" class="job-content-list">
                             </ul>
                         </div>
 
                         <!-- Requirements Section -->
-                        <div id="requirements-section" class="job-section-card" style="display: none;">
-                            <h2 class="job-section-title">
-                                <i class="fas fa-check-circle"></i> Requirements
-                            </h2>
-                            <ul id="job-requirements" class="job-requirements-list">
+                        <div id="requirements-section" class="job-content-card" style="display: none;">
+                            <div class="job-content-header">
+                                <div class="job-content-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h2 class="job-content-title">Requirements</h2>
+                            </div>
+                            <ul id="job-requirements" class="job-content-list">
                             </ul>
                         </div>
 
                         <!-- Benefits Section -->
-                        <div id="benefits-section" class="job-section-card" style="display: none;">
-                            <h2 class="job-section-title">
-                                <i class="fas fa-gift"></i> Benefits
-                            </h2>
-                            <ul id="job-benefits" class="job-benefits-list">
+                        <div id="benefits-section" class="job-content-card" style="display: none;">
+                            <div class="job-content-header">
+                                <div class="job-content-icon">
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                                <h2 class="job-content-title">Benefits</h2>
+                            </div>
+                            <ul id="job-benefits" class="job-content-list">
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Right Column - Application Sidebar -->
-                    <div class="job-details-sidebar">
-                        <!-- Application Deadline -->
-                        <div id="deadline-card" class="deadline-card">
-                            <div class="deadline-icon">
-                                <i class="fas fa-hourglass-half"></i>
-                            </div>
-                            <div class="deadline-content">
-                                <span class="deadline-label">Application Deadline</span>
-                                <span id="job-deadline" class="deadline-value">No deadline set</span>
-                                <div id="deadline-status" class="deadline-status"></div>
+                    <!-- Right Column - Sticky Apply Sidebar -->
+                    <div class="job-sidebar">
+                        <div class="job-sidebar-sticky">
+                            <div class="apply-card">
+                                <a id="apply-button" href="#" class="btn btn-primary btn-apply-large">
+                                    <span class="btn-text">Apply Now</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                                <a href="careers.html" class="btn btn-secondary btn-view-all">
+                                    <i class="fas fa-briefcase"></i> View All Jobs
+                                </a>
+                                <div class="job-overview-card">
+                                    <div class="overview-icon">
+                                        <i class="fas fa-briefcase"></i>
+                                    </div>
+                                    <div class="overview-content">
+                                        <span class="overview-label">Employment Type</span>
+                                        <span id="sidebar-job-type" class="overview-value">Full-Time</span>
+                                    </div>
+                                </div>
+                                <div class="job-overview-card">
+                                    <div class="overview-icon">
+                                        <i class="fas fa-folder"></i>
+                                    </div>
+                                    <div class="overview-content">
+                                        <span class="overview-label">Category</span>
+                                        <span id="sidebar-job-category" class="overview-value">Category</span>
+                                    </div>
+                                </div>
+                                <div class="job-overview-card">
+                                    <div class="overview-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="overview-content">
+                                        <span class="overview-label">Location</span>
+                                        <span id="sidebar-job-location" class="overview-value">Accra, Ghana</span>
+                                    </div>
+                                </div>
+                                <div class="job-overview-card">
+                                    <div class="overview-icon">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="overview-content">
+                                        <span class="overview-label">Application Method</span>
+                                        <span id="sidebar-application-method" class="overview-value">Internal</span>
+                                    </div>
+                                </div>
+                                <div id="sidebar-deadline" class="job-overview-card">
+                                    <div class="overview-icon">
+                                        <i class="fas fa-hourglass-half"></i>
+                                    </div>
+                                    <div class="overview-content">
+                                        <span class="overview-label">Application Deadline</span>
+                                        <span id="sidebar-deadline-value" class="overview-value">No deadline set</span>
+                                        <div id="sidebar-deadline-status" class="deadline-status-badge"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                        <!-- Apply Button -->
-                        <div id="application-card" class="application-card">
-                            <a id="apply-button" href="#" class="btn btn-primary btn-large btn-apply">
-                                <span class="btn-text">Apply Now</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                            <a href="careers.html" class="btn btn-secondary btn-view-all">
-                                <i class="fas fa-briefcase"></i> View All Jobs
-                            </a>
-                        </div>
+        <!-- Share Section -->
+        <section class="job-share-section-premium">
+            <div class="container">
+                <div class="share-card">
+                    <div class="share-content">
+                        <h3>Share This Opportunity</h3>
+                        <p>Know someone who would be perfect for this role?</p>
+                    </div>
+                    <div class="share-buttons">
+                        <button id="copy-link-btn" class="btn btn-secondary btn-share">
+                            <i class="fas fa-link"></i>
+                            <span>Copy Link</span>
+                        </button>
+                        <button id="share-btn" class="btn btn-secondary btn-share">
+                            <i class="fas fa-share-alt"></i>
+                            <span>Share Job</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Related Jobs Section -->
-        <section id="related-jobs-section" class="related-jobs-section" style="display: none;">
+        <section id="related-jobs-section" class="related-jobs-section-premium" style="display: none;">
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">Related Jobs</h2>
                     <p class="section-subtitle">Other opportunities you might be interested in</p>
                 </div>
-                <div id="related-jobs-grid" class="jobs-grid">
+                <div id="related-jobs-grid" class="related-jobs-grid">
                     <!-- Related jobs will be loaded here -->
                 </div>
             </div>
@@ -343,6 +377,12 @@
         <i class="fab fa-whatsapp"></i>
         <span class="whatsapp-tooltip">Chat with us</span>
     </a>
+
+    <!-- Copy Success Toast -->
+    <div id="copy-toast" class="copy-toast" role="alert" aria-live="polite">
+        <i class="fas fa-check-circle"></i>
+        <span>Link copied to clipboard!</span>
+    </div>
 
     <script src="js/job-detail.js"></script>
     <script src="js/main.js" type="module"></script>
