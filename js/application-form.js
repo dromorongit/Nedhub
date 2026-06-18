@@ -412,12 +412,6 @@ window.selectJob = function(jobTitle) {
             applySection.scrollIntoView({ behavior: 'smooth' });
         }
     }
-    // Close job modal if open
-    const modal = document.getElementById('job-modal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
 };
 
 window.removeFile = removeFile;

@@ -192,47 +192,84 @@ router.get('/careers/health', (req, res) => {
 // ==================== PUBLIC JOBS ENDPOINT ====================
 
 /**
-  * @route GET /api/careers/jobs
-  * @desc Get all active jobs (public endpoint) with optional category filter
-  * @access Public
-  */
-router.get('/careers/jobs', async (req, res) => {
-    try {
-        if (!isDBConnected()) {
-            return res.status(503).json({
-                success: false,
-                message: 'Service temporarily unavailable'
-            });
-        }
-        
-        const { category } = req.query;
-        const query = {
-            status: 'Published',
-            $or: [
-                { active: true },
-                { active: { $exists: false } }
-            ]
-        };
-        
-        if (category && JOB_CATEGORIES.includes(category)) {
-            query.category = category;
-        }
-        
-        const jobs = await Job.find(query).sort({ featured: -1, createdAt: -1 });
-        const formattedJobs = jobs.map(formatJobPublic);
-        
-        res.json({
-            success: true,
-            data: formattedJobs
-        });
-    } catch (error) {
-        console.error('[CareerRoutes] Error fetching jobs:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Failed to fetch jobs'
-        });
-    }
-});
+   * @route GET /api/careers/jobs
+   * @desc Get all active jobs (public endpoint) with optional category filter
+   * @access Public
+   */
+ router.get('/careers/jobs', async (req, res) => {
+     try {
+         if (!isDBConnected()) {
+             return res.status(503).json({
+                 success: false,
+                 message: 'Service temporarily unavailable'
+             });
+         }
+         
+         const { category } = req.query;
+         const query = {
+             status: 'Published',
+             $or: [
+                 { active: true },
+                 { active: { $exists: false } }
+             ]
+         };
+         
+         if (category && JOB_CATEGORIES.includes(category)) {
+             query.category = category;
+         }
+         
+         const jobs = await Job.find(query).sort({ featured: -1, createdAt: -1 });
+         const formattedJobs = jobs.map(formatJobPublic);
+         
+         res.json({
+             success: true,
+             data: formattedJobs
+         });
+     } catch (error) {
+         console.error('[CareerRoutes] Error fetching jobs:', error);
+         res.status(500).json({
+             success: false,
+             message: 'Failed to fetch jobs'
+         });
+     }
+ });
+
+/**
+   * @route GET /api/careers/jobs/:id
+   * @desc Get a single job by ID (public endpoint)
+   * @access Public
+   */
+ router.get('/careers/jobs/:id', async (req, res) => {
+     try {
+         if (!isDBConnected()) {
+             return res.status(503).json({
+                 success: false,
+                 message: 'Service temporarily unavailable'
+             });
+         }
+         
+         const { id } = req.params;
+         const job = await Job.findById(id);
+         
+         if (!job) {
+             return res.status(404).json({
+                 success: false,
+                 message: 'Job not found'
+             });
+         }
+         
+         res.json({
+             success: true,
+             data: formatJobPublic(job)
+         });
+     } catch (error) {
+         console.error('[CareerRoutes] Error fetching job:', error);
+         res.status(500).json({
+             success: false,
+             message: 'Failed to fetch job'
+         });
+     }
+ });
 
 /**
   * @route GET /api/careers/settings

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View job details and apply for positions at Nedhub Ghana">
+    <meta name="keywords" content="jobs, careers, employment, Ghana, recruitment">
+    <meta property="og:title" content="Job Details | Nedhub">
+    <meta property="og:description" content="View job details and apply for positions at Nedhub Ghana">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nedhubgh.com/job.html">
+    <meta property="og:image" content="https://nedhubgh.com/Nedhublogo.PNG">
+    <title>Job Details | Nedhub</title>
+    <link rel="icon" type="image/png" href="Nedhubsymbol.PNG">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/jobs.css">
+    <link rel="stylesheet" href="css/job-detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state">
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading job details...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="navbar">
+        <div class="container">
+            <div class="header-container">
+                <div class="header-top">
+                    <a href="index.html" class="logo"><img src="Nedhublogo.PNG" alt="Nedhub Logo"></a>
+                    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
+                        <span class="hamburger"></span>
+                    </button>
+                </div>
+                <div class="header-bottom">
+                    <div class="mobile-nav-buttons">
+                        <a href="index.html" class="btn btn-primary">Home</a>
+                        <div class="mobile-services-dropdown">
+                            <button class="btn btn-primary mobile-services-btn" aria-expanded="false" aria-haspopup="true">
+                                <span class="services-text">Services</span>
+                                <span class="services-arrow">▼</span>
+                            </button>
+                            <div class="mobile-services-menu">
+                                <a href="services.html" class="mobile-service-link">All Services <span class="mobile-service-arrow"></span></a>
+                                <a href="recruitment.html" class="mobile-service-link">Recruitment & Talent Acquisition <span class="mobile-service-arrow"></span></a>
+                                <a href="outsourcing.html" class="mobile-service-link">Staff Outsourcing & Placement <span class="mobile-service-arrow"></span></a>
+                                <a href="training.html" class="mobile-service-link">Training & Capacity Building <span class="mobile-service-arrow"></span></a>
+                                <a href="career-coaching.html" class="mobile-service-link">Career Guidance & Coaching <span class="mobile-service-arrow"></span></a>
+                                <a href="data-analytics.html" class="mobile-service-link">Data Analytics <span class="mobile-service-arrow"></span></a>
+                            </div>
+                        </div>
+                        <a href="careers.html" class="btn btn-primary">Careers</a>
+                        <a href="contact.html" class="btn btn-primary">Contact</a>
+                        <a href="https://app.nedhubgh.com" class="btn btn-primary" target="_blank">Digital Services App</a>
+                    </div>
+                </div>
+                <ul id="nav-menu" class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About Us</a></li>
+                    <li class="dropdown">
+                        <a href="services.html" class="nav-link">Services</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="recruitment.html">Recruitment & Talent Acquisition <span class="menu-arrow">→</span></a></li>
+                            <li><a href="outsourcing.html">Staff Outsourcing & Placement <span class="menu-arrow">→</span></a></li>
+                            <li><a href="training.html">Training & Capacity Building <span class="menu-arrow">→</span></a></li>
+                            <li><a href="career-coaching.html">Career Guidance & Coaching <span class="menu-arrow">→</span></a></li>
+                            <li><a href="data-analytics.html">Data Analytics <span class="menu-arrow">→</span></a></li>
+                        </ul>
+                    </li>
+                    <li><a href="careers.html" class="nav-link">Careers</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="https://app.nedhubgh.com" class="nav-link" target="_blank">Digital Services App</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Job Detail Content -->
+    <main id="main-content" class="job-detail-page" style="display: none;">
+        <!-- Hero Section -->
+        <section class="job-hero">
+            <div class="container">
+                <div class="job-hero-content">
+                    <div class="job-hero-header">
+                        <span id="job-category-badge" class="job-category-badge">Category</span>
+                        <span id="job-type-badge" class="job-type-badge">Type</span>
+                        <span id="job-featured-badge" class="job-featured-badge" style="display: none;">
+                            <i class="fas fa-star"></i> Featured
+                        </span>
+                    </div>
+                    <h1 id="job-title" class="job-hero-title">Job Title Loading...</h1>
+                    <div id="job-company-info" class="job-company-info" style="display: none;">
+                        <div class="company-logo-wrapper">
+                            <img id="job-company-logo" src="" alt="Company Logo" class="job-company-logo">
+                            <h2 id="job-company-name" class="job-company-name">Company Name</h2>
+                        </div>
+                        <span class="job-source-label">External Opportunity</span>
+                    </div>
+                    <p id="job-location" class="job-hero-location">
+                        <i class="fas fa-map-marker-alt"></i> <span>Location</span>
+                    </p>
+                    <div class="job-share-section">
+                        <button id="copy-link-btn" class="btn btn-secondary btn-share">
+                            <i class="fas fa-link"></i> <span>Copy Link</span>
+                        </button>
+                        <button id="share-btn" class="btn btn-secondary btn-share">
+                            <i class="fas fa-share-alt"></i> <span>Share Job</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Job Overview Section -->
+        <section class="job-overview-section">
+            <div class="container">
+                <div class="job-overview-grid">
+                    <div class="job-overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="overview-content">
+                            <span class="overview-label">Job Type</span>
+                            <span id="job-type-value" class="overview-value">Full-Time</span>
+                        </div>
+                    </div>
+                    <div class="job-overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="overview-content">
+                            <span class="overview-label">Location</span>
+                            <span id="job-location-value" class="overview-value">Accra, Ghana</span>
+                        </div>
+                    </div>
+                    <div class="job-overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div class="overview-content">
+                            <span class="overview-label">Category</span>
+                            <span id="job-category-value" class="overview-value">Category</span>
+                        </div>
+                    </div>
+                    <div class="job-overview-card">
+                        <div class="overview-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="overview-content">
+                            <span class="overview-label">Posted</span>
+                            <span id="job-posted-date" class="overview-value">Recently</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Sections -->
+        <section class="job-details-section">
+            <div class="container">
+                <div class="job-details-grid">
+                    <!-- Left Column - Main Content -->
+                    <div class="job-details-main">
+                        <!-- Description Section -->
+                        <div class="job-section-card">
+                            <h2 class="job-section-title">
+                                <i class="fas fa-info-circle"></i> Job Description
+                            </h2>
+                            <div id="job-description" class="job-section-content">
+                                Loading description...
+                            </div>
+                        </div>
+
+                        <!-- Responsibilities Section -->
+                        <div id="responsibilities-section" class="job-section-card" style="display: none;">
+                            <h2 class="job-section-title">
+                                <i class="fas fa-tasks"></i> Responsibilities
+                            </h2>
+                            <ul id="job-responsibilities" class="job-responsibilities-list">
+                            </ul>
+                        </div>
+
+                        <!-- Requirements Section -->
+                        <div id="requirements-section" class="job-section-card" style="display: none;">
+                            <h2 class="job-section-title">
+                                <i class="fas fa-check-circle"></i> Requirements
+                            </h2>
+                            <ul id="job-requirements" class="job-requirements-list">
+                            </ul>
+                        </div>
+
+                        <!-- Benefits Section -->
+                        <div id="benefits-section" class="job-section-card" style="display: none;">
+                            <h2 class="job-section-title">
+                                <i class="fas fa-gift"></i> Benefits
+                            </h2>
+                            <ul id="job-benefits" class="job-benefits-list">
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Application Sidebar -->
+                    <div class="job-details-sidebar">
+                        <!-- Application Deadline -->
+                        <div id="deadline-card" class="deadline-card">
+                            <div class="deadline-icon">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                            <div class="deadline-content">
+                                <span class="deadline-label">Application Deadline</span>
+                                <span id="job-deadline" class="deadline-value">No deadline set</span>
+                                <div id="deadline-status" class="deadline-status"></div>
+                            </div>
+                        </div>
+
+                        <!-- Apply Button -->
+                        <div id="application-card" class="application-card">
+                            <a id="apply-button" href="#" class="btn btn-primary btn-large btn-apply">
+                                <span class="btn-text">Apply Now</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="careers.html" class="btn btn-secondary btn-view-all">
+                                <i class="fas fa-briefcase"></i> View All Jobs
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Jobs Section -->
+        <section id="related-jobs-section" class="related-jobs-section" style="display: none;">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Related Jobs</h2>
+                    <p class="section-subtitle">Other opportunities you might be interested in</p>
+                </div>
+                <div id="related-jobs-grid" class="jobs-grid">
+                    <!-- Related jobs will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="final-cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Ready to Make an Impact?</h2>
+                    <p>Join our team and help us transform businesses across Ghana and beyond.</p>
+                    <div class="cta-buttons">
+                        <a href="careers.html" class="btn btn-primary btn-large">
+                            <span class="btn-text">View Open Positions</span>
+                            <span class="btn-icon">→</span>
+                        </a>
+                        <a href="contact.html" class="btn btn-secondary btn-large">
+                            <span class="btn-icon">✉️</span>
+                            <span class="btn-text">Contact Us</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Error State -->
+    <div id="error-state" class="error-state" style="display: none;">
+        <div class="error-container">
+            <i class="fas fa-exclamation-triangle error-icon"></i>
+            <h2>Job Not Found</h2>
+            <p id="error-message">The job you're looking for doesn't exist or has expired.</p>
+            <a href="careers.html" class="btn btn-primary">
+                <span class="btn-text">View All Jobs</span>
+                <span class="btn-icon">→</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo"><img src="Nedhubsymbol.PNG" alt="Nedhub Symbol"></a>
+                    <p>Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-services">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="recruitment.html">Recruitment</a></li>
+                        <li><a href="training.html">Training</a></li>
+                        <li><a href="data-analytics.html">Data Analytics</a></li>
+                        <li><a href="https://app.nedhubgh.com" target="_blank">Digital Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Phone: <a href="tel:+233271177321">+233 271 177 321</a></p>
+                    <p>Email: <a href="mailto:careers@nedhub.com">careers@nedhub.com</a></p>
+                    <p>Location: Roman Ridge, Accra, Ghana</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61587433270353" target="_blank" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/nedhubgh?igsh=cHRkbjl6anpzZGsz" target="_blank" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/233506288940/" target="_blank" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/hr-klinic/" target="_blank" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2026 Nedhub Ghana. All rights reserved.</p>
+                    <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Cookie Policy</a></p>
+                    <p class="developer-credits">Developed by Dromor Narh</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/233506288940/" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">Chat with us</span>
+    </a>
+
+    <script src="js/job-detail.js"></script>
+    <script src="js/main.js" type="module"></script>
+    <script src="js/animations.js" type="module"></script>
+    <script src="js/navigation.js"></script>
+</body>
+</html>
