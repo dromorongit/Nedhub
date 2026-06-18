@@ -161,10 +161,10 @@ function renderJobDetails(job) {
     // Update apply button
     const applyButton = document.getElementById('apply-button');
     if (job.applicationMethod === 'external') {
-        const isEmail = isEmail(job.applicationUrl);
-        applyButton.href = isEmail ? `mailto:${job.applicationUrl}` : job.applicationUrl;
-        applyButton.target = isEmail ? '' : '_blank';
-        applyButton.innerHTML = isEmail 
+        const isEmailLink = isEmail(job.applicationUrl);
+        applyButton.href = isEmailLink ? `mailto:${job.applicationUrl}` : job.applicationUrl;
+        applyButton.target = isEmailLink ? '' : '_blank';
+        applyButton.innerHTML = isEmailLink 
             ? '<span class="btn-text">Apply via Email</span> <i class="fas fa-envelope"></i>'
             : '<span class="btn-text">Apply on Company Site</span> <i class="fas fa-external-link-alt"></i>';
     } else {
