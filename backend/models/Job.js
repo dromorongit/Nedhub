@@ -167,30 +167,33 @@ jobSchema.virtual('isActive').get(function() {
 });
 
 jobSchema.methods.toPublicObject = function() {
-    const isEmailDestination = this.applicationMethod === 'external' && 
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.applicationUrl);
+    const safeStatus = this.status || 'Draft';
+    const safeApplicationMethod = this.applicationMethod || 'internal';
+    const safeApplicationUrl = this.applicationUrl || '';
+    const isEmailDestination = safeApplicationMethod === 'external' && 
+        safeApplicationUrl && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(safeApplicationUrl);
     return {
         id: this._id,
-        title: this.title,
-        department: this.department,
-        category: this.category,
-        location: this.location,
-        type: this.type,
-        description: this.description,
-        requirements: this.requirements,
-        responsibilities: this.responsibilities,
-        deadline: this.deadline,
-        featured: this.featured,
-        active: this.active !== false && this.status === 'Published',
-        status: this.status,
-        applicationMethod: this.applicationMethod,
-        companyName: this.companyName,
-        companyLogo: this.companyLogo,
-        applicationUrl: this.applicationUrl,
-        isEmailDestination: isEmailDestination,
-        source: this.source,
+        title: this.title || '',
+        department: this.department || 'General',
+        category: this.category || 'Other Jobs',
+        location: this.location || '',
+        type: this.type || 'Full-Time',
+        description: this.description || '',
+        requirements: this.requirements || [],
+        responsibilities: this.responsibilities || [],
+        deadline: this.deadline || null,
+        featured: this.featured || false,
+        active: this.active !== false && safeStatus === 'Published',
+        status: safeStatus,
+        applicationMethod: safeApplicationMethod,
+        companyName: this.companyName || '',
+        companyLogo: this.companyLogo || '',
+        applicationUrl: safeApplicationUrl,
+        isEmailDestination: isEmailDestination || false,
+        source: this.source || '',
         createdBy: this.createdBy,
-        icon: this.icon,
+        icon: this.icon || 'fa-briefcase',
         createdAt: this.createdAt,
         updatedAt: this.updatedAt
     };

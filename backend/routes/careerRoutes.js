@@ -17,30 +17,35 @@ const router = express.Router();
 
 // Format job for public API response
 function formatJobPublic(job) {
-    const isActive = job.active !== false && job.status === 'Published';
-    const isEmailDestination = job.applicationMethod === 'external' && 
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(job.applicationUrl);
+    const safeStatus = job.status || 'Draft';
+    const safeCategory = job.category || 'Other Jobs';
+    const safeType = job.type || 'Full-Time';
+    const isActive = job.active !== false && safeStatus === 'Published';
+    const safeApplicationMethod = job.applicationMethod || 'internal';
+    const safeApplicationUrl = job.applicationUrl || '';
+    const isEmailDestination = safeApplicationMethod === 'external' && 
+        safeApplicationUrl && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(safeApplicationUrl);
     return {
         id: job._id,
-        title: job.title,
-        department: job.department,
-        category: job.category,
-        location: job.location,
-        type: job.type,
-        description: job.description,
-        requirements: job.requirements,
+        title: job.title || '',
+        department: job.department || 'General',
+        category: safeCategory,
+        location: job.location || '',
+        type: safeType,
+        description: job.description || '',
+        requirements: job.requirements || [],
         responsibilities: job.responsibilities || [],
         icon: job.icon || getIconForJob(job),
         salary: 'Competitive',
-        deadline: job.deadline,
+        deadline: job.deadline || null,
         active: isActive,
-        status: job.status,
-        applicationMethod: job.applicationMethod,
-        companyName: job.companyName,
-        companyLogo: job.companyLogo,
-        applicationUrl: job.applicationUrl,
-        isEmailDestination: isEmailDestination,
-        source: job.source
+        status: safeStatus,
+        applicationMethod: safeApplicationMethod,
+        companyName: job.companyName || '',
+        companyLogo: job.companyLogo || '',
+        applicationUrl: safeApplicationUrl,
+        isEmailDestination: isEmailDestination || false,
+        source: job.source || ''
     };
 }
 
@@ -48,11 +53,11 @@ function formatJobPublic(job) {
 function formatCVTemplate(template) {
     return {
         id: template._id,
-        name: template.name,
-        category: template.category,
-        description: template.description,
-        thumbnailUrl: template.thumbnailUrl,
-        templateFileUrl: template.templateFileUrl,
+        name: template.name || 'Untitled Template',
+        category: template.category || 'Professional',
+        description: template.description || '',
+        thumbnailUrl: template.thumbnailUrl || '',
+        templateFileUrl: template.templateFileUrl || '',
         price: template.price || 0,
         isPremium: (template.price || 0) > 0,
         featured: template.featured || false,
@@ -167,7 +172,7 @@ router.post('/careers/apply', async (req, res) => {
         
     } catch (error) {
         console.error('[CareerRoutes] Application submission error:', error);
-        
+        console.error(error.stack);
         return res.status(500).json({
             success: false,
             message: 'Failed to submit application. Please try again or contact careers@nedhubgh.com directly.'
@@ -225,14 +230,15 @@ router.get('/careers/health', (req, res) => {
              success: true,
              data: formattedJobs
          });
-     } catch (error) {
-         console.error('[CareerRoutes] Error fetching jobs:', error);
-         res.status(500).json({
-             success: false,
-             message: 'Failed to fetch jobs'
-         });
-     }
- });
+} catch (error) {
+        console.error('[CareerRoutes] Failed to fetch public jobs:', error);
+        console.error(error.stack);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch jobs'
+        });
+    }
+});
 
 /**
    * @route GET /api/careers/jobs/:id
@@ -240,7 +246,7 @@ router.get('/careers/health', (req, res) => {
    * @access Public
    */
  router.get('/careers/jobs/:id', async (req, res) => {
-     try {
+    try {
          if (!isDBConnected()) {
              return res.status(503).json({
                  success: false,
@@ -262,17 +268,18 @@ router.get('/careers/health', (req, res) => {
              success: true,
              data: formatJobPublic(job)
          });
-     } catch (error) {
-         console.error('[CareerRoutes] Error fetching job:', error);
-         res.status(500).json({
-             success: false,
-             message: 'Failed to fetch job'
-         });
-     }
- });
+} catch (error) {
+        console.error('[CareerRoutes] Failed to fetch public job by ID:', error);
+        console.error(error.stack);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch job'
+        });
+    }
+});
 
 /**
-  * @route GET /api/careers/settings
+   * @route GET /api/careers/settings
   * @desc Get public settings (for footer, contact info, etc)
   * @access Public
   */
@@ -286,7 +293,8 @@ router.get('/careers/settings', async (req, res) => {
             data: settings
         });
     } catch (error) {
-        console.error('[CareerRoutes] Error fetching settings:', error);
+        console.error('[CareerRoutes] Failed to fetch settings:', error);
+        console.error(error.stack);
         res.status(500).json({
             success: false,
             message: 'Failed to fetch settings'
@@ -305,7 +313,7 @@ function getIconForJob(job) {
         'HR Officer': 'fa-users',
         'IT Support Specialist': 'fa-laptop-code'
     };
-    return iconMap[job.title] || 'fa-briefcase';
+    return iconMap[job && job.title] || 'fa-briefcase';
 }
 
 
@@ -335,7 +343,8 @@ router.get('/careers/cv-templates', async (req, res) => {
             data: formattedTemplates
         });
     } catch (error) {
-        console.error('[CareerRoutes] Error fetching CV templates:', error);
+        console.error('[CareerRoutes] Failed to fetch CV templates:', error);
+        console.error(error.stack);
         res.status(500).json({
             success: false,
             message: 'Failed to fetch CV templates'
@@ -450,7 +459,8 @@ router.post('/careers/cv-templates/:id/download', async (req, res) => {
             });
         }
     } catch (error) {
-        console.error('[CareerRoutes] Error processing download:', error);
+        console.error('[CareerRoutes] Failed to process CV template download:', error);
+        console.error(error.stack);
         res.status(500).json({
             success: false,
             message: 'Failed to process download'
@@ -520,7 +530,8 @@ router.post('/careers/cv-templates/purchase/init', async (req, res) => {
             }
         });
     } catch (error) {
-        console.error('[CareerRoutes] Error initializing template purchase:', error);
+        console.error('[CareerRoutes] Failed to initialize template purchase:', error);
+        console.error(error.stack);
         res.status(500).json({
             success: false,
             message: 'Failed to initialize payment.'
@@ -585,7 +596,8 @@ router.get('/careers/cv-templates/authorize/:templateId', async (req, res) => {
             paymentReference: purchase?.paymentReference || null
         });
     } catch (error) {
-        console.error('[CareerRoutes] Error checking authorization:', error);
+        console.error('[CareerRoutes] Failed to check authorization:', error);
+        console.error(error.stack);
         res.status(500).json({
             success: false,
             message: 'Failed to check authorization.'
