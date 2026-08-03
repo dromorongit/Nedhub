@@ -149,6 +149,9 @@
     font-weight: 800;
     margin-bottom: var(--space-lg);
     color: var(--neutral-white);
+    -webkit-text-fill-color: var(--neutral-white);
+    background-clip: unset;
+    -webkit-background-clip: unset;
     letter-spacing: -0.02em;
     line-height: 1.2;
 }
@@ -232,6 +235,16 @@
 
 .job-company-logo {
     display: block;
+}
+
+.job-company-name {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--neutral-white);
+    -webkit-text-fill-color: var(--neutral-white);
+    background-clip: unset;
+    -webkit-background-clip: unset;
+    margin: 0;
 }
 
 .job-source-label {
