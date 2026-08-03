@@ -102,7 +102,12 @@
                         <h1 id="job-title" class="job-hero-title">Job Title Loading...</h1>
                         <div id="job-company-info" class="job-company-info" style="display: none;">
                             <div class="company-logo-wrapper">
-                                <img id="job-company-logo" src="" alt="Company Logo" class="job-company-logo">
+                                <div id="job-company-logo-container" class="company-logo-container">
+                                    <img id="job-company-logo" src="" alt="Company Logo" class="job-company-logo" loading="lazy">
+                                    <div id="job-company-logo-placeholder" class="company-logo-placeholder" style="display: none;">
+                                        <i class="fas fa-building"></i>
+                                    </div>
+                                </div>
                                 <h2 id="job-company-name" class="job-company-name">Company Name</h2>
                             </div>
                             <span class="job-source-label">External Opportunity</span>

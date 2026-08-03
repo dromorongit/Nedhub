@@ -197,14 +197,34 @@
               font-size: var(--font-size-sm);
           }
           
-          /* Job Summary/Excerpt */
-          .job-summary {
-              color: var(--text-light);
-              line-height: 1.6;
-              margin-bottom: var(--space-lg);
-              font-size: var(--font-size-base);
-              flex-grow: 1;
-          }
+/* Job Summary/Excerpt */
+           .job-summary {
+               color: var(--text-light);
+               line-height: 1.6;
+               margin-bottom: var(--space-lg);
+               font-size: var(--font-size-base);
+               flex-grow: 1;
+           }
+           
+           .job-summary p {
+               margin-bottom: var(--space-sm);
+           }
+           
+           .job-summary ul,
+           .job-summary ol {
+               margin-bottom: var(--space-sm);
+               padding-left: var(--space-lg);
+           }
+           
+           .job-summary ul li {
+               list-style: disc;
+               padding: 2px 0;
+           }
+           
+           .job-summary ol li {
+               list-style: decimal;
+               padding: 2px 0;
+           }
           
           /* Metadata Chips Row */
           .job-metadata-row {

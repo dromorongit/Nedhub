@@ -191,18 +191,47 @@
     gap: var(--space-md);
 }
 
-.job-company-logo {
-    height: 48px;
-    width: auto;
-    object-fit: contain;
-    filter: brightness(0) invert(1);
+.company-logo-container {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    background: var(--neutral-gray);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
 }
 
-.job-company-name {
+.company-logo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+}
+
+.company-logo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(247, 127, 0, 0.1), rgba(11, 19, 43, 0.05));
+    border-radius: var(--radius-md);
     font-size: var(--font-size-xl);
-    font-weight: 600;
-    color: var(--neutral-white);
-    margin: 0;
+    font-weight: 700;
+    color: var(--accent-orange);
+}
+
+.company-logo-placeholder i {
+    font-size: var(--font-size-xxl);
+    color: var(--text-light);
+}
+
+.job-company-logo {
+    display: block;
 }
 
 .job-source-label {
@@ -305,6 +334,60 @@
     color: var(--accent-orange);
     margin-top: 4px;
     flex-shrink: 0;
+}
+
+.job-content-list--unordered {
+    list-style: disc;
+    padding-left: var(--space-lg);
+}
+
+.job-content-list--unordered li {
+    display: list-item;
+    list-style-type: disc;
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--space-xs) 0;
+}
+
+.job-content-list--unordered li:last-child {
+    border-bottom: none;
+}
+
+.job-content-list--unordered li i {
+    display: none;
+}
+
+.job-content-list--ordered {
+    list-style: decimal;
+    padding-left: var(--space-lg);
+}
+
+.job-content-list--ordered li {
+    display: list-item;
+    list-style-type: decimal;
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--space-xs) 0;
+}
+
+.job-content-list--ordered li:last-child {
+    border-bottom: none;
+}
+
+.job-content-list--ordered li i {
+    display: none;
+}
+
+.job-content-body ul,
+.job-content-body ol {
+    margin-bottom: var(--space-md);
+}
+
+.job-content-body ul li,
+.job-content-body ol li {
+    margin-bottom: var(--space-xs);
+}
+
+.job-content-body p {
+    margin-bottom: var(--space-md);
 }
 
 /* =====================================================

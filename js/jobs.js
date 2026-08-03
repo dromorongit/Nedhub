@@ -206,25 +206,28 @@ jobsGrid.innerHTML = activeJobs.map((job, index) => {
              ? (isEmailApply ? `mailto:${job.applicationUrl}` : job.applicationUrl) 
              : '#apply';
         
-         return `
-         <div class="job-card scroll-animate visible${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}${job.featured ? ' featured' : ''}" data-job-id="${job.id}" data-category="${job.category || ''}">
-             <div class="job-card-header">
-                 ${job.featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>' : ''}
-                 <a href="job.html?id=${job.id}" class="job-title-link" data-job-id="${job.id}">${escapeHtml(job.title)}</a>
-                 ${job.category ? `<span class="category-badge ${categoryClass}"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : ''}
-             </div>
-             
-             <div class="job-company">
-                 ${isExternal && job.companyName ? `
-                     <h4 class="company-name">${escapeHtml(job.companyName)}</h4>
-                 ` : ''}
-                 <div class="job-location">
-                     <i class="fas fa-map-marker-alt"></i>
-                     <span>${escapeHtml(job.location)}</span>
-                 </div>
-             </div>
-             
-             <p class="job-summary">${job.description.length > 150 ? job.description.substring(0, 150) + '...' : job.description}</p>
+          const descriptionText = job.description.length > 150 ? job.description.substring(0, 150) + '...' : job.description;
+          const descriptionHtml = formatDescription(descriptionText);
+         
+          return `
+          <div class="job-card scroll-animate visible${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}${job.featured ? ' featured' : ''}" data-job-id="${job.id}" data-category="${job.category || ''}">
+              <div class="job-card-header">
+                  ${job.featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>' : ''}
+                  <a href="job.html?id=${job.id}" class="job-title-link" data-job-id="${job.id}">${escapeHtml(job.title)}</a>
+                  ${job.category ? `<span class="category-badge ${categoryClass}"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : ''}
+              </div>
+              
+              <div class="job-company">
+                  ${isExternal && job.companyName ? `
+                      <h4 class="company-name">${escapeHtml(job.companyName)}</h4>
+                  ` : ''}
+                  <div class="job-location">
+                      <i class="fas fa-map-marker-alt"></i>
+                      <span>${escapeHtml(job.location)}</span>
+                  </div>
+              </div>
+              
+              <div class="job-summary">${descriptionHtml}</div>
              
              <div class="job-metadata-row">
                  <span class="job-chip employment-type"><i class="fas fa-briefcase"></i> ${escapeHtml(job.type)}</span>
@@ -278,22 +281,25 @@ function renderHomepageJobs() {
          const categoryClass = getCategoryClass(job.category);
          const isExternal = job.applicationMethod === 'external';
          
-         return `
-         <div class="job-card scroll-animate visible${index > 0 ? ` delay-${index}` : ''}" data-job-id="${job.id}">
-             <div class="job-card-header">
-                 <a href="job.html?id=${job.id}" class="job-title-link" data-job-id="${job.id}">${escapeHtml(job.title)}</a>
-                 ${job.category ? `<span class="category-badge ${categoryClass}"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : ''}
-             </div>
-             
-             <div class="job-company">
-                 ${isExternal && job.companyName ? `<h4 class="company-name">${escapeHtml(job.companyName)}</h4>` : ''}
-                 <div class="job-location">
-                     <i class="fas fa-map-marker-alt"></i>
-                     <span>${escapeHtml(job.location)}</span>
-                 </div>
-             </div>
-             
-             <p class="job-summary">${job.description.length > 120 ? job.description.substring(0, 120) + '...' : job.description}</p>
+          const descriptionText = job.description.length > 120 ? job.description.substring(0, 120) + '...' : job.description;
+          const descriptionHtml = formatDescription(descriptionText);
+          
+          return `
+          <div class="job-card scroll-animate visible${index > 0 ? ` delay-${index}` : ''}" data-job-id="${job.id}">
+              <div class="job-card-header">
+                  <a href="job.html?id=${job.id}" class="job-title-link" data-job-id="${job.id}">${escapeHtml(job.title)}</a>
+                  ${job.category ? `<span class="category-badge ${categoryClass}"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : ''}
+              </div>
+              
+              <div class="job-company">
+                  ${isExternal && job.companyName ? `<h4 class="company-name">${escapeHtml(job.companyName)}</h4>` : ''}
+                  <div class="job-location">
+                      <i class="fas fa-map-marker-alt"></i>
+                      <span>${escapeHtml(job.location)}</span>
+                  </div>
+              </div>
+              
+              <div class="job-summary">${descriptionHtml}</div>
              
              <div class="job-metadata-row">
                  <span class="job-chip employment-type"><i class="fas fa-briefcase"></i> ${escapeHtml(job.type)}</span>
@@ -465,4 +471,74 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// Format description text with proper HTML list support
+function formatDescription(text) {
+    if (!text) return '<p>No description available.</p>';
+
+    const blocks = text.split('\n\n');
+
+    return blocks.map(block => {
+        const trimmed = block.trim();
+        if (!trimmed) return '';
+
+        const lines = trimmed.split('\n').filter(line => line.trim());
+        if (lines.length === 0) return '';
+
+        let html = '';
+        let i = 0;
+
+        while (i < lines.length) {
+            const line = lines[i].trim();
+            const unorderedMatch = line.match(/^[•\*\-\+]\s+(.+)$/);
+            const orderedMatch = line.match(/^\d+\.\s+(.+)$/);
+
+            if (unorderedMatch) {
+                const items = [];
+                while (i < lines.length) {
+                    const l = lines[i].trim();
+                    const m = l.match(/^[•\*\-\+]\s+(.+)$/);
+                    if (m) {
+                        items.push(m[1]);
+                        i++;
+                    } else {
+                        break;
+                    }
+                }
+                html += '<ul class="job-content-list job-content-list--unordered">' + items.map(item => '<li>' + escapeHtml(item) + '</li>').join('') + '</ul>';
+            } else if (orderedMatch) {
+                const items = [];
+                while (i < lines.length) {
+                    const l = lines[i].trim();
+                    const m = l.match(/^\d+\.\s+(.+)$/);
+                    if (m) {
+                        items.push(m[1]);
+                        i++;
+                    } else {
+                        break;
+                    }
+                }
+                html += '<ol class="job-content-list job-content-list--ordered">' + items.map(item => '<li>' + escapeHtml(item) + '</li>').join('') + '</ol>';
+            } else {
+                const paras = [];
+                while (i < lines.length) {
+                    const l = lines[i].trim();
+                    const um = l.match(/^[•\*\-\+]\s+(.+)$/);
+                    const om = l.match(/^\d+\.\s+(.+)$/);
+                    if (!um && !om) {
+                        paras.push(l);
+                        i++;
+                    } else {
+                        break;
+                    }
+                }
+                if (paras.length > 0) {
+                    html += '<p>' + escapeHtml(paras.join(' ')) + '</p>';
+                }
+            }
+        }
+
+        return html;
+    }).join('');
 }

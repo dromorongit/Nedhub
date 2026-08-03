@@ -86,14 +86,26 @@ function renderJobDetails(job) {
         featuredBadge.style.display = 'inline-flex';
     }
     
-    // Handle company info for external jobs
+// Handle company info for external jobs
     const companyInfo = document.getElementById('job-company-info');
-    
+
     if (job.applicationMethod === 'external' && job.companyName) {
         companyInfo.style.display = 'flex';
         document.getElementById('job-company-name').textContent = job.companyName;
-        if (job.companyLogo) {
-            document.getElementById('job-company-logo').src = job.companyLogo;
+
+        const logoContainer = document.getElementById('job-company-logo-container');
+        const logoImg = document.getElementById('job-company-logo');
+        const logoPlaceholder = document.getElementById('job-company-logo-placeholder');
+
+        if (job.companyLogo && isValidImageUrl(job.companyLogo)) {
+            logoImg.src = job.companyLogo;
+            logoImg.style.display = 'block';
+            logoPlaceholder.style.display = 'none';
+        } else {
+            logoImg.style.display = 'none';
+            logoPlaceholder.style.display = 'flex';
+            const initials = getCompanyInitials(job.companyName);
+            logoPlaceholder.textContent = initials;
         }
     }
     
@@ -218,15 +230,73 @@ function getBenefitsFromJob(job) {
     return [];
 }
 
-// Format description text
+// Format description text with proper HTML list support
 function formatDescription(text) {
     if (!text) return '<p>No description available.</p>';
-    // Convert line breaks to paragraphs
-    return text.split('\n\n').map(paragraph => {
-        if (paragraph.trim()) {
-            return `<p>${escapeHtml(paragraph)}</p>`;
+
+    const blocks = text.split('\n\n');
+
+    return blocks.map(block => {
+        const trimmed = block.trim();
+        if (!trimmed) return '';
+
+        const lines = trimmed.split('\n').filter(line => line.trim());
+        if (lines.length === 0) return '';
+
+        let html = '';
+        let i = 0;
+
+        while (i < lines.length) {
+            const line = lines[i].trim();
+            const unorderedMatch = line.match(/^[•\*\-\+]\s+(.+)$/);
+            const orderedMatch = line.match(/^\d+\.\s+(.+)$/);
+
+            if (unorderedMatch) {
+                const items = [];
+                while (i < lines.length) {
+                    const l = lines[i].trim();
+                    const m = l.match(/^[•\*\-\+]\s+(.+)$/);
+                    if (m) {
+                        items.push(m[1]);
+                        i++;
+                    } else {
+                        break;
+                    }
+                }
+                html += '<ul class="job-content-list job-content-list--unordered">' + items.map(item => '<li>' + escapeHtml(item) + '</li>').join('') + '</ul>';
+            } else if (orderedMatch) {
+                const items = [];
+                while (i < lines.length) {
+                    const l = lines[i].trim();
+                    const m = l.match(/^\d+\.\s+(.+)$/);
+                    if (m) {
+                        items.push(m[1]);
+                        i++;
+                    } else {
+                        break;
+                    }
+                }
+                html += '<ol class="job-content-list job-content-list--ordered">' + items.map(item => '<li>' + escapeHtml(item) + '</li>').join('') + '</ol>';
+            } else {
+                const paras = [];
+                while (i < lines.length) {
+                    const l = lines[i].trim();
+                    const um = l.match(/^[•\*\-\+]\s+(.+)$/);
+                    const om = l.match(/^\d+\.\s+(.+)$/);
+                    if (!um && !om) {
+                        paras.push(l);
+                        i++;
+                    } else {
+                        break;
+                    }
+                }
+                if (paras.length > 0) {
+                    html += '<p>' + escapeHtml(paras.join(' ')) + '</p>';
+                }
+            }
         }
-        return '';
+
+        return html;
     }).join('');
 }
 
@@ -430,4 +500,45 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// Check if a URL is a valid image URL
+function isValidImageUrl(url) {
+    if (!url || typeof url !== 'string') return false;
+    const trimmed = url.trim();
+    if (trimmed === '') return false;
+    // Handle relative URLs (e.g., /uploads/logo.png, uploads/logo.png)
+    if (trimmed.startsWith('/') || trimmed.startsWith('./') || trimmed.startsWith('../')) {
+        const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp', '.ico', '.bmp', '.avif'];
+        const lowerTrimmed = trimmed.toLowerCase();
+        if (imageExtensions.some(ext => lowerTrimmed.endsWith(ext))) return true;
+        // Relative URL without extension but with image path patterns
+        const imagePathPatterns = ['/upload/', '/image/', '/photo/', '/asset/'];
+        if (imagePathPatterns.some(pattern => trimmed.includes(pattern))) return true;
+        // If it's a relative path that looks like an image, assume it is
+        return true;
+    }
+    try {
+        const parsed = new URL(trimmed);
+        const pathname = parsed.pathname.toLowerCase();
+        const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp', '.ico', '.bmp', '.avif'];
+        if (imageExtensions.some(ext => pathname.endsWith(ext))) return true;
+        // Cloudinary and similar CDN URLs often don't have file extensions
+        // Check for common image CDN patterns
+        const imageCdnPatterns = ['/upload/', '/image/', '/photo/', '/asset/', '.cloudinary', 'imgix', 'images.unsplash'];
+        if (imageCdnPatterns.some(pattern => trimmed.includes(pattern))) return true;
+        // If it's a valid URL with http/https, assume it could be an image
+        return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    } catch {
+        return false;
+    }
+}
+
+// Get company initials for placeholder
+function getCompanyInitials(name) {
+    if (!name || typeof name !== 'string') return '?';
+    const words = name.trim().split(/\s+/);
+    if (words.length === 0) return '?';
+    if (words.length === 1) return words[0].charAt(0).toUpperCase();
+    return (words[0].charAt(0) + words[1].charAt(0)).toUpperCase();
 }
