@@ -29,6 +29,9 @@ module.exports = {
                 cvUrl: app.cvUrl,
                 coverLetterFileUrl: app.coverLetterFileUrl,
                 status: app.status,
+                emailStatus: app.emailStatus,
+                emailError: app.emailError,
+                emailSentAt: app.emailSentAt,
                 submittedAt: app.createdAt,
                 updatedAt: app.updatedAt
             }));
@@ -72,6 +75,9 @@ module.exports = {
                 cvUrl: application.cvUrl,
                 coverLetterFileUrl: application.coverLetterFileUrl,
                 status: application.status,
+                emailStatus: application.emailStatus,
+                emailError: application.emailError,
+                emailSentAt: application.emailSentAt,
                 submittedAt: application.createdAt,
                 updatedAt: application.updatedAt
             };

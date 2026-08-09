@@ -15,8 +15,10 @@ const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 
 const app = express();
 
-// Trust proxy for Railway deployment (for rate limiting to work correctly)
-app.set('trust proxy', true);
+// Trust only the first proxy hop (Railway load balancer) for correct client IP
+// detection in rate limiting. Using a count instead of `true` prevents trivial
+// IP spoofing via the X-Forwarded-For header.
+app.set('trust proxy', 1);
 
 // Debug: Log environment variables (without exposing secrets)
 console.log('[Server] Environment check:');

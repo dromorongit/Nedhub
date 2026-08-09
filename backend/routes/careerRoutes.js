@@ -10,7 +10,7 @@ const { ActivityLog, ACTIVITY_ACTIONS } = require('../models/ActivityLog');
 const { CVTemplate, CV_TEMPLATE_CATEGORIES } = require('../models/CVTemplate');
 const { CVTemplatePurchase } = require('../models/CVTemplatePurchase');
 const { isDBConnected } = require('../services/db');
-const { sendJobApplicationEmail, sendApplicationConfirmation } = require('../services/brevoService');
+const { sendJobApplicationEmail, sendApplicationConfirmation, sanitizeBrevoError } = require('../services/brevoService');
 const hubtelService = require('../services/hubtelService');
 
 const router = express.Router();
@@ -69,8 +69,21 @@ function formatCVTemplate(template) {
  * @route POST /api/careers/apply
  * @desc Submit a job application
  * @access Public
+ *
+ * Flow:
+ *   1. Validate submitted application data
+ *   2. Validate uploaded file URLs (CV, cover letter)
+ *   3. Save the application record to MongoDB (emailStatus = pending)
+ *   4. Attempt to send the application email through Brevo
+ *   5. Attempt to send applicant confirmation email (best-effort)
+ *   6. Return a definitive HTTP response to the frontend
+ *
+ * Email failures never invalidate an already-saved application.
  */
 router.post('/careers/apply', async (req, res) => {
+    console.log('[CareerRoutes] Application submission started');
+    console.log('[CareerRoutes] Applicant email domain:', (req.body?.email || '').split('@')[1] || 'unknown');
+
     try {
         const {
             fullName,
@@ -84,38 +97,35 @@ router.post('/careers/apply', async (req, res) => {
             cvUrl,
             coverUrl
         } = req.body;
-        
+
+        // === 1. Validate submitted application data ===
         if (!fullName || !email || !position || !experience || !cvUrl) {
+            console.warn('[CareerRoutes] Validation failed: missing required fields');
             return res.status(400).json({
                 success: false,
                 message: 'Missing required fields. Please provide full name, email, position, experience, and CV URL.'
             });
         }
-        
+
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(email)) {
+            console.warn('[CareerRoutes] Validation failed: invalid email format');
             return res.status(400).json({
                 success: false,
                 message: 'Invalid email address format.'
             });
         }
-        
+
+        // === 2. Validate uploaded file URLs ===
         const urlRegex = /^(https?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\*\+%=]/;
         if (!urlRegex.test(cvUrl)) {
+            console.warn('[CareerRoutes] Validation failed: invalid CV URL format');
             return res.status(400).json({
                 success: false,
                 message: 'Invalid CV URL format.'
             });
         }
-        
-        let jobId = null;
-        if (isDBConnected()) {
-            const job = await Job.findOne({ title: position.trim() });
-            if (job) {
-                jobId = job._id;
-            }
-        }
-        
+
         const applicationData = {
             fullName: String(fullName).trim(),
             email: String(email).trim().toLowerCase(),
@@ -128,60 +138,145 @@ router.post('/careers/apply', async (req, res) => {
             cvUrl: String(cvUrl).trim(),
             coverUrl: coverUrl ? String(coverUrl).trim() : ''
         };
-        
+
+        // === 3. Save the application record to MongoDB ===
+        let createdApp = null;
+
         if (isDBConnected()) {
-            const createdApp = await Application.create({
-                jobId,
-                applicantName: applicationData.fullName,
-                email: applicationData.email,
-                phone: applicationData.phone,
-                linkedin: applicationData.linkedin,
-                yearsOfExperience: applicationData.experience,
-                coverLetter: applicationData.coverLetter,
-                cvUrl: applicationData.cvUrl,
-                coverLetterFileUrl: applicationData.coverUrl,
-                status: APPLICATION_STATUSES[0],
-                position: applicationData.position
-            });
-            
-            await ActivityLog.create({
-                adminId: null,
-                action: ACTIVITY_ACTIONS[3],
-                targetType: 'application',
-                targetId: createdApp._id.toString(),
-                metadata: {
-                    jobTitle: applicationData.position,
-                    applicantEmail: applicationData.email
+            let jobId = null;
+            try {
+                const job = await Job.findOne({ title: position.trim() });
+                if (job) {
+                    jobId = job._id;
                 }
+            } catch (jobLookupError) {
+                console.warn('[CareerRoutes] Job lookup failed:', jobLookupError.message);
+            }
+
+            try {
+                createdApp = await Application.create({
+                    jobId,
+                    applicantName: applicationData.fullName,
+                    email: applicationData.email,
+                    phone: applicationData.phone,
+                    linkedin: applicationData.linkedin,
+                    yearsOfExperience: applicationData.experience,
+                    coverLetter: applicationData.coverLetter,
+                    cvUrl: applicationData.cvUrl,
+                    coverLetterFileUrl: applicationData.coverUrl,
+                    status: APPLICATION_STATUSES[0],
+                    position: applicationData.position,
+                    emailStatus: 'pending'
+                });
+
+                console.log('[CareerRoutes] Application created in MongoDB:', createdApp._id);
+
+                await ActivityLog.create({
+                    adminId: null,
+                    action: ACTIVITY_ACTIONS[3],
+                    targetType: 'application',
+                    targetId: createdApp._id.toString(),
+                    metadata: {
+                        jobTitle: applicationData.position,
+                        applicantEmail: applicationData.email
+                    }
+                });
+            } catch (saveError) {
+                console.error('[CareerRoutes] Failed to save application to MongoDB:', saveError.message);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Application could not be submitted. Please try again.'
+                });
+            }
+        }
+
+        // === 4. Attempt to send the application email through Brevo ===
+        let emailSuccess = false;
+
+        if (createdApp) {
+            try {
+                const emailResult = await sendJobApplicationEmail(applicationData);
+
+                if (emailResult && emailResult.success) {
+                    emailSuccess = true;
+                    createdApp.emailStatus = 'sent';
+                    createdApp.emailSentAt = new Date();
+                    await createdApp.save();
+                    console.log('[CareerRoutes] Brevo email sent successfully for application:', createdApp._id);
+                } else {
+                    emailSuccess = false;
+                    const safeError = (emailResult && emailResult.error)
+                        ? emailResult.error
+                        : 'Failed to send application email';
+                    createdApp.emailStatus = 'failed';
+                    createdApp.emailError = safeError;
+                    await createdApp.save();
+                    console.warn('[CareerRoutes] Brevo email failed for application', String(createdApp._id), '-', safeError);
+                }
+            } catch (emailError) {
+                emailSuccess = false;
+                const safeError = sanitizeBrevoError(emailError).safeMessage;
+                createdApp.emailStatus = 'failed';
+                createdApp.emailError = safeError;
+                try { await createdApp.save(); } catch (updateError) {
+                    console.error('[CareerRoutes] Failed to update email status:', updateError.message);
+                }
+                console.warn('[CareerRoutes] Brevo email errored for application', String(createdApp._id), '-', safeError);
+            }
+        } else {
+            // Database fallback mode – attempt email best-effort
+            try {
+                const emailResult = await sendJobApplicationEmail(applicationData);
+                if (emailResult && emailResult.success) {
+                    console.log('[CareerRoutes] Brevo email sent (DB fallback mode, no tracking)');
+                } else {
+                    console.warn('[CareerRoutes] Brevo email failed (DB fallback mode):', (emailResult && emailResult.error) || 'unknown error');
+                }
+            } catch (emailError) {
+                console.warn('[CareerRoutes] Brevo email errored (DB fallback mode):', sanitizeBrevoError(emailError).safeMessage);
+            }
+        }
+
+        // === 5. Attempt to send applicant confirmation email (best-effort) ===
+        try {
+            const confirmResult = await sendApplicationConfirmation(applicationData);
+            if (confirmResult && confirmResult.success) {
+                console.log('[CareerRoutes] Confirmation email sent for application', createdApp ? String(createdApp._id) : '(no DB)');
+            } else {
+                console.warn('[CareerRoutes] Confirmation email failed (non-blocking):', (confirmResult && confirmResult.error) || 'unknown error');
+            }
+        } catch (confirmError) {
+            console.warn('[CareerRoutes] Confirmation email errored (non-blocking):', sanitizeBrevoError(confirmError).safeMessage);
+        }
+
+        // === 6. Return a definitive HTTP response to the frontend ===
+        if (!createdApp) {
+            // Database fallback mode – no application stored, but email was attempted
+            return res.status(200).json({
+                success: true,
+                message: 'Application submitted successfully! We will contact you soon.'
             });
         }
-        
-        let emailResult = null;
-        try {
-            emailResult = await sendJobApplicationEmail(applicationData);
-        } catch (emailError) {
-            console.error('[CareerRoutes] Email sending failed:', emailError.message);
-            console.error(emailError.stack);
+
+        if (emailSuccess) {
+            return res.status(200).json({
+                success: true,
+                message: 'Application submitted successfully and notification email sent.'
+            });
         }
-        
-        sendApplicationConfirmation(applicationData).catch(err => {
-            console.warn('[CareerRoutes] Confirmation email failed:', err.message);
-        });
-        
-        return res.status(200).json({
+
+        // Application was saved to MongoDB, but email delivery failed.
+        // Per policy: do NOT tell the applicant the application failed.
+        return res.status(202).json({
             success: true,
-            message: 'Application submitted successfully!',
-            data: {
-                messageId: emailResult?.messageId || null
-            }
+            message: 'Application received successfully, but email notification is temporarily unavailable.'
         });
-        
+
     } catch (error) {
-        console.error('[CareerRoutes] Application submission error:', error);
-        console.error(error.stack);
+        console.error('[CareerRoutes] Unexpected error in application submission:', error.message);
         return res.status(500).json({
             success: false,
-            message: 'Failed to submit application. Please try again or contact careers@nedhubgh.com directly.'
+            message: 'Application could not be submitted. Please try again.'
         });
     }
 });

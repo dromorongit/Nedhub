@@ -580,6 +580,7 @@ module.exports = {
                 applicantName: app.applicantName,
                 positionName: app.jobId ? app.jobId.title : app.position,
                 status: app.status,
+                emailStatus: app.emailStatus,
                 submittedAt: app.createdAt
             }));
             

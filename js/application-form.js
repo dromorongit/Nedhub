@@ -16,8 +16,9 @@ const CONFIG = {
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ],
     // API endpoint for career applications
-    // Update this to your backend URL when deploying
-    apiEndpoint: 'https://nedhub-production.up.railway.app/api/careers/apply'
+    apiEndpoint: 'https://nedhub-production.up.railway.app/api/careers/apply',
+    // Timeout for the backend API call (prevents indefinite hanging)
+    apiTimeout: 30000
 };
 
 // Initialize when DOM is loaded
@@ -274,25 +275,37 @@ async function handleFormSubmit(e) {
         const cvUrl = await uploadToCloudinary(cvFile);
         const coverUrl = coverFile ? await uploadToCloudinary(coverFile) : null;
         
-        // Submit application to backend API
-        const response = await fetch(CONFIG.apiEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                fullName,
-                email,
-                phone,
-                position,
-                experience,
-                linkedin,
-                coverLetter,
-                additionalInfo,
-                cvUrl,
-                coverUrl
-            })
-        });
+        statusEl.textContent = 'Submitting your application...';
+        statusEl.className = 'form-status info';
+
+        // Submit application to backend API with a bounded timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), CONFIG.apiTimeout);
+        
+        let response;
+        try {
+            response = await fetch(CONFIG.apiEndpoint, {
+                method: 'POST',
+                signal: controller.signal,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fullName,
+                    email,
+                    phone,
+                    position,
+                    experience,
+                    linkedin,
+                    coverLetter,
+                    additionalInfo,
+                    cvUrl,
+                    coverUrl
+                })
+            });
+        } finally {
+            clearTimeout(timeoutId);
+        }
         
         const result = await response.json();
         
@@ -300,8 +313,17 @@ async function handleFormSubmit(e) {
             throw new Error(result.message || 'Failed to submit application');
         }
         
-        // Show success modal
-        showSuccessModal();
+        // Both 200 (email sent) and 202 (email failed but application saved)
+        // are treated as successful application submissions.
+        
+        // Show success modal with context-appropriate message
+        if (response.status === 200) {
+            showSuccessModal('Application Submitted!', 'Thank you for your application. Your submission has been sent to our recruitment team. We will review your credentials and contact shortlisted candidates within 5-7 business days.');
+        } else if (response.status === 202) {
+            showSuccessModal('Application Received!', 'Your application has been received successfully and is being processed. Our recruitment team will contact you soon. (Email notification delivery is temporarily delayed, but your application is safely recorded.)');
+        } else {
+            showSuccessModal('Application Submitted!', 'Thank you for your application. Your submission has been sent to our recruitment team. We will review your credentials and contact shortlisted candidates within 5-7 business days.');
+        }
         
         // Reset form
         form.reset();
@@ -310,7 +332,14 @@ async function handleFormSubmit(e) {
         
     } catch (error) {
         console.error('Application submission error:', error);
-        statusEl.textContent = 'Submission failed. Please try again or contact us directly at careers@nedhubgh.com';
+        
+        if (error.name === 'AbortError') {
+            statusEl.textContent = 'Request timed out. Your application may still have been received. Please contact careers@nedhubgh.com if you do not hear back within 2 business days.';
+        } else if (error instanceof SyntaxError) {
+            statusEl.textContent = 'Submission received but response could not be processed. Please contact careers@nedhubgh.com to confirm receipt.';
+        } else {
+            statusEl.textContent = error.message || 'Submission failed. Please try again or contact us directly at careers@nedhubgh.com';
+        }
         statusEl.className = 'form-status error';
     } finally {
         submitBtn.disabled = false;
@@ -327,33 +356,74 @@ function uploadToCloudinary(file) {
         formData.append('file', file);
         formData.append('upload_preset', CONFIG.cloudinary.uploadPreset);
         
-        fetch(uploadUrl, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Upload failed');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.secure_url) {
-                resolve(data.secure_url);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', uploadUrl, true);
+        
+        const timeoutId = setTimeout(() => {
+            xhr.abort();
+            reject(new Error('CV upload timed out. Please check your connection and try again.'));
+        }, 30000);
+        
+        xhr.onload = function() {
+            clearTimeout(timeoutId);
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                    const data = JSON.parse(xhr.responseText);
+                    if (data.secure_url) {
+                        resolve(data.secure_url);
+                    } else {
+                        reject(new Error('No URL returned from upload'));
+                    }
+                } catch (parseError) {
+                    reject(new Error('Upload response could not be processed'));
+                }
             } else {
-                reject(new Error('No URL returned from upload'));
+                reject(new Error('Upload failed'));
             }
-        })
-        .catch(error => {
-            reject(error);
-        });
+        };
+        
+        xhr.onerror = function() {
+            clearTimeout(timeoutId);
+            reject(new Error('Upload failed due to a network error'));
+        };
+        
+        xhr.onabort = function() {
+            clearTimeout(timeoutId);
+            reject(new Error('CV upload timed out. Please check your connection and try again.'));
+        };
+        
+        xhr.upload.onprogress = function(e) {
+            if (e.lengthComputable) {
+                const progressStatus = document.getElementById('careerFormStatus');
+                if (progressStatus) {
+                    const percent = Math.round((e.loaded / e.total) * 100);
+                    progressStatus.textContent = `Uploading CV... ${percent}%`;
+                }
+            }
+        };
+        
+        xhr.send(formData);
     });
 }
 
 // Show success modal
-function showSuccessModal() {
+function showSuccessModal(title, message) {
     const successModal = document.getElementById('successModal');
     if (!successModal) return;
+    
+    const titleEl = successModal.querySelector('h2');
+    const messageEl = successModal.querySelector('.success-message');
+    const noteEl = successModal.querySelector('.success-note');
+    
+    if (title && titleEl) {
+        titleEl.textContent = title;
+    }
+    if (message && messageEl) {
+        messageEl.textContent = message;
+    }
+    if (noteEl) {
+        noteEl.textContent = 'We will review your credentials and contact shortlisted candidates within 5-7 business days.';
+    }
     
     successModal.classList.add('active');
     document.body.style.overflow = 'hidden';

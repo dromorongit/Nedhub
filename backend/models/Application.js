@@ -60,6 +60,19 @@ const applicationSchema = new mongoose.Schema({
         type: String,
         trim: true,
         default: ''
+    },
+    emailStatus: {
+        type: String,
+        enum: ['pending', 'sent', 'failed'],
+        default: 'pending'
+    },
+    emailError: {
+        type: String,
+        default: ''
+    },
+    emailSentAt: {
+        type: Date,
+        default: null
     }
 }, {
     timestamps: true
@@ -68,6 +81,7 @@ const applicationSchema = new mongoose.Schema({
 applicationSchema.index({ jobId: 1 });
 applicationSchema.index({ status: 1 });
 applicationSchema.index({ email: 1 });
+applicationSchema.index({ emailStatus: 1 });
 
 module.exports = {
     Application: mongoose.model('Application', applicationSchema),

@@ -730,8 +730,9 @@ function renderApplications() {
     if (searchInput && searchInput.value) {
         const search = searchInput.value.toLowerCase();
         filtered = filtered.filter(app => 
-            (app.fullName && app.fullName.toLowerCase().includes(search)) ||
+            (app.applicantName && app.applicantName.toLowerCase().includes(search)) ||
             (app.email && app.email.toLowerCase().includes(search)) ||
+            (app.positionName && app.positionName.toLowerCase().includes(search)) ||
             (app.position && app.position.toLowerCase().includes(search))
         );
     }
@@ -759,6 +760,11 @@ function renderApplications() {
             <td>
                 <span class="status-badge status-${app.status.toLowerCase()}">
                     ${escapeHtml(app.status)}
+                </span>
+            </td>
+            <td>
+                <span class="status-badge email-status-${app.emailStatus || 'pending'}">
+                    ${formatEmailStatus(app.emailStatus)}
                 </span>
             </td>
             <td>
@@ -1154,10 +1160,18 @@ function viewApplication(appId) {
     if (!app) return;
     
     const body = document.getElementById('applicationModalBody');
+    const emailStatusBadge = app.emailStatus && app.emailStatus !== 'pending'
+        ? `<span class="status-badge email-status-${app.emailStatus}">${escapeHtml(app.emailStatus.charAt(0).toUpperCase() + app.emailStatus.slice(1))}</span>`
+        : '<span class="status-badge email-status-pending">Pending</span>';
+    const emailSentText = app.emailSentAt ? formatDateTime(app.emailSentAt) : 'Not sent';
+    const emailErrorHtml = (app.emailStatus === 'failed' && app.emailError)
+        ? `<p><strong>Email Error:</strong> <span style="color: #ef4444;">${escapeHtml(app.emailError)}</span></p>`
+        : '';
+    
     body.innerHTML = `
         <div class="application-detail">
             <h3>Applicant Information</h3>
-            <p><strong>Name:</strong> ${escapeHtml(app.fullName)}</p>
+            <p><strong>Name:</strong> ${escapeHtml(app.applicantName || app.fullName)}</p>
             <p><strong>Email:</strong> <a href="mailto:${escapeHtml(app.email)}">${escapeHtml(app.email)}</a></p>
             <p><strong>Phone:</strong> ${escapeHtml(app.phone || 'Not provided')}</p>
             
@@ -1170,7 +1184,7 @@ function viewApplication(appId) {
             ${app.cvUrl ? `<a href="${escapeHtml(app.cvUrl)}" target="_blank" class="application-doc-link">
                 <i class="fas fa-file-pdf"></i> Download CV
             </a>` : ''}
-            ${app.coverUrl ? `<a href="${escapeHtml(app.coverUrl)}" target="_blank" class="application-doc-link">
+            ${app.coverLetterFileUrl ? `<a href="${escapeHtml(app.coverLetterFileUrl)}" target="_blank" class="application-doc-link">
                 <i class="fas fa-file-alt"></i> Download Cover Letter
             </a>` : ''}
             
@@ -1184,6 +1198,9 @@ function viewApplication(appId) {
                     ${escapeHtml(app.status)}
                 </span>
             </p>
+            ${emailErrorHtml}
+            <p><strong>Email Notification:</strong> ${emailStatusBadge}</p>
+            <p><strong>Email Sent At:</strong> ${emailSentText}</p>
             <p><strong>Submitted:</strong> ${formatDateTime(app.submittedAt)}</p>
             
             <div class="status-update-buttons">
@@ -1527,6 +1544,18 @@ function formatDateTime(dateString) {
         minute: '2-digit'
     };
     return new Date(dateString).toLocaleDateString('en-US', options);
+}
+
+function formatEmailStatus(status) {
+    switch (status) {
+        case 'sent':
+            return 'Sent';
+        case 'failed':
+            return 'Failed';
+        case 'pending':
+        default:
+            return 'Pending';
+    }
 }
 
 // Make functions available globally

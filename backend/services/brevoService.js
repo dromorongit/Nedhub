@@ -9,12 +9,16 @@ const axios = require('axios');
 const BREVO_API_KEY = process.env.BREVO_API_KEY;
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
+// Explicit timeout for all Brevo API requests (15 seconds)
+const BREVO_TIMEOUT_MS = 15000;
+
 // Sender configuration (should be configured in Brevo dashboard)
 const SENDER_EMAIL = process.env.BREVO_SENDER_EMAIL || 'careers@nedhubgh.com';
 const SENDER_NAME = process.env.BREVO_SENDER_NAME || 'Nedhub Careers';
 
 /**
  * Validate Brevo API key is configured
+ * @returns {boolean}
  */
 function validateConfig() {
   if (!BREVO_API_KEY) {
@@ -266,21 +270,33 @@ async function sendJobApplicationEmail(applicationData) {
 
   // Validate required fields
   if (!fullName || !email || !position || !experience || !cvUrl) {
-    throw new Error('Missing required application fields');
+    return {
+      success: false,
+      error: 'Missing required application fields'
+    };
   }
 
   // Validate email format
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!emailRegex.test(email)) {
-    throw new Error('Invalid email address format');
+    return {
+      success: false,
+      error: 'Invalid email address format'
+    };
   }
 
   // Validate URLs
   if (!isValidUrl(cvUrl)) {
-    throw new Error('Invalid CV URL');
+    return {
+      success: false,
+      error: 'Invalid CV URL'
+    };
   }
   if (coverUrl && !isValidUrl(coverUrl)) {
-    throw new Error('Invalid cover letter URL');
+    return {
+      success: false,
+      error: 'Invalid cover letter URL'
+    };
   }
 
   const emailSubject = `[Job Application] ${fullName} - ${position}`;
@@ -316,6 +332,9 @@ async function sendJobApplicationEmail(applicationData) {
     tags: ['career-application', 'job-application']
   };
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), BREVO_TIMEOUT_MS);
+
   try {
     const response = await axios.post(BREVO_API_URL, emailPayload, {
       headers: {
@@ -323,8 +342,10 @@ async function sendJobApplicationEmail(applicationData) {
         'api-key': BREVO_API_KEY,
         'content-type': 'application/json'
       },
-      timeout: 15000
+      signal: controller.signal,
+      timeout: BREVO_TIMEOUT_MS
     });
+    clearTimeout(timeoutId);
 
     return {
       success: true,
@@ -332,14 +353,19 @@ async function sendJobApplicationEmail(applicationData) {
       data: response.data
     };
   } catch (error) {
-    console.error('[Brevo] Email sending error:', error.response?.data || error.message);
-    
-    // Return sanitized error for frontend
-    const errorMessage = error.response?.data?.message || 
-                        error.response?.data?.error || 
-                        'Failed to send application email';
-    
-    throw new Error(errorMessage);
+    clearTimeout(timeoutId);
+    const { isTimeout, safeMessage } = sanitizeBrevoError(error);
+
+    if (isTimeout) {
+      console.warn('[Brevo] Email delivery timed out after %dms', BREVO_TIMEOUT_MS);
+    } else {
+      console.error('[Brevo] Email sending failed:', safeMessage);
+    }
+
+    return {
+      success: false,
+      error: safeMessage
+    };
   }
 }
 
@@ -358,47 +384,50 @@ async function sendApplicationConfirmation(applicationData) {
   } = applicationData;
 
   if (!email) {
-    throw new Error('Applicant email is required for confirmation');
+    return {
+      success: false,
+      error: 'Applicant email is required for confirmation'
+    };
   }
 
   const confirmationHtml = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5; color: #333333;">
-  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden;">
-    <div style="background: linear-gradient(135deg, #0b132b, #1a2342); padding: 30px; text-align: center;">
-      <h1 style="margin: 0; color: #ffffff; font-size: 24px;">Application Received</h1>
-    </div>
-    <div style="padding: 30px;">
-      <p style="color: #333333; font-size: 16px; line-height: 1.6;">
-        Dear ${sanitizeInput(fullName)},
-      </p>
-      <p style="color: #333333; font-size: 16px; line-height: 1.6;">
-        Thank you for your application for the <strong>${sanitizeInput(position)}</strong> position at Nedhub.
-      </p>
-      <p style="color: #333333; font-size: 16px; line-height: 1.6;">
-        We have received your application and will review your credentials. Our recruitment team will contact shortlisted candidates within 5-7 business days.
-      </p>
-      <div style="background-color: #f9f9f9; padding: 15px; border-radius: 6px; margin: 20px 0;">
-        <p style="margin: 0; color: #666666; font-size: 14px;">
-          <strong>Application Details:</strong><br>
-          Position: ${sanitizeInput(position)}<br>
-          Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'Africa/Accra' })}
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5; color: #333333;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden;">
+      <div style="background: linear-gradient(135deg, #0b132b, #1a2342); padding: 30px; text-align: center;">
+        <h1 style="margin: 0; color: #ffffff; font-size: 24px;">Application Received</h1>
+      </div>
+      <div style="padding: 30px;">
+        <p style="color: #333333; font-size: 16px; line-height: 1.6;">
+          Dear ${sanitizeInput(fullName)},
+        </p>
+        <p style="color: #333333; font-size: 16px; line-height: 1.6;">
+          Thank you for your application for the <strong>${sanitizeInput(position)}</strong> position at Nedhub.
+        </p>
+        <p style="color: #333333; font-size: 16px; line-height: 1.6;">
+          We have received your application and will review your credentials. Our recruitment team will contact shortlisted candidates within 5-7 business days.
+        </p>
+        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 6px; margin: 20px 0;">
+          <p style="margin: 0; color: #666666; font-size: 14px;">
+            <strong>Application Details:</strong><br>
+            Position: ${sanitizeInput(position)}<br>
+            Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'Africa/Accra' })}
+          </p>
+        </div>
+      </div>
+      <div style="background-color: #0b132b; padding: 20px; text-align: center;">
+        <p style="margin: 0; color: #ffffff; font-size: 12px;">
+          Nedhub Ghana - careers@nedhubgh.com
         </p>
       </div>
     </div>
-    <div style="background-color: #0b132b; padding: 20px; text-align: center;">
-      <p style="margin: 0; color: #ffffff; font-size: 12px;">
-        Nedhub Ghana - careers@nedhubgh.com
-      </p>
-    </div>
-  </div>
-</body>
-</html>
+  </body>
+  </html>
   `.trim();
 
   const emailPayload = {
@@ -417,6 +446,9 @@ async function sendApplicationConfirmation(applicationData) {
     tags: ['application-confirmation', 'career-application']
   };
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), BREVO_TIMEOUT_MS);
+
   try {
     const response = await axios.post(BREVO_API_URL, emailPayload, {
       headers: {
@@ -424,26 +456,75 @@ async function sendApplicationConfirmation(applicationData) {
         'api-key': BREVO_API_KEY,
         'content-type': 'application/json'
       },
-      timeout: 15000
+      signal: controller.signal,
+      timeout: BREVO_TIMEOUT_MS
     });
+    clearTimeout(timeoutId);
 
     return {
       success: true,
       messageId: response.data.messageId
     };
   } catch (error) {
-    console.error('[Brevo] Confirmation email error:', error.response?.data || error.message);
-    // Don't throw - confirmation is optional
+    clearTimeout(timeoutId);
+    const { isTimeout, safeMessage } = sanitizeBrevoError(error);
+
+    if (isTimeout) {
+      console.warn('[Brevo] Confirmation email timed out after %dms', BREVO_TIMEOUT_MS);
+    } else {
+      console.warn('[Brevo] Confirmation email failed:', safeMessage);
+    }
+
     return {
       success: false,
-      error: error.message
+      error: safeMessage
     };
   }
+}
+
+/**
+ * Sanitize a Brevo/axios error into a safe diagnostic message.
+ * Never exposes API keys, stack traces, or raw response bodies that
+ * might contain sensitive headers.
+ *
+ * @param {Error} error
+ * @returns {{ isTimeout: boolean, safeMessage: string }}
+ */
+function sanitizeBrevoError(error) {
+  const isTimeout =
+    error.code === 'ECONNABORTED' ||
+    error.code === 'ABORT_ERR' ||
+    error.name === 'AbortError' ||
+    error.name === 'TimeoutError';
+
+  if (isTimeout) {
+    return {
+      isTimeout: true,
+      safeMessage: `Email delivery timed out after ${BREVO_TIMEOUT_MS}ms`
+    };
+  }
+
+  // Extract a safe message from Brevo's response, but strip anything
+  // that looks like it could be a key or header value.
+  let msg = error.response?.data?.message ||
+            error.response?.data?.error ||
+            error.message ||
+            'Failed to send email notification';
+
+  // Remove any substring that looks like an API key or secret value
+  msg = String(msg).replace(/[A-Za-z0-9_-]{32,}/g, '[REDACTED]');
+
+  return {
+    isTimeout: false,
+    safeMessage: msg
+  };
 }
 
 module.exports = {
   sendJobApplicationEmail,
   sendApplicationConfirmation,
   isValidUrl,
-  sanitizeInput
+  sanitizeInput,
+  sanitizeBrevoError,
+  BREVO_TIMEOUT_MS
 };
