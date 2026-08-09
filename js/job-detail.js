@@ -213,18 +213,21 @@ function renderJobDetails(job) {
             mobileApplyButton.target = isEmailLink ? '' : '_blank';
             mobileApplyButton.innerHTML = `<span class="btn-text">${applyText}</span> <i class="fas ${applyIcon}"></i>`;
         }
-    } else {
-        applyButton.href = 'careers.html#apply';
+     } else {
+        const applyUrl = `careers.html?job=${encodeURIComponent(job.id)}#apply`;
+        applyButton.href = applyUrl;
         applyButton.innerHTML = '<span class="btn-text">Apply Now</span> <i class="fas fa-arrow-right"></i>';
         applyButton.addEventListener('click', function() {
             localStorage.setItem('selectedJob', job.title);
+            localStorage.setItem('selectedJobId', String(job.id));
         });
         
         if (mobileApplyButton) {
-            mobileApplyButton.href = 'careers.html#apply';
+            mobileApplyButton.href = applyUrl;
             mobileApplyButton.innerHTML = '<span class="btn-text">Apply Now</span> <i class="fas fa-arrow-right"></i>';
             mobileApplyButton.addEventListener('click', function() {
                 localStorage.setItem('selectedJob', job.title);
+                localStorage.setItem('selectedJobId', String(job.id));
             });
         }
     }

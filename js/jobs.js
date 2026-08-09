@@ -10,7 +10,6 @@ let activeCategory = null;
 // Initialize jobs system when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initJobs();
-    checkPreselectedJob();
 });
 
 // Initialize jobs system
@@ -69,6 +68,7 @@ async function loadJobs() {
         renderJobs();
         renderHomepageJobs();
         populatePositionDropdown();
+        preselectJobFromUrl();
         updateHiringWidget();
     } catch (error) {
         console.error('Error loading jobs:', error);
@@ -448,21 +448,47 @@ window.selectJob = function(jobTitle) {
     }
 };
 
-// Check for pre-selected job on page load (from job detail page)
-function checkPreselectedJob() {
-    const selectedJob = localStorage.getItem('selectedJob');
-    if (selectedJob) {
-        localStorage.removeItem('selectedJob');
-        setTimeout(function() {
-            const positionSelect = document.getElementById('position');
-            if (positionSelect) {
-                positionSelect.value = selectedJob;
-                const applySection = document.getElementById('apply');
-                if (applySection) {
-                    applySection.scrollIntoView({ behavior: 'smooth' });
-                }
+// Preselect a job from the URL ?job=JOB_ID parameter, falling back to localStorage
+function preselectJobFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const jobId = urlParams.get('job') || urlParams.get('jobId');
+
+    let jobTitleToSelect = null;
+
+    if (jobId) {
+        const job = jobsData.find(j => String(j.id) === String(jobId));
+        if (job) {
+            if (job.applicationMethod !== 'external') {
+                jobTitleToSelect = job.title;
+            } else {
+                console.warn('[Jobs] Job is external, not preselecting in dropdown');
             }
-        }, 1000);
+        } else {
+            console.warn('[Jobs] Job with ID not found in jobs list:', jobId);
+        }
+    }
+
+    // Fall back to localStorage if no URL parameter or job not found
+    if (!jobTitleToSelect) {
+        const selectedJob = localStorage.getItem('selectedJob');
+        if (selectedJob) {
+            jobTitleToSelect = selectedJob;
+        }
+        localStorage.removeItem('selectedJob');
+        localStorage.removeItem('selectedJobId');
+    }
+
+    if (jobTitleToSelect) {
+        const positionSelect = document.getElementById('position');
+        if (positionSelect) {
+            positionSelect.value = jobTitleToSelect;
+            const applySection = document.getElementById('apply');
+            if (applySection) {
+                applySection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    } else if (jobId) {
+        console.warn('[Jobs] No job to preselect for jobId:', jobId);
     }
 }
 
