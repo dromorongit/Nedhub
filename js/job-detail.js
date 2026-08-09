@@ -195,20 +195,60 @@ function renderJobDetails(job) {
     
     // Update apply button
     const applyButton = document.getElementById('apply-button');
+    const mobileApplyButton = document.getElementById('mobile-apply-button');
+    const mobileStickyCta = document.getElementById('mobile-sticky-cta');
+    
     if (job.applicationMethod === 'external') {
         const isEmailLink = isEmail(job.applicationUrl);
-        applyButton.href = isEmailLink ? `mailto:${job.applicationUrl}` : job.applicationUrl;
+        const applyHref = isEmailLink ? `mailto:${job.applicationUrl}` : job.applicationUrl;
+        const applyText = isEmailLink ? 'Apply via Email' : 'Apply on Company Site';
+        const applyIcon = isEmailLink ? 'fa-envelope' : 'fa-external-link-alt';
+        
+        applyButton.href = applyHref;
         applyButton.target = isEmailLink ? '' : '_blank';
-        applyButton.innerHTML = isEmailLink 
-            ? '<span class="btn-text">Apply via Email</span> <i class="fas fa-envelope"></i>'
-            : '<span class="btn-text">Apply on Company Site</span> <i class="fas fa-external-link-alt"></i>';
+        applyButton.innerHTML = `<span class="btn-text">${applyText}</span> <i class="fas ${applyIcon}"></i>`;
+        
+        if (mobileApplyButton) {
+            mobileApplyButton.href = applyHref;
+            mobileApplyButton.target = isEmailLink ? '' : '_blank';
+            mobileApplyButton.innerHTML = `<span class="btn-text">${applyText}</span> <i class="fas ${applyIcon}"></i>`;
+        }
     } else {
         applyButton.href = 'careers.html#apply';
         applyButton.innerHTML = '<span class="btn-text">Apply Now</span> <i class="fas fa-arrow-right"></i>';
         applyButton.addEventListener('click', function() {
-            // Pre-select the job in the application form
             localStorage.setItem('selectedJob', job.title);
         });
+        
+        if (mobileApplyButton) {
+            mobileApplyButton.href = 'careers.html#apply';
+            mobileApplyButton.innerHTML = '<span class="btn-text">Apply Now</span> <i class="fas fa-arrow-right"></i>';
+            mobileApplyButton.addEventListener('click', function() {
+                localStorage.setItem('selectedJob', job.title);
+            });
+        }
+    }
+    
+    // Check if job is expired
+    const isExpired = job.deadline ? new Date(job.deadline) < new Date() : false;
+    
+    if (isExpired) {
+        const expiredText = 'Applications Closed';
+        const expiredIcon = 'fa-ban';
+        
+        applyButton.href = '#';
+        applyButton.classList.add('btn-disabled');
+        applyButton.innerHTML = `<span class="btn-text">${expiredText}</span> <i class="fas ${expiredIcon}"></i>`;
+        applyButton.style.opacity = '0.6';
+        applyButton.style.pointerEvents = 'none';
+        
+        if (mobileApplyButton) {
+            mobileApplyButton.href = '#';
+            mobileApplyButton.classList.add('btn-disabled');
+            mobileApplyButton.innerHTML = `<span class="btn-text">${expiredText}</span> <i class="fas ${expiredIcon}"></i>`;
+            mobileApplyButton.style.opacity = '0.6';
+            mobileApplyButton.style.pointerEvents = 'none';
+        }
     }
 }
 

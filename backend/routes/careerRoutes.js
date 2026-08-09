@@ -156,7 +156,13 @@ router.post('/careers/apply', async (req, res) => {
             });
         }
         
-        const emailResult = await sendJobApplicationEmail(applicationData);
+        let emailResult = null;
+        try {
+            emailResult = await sendJobApplicationEmail(applicationData);
+        } catch (emailError) {
+            console.error('[CareerRoutes] Email sending failed:', emailError.message);
+            console.error(emailError.stack);
+        }
         
         sendApplicationConfirmation(applicationData).catch(err => {
             console.warn('[CareerRoutes] Confirmation email failed:', err.message);
@@ -166,7 +172,7 @@ router.post('/careers/apply', async (req, res) => {
             success: true,
             message: 'Application submitted successfully!',
             data: {
-                messageId: emailResult.messageId
+                messageId: emailResult?.messageId || null
             }
         });
         
