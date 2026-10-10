@@ -25,7 +25,8 @@ try {
         'data-analytics.html',
         'outsourcing.html',
         'recruitment.html',
-        'training.html'
+        'training.html',
+        'digital-services.html'
     ];
     htmlFiles.forEach(file => {
         if (fs.existsSync(file)) {
