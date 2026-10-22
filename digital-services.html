@@ -1,627 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Nedhub Ghana's digital services platform: bulk SMS with sender IDs, scheduling and delivery reports; airtime and data bundles; DStv, GOtv and Startimes payments; ECG and Ghana Water bill payments; and a wallet with transaction history. Access the platform or chat on WhatsApp.">
-    <meta property="og:title" content="Bulk SMS &amp; Digital Services in Ghana | Nedhub Ghana">
-    <meta property="og:description" content="Send bulk SMS with delivery reports, buy airtime and data bundles, pay DStv, GOtv and Startimes subscriptions, and settle ECG and Ghana Water bills from one wallet-based platform.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.nedhubgh.com/digital-services.html">
-    <meta property="og:image" content="https://www.nedhubgh.com/Nedhublogo.PNG">
-    <meta property="og:site_name" content="Nedhub Ghana">
-    <meta name="twitter:card" content="summary_large_image">
-    <title>Bulk SMS &amp; Digital Services in Ghana | Nedhub Ghana</title>
-    <link rel="icon" type="image/png" href="Nedhubsymbol.PNG">
-    <link rel="canonical" href="https://www.nedhubgh.com/digital-services.html">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/privacy-modal.css">
-    <link rel="stylesheet" href="css/terms-modal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {"@type":"Question","name":"How do I get started on the Nedhub platform?","acceptedAnswer":{"@type":"Answer","text":"Create an account on the platform, verify your email address, top up your wallet, then request and wait for approval of a Sender ID before sending SMS."}},
-        {"@type":"Question","name":"How is SMS pricing calculated?","acceptedAnswer":{"@type":"Answer","text":"SMS cost depends on the number of recipients, message length (segments) and your account's configured rate. A cost calculator is available on the platform before you send. Rates are confirmed by Nedhub; see the pricing section and contact us for the current rate card."}},
-        {"@type":"Question","name":"Can I schedule SMS messages for later?","acceptedAnswer":{"@type":"Answer","text":"Yes. You can schedule a bulk SMS campaign for a future date and time. Funds are reserved when you schedule and deducted when the campaign is sent."}},
-        {"@type":"Question","name":"What happens if some messages fail to deliver?","acceptedAnswer":{"@type":"Answer","text":"Failed messages are reported in your delivery report and history. You can resend individual failed messages from the platform, subject to available wallet balance."}},
-        {"@type":"Question","name":"How do I top up my wallet?","acceptedAnswer":{"@type":"Answer","text":"Wallet top-up is initiated through the platform's payment flow, which redirects you to a secure checkout. Funds reflect in your wallet once payment is confirmed."}},
-        {"@type":"Question","name":"Which mobile networks are supported for airtime and data?","acceptedAnswer":{"@type":"Answer","text":"Airtime and data bundles are available for MTN, Telecel, AirtelTigo and Vodafone, as configured in the platform."}},
-        {"@type":"Question","name":"Which TV and utility providers are supported?","acceptedAnswer":{"@type":"Answer","text":"TV subscriptions for DStv, GOtv and Startimes, and utility payments for ECG (prepaid and postpaid) and Ghana Water."}},
-        {"@type":"Question","name":"How long does Sender ID approval take?","acceptedAnswer":{"@type":"Answer","text":"Sender ID requests are reviewed by the Nedhub team. Approval times are confirmed on request; contact us on WhatsApp for the current turnaround."}},
-        {"@type":"Question","name":"Can I use the platform through an API?","acceptedAnswer":{"@type":"Answer","text":"Yes. Registered users can create API keys (prefixed ndh_live_) to send SMS programmatically. API access is rate limited (default 60 requests per minute, configurable)."}},
-        {"@type":"Question","name":"What is the refund policy for failed payments?","acceptedAnswer":{"@type":"Answer","text":"Refund and reversal timing for failed or cancelled transactions is confirmed by Nedhub on request. Contact support on WhatsApp for the current policy."}}
-      ]
-    }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Nedhub Ghana's digital services platform: bulk SMS with sender IDs, scheduling and delivery reports; airtime and data bundles; DStv, GOtv and Startimes payments; ECG and Ghana Water bill payments; and a wallet with transaction history. Access the platform or chat on WhatsApp.">
+<meta property="og:title" content="Bulk SMS &amp; Digital Services in Ghana | Nedhub Ghana">
+<meta property="og:description" content="Send bulk SMS with delivery reports, buy airtime and data bundles, pay DStv, GOtv and Startimes subscriptions, and settle ECG and Ghana Water bills from one wallet-based platform.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.nedhubgh.com/digital-services.html">
+<meta property="og:image" content="https://www.nedhubgh.com/Nedhublogo.PNG">
+<meta property="og:site_name" content="Nedhub Ghana">
+<meta name="twitter:card" content="summary_large_image">
+<title>Bulk SMS &amp; Digital Services in Ghana | Nedhub Ghana</title>
+<link rel="icon" type="image/png" href="Nedhubsymbol.PNG">
+<link rel="canonical" href="https://www.nedhubgh.com/digital-services.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B132B;--navy-2:#1C2541;--orange:#F77F00;--orange-hover:#E56A00;
+  --paper:#F4F6F8;--white:#ffffff;--ink:#0B132B;--muted:#46526b;
+  --line:#dde3ec;--on-navy:#d3dbea;--green:#12a05c;--radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Manrope','Segoe UI',Tahoma,sans-serif;color:var(--ink);background:var(--white);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:4px}
+h1,h2,h3{line-height:1.12;letter-spacing:-.025em;color:inherit}
+h2{font-size:clamp(28px,3.6vw,42px);font-weight:800;margin-bottom:14px}
+h3{font-size:20px;font-weight:700;margin-bottom:8px}
+.lead{font-size:18px;color:var(--muted);max-width:62ch}
+section{padding:96px 0}
+
+/* header */
+.top{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30;backdrop-filter:saturate(180%) blur(8px)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:76px}
+.top img{height:40px}
+.top nav{display:flex;gap:20px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.top nav a{font-weight:600;font-size:15px;color:var(--navy);padding:6px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.top nav a:hover{color:var(--orange-hover)}
+.top nav a.cur{color:var(--navy);border-bottom-color:var(--orange)}
+@media(max-width:820px){.top .wrap{flex-wrap:wrap;padding-top:10px;padding-bottom:10px;min-height:auto}.top nav{width:100%;gap:14px;justify-content:flex-start}.top nav a{font-size:14px}}
+
+/* hero */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);color:var(--white);padding:96px 0 112px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.hero h1{font-size:clamp(38px,5.6vw,64px);font-weight:800;margin-bottom:24px;color:var(--white)}
+.hero p{color:var(--on-navy);font-size:19px;max-width:54ch;margin-bottom:36px}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero small{display:block;margin-top:22px;color:var(--on-navy);font-size:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 28px;border-radius:12px;font-weight:700;font-size:16px;border:2px solid transparent;transition:background .2s,color .2s,transform .15s;cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--orange);color:var(--navy)}
+.btn-primary:hover{background:var(--orange-hover);color:var(--navy)}
+.btn-ghost{border-color:#5b6a8c;color:var(--white);background:transparent}
+.btn-ghost:hover{background:var(--white);color:var(--navy);border-color:var(--white)}
+.btn-dark{background:var(--navy);color:var(--white)}
+.btn-dark:hover{background:var(--navy-2)}
+.phone{width:320px;max-width:100%;margin:0 auto;background:#050a1a;border-radius:46px;padding:14px;box-shadow:0 40px 80px rgba(0,0,0,.5),inset 0 0 0 2px #1a2340}
+.phone .notch{width:96px;height:22px;background:#050a1a;border-radius:0 0 16px 16px;margin:0 auto 8px}
+.screen{background:var(--white);border-radius:34px;padding:22px 18px 20px;color:var(--ink);min-height:360px}
+.screen .who{font-size:12.5px;font-weight:700;color:var(--muted);text-align:center;margin-bottom:16px;letter-spacing:.04em;text-transform:uppercase}
+.bub{background:#eef1f6;border-radius:18px 18px 18px 4px;padding:12px 15px;font-size:14.5px;line-height:1.45;margin-bottom:10px;color:var(--ink);max-width:86%}
+.bub.alt{background:var(--navy);color:var(--white);border-radius:18px 18px 4px 18px;margin-left:auto;margin-right:0}
+.status{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:#0a6b3d;margin:2px 0 14px}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--green);display:inline-block}
+.screen .meta{border-top:1px solid var(--line);padding-top:12px;font-size:12.5px;color:var(--muted)}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:48px}.phone{margin-top:8px}}
+
+/* services */
+.services{background:var(--white);color:var(--ink)}
+.services .lead{color:var(--muted)}
+.svc{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:44px}
+.card{background:var(--paper);border-radius:var(--radius);padding:30px 26px;border-top:4px solid var(--orange);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(11,19,43,.08)}
+.card svg{width:36px;height:36px;margin-bottom:18px;stroke:var(--navy);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card h3{color:var(--ink)}
+.card p{color:var(--muted);font-size:15.5px}
+@media(max-width:980px){.svc{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.svc{grid-template-columns:1fr}}
+
+/* bulk features */
+.bulk{background:var(--paper);color:var(--ink)}
+.bulk .lead{color:var(--muted)}
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px;margin-top:48px}
+.feat div{border-top:2px solid var(--navy);padding:22px 0 36px}
+.feat h3{color:var(--ink)}
+.feat p{color:var(--muted);font-size:15.5px}
+@media(max-width:900px){.feat{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.feat{grid-template-columns:1fr}}
+
+/* steps */
+.start{background:var(--white);color:var(--ink)}
+.start .lead{color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-top:48px;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding-top:72px}
+.steps li::before{content:counter(s);position:absolute;top:0;left:0;width:50px;height:50px;border-radius:50%;background:var(--navy);color:var(--white);font-weight:800;font-size:21px;display:grid;place-items:center;box-shadow:0 8px 16px rgba(11,19,43,.18)}
+.steps li::after{content:"";position:absolute;top:24px;left:62px;right:-14px;height:2px;background:var(--line)}
+.steps li:last-child::after{display:none}
+.steps h3{color:var(--ink)}
+.steps p{color:var(--muted);font-size:15.5px}
+@media(max-width:900px){.steps{grid-template-columns:1fr 1fr}.steps li::after{display:none}}
+@media(max-width:560px){.steps{grid-template-columns:1fr}}
+
+/* developers */
+.dev{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);color:var(--white)}
+.dev .lead{color:var(--on-navy)}
+.dev .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.dev h2{color:var(--white)}
+.dev ul{margin:24px 0 32px 22px;color:var(--on-navy)}
+.dev li{margin-bottom:10px;color:var(--on-navy)}
+.key{background:var(--navy-2);border:1px solid #33416b;border-radius:var(--radius);padding:30px;box-shadow:0 20px 40px rgba(0,0,0,.25)}
+.key b{display:block;font-size:13px;color:var(--on-navy);margin-bottom:6px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.key code{display:block;font-family:Consolas,Menlo,monospace;background:var(--navy);border-radius:10px;padding:14px 16px;font-size:15px;color:#ffc27a;margin-bottom:20px;overflow-x:auto;border:1px solid #33416b}
+.key .row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #33416b;padding:13px 0;font-size:15px;color:var(--on-navy)}
+.key .row span:last-child{color:var(--white);font-weight:700}
+@media(max-width:900px){.dev .wrap{grid-template-columns:1fr}}
+
+/* rates + responsible */
+.rates{background:var(--white);color:var(--ink)}
+.rates h2{color:var(--ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:40px}
+.box{border:2px solid var(--line);border-radius:var(--radius);padding:34px;background:var(--white);color:var(--ink)}
+.box.hl{border-color:var(--navy);background:var(--paper)}
+.box h3{color:var(--ink)}
+.box p{color:var(--muted);margin-bottom:20px}
+.box ul{margin-left:20px;color:var(--muted)}
+.box li{margin-bottom:8px;color:var(--muted)}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+
+/* faq */
+.faqsec{background:var(--paper);color:var(--ink)}
+.faqsec h2{color:var(--ink)}
+.faq{max-width:820px;margin-top:40px}
+details{border-bottom:1px solid var(--line);padding:6px 0}
+summary{cursor:pointer;font-weight:700;font-size:18px;padding:18px 40px 18px 0;list-style:none;position:relative;color:var(--ink)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:4px;top:14px;font-size:26px;font-weight:500;color:var(--orange-hover);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);padding:0 0 20px;max-width:64ch}
+
+/* closing cta */
+.close{background:var(--orange);color:var(--navy);text-align:center;padding:96px 0}
+.close h2{color:var(--navy);margin-bottom:14px}
+.close p{font-size:18px;max-width:56ch;margin:0 auto 32px;color:var(--navy)}
+.close .btn-dark{background:var(--navy);color:var(--white)}
+.close .btn-dark:hover{background:var(--navy-2)}
+
+/* footer */
+footer{background:var(--navy);color:var(--on-navy);padding:72px 0 32px;font-size:15px}
+.fg{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px}
+.fg .chip{background:var(--white);padding:8px 12px;border-radius:10px;display:inline-block;margin-bottom:16px}
+.fg .chip img{height:40px}
+footer h4{color:var(--white);margin-bottom:14px;font-size:16px;font-weight:700}
+footer p{color:var(--on-navy);max-width:34ch}
+footer ul{list-style:none}
+footer li{margin-bottom:8px;color:var(--on-navy)}
+footer a{color:var(--on-navy);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--orange)}
+.legal{border-top:1px solid #33416b;margin-top:44px;padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--on-navy)}
+@media(max-width:900px){.fg{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.fg{grid-template-columns:1fr}}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media(max-width:360px){.wrap{padding:0 16px}.hero h1{font-size:34px}}
+</style>
 </head>
 <body>
- <!-- Navigation will be loaded dynamically -->
-<nav id="main-nav" class="navbar">
-    <div class="container">
-        <div class="header-container">
-            <div class="header-top">
-                <a href="index.html" class="logo"><img src="Nedhublogo.PNG" alt="Nedhub Logo"></a>
-                <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
-                    <span class="hamburger"></span>
-                </button>
-            </div>
-            <div class="header-bottom">
-                <div class="mobile-nav-buttons">
-                    <a href="index.html" class="btn btn-primary">Home</a>
-                    <div class="mobile-services-dropdown">
-                        <button class="btn btn-primary mobile-services-btn" aria-expanded="false" aria-haspopup="true">
-                            <span class="services-text">Services</span>
-                            <span class="services-arrow">▼</span>
-                        </button>
-                        <div class="mobile-services-menu">
-                            <a href="services.html" class="mobile-service-link">All Services <span class="mobile-service-arrow"></span></a>
-                            <a href="recruitment.html" class="mobile-service-link">Recruitment & Talent Acquisition <span class="mobile-service-arrow"></span></a>
-                            <a href="outsourcing.html" class="mobile-service-link">Staff Outsourcing & Placement <span class="mobile-service-arrow"></span></a>
-                            <a href="training.html" class="mobile-service-link">Training & Capacity Building <span class="mobile-service-arrow"></span></a>
-                            <a href="career-coaching.html" class="mobile-service-link">Career Guidance & Coaching <span class="mobile-service-arrow"></span></a>
-                            <a href="data-analytics.html" class="mobile-service-link">Data Analytics <span class="mobile-service-arrow"></span></a>
-                        </div>
-                    </div>
-                    <a href="contact.html" class="btn btn-primary">Contact</a>
-                    <a href="digital-services.html" class="btn btn-primary">Digital Services App</a>
-                </div>
-            </div>
-        </div>
-        <ul id="nav-menu" class="nav-menu">
-            <li><a href="index.html" class="nav-link">Home</a></li>
-            <li><a href="about.html" class="nav-link">About Us</a></li>
-            <li class="dropdown">
-                <a href="services.html" class="nav-link">Services</a>
-                <ul class="dropdown-menu">
-                    <li><a href="recruitment.html">Recruitment & Talent Acquisition <span class="menu-arrow">→</span></a></li>
-                    <li><a href="outsourcing.html">Staff Outsourcing & Placement <span class="menu-arrow">→</span></a></li>
-                    <li><a href="training.html">Training & Capacity Building <span class="menu-arrow">→</span></a></li>
-                    <li><a href="career-coaching.html">Career Guidance & Coaching <span class="menu-arrow">→</span></a></li>
-                    <li><a href="data-analytics.html">Data Analytics <span class="menu-arrow">→</span></a></li>
-                </ul>
-            </li>
-            <li><a href="careers.html" class="nav-link">Careers</a></li>
-            <li><a href="cv-templates.html" class="nav-link">CV Templates</a></li>
-            <li><a href="contact.html" class="nav-link">Contact</a></li>
-            <li><a href="digital-services.html" class="nav-link active" aria-current="page">Digital Services App</a></li>
-        </ul>
+
+<header class="top">
+  <div class="wrap">
+    <a href="index.html" aria-label="Nedhub Ghana home"><img src="Nedhublogo.PNG" alt="Nedhub Ghana"></a>
+    <nav aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="services.html">Services</a>
+      <a href="careers.html">Careers</a>
+      <a href="cv-templates.html">CV Templates</a>
+      <a href="contact.html">Contact</a>
+      <a href="digital-services.html" class="cur" aria-current="page">Digital Services App</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <h1>Bulk SMS and everyday payments, from one wallet</h1>
+      <p>Message thousands of customers, buy airtime and data, pay for TV and settle ECG and Ghana Water bills. Top up once and use the same balance for all of it.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://app.nedhubgh.com">Open the platform</a>
+        <a class="btn btn-ghost" href="https://wa.me/233506288940/">Chat on WhatsApp</a>
+      </div>
+      <small>Need rates or a walkthrough? Message us and we will reply with details.</small>
     </div>
-</nav>
+    <div class="phone" role="img" aria-label="Sample bulk message with delivery status">
+      <div class="notch" aria-hidden="true"></div>
+      <div class="screen">
+        <div class="who">Sample message</div>
+        <div class="bub">Hello Ama, your order is ready for pickup today. Reply STOP to opt out.</div>
+        <div class="status"><i></i>Delivered</div>
+        <div class="bub alt">Thanks, I'll come by this afternoon.</div>
+        <div class="meta">Each message shows its delivery status in your reports.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <main id="main-content">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-background">
-                <img src="assets/images/lady1.jpg" alt="Business professional using a digital services platform on a laptop" class="hero-image">
-                <div class="hero-overlay"></div>
-                <div class="hero-gradient"></div>
-            </div>
-            <div class="container">
-                <div class="hero-content">
-                    <div class="hero-badge animate-fade-in-up delay-1">
-                        <span class="badge-icon">✦</span>
-                        <span>Bulk Messaging &amp; Digital Payments</span>
-                    </div>
-                    <h1 class="animate-fade-in-up delay-2">Bulk SMS &amp; <span class="highlight-text">Digital Services</span> for Ghanaian Businesses</h1>
-                    <p class="animate-fade-in-up delay-3">Send bulk SMS with delivery reports, buy airtime and data bundles, pay DStv, GOtv and Startimes subscriptions, and settle ECG and Ghana Water bills, all from one wallet-based platform.</p>
-                    <div class="hero-buttons animate-fade-in-up delay-4">
-                        <a href="https://app.nedhubgh.com" class="btn btn-primary btn-large btn-with-icon" target="_blank" rel="noopener noreferrer">
-                            <span class="btn-text">Access the Platform</span>
-                            <span class="btn-icon">→</span>
-                        </a>
-                        <a href="https://wa.me/233506288940/" class="btn btn-secondary btn-large btn-with-icon" target="_blank" rel="noopener noreferrer">
-                            <span class="btn-text">Chat on WhatsApp</span>
-                            <span class="btn-icon">→</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section class="services" id="services">
+  <div class="wrap">
+    <h2>Four services, one balance</h2>
+    <p class="lead">Fund your wallet, then spend it on whichever service you need that day.</p>
+    <div class="svc">
+      <div class="card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>
+        <h3>Bulk SMS</h3>
+        <p>Send one message to a whole contact list, now or at a time you schedule.</p>
+      </div>
+      <div class="card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
+        <h3>Airtime and data</h3>
+        <p>Top up MTN, Telecel and AirtelTigo numbers with airtime or data bundles.</p>
+      </div>
+      <div class="card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M9 3l3 3 3-3"/></svg>
+        <h3>TV subscriptions</h3>
+        <p>Renew DStv, GOtv and Startimes without leaving your dashboard.</p>
+      </div>
+      <div class="card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L5 14h6l-1 8 8-12h-6z"/></svg>
+        <h3>Utility bills</h3>
+        <p>Pay ECG and Ghana Water bills from the same wallet.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <!-- Services Grid Section -->
-        <section class="section">
-            <div class="container">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="section-title scroll-animate">What the Platform Does</h2>
-                    <p class="section-subtitle scroll-animate delay-1">Bulk messaging, airtime and data, TV subscriptions and utility payments, managed from one account and one wallet.</p>
-                </div>
-                <div class="grid-container">
-                    <div class="card scroll-animate delay-1">
-                        <div class="card-content">
-                            <div class="card-icon"><i class="fas fa-sms" aria-hidden="true"></i></div>
-                            <h3 class="card-title">Bulk SMS</h3>
-                            <p class="card-description">Send single or bulk SMS, schedule campaigns, manage contacts and groups, use templates, and track delivery per recipient.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-2">
-                        <div class="card-content">
-                            <div class="card-icon"><i class="fas fa-mobile-alt" aria-hidden="true"></i></div>
-                            <h3 class="card-title">Airtime &amp; Data</h3>
-                            <p class="card-description">Buy airtime and data bundles for MTN, Telecel, AirtelTigo and Vodafone directly from your wallet.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-3">
-                        <div class="card-content">
-                            <div class="card-icon"><i class="fas fa-tv" aria-hidden="true"></i></div>
-                            <h3 class="card-title">TV Subscriptions</h3>
-                            <p class="card-description">Pay for DStv, GOtv and Startimes using a smart card number.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-4">
-                        <div class="card-content">
-                            <div class="card-icon"><i class="fas fa-bolt" aria-hidden="true"></i></div>
-                            <h3 class="card-title">Utility Bills</h3>
-                            <p class="card-description">Pay ECG (prepaid and postpaid) and Ghana Water bills from your wallet.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section class="bulk" id="bulk-sms">
+  <div class="wrap">
+    <h2>Everything you need to run a bulk SMS campaign</h2>
+    <p class="lead">Built for businesses, schools, churches and organisations that message many people at once.</p>
+    <div class="feat">
+      <div><h3>Import your contacts</h3><p>Upload CSV or Excel files and sort numbers into groups, so each campaign reaches the right people.</p></div>
+      <div><h3>Personalise every message</h3><p>Insert names and other details automatically, and save templates for messages you send often.</p></div>
+      <div><h3>Schedule ahead</h3><p>Set a date and time, and your campaign goes out without you being online.</p></div>
+      <div><h3>Your own sender name</h3><p>Register a sender ID so recipients see your name. Each sender ID is reviewed and approved before you can use it.</p></div>
+      <div><h3>Delivery reports</h3><p>See which messages were delivered, track campaign results in analytics, and export reports.</p></div>
+      <div><h3>Opt-outs and resends</h3><p>Keep a blacklist of numbers that should not be messaged, and resend messages that failed.</p></div>
+    </div>
+    <p class="lead" style="margin-top:16px">Not sure what a message will cost? The cost calculator shows the number of SMS segments and the charge before you send.</p>
+  </div>
+</section>
 
-        <!-- Bulk SMS in detail -->
-        <section class="section" style="background:#f8fafc;">
-            <div class="container">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="section-title scroll-animate">Bulk SMS in Detail</h2>
-                    <p class="section-subtitle scroll-animate delay-1">Everything you need to run a proper SMS campaign, from sender ID to delivery report.</p>
-                </div>
-                <div class="grid-container">
-                    <div class="card scroll-animate delay-1">
-                        <div class="card-content">
-                            <h3 class="card-title">Sender IDs</h3>
-                            <p class="card-description">Register a custom Sender ID with supporting documents. It is reviewed by the Nedhub team and must be approved before you can send. You can resend a request if it is rejected.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-2">
-                        <div class="card-content">
-                            <h3 class="card-title">Single &amp; Bulk Send</h3>
-                            <p class="card-description">Send to one recipient or to a list. Recipients are deduplicated, invalid numbers are filtered, and blacklisted numbers are skipped automatically.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-3">
-                        <div class="card-content">
-                            <h3 class="card-title">Scheduling</h3>
-                            <p class="card-description">Schedule a campaign for a future date and time. Funds are reserved at scheduling time and deducted when the campaign runs.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-4">
-                        <div class="card-content">
-                            <h3 class="card-title">Resend Failed Messages</h3>
-                            <p class="card-description">Any message that fails can be resent individually from your history, subject to available wallet balance.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-1">
-                        <div class="card-content">
-                            <h3 class="card-title">Contact Groups &amp; Import</h3>
-                            <p class="card-description">Organise contacts into groups. Import contacts from CSV, Excel (XLS/XLSX), VCF or TXT files with automatic column detection, with a preview before import.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-2">
-                        <div class="card-content">
-                            <h3 class="card-title">Templates &amp; Personalisation</h3>
-                            <p class="card-description">Save message templates and reuse them. Messages support personalisation (merge fields) so each recipient can receive a tailored message.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-3">
-                        <div class="card-content">
-                            <h3 class="card-title">Opt-Out / Blacklist</h3>
-                            <p class="card-description">Numbers can be added to a blacklist with a reason. Blacklisted numbers are excluded from sends automatically. You can remove a number from the blacklist at any time.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-4">
-                        <div class="card-content">
-                            <h3 class="card-title">Delivery Reports &amp; Analytics</h3>
-                            <p class="card-description">Per-recipient status (sent, delivered, failed), campaign summaries, analytics charts and exportable reports (CSV/Excel) for your records.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-1">
-                        <div class="card-content">
-                            <h3 class="card-title">Cost Calculator</h3>
-                            <p class="card-description">Estimate the cost of a message before sending, based on recipient count and message length (segments). A maximum of 10 segments per message applies.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-2">
-                        <div class="card-content">
-                            <h3 class="card-title">Message History</h3>
-                            <p class="card-description">Searchable history of every message you have sent, with status, recipient, sender ID and timestamp.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section class="start" id="start">
+  <div class="wrap">
+    <h2>Getting started</h2>
+    <p class="lead">Most people are ready to send within one session.</p>
+    <ol class="steps">
+      <li><h3>Create an account</h3><p>Register on the platform and confirm your email address.</p></li>
+      <li><h3>Request a sender ID</h3><p>Submit the name you want recipients to see. You can start planning your campaign while it is reviewed.</p></li>
+      <li><h3>Top up your wallet</h3><p>Add funds from your dashboard. The same balance pays for SMS, airtime, data, TV and bills.</p></li>
+      <li><h3>Send or pay</h3><p>Compose a campaign, buy a bundle or pay a bill, then check the status in your history.</p></li>
+    </ol>
+  </div>
+</section>
 
-        <!-- Developer API -->
-        <section class="section">
-            <div class="container">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="section-title scroll-animate">Developer API</h2>
-                    <p class="section-subtitle scroll-animate delay-1">Send SMS programmatically from your own application.</p>
-                </div>
-                <div class="card" style="max-width:800px;margin:0 auto;">
-                    <div class="card-content">
-                        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:0.75rem;">
-                            <li><strong>Authentication:</strong> create API keys from your account dashboard. Keys use the prefix <code>ndh_live_</code>.</li>
-                            <li><strong>Usage:</strong> send SMS via the same platform pipeline, including sender ID validation, balance checks and delivery tracking.</li>
-                            <li><strong>Rate limit:</strong> default 60 requests per minute per key (configurable by the platform).</li>
-                            <li><strong>Management:</strong> list and revoke your API keys at any time.</li>
-                        </ul>
-                        <p style="margin-top:1rem;font-size:0.9rem;color:var(--text-light);">API documentation is provided on the platform after you sign in. If you need integration help, contact us on WhatsApp.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section class="dev" id="api">
+  <div class="wrap">
+    <div>
+      <h2>Send from your own app</h2>
+      <p class="lead">Connect your website, shop or internal system to the platform with an API key.</p>
+      <ul>
+        <li>Create and revoke API keys in your account settings.</li>
+        <li>Keys are tied to your wallet, so usage is billed the same way as the dashboard.</li>
+        <li>Requests are rate limited to protect your account.</li>
+      </ul>
+      <a class="btn btn-primary" href="https://wa.me/233506288940/">Ask for API documentation</a>
+    </div>
+    <div class="key" role="img" aria-label="Example API key and rate limit">
+      <b>Example API key</b>
+      <code>ndh_live_••••••••</code>
+      <div class="row"><span>Default rate limit</span><span>60 requests per minute</span></div>
+      <div class="row"><span>Key control</span><span>Revoke anytime</span></div>
+    </div>
+  </div>
+</section>
 
-        <!-- Wallet and payments -->
-        <section class="section" style="background:#f8fafc;">
-            <div class="container">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="section-title scroll-animate">Wallet &amp; Payments</h2>
-                    <p class="section-subtitle scroll-animate delay-1">One wallet funds every service on the platform.</p>
-                </div>
-                <div class="grid-container">
-                    <div class="card scroll-animate delay-1">
-                        <div class="card-content">
-                            <h3 class="card-title">Top Up</h3>
-                            <p class="card-description">Fund your wallet through the platform's secure checkout flow. You are redirected to the payment page and returned to the platform once payment is confirmed.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-2">
-                        <div class="card-content">
-                            <h3 class="card-title">Balance &amp; History</h3>
-                            <p class="card-description">View your current balance, available balance, reserved amounts (for scheduled campaigns) and a full transaction history with reference numbers.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-3">
-                        <div class="card-content">
-                            <h3 class="card-title">How Deductions Work</h3>
-                            <p class="card-description">Each send or payment is checked against your available balance before it runs. If a provider call fails, the amount is restored to your wallet and the transaction is marked failed.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-4">
-                        <div class="card-content">
-                            <h3 class="card-title">Confirmation</h3>
-                            <p class="card-description">Airtime, data, TV and utility payments are confirmed by the payment provider. Status can be checked from your transaction history; pending transactions are reconciled automatically.</p>
-                        </div>
-                    </div>
-                </div>
-                <p style="text-align:center;margin-top:1.5rem;font-size:0.9rem;color:var(--text-light);">Accepted payment methods and refund timing: <strong>[PRICING/PAYMENT DETAILS TO BE CONFIRMED BY OWNER]</strong>.</p>
-            </div>
-        </section>
+<section class="rates" id="rates">
+  <div class="wrap">
+    <h2>Rates and responsible use</h2>
+    <div class="two">
+      <div class="box hl">
+        <h3>Pay from your wallet</h3>
+        <p>You only pay for what you use. Contact us for current SMS rates, bundle prices and any fees on bill payments.</p>
+        <a class="btn btn-dark" href="https://wa.me/233506288940/">Ask for rates</a>
+      </div>
+      <div class="box">
+        <h3>Message people who expect to hear from you</h3>
+        <ul>
+          <li>Only send to people who agreed to receive your messages.</li>
+          <li>Include a clear way to opt out, and add those numbers to your blacklist.</li>
+          <li>Do not send misleading, abusive or unlawful content.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <!-- Airtime, data, TV, utility -->
-        <section class="section">
-            <div class="container">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="section-title scroll-animate">Airtime, Data, TV &amp; Utility Payments</h2>
-                    <p class="section-subtitle scroll-animate delay-1">Pay everyday bills straight from your wallet.</p>
-                </div>
-                <div class="grid-container">
-                    <div class="card scroll-animate delay-1">
-                        <div class="card-content">
-                            <h3 class="card-title">Airtime</h3>
-                            <p class="card-description">Buy airtime for any phone number on MTN, Telecel, AirtelTigo or Vodafone. Minimum GHS 1.00 per transaction.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-2">
-                        <div class="card-content">
-                            <h3 class="card-title">Data Bundles</h3>
-                            <p class="card-description">Buy data bundles for MTN, Telecel and AirtelTigo, with a range of sizes and validity periods shown on the platform.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-3">
-                        <div class="card-content">
-                            <h3 class="card-title">TV Subscriptions</h3>
-                            <p class="card-description">Pay DStv, GOtv and Startimes using a smart card number, with the available packages shown on the platform (minimum GHS 10.00).</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-4">
-                        <div class="card-content">
-                            <h3 class="card-title">Utility Bills</h3>
-                            <p class="card-description">Pay ECG (prepaid and postpaid meters) and Ghana Water bills using a meter number (minimum GHS 5.00).</p>
-                        </div>
-                    </div>
-                </div>
-                <p style="text-align:center;margin-top:1.5rem;font-size:0.9rem;color:var(--text-light);">Delivery of airtime, data, TV and utility payments depends on the payment provider and may take a few moments. [PROVIDER SLA TO BE CONFIRMED BY OWNER]</p>
-            </div>
-        </section>
+<section class="faqsec" id="faq">
+  <div class="wrap">
+    <h2>Frequently asked questions</h2>
+    <div class="faq" id="faq-list">
+      <details><summary>How do I start sending bulk SMS?</summary><p>Create an account, confirm your email, top up your wallet and compose your first campaign. If you want your own sender name, request a sender ID first.</p></details>
+      <details><summary>Can I import my contact list?</summary><p>Yes. You can upload CSV or Excel files and organise your contacts into groups.</p></details>
+      <details><summary>Can I personalise messages and save templates?</summary><p>Yes. Messages can include details such as the recipient's name, and templates let you reuse wording you send often.</p></details>
+      <details><summary>Can I schedule a campaign for later?</summary><p>Yes. Choose a date and time and the campaign is sent automatically.</p></details>
+      <details><summary>Do I need a sender ID?</summary><p>A sender ID lets recipients see your name instead of a number. Each request is reviewed and approved before it can be used.</p></details>
+      <details><summary>Which networks can I buy airtime and data for?</summary><p>MTN, Telecel and AirtelTigo.</p></details>
+      <details><summary>Which TV and utility payments are supported?</summary><p>DStv, GOtv and Startimes subscriptions, plus ECG and Ghana Water bills.</p></details>
+      <details><summary>What happens if an airtime, data or bill payment fails?</summary><p>The amount is returned to your wallet, and the transaction shows as failed in your history. If something looks wrong, message us on WhatsApp with the transaction details.</p></details>
+      <details><summary>Can I connect my own system?</summary><p>Yes. You can create API keys in your account settings. Message us for the documentation.</p></details>
+      <details><summary>How do I get current rates or support?</summary><p>Message us on WhatsApp at +233 50 628 8940 or call +233 271 177 321.</p></details>
+    </div>
+  </div>
+</section>
 
-        <!-- Pricing -->
-        <section class="section" style="background:#f8fafc;">
-            <div class="container">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="section-title scroll-animate">Pricing</h2>
-                    <p class="section-subtitle scroll-animate delay-1">Transparent, pay-as-you-go pricing from your wallet. Rates are confirmed by Nedhub before you commit.</p>
-                </div>
-                <div style="max-width:720px;margin:0 auto;">
-                    <table style="width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
-                        <thead>
-                            <tr style="background:var(--primary-dark);color:#fff;">
-                                <th style="padding:14px 18px;text-align:left;font-size:0.95rem;">Service</th>
-                                <th style="padding:14px 18px;text-align:left;font-size:0.95rem;">Unit</th>
-                                <th style="padding:14px 18px;text-align:left;font-size:0.95rem;">Rate</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="border-bottom:1px solid #e8ecf0;">
-                                <td style="padding:14px 18px;">Bulk SMS</td>
-                                <td style="padding:14px 18px;">per SMS segment</td>
-                                <td style="padding:14px 18px;">[PRICING TO BE CONFIRMED]</td>
-                            </tr>
-                            <tr style="border-bottom:1px solid #e8ecf0;">
-                                <td style="padding:14px 18px;">Airtime</td>
-                                <td style="padding:14px 18px;">face value + fees</td>
-                                <td style="padding:14px 18px;">[PRICING TO BE CONFIRMED]</td>
-                            </tr>
-                            <tr style="border-bottom:1px solid #e8ecf0;">
-                                <td style="padding:14px 18px;">Data bundles</td>
-                                <td style="padding:14px 18px;">per bundle</td>
-                                <td style="padding:14px 18px;">[PRICING TO BE CONFIRMED]</td>
-                            </tr>
-                            <tr style="border-bottom:1px solid #e8ecf0;">
-                                <td style="padding:14px 18px;">TV subscriptions</td>
-                                <td style="padding:14px 18px;">per package</td>
-                                <td style="padding:14px 18px;">[PRICING TO BE CONFIRMED]</td>
-                            </tr>
-                            <tr>
-                                <td style="padding:14px 18px;">Utility bills</td>
-                                <td style="padding:14px 18px;">bill amount</td>
-                                <td style="padding:14px 18px;">[PRICING TO BE CONFIRMED]</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p style="text-align:center;margin-top:1rem;font-size:0.9rem;color:var(--text-light);">No invented rates are shown. Contact us on WhatsApp for the current rate card, and the cost calculator on the platform shows your exact cost before you send.</p>
-                </div>
-            </div>
-        </section>
+<section class="close">
+  <div class="wrap">
+    <h2>Ready to send your first campaign?</h2>
+    <p>Open the platform to create your account, or chat with our team if you would like help getting set up.</p>
+    <a class="btn btn-dark" href="https://app.nedhubgh.com">Open the platform</a>
+  </div>
+</section>
+</main>
 
-        <!-- Getting started -->
-        <section class="section">
-            <div class="container">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="section-title scroll-animate">Getting Started</h2>
-                    <p class="section-subtitle scroll-animate delay-1">From sign-up to your first SMS in a few steps.</p>
-                </div>
-                <div class="process-steps">
-                    <div class="process-step scroll-animate">
-                        <div class="step-number">1</div>
-                        <div class="step-icon"><i class="fas fa-user-plus" aria-hidden="true"></i></div>
-                        <h3>Create an account</h3>
-                        <p>Register with your name, email and phone number, then verify your email address with the code we send you.</p>
-                    </div>
-                    <div class="process-step scroll-animate delay-1">
-                        <div class="step-number">2</div>
-                        <div class="step-icon"><i class="fas fa-wallet" aria-hidden="true"></i></div>
-                        <h3>Top up your wallet</h3>
-                        <p>Fund your wallet through the secure checkout so you can pay for messages and bills.</p>
-                    </div>
-                    <div class="process-step scroll-animate delay-2">
-                        <div class="step-number">3</div>
-                        <div class="step-icon"><i class="fas fa-id-card" aria-hidden="true"></i></div>
-                        <h3>Request a Sender ID</h3>
-                        <p>Submit a custom Sender ID with supporting documents. It is reviewed and approved by the Nedhub team before you can send.</p>
-                    </div>
-                    <div class="process-step scroll-animate delay-3">
-                        <div class="step-number">4</div>
-                        <div class="step-icon"><i class="fas fa-paper-plane" aria-hidden="true"></i></div>
-                        <h3>Send or pay</h3>
-                        <p>Send single or bulk SMS, schedule campaigns, buy airtime and data, and pay TV and utility bills from your wallet.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <div class="chip"><img src="Nedhubsymbol.PNG" alt="Nedhub Ghana"></div>
+        <p>Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
+      </div>
+      <div><h4>Quick links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h4>Our services</h4><ul><li><a href="recruitment.html">Recruitment</a></li><li><a href="training.html">Training</a></li><li><a href="data-analytics.html">Data Analytics</a></li><li><a href="digital-services.html">Digital Services</a></li></ul></div>
+      <div><h4>Contact us</h4><ul><li>Phone: <a href="tel:+233271177321">+233 271 177 321</a></li><li>WhatsApp: <a href="https://wa.me/233506288940/">+233 50 628 8940</a></li><li>Roman Ridge, Accra, Ghana</li><li><a href="https://www.facebook.com/profile.php?id=61587433270353">Facebook</a> · <a href="https://www.instagram.com/nedhubgh?igsh=cHRkbjl6anpzZGsz">Instagram</a> · <a href="https://www.linkedin.com/company/hr-klinic/">LinkedIn</a></li></ul></div>
+    </div>
+    <div class="legal">
+      <span>© 2026 Nedhub Ghana. All rights reserved.</span>
+      <span><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Cookie Policy</a></span>
+    </div>
+  </div>
+</footer>
 
-        <!-- Responsible use -->
-        <section class="section" style="background:#f8fafc;">
-            <div class="container">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="section-title scroll-animate">Responsible Use</h2>
-                    <p class="section-subtitle scroll-animate delay-1">SMS should only be sent to people who expect to hear from you.</p>
-                </div>
-                <div class="card" style="max-width:800px;margin:0 auto;">
-                    <div class="card-content">
-                        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:0.75rem;">
-                            <li><i class="fas fa-check" style="color:var(--accent-orange);margin-right:8px;" aria-hidden="true"></i> Send only to recipients who have consented to receive your messages.</li>
-                            <li><i class="fas fa-check" style="color:var(--accent-orange);margin-right:8px;" aria-hidden="true"></i> Honour opt-outs: numbers on your blacklist are excluded from every send.</li>
-                            <li><i class="fas fa-check" style="color:var(--accent-orange);margin-right:8px;" aria-hidden="true"></i> Do not send spam, phishing, fraudulent or unlawful content, or content that breaches Ghanaian law or telecom rules.</li>
-                            <li><i class="fas fa-check" style="color:var(--accent-orange);margin-right:8px;" aria-hidden="true"></i> Keep your Sender ID and account credentials secure and do not share them.</li>
-                            <li><i class="fas fa-check" style="color:var(--accent-orange);margin-right:8px;" aria-hidden="true"></i> The platform deduplicates recipients and blocks blacklisted numbers automatically to reduce waste and complaints.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Security and privacy -->
-        <section class="section">
-            <div class="container">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="section-title scroll-animate">Security &amp; Privacy</h2>
-                    <p class="section-subtitle scroll-animate delay-1">Factual, and only what the platform actually does.</p>
-                </div>
-                <div class="grid-container">
-                    <div class="card scroll-animate delay-1">
-                        <div class="card-content">
-                            <h3 class="card-title">Account Security</h3>
-                            <p class="card-description">Passwords are hashed, sessions use signed tokens, and API keys are stored hashed and can be revoked. Login and sensitive actions are protected.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-2">
-                        <div class="card-content">
-                            <h3 class="card-title">Email Verification</h3>
-                            <p class="card-description">New accounts verify their email address with a one-time code before activation. Password reset is also done by one-time code sent to your email.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-3">
-                        <div class="card-content">
-                            <h3 class="card-title">Data Handling</h3>
-                            <p class="card-description">Your contacts, messages and transaction records are stored against your account. We do not sell your data. See the Privacy Policy for full details.</p>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-4">
-                        <div class="card-content">
-                            <h3 class="card-title">Audit Trail</h3>
-                            <p class="card-description">Administrative actions such as wallet adjustments and Sender ID approvals are logged for accountability.</p>
-                        </div>
-                    </div>
-                </div>
-                <p style="text-align:center;margin-top:1.5rem;font-size:0.9rem;color:var(--text-light);">The Privacy Policy, Terms of Service and Cookie Policy links in the footer currently open as modals on this site. Dedicated legal pages are recommended before promoting the wallet to the public. [LEGAL PAGES TO BE CONFIRMED BY OWNER]</p>
-            </div>
-        </section>
-
-        <!-- FAQ -->
-        <section class="faq-section">
-            <div class="container">
-                <div class="section-header centered">
-                    <span class="section-badge"><i class="fas fa-question-circle"></i> Need Help?</span>
-                    <h2>Frequently Asked Questions</h2>
-                    <p class="section-description">Answers to the questions people ask before signing up.</p>
-                </div>
-                <div class="faq-accordion">
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false"><span>How do I get started on the Nedhub platform?</span><span class="faq-toggle"><i class="fas fa-plus"></i></span></button>
-                        <div class="faq-answer"><p>Create an account, verify your email address, top up your wallet, then request and wait for approval of a Sender ID before sending SMS.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false"><span>How is SMS pricing calculated?</span><span class="faq-toggle"><i class="fas fa-plus"></i></span></button>
-                        <div class="faq-answer"><p>SMS cost depends on the number of recipients, message length (segments) and your account's configured rate. A cost calculator is available on the platform before you send. Contact us for the current rate card.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false"><span>Can I schedule SMS messages for later?</span><span class="faq-toggle"><i class="fas fa-plus"></i></span></button>
-                        <div class="faq-answer"><p>Yes. You can schedule a bulk SMS campaign for a future date and time. Funds are reserved when you schedule and deducted when the campaign runs.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false"><span>What happens if some messages fail to deliver?</span><span class="faq-toggle"><i class="fas fa-plus"></i></span></button>
-                        <div class="faq-answer"><p>Failed messages are reported in your delivery report and history. You can resend individual failed messages from the platform, subject to available wallet balance.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false"><span>How do I top up my wallet?</span><span class="faq-toggle"><i class="fas fa-plus"></i></span></button>
-                        <div class="faq-answer"><p>Wallet top-up is initiated through the platform's payment flow, which redirects you to a secure checkout. Funds reflect in your wallet once payment is confirmed.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false"><span>Which mobile networks are supported for airtime and data?</span><span class="faq-toggle"><i class="fas fa-plus"></i></span></button>
-                        <div class="faq-answer"><p>Airtime and data bundles are available for MTN, Telecel, AirtelTigo and Vodafone, as configured in the platform.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false"><span>Which TV and utility providers are supported?</span><span class="faq-toggle"><i class="fas fa-plus"></i></span></button>
-                        <div class="faq-answer"><p>TV subscriptions for DStv, GOtv and Startimes, and utility payments for ECG (prepaid and postpaid) and Ghana Water.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false"><span>How long does Sender ID approval take?</span><span class="faq-toggle"><i class="fas fa-plus"></i></span></button>
-                        <div class="faq-answer"><p>Sender ID requests are reviewed by the Nedhub team. Approval times are confirmed on request; contact us on WhatsApp for the current turnaround.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false"><span>Can I use the platform through an API?</span><span class="faq-toggle"><i class="fas fa-plus"></i></span></button>
-                        <div class="faq-answer"><p>Yes. Registered users can create API keys (prefixed ndh_live_) to send SMS programmatically. API access is rate limited (default 60 requests per minute, configurable).</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false"><span>What is the refund policy for failed payments?</span><span class="faq-toggle"><i class="fas fa-plus"></i></span></button>
-                        <div class="faq-answer"><p>Refund and reversal timing for failed or cancelled transactions is confirmed by Nedhub on request. Contact support on WhatsApp for the current policy.</p></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Support -->
-        <section class="section" style="background:#f8fafc;">
-            <div class="container">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="section-title scroll-animate">Support</h2>
-                    <p class="section-subtitle scroll-animate delay-1">Talk to a person, not a bot.</p>
-                </div>
-                <div class="grid-container" style="max-width:720px;margin:0 auto;">
-                    <div class="card scroll-animate delay-1">
-                        <div class="card-content">
-                            <h3 class="card-title">WhatsApp</h3>
-                            <p class="card-description">Chat with our team for account, Sender ID, payment and integration questions.</p>
-                            <a href="https://wa.me/233506288940/" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
-                        </div>
-                    </div>
-                    <div class="card scroll-animate delay-2">
-                        <div class="card-content">
-                            <h3 class="card-title">Phone</h3>
-                            <p class="card-description">Call us during business hours (Monday to Friday, 9:00 AM to 5:00 PM; Saturday 10:00 AM to 2:00 PM; Sunday closed).</p>
-                            <a href="tel:+233271177321" class="btn btn-secondary">+233 271 177 321</a>
-                        </div>
-                    </div>
-                </div>
-                <p style="text-align:center;margin-top:1.5rem;font-size:0.9rem;color:var(--text-light);">Office: Roman Ridge, Accra, Ghana.</p>
-            </div>
-        </section>
-
-        <!-- Closing CTA -->
-        <section class="cta-section">
-            <div class="container">
-                <h2>Ready to get started?</h2>
-                <p>Access the Nedhub platform to send bulk messages and handle your everyday payments, or chat with our team on WhatsApp.</p>
-                <a href="https://app.nedhubgh.com" class="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">Access the Platform</a>
-            </div>
-        </section>
-    </main>
-
-    <!-- Floating WhatsApp Contact Button -->
-    <a href="https://wa.me/233506288940/" class="floating-whatsapp" target="_blank" aria-label="Chat on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-        <span class="whatsapp-tooltip">Chat with us</span>
-    </a>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <a href="index.html" class="footer-logo"><img src="Nedhubsymbol.PNG" alt="Nedhub Symbol"></a>
-                    <p>Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-services">
-                    <h4>Our Services</h4>
-                    <ul>
-                        <li><a href="recruitment.html">Recruitment</a></li>
-                        <li><a href="training.html">Training</a></li>
-                        <li><a href="data-analytics.html">Data Analytics</a></li>
-                        <li><a href="digital-services.html">Digital Services</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contact Us</h4>
-                    <p>Phone: <a href="tel:+233271177321">+233 271 177 321</a></p>
-                    <p>Location: Roman Ridge, Accra, Ghana</p>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/profile.php?id=61587433270353" target="_blank" aria-label="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/nedhubgh?igsh=cHRkbjl6anpzZGsz" target="_blank" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://wa.me/233506288940/" target="_blank" aria-label="WhatsApp">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/company/hr-klinic/" target="_blank" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom"><div class="footer-bottom-content"><p>&copy; 2026 Nedhub Ghana. All rights reserved.</p><p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Cookie Policy</a></p></div></div></div></footer>
-
-    <script src="js/main.js" type="module"></script>
-    <script src="js/animations.js" type="module"></script>
-    <script src="js/navigation.js"></script>
-    <script src="js/privacy-modal.js"></script>
-    <script src="js/terms-modal.js"></script>
-    <script src="js/developer-credits.js"></script>
+<script>
+(function(){
+  var items=[].slice.call(document.querySelectorAll('#faq-list details')).map(function(d){
+    return {"@type":"Question","name":d.querySelector('summary').textContent.trim(),
+      "acceptedAnswer":{"@type":"Answer","text":d.querySelector('p').textContent.trim()}};
+  });
+  var s=document.createElement('script');s.type='application/ld+json';
+  s.text=JSON.stringify({"@context":"https://schema.org","@type":"FAQPage","mainEntity":items});
+  document.head.appendChild(s);
+})();
+</script>
 </body>
 </html>
