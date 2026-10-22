@@ -166,6 +166,14 @@ footer a:hover{color:var(--orange)}
 @media(max-width:900px){.fg{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.fg{grid-template-columns:1fr}}
 
+/* developer credit */
+.dev-credit{text-align:center;padding:22px 16px 10px}
+.dev-credit a{text-decoration:none;display:inline-flex;flex-direction:column;align-items:center;gap:10px;color:#d3dbea}
+.dev-credit a:hover{color:#F77F00}
+.dev-credit-logo{height:36px;width:auto;border-radius:4px;display:block}
+.dev-credit-text{margin:0;font-size:14px;letter-spacing:0.08em;color:#d3dbea;font-weight:500;font-family:Manrope,'Segoe UI',Tahoma,sans-serif}
+.dev-credit a:hover .dev-credit-text{color:#F77F00}
+
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 @media(max-width:360px){.wrap{padding:0 16px}.hero h1{font-size:34px}}
 </style>
@@ -352,6 +360,12 @@ footer a:hover{color:var(--orange)}
     <div class="legal">
       <span>© 2026 Nedhub Ghana. All rights reserved.</span>
       <span><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Cookie Policy</a></span>
+    </div>
+    <div class="dev-credit">
+      <a href="https://www.dromornarh.com/" target="_blank" rel="noopener noreferrer">
+        <img src="assets/images/dhronetechlogo.jpg" alt="DhroneTech Solutions" class="dev-credit-logo">
+        <p class="dev-credit-text">Developed by Dromor Narh for DhroneTech Solutions</p>
+      </a>
     </div>
   </div>
 </footer>
