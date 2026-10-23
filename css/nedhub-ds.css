@@ -294,3 +294,29 @@
   .ds-summary::after { transform: none !important; }
 }
 
+
+/* ---------- .ds-page wrapper (scoped resets for styles.css bare elements) ---------- */
+.ds-page { font-family: var(--ds-font); color: var(--ds-ink); background-color: var(--ds-white); margin: 0; }
+.ds-page h1, .ds-page h2, .ds-page h3, .ds-page h4, .ds-page h5, .ds-page h6 { font-family: var(--ds-font); color: var(--ds-ink); margin-bottom: 0; background: none; -webkit-text-fill-color: currentColor; text-transform: none; letter-spacing: -0.02em; }
+.ds-page h1 { font-size: clamp(32px, 9vw, 56px); font-weight: 800; line-height: 1.1; }
+.ds-page h2 { font-size: clamp(26px, 6vw, 40px); font-weight: 800; line-height: 1.15; }
+.ds-page h2::after { display: none; }
+.ds-page h3 { font-size: clamp(20px, 4.5vw, 28px); font-weight: 800; color: var(--ds-ink); }
+.ds-page h4 { font-size: clamp(17px, 4vw, 22px); font-weight: 700; color: var(--ds-ink); }
+.ds-page p { color: var(--ds-muted); font-family: var(--ds-font); margin-bottom: 0; font-size: 16px; line-height: 1.6; }
+.ds-page a { color: var(--ds-orange); text-decoration: none; }
+.ds-page a::after { display: none; }
+.ds-page img { max-width: 100%; height: auto; display: block; }
+.ds-page section { padding: 0; }
+.ds-page ul, .ds-page ol { margin: 0; padding: 0; }
+.ds-page .hero { background-color: var(--ds-navy); background-image: none; min-height: auto; padding: 0; }
+.ds-page .counter-plus { color: var(--ds-orange); font-weight: 800; margin-left: 4px; }
+
+.ds-page .carousel-dot { width: 10px; height: 10px; border-radius: var(--ds-radius-pill); border: none; background-color: var(--ds-line); cursor: pointer; padding: 0; transition: background-color 0.2s ease, width 0.2s ease; }
+.ds-page .carousel-dot.active { background-color: var(--ds-orange); width: 26px; }
+
+.ds-page :focus-visible { outline: var(--ds-focus); outline-offset: var(--ds-focus-offset); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-page .carousel-dot { transition: none; }
+}
