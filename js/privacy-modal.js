@@ -138,7 +138,7 @@ class PrivacyPolicyModal {
                             <p>If you have any questions about this Privacy Policy or our data practices, please contact us:</p>
                             <div class="contact-info">
                                 <p><strong>Nedhub Ghana</strong></p>
-                                <p>📧 Email: privacy@nedhub.com</p>
+                                <p>📧 Email: privacy@nedhubgh.com</p>
                                 <p>📞 Phone: +233 271 177 321</p>
                                 <p>📍 Address: Roman Ridge, Accra, Ghana</p>
                             </div>

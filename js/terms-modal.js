@@ -177,7 +177,7 @@ class TermsOfServiceModal {
                             <p>For questions about these Terms of Service, please contact us:</p>
                             <div class="terms-contact-info">
                                 <p><strong>Nedhub Ghana</strong></p>
-                                <p>📧 Email: legal@nedhub.com</p>
+                                <p>📧 Email: legal@nedhubgh.com</p>
                                 <p>📞 Phone: +233 271 177 321</p>
                                 <p>📍 Address: Roman Ridge, Accra, Ghana</p>
                             </div>
