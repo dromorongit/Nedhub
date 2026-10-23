@@ -31,31 +31,31 @@ Prepared for premium redesign. Read-only audit; no site files modified. Report o
 
 ### index.html
 - **Purpose:** Home page for prospective clients/employers. Hero, core services grid, "why choose", featured solutions, digital preview, trust/logos, counters, how-it-works, testimonials, latest jobs, CTA.
-- **Sections (in order):** Hero (badge, h1 "Transform Your Business...", p, buttons, stats 500+/1200+/98%); Service Highlights (6 image cards → service pages); Why Choose Nedhub (4 image cards + stats); Featured Solutions (2 image cards); Digital Services Platform Preview; Trust & Social Proof (logo carousel empty, counters 500/1200/350/98, badges); How It Works (4 steps); Testimonials carousel (3 quotes: Abena Kofi/TechCorp, Kwame Osei/Prime Industries, Yaw Mensah/GlobalTech); Latest Jobs (fetched into #homepage-jobs); CTA "Ready to Transform".
+- **Sections (in order):** Hero (badge, h1 "Transform Your Business...", p, buttons, stats 200+/500+/95%); Service Highlights (6 image cards → service pages); Why Choose Nedhub (4 image cards + stats); Featured Solutions (2 image cards); Digital Services Platform Preview; Trust & Social Proof (logo carousel empty, counters 200/500/350/95, badges); How It Works (4 steps); Testimonials carousel (3 quotes: Abena Kofi/TechCorp, Kwame Osei/Prime Industries, Yaw Mensah/GlobalTech); Latest Jobs (fetched into #homepage-jobs); CTA "Ready to Transform".
 - **Content to preserve:** headline copy, service card titles, testimonial quotes + authors, counter targets (500, 1200, 350, 98), "Trusted by 200+ Companies" badge.
 - **Interactive:** testimonial carousel (prev/next/dots, auto 5s, swipe, keyboard) in js/animations.js; animated counters in js/animations.js; scroll animations; hiring widget (#hiring-widget, count from jobs API) in js/jobs.js; jobs fetch from https://nedhub-production.up.railway.app/api/careers/jobs (js/jobs.js).
 - **Data sources:** hard-coded content + remote jobs API (Railway). Remote images (Unsplash). Local images assets/images/lady1.jpg, lady2.jpg, Nedhubsymbol.PNG.
 - **Images/media:** Unsplash URLs (w=1920/800) — remote, no local fallback; assets/images/lady1.jpg, lady2.jpg (local, ~57/48 KB). No alt issues except none noted. Needs visual check for load failures.
 - **CSS:** css/styles.css, animations.css, responsive.css, privacy-modal.css, terms-modal.css; inline none. Classes: hero, services-image-grid, why-choose-grid, solutions-image-grid, bulk-sms-image-content, trust-section, counters-grid, process-steps, testimonials-carousel.
 - **SEO/a11y:** title "Nedhub | Modern Corporate Solutions"; meta description present; no canonical; h1 then h2s. Needs visual check for contrast.
-- **Problems:** stats unverifiable (500 clients, 1200 placements, 98%, 350 programs, 50 experts); empty trusted-logos track (no logos); "Award Winning/5-Star Rated" unverified; testimonial authors possibly fabricated.
+- **Problems:** stats unverifiable (200+ clients, 500+ placements, 95%, 350 programs, 50 experts); empty trusted-logos track (no logos); "Award Winning/5-Star Rated" unverified; testimonial authors possibly fabricated.
 - **Shared nav/footer:** uses site-nav.js + site-footer.js (injected). noscript fallback nav/footer present.
 
 ### about.html
 - **Purpose:** About Nedhub for prospects/partners. Company overview, mission/vision, core values, industries.
-- **Sections:** Hero (stats 500+/8+/50+); Our Company; Mission & Vision (2 cards); Core Values (Innovation, Integrity, Excellence, Client Focus); Industries We Serve (Technology, Finance, Healthcare, Education, Retail, Manufacturing).
+- **Sections:** Hero (stats 200+/5+/50+); Our Company; Mission & Vision (2 cards); Core Values (Innovation, Integrity, Excellence, Client Focus); Industries We Serve (Technology, Finance, Healthcare, Education, Retail, Manufacturing).
 - **Content:** mission "To empower businesses with innovative solutions..."; vision "To be the leading provider..."; values copy.
 - **Interactive:** scroll animations only (animations.js).
 - **Data:** hard-coded; remote Unsplash images.
 - **Images:** all remote Unsplash.
 - **CSS:** styles, animations, responsive, privacy-modal, terms-modal.
 - **SEO/a11y:** title "About Us | Nedhub"; meta desc; no canonical.
-- **Problems:** stats unverifiable (8+ years, 50+ team); no canonical.
+- **Problems:** stats unverifiable (5+ years, 50+ team); no canonical.
 - **Shared:** site-nav.js + site-footer.js.
 
 ### services.html
 - **Purpose:** Service catalogue (6 cards) → detail pages.
-- **Sections:** Hero (stats 6/500+/98%); Services grid (Recruitment, Outsourcing, Training, Career Coaching, Data Analytics, BULK SMS); "Why Book Our Services Today?" (4 cards: Fast Results, Expert Team, Value Investment, Satisfaction Guaranteed); CTA.
+- **Sections:** Hero (stats 6/200+/95%); Services grid (Recruitment, Outsourcing, Training, Career Coaching, Data Analytics, BULK SMS); "Why Book Our Services Today?" (4 cards: Fast Results, Expert Team, Value Investment, Satisfaction Guaranteed); CTA.
 - **Interactive:** scroll animations; cards link.
 - **Data:** hard-coded.
 - **CSS:** styles, animations, responsive, privacy, terms. Inline `<style>` for pulseGreen/card-pay-book.
@@ -178,7 +178,7 @@ Prepared for premium redesign. Read-only audit; no site files modified. Report o
 - Third-party embeds: Google Fonts (Manrope on digital-services), Font Awesome CDN, Unsplash images, Cloudinary, Hubtel, Railway API, Google Maps link.
 
 ### Content gaps / unverifiable claims
-- "500+ clients", "1200+ placements", "98% success/satisfaction", "350 training programs", "50 experts", "8+ years", "50+ team", "2000+ trained", "85% productivity", "50+ modules", "1000+ staff placed", "40% cost reduction", "98% retention", "100+ projects", "60% faster decisions", "35% cost reduction", "1500+ coached", "80% advancement", "45 days", "50+ templates", "10K+ downloads", "4.9 rating", "200+ companies", "Trusted by 200+ Companies", "Award Winning", "5-Star Rated", "next training session starts soon", "limited slots". None verifiable from repo.
+- "200+ clients", "500+ placements", "95% success/satisfaction", "350 training programs", "50 experts", "5+ years", "50+ team", "350+ trained", "85% productivity", "50+ modules", "500+ staff placed", "40% cost reduction", "98% retention", "100+ projects", "60% faster decisions", "35% cost reduction", "1500+ coached", "80% advancement", "45 days", "50+ templates", "10K+ downloads", "4.9 rating", "200+ companies", "Trusted by 200+ Companies", "Award Winning", "4.9 Rated", "next training session starts soon", "limited slots". None verifiable from repo.
 - Testimonials: Abena Kofi (TechCorp Ghana), Kwame Osei (Prime Industries), Yaw Mensah (GlobalTech Ltd) — unverifiable.
 - Client logo carousel on index is empty (no logos).
 
