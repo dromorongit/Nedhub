@@ -1,32 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Nedhub - Modern Corporate Solutions with SaaS-Ready Architecture">
-    <title>Nedhub | Modern Corporate Solutions</title>
-    <link rel="canonical" href="https://www.nedhubgh.com/">
-    <meta property="og:site_name" content="Nedhub Ghana">
-    <meta property="og:url" content="https://www.nedhubgh.com/">
-    <meta property="og:title" content="Nedhub | Modern Corporate Solutions">
-    <meta property="og:description" content="Empowering growth through cutting-edge recruitment, training, data analytics, and communication solutions.">
-    <meta property="og:image" content="https://www.nedhubgh.com/assets/images/hero-business.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" type="image/png" href="Nedhubsymbol.PNG">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/privacy-modal.css">
-    <link rel="stylesheet" href="css/terms-modal.css">
-    <link rel="stylesheet" href="css/jobs.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/nedhub-ds.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Nedhub - Modern Corporate Solutions with SaaS-Ready Architecture">
+<title>Nedhub | Modern Corporate Solutions</title>
+<link rel="canonical" href="https://www.nedhubgh.com/">
+<meta property="og:site_name" content="Nedhub Ghana">
+<meta property="og:url" content="https://www.nedhubgh.com/">
+<meta property="og:title" content="Nedhub | Modern Corporate Solutions">
+<meta property="og:description" content="Empowering growth through cutting-edge recruitment, training, data analytics, and communication solutions.">
+<meta property="og:image" content="https://www.nedhubgh.com/assets/images/hero-business.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="Nedhubsymbol.PNG">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/privacy-modal.css">
+<link rel="stylesheet" href="css/terms-modal.css">
 <script src="/site-nav.js" defer></script>
+<script src="/site-footer.js?v=2" defer></script>
+<style>
+html{scroll-behavior:smooth}
+.hp,.hp *{box-sizing:border-box;margin:0;padding:0}
+.hp{--navy:#0B132B;--navy-2:#1C2541;--orange:#F77F00;--orange-dark:#E56A00;--paper:#F4F6F8;--white:#ffffff;--ink:#0B132B;--muted:#46526b;--line:#dde3ec;--on-navy:#d3dbea;--radius:16px;font-family:'Manrope','Segoe UI',Tahoma,sans-serif;color:var(--ink);background:var(--white);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased;padding-bottom:140px}
+.hp a{color:inherit;text-decoration:none}
+.hp img{max-width:100%;height:auto;display:block}
+.hp .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.hp .sec-navy{background:var(--navy);color:var(--white)}
+.hp .sec-paper{background:var(--paper);color:var(--ink)}
+.hp .sec-white{background:var(--white);color:var(--ink)}
+.hp .sec-orange{background:var(--orange);color:var(--navy)}
+.hp section{padding:88px 0}
+.hp h1,.hp h2,.hp h3{line-height:1.12;letter-spacing:-.025em;font-weight:800;color:inherit}
+.hp h1{font-size:clamp(40px,6vw,60px)}
+.hp h2{font-size:clamp(28px,3.6vw,42px);margin-bottom:14px}
+.hp h3{font-size:20px;margin-bottom:8px}
+.hp p{color:inherit}
+.hp .lead{font-size:18px;color:var(--muted);max-width:62ch}
+.hp .sec-navy .lead{color:var(--on-navy)}
+.hp :focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:4px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.hp *{transition:none!important;animation:none!important}}
+@media(max-width:599px){.hp section{padding:56px 0}.hp .wrap{padding:0 16px}}
+
+/* buttons */
+.hp .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:12px;font-weight:700;font-size:16px;border:2px solid transparent;cursor:pointer;font-family:inherit;transition:background .2s,color .2s,border-color .2s,transform .15s}
+.hp .btn:hover{transform:translateY(-1px)}
+.hp .btn-primary{background:var(--orange);color:var(--navy)}
+.hp .btn-primary:hover{background:var(--orange-dark);color:var(--navy)}
+.hp .btn-dark{background:var(--navy);color:var(--white)}
+.hp .btn-dark:hover{background:var(--navy-2);color:var(--white)}
+.hp .btn-ghost-navy{border-color:#5b6a8c;color:var(--on-navy);background:transparent}
+.hp .btn-ghost-navy:hover{background:var(--white);color:var(--navy);border-color:var(--white)}
+.hp .btn-outline{border:2px solid var(--navy);color:var(--navy);background:transparent}
+.hp .btn-outline:hover{background:var(--navy);color:var(--white)}
+.hp .btn-white{background:var(--white);color:var(--navy)}
+.hp .btn-white:hover{background:var(--orange);color:var(--navy)}
+
+/* header section */
+.hp .hero{padding:96px 0 112px}
+.hp .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:center}
+.hp .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:var(--orange);color:var(--navy);font-size:13px;font-weight:800;margin-bottom:18px}
+.hp .hero h1{margin-bottom:18px}
+.hp .hero .lead{margin-bottom:30px}
+.hp .hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+.hp .hero-stats{display:flex;align-items:center;flex-wrap:wrap;gap:14px}
+.hp .stat-num{font-size:24px;font-weight:800;color:var(--white)}
+.hp .stat-lab{font-size:14px;color:var(--on-navy)}
+.hp .stat-div{width:1px;height:22px;background:#33416b}
+.hp .hero-visual{position:relative}
+.hp .hero-visual img{width:100%;height:420px;object-fit:cover;border-radius:var(--radius);background:var(--navy-2)}
+@media(max-width:860px){.hp .hero-grid{grid-template-columns:1fr;gap:40px}.hp .hero-visual{margin-top:8px}.hp .hero-visual img{height:320px}}
+
+/* section header */
+.hp .section-head{text-align:center;margin-bottom:44px}
+.hp .section-head .lead{margin:0 auto}
+
+/* core services */
+.hp .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px}
+.hp .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;height:100%;transition:transform .2s,box-shadow .2s,border-color .2s}
+.hp .card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(11,19,43,.08);border-color:var(--orange)}
+.hp .thumb{aspect-ratio:16/10;width:100%;overflow:hidden;background:var(--paper)}
+.hp .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.hp .card-body{padding:20px 22px;display:flex;flex-direction:column}
+.hp .card h3{color:var(--ink)}
+.hp .card p{color:var(--muted);font-size:15.5px;margin-top:6px}
+@media(max-width:900px){.hp .svc-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.hp .svc-grid{grid-template-columns:1fr}}
+
+/* why choose */
+.hp .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:44px}
+.hp .why-card{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;height:100%}
+.hp .why-thumb{position:relative;aspect-ratio:16/10;background:var(--paper)}
+.hp .why-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.hp .why-icon{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:var(--navy);color:var(--white);display:grid;place-items:center;box-shadow:0 8px 16px rgba(11,19,43,.25)}
+.hp .why-icon svg{width:20px;height:20px;fill:var(--white)}
+.hp .why-body{padding:22px;display:flex;flex-direction:column;flex:1}
+.hp .why-stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:auto;padding-top:14px;border-top:1px solid var(--line)}
+.hp .why-stat{min-width:0}
+.hp .why-stat .n{font-size:20px;font-weight:800;color:var(--ink);white-space:nowrap}
+.hp .why-stat .l{font-size:13px;color:var(--muted);white-space:normal;overflow-wrap:anywhere}
+.hp .section-cta{text-align:center;margin-top:44px}
+@media(max-width:900px){.hp .why-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.hp .why-grid{grid-template-columns:1fr}}
+
+/* featured solutions */
+.hp .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:44px}
+.hp .feat-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;height:100%;transition:transform .2s,box-shadow .2s,border-color .2s}
+.hp .feat-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(11,19,43,.08);border-color:var(--orange)}
+.hp .feat-thumb{aspect-ratio:16/10;width:100%;overflow:hidden;background:var(--paper)}
+.hp .feat-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.hp .feat-body{padding:26px;display:flex;flex-direction:column;flex:1}
+.hp .feat-body h3{color:var(--ink)}
+.hp .feat-body p{color:var(--muted);font-size:15.5px;margin-top:6px}
+.hp .feat-meta{font-size:13px;color:var(--muted);margin-top:10px}
+.hp .feat-card .btn{margin-top:auto}
+@media(max-width:768px){.hp .feat-grid{grid-template-columns:1fr}}
+
+/* digital services */
+.hp .digital-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.hp .digital-text h2{color:var(--white)}
+.hp .digital-text .lead{margin-bottom:24px}
+.hp .digital-text h3{color:var(--white);margin-top:0}
+.hp .digital-text p{color:var(--on-navy)}
+.hp .features{margin-top:24px;display:flex;flex-wrap:wrap;gap:18px}
+.hp .feature-item{display:flex;align-items:flex-start;gap:10px}
+.hp .feature-item svg{width:18px;height:18px;fill:none;stroke:var(--orange);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.hp .feature-item div{color:var(--on-navy)}
+.hp .feature-item h4{font-size:15px;font-weight:800;color:var(--white);margin-bottom:2px}
+.hp .feature-item p{font-size:14px;color:#9fb0c8;margin:0}
+.hp .digital-visual{position:relative}
+.hp .phone{width:320px;max-width:100%;margin:0 auto;background:#050a1a;border-radius:46px;padding:14px;box-shadow:0 40px 80px rgba(0,0,0,.5),inset 0 0 0 2px #1a2340}
+.hp .phone .notch{width:96px;height:22px;background:#050a1a;border-radius:0 0 16px 16px;margin:0 auto 8px}
+.hp .screen{background:var(--white);border-radius:34px;padding:22px 18px 20px;color:var(--ink);min-height:360px}
+.hp .screen .who{font-size:12.5px;font-weight:700;color:var(--muted);text-align:center;margin-bottom:16px;letter-spacing:.04em;text-transform:uppercase}
+.hp .bub{background:#eef1f6;border-radius:18px 18px 18px 4px;padding:12px 15px;font-size:14.5px;line-height:1.45;margin-bottom:10px;color:var(--ink);max-width:86%}
+.hp .bub.alt{background:var(--navy);color:var(--white);border-radius:18px 18px 4px 18px;margin-left:auto;margin-right:0}
+.hp .status{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:#0a6b3d;margin:2px 0 14px}
+.hp .status i{width:9px;height:9px;border-radius:50%;background:#12a05c;display:inline-block}
+.hp .screen .meta{border-top:1px solid var(--line);padding-top:12px;font-size:12.5px;color:var(--muted)}
+@media(max-width:900px){.hp .digital-grid{grid-template-columns:1fr;gap:48px}.hp .phone{margin-top:8px}}
+
+/* trust */
+.hp .trust .stats-row{display:flex;justify-content:center;align-items:center;flex-wrap:wrap}
+.hp .trust .stat{text-align:center;padding:0 14px}
+.hp .trust .tdiv{width:1px;height:34px;background:var(--orange)}
+.hp .trust .tnum{font-size:clamp(32px,5vw,44px);font-weight:800;color:var(--white);margin-bottom:2px}
+.hp .trust .tlab{color:var(--on-navy);font-size:15px}
+.hp .trust .badge-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.hp .trust .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid #5b6a8c;border-radius:100px;background:var(--navy-2);color:var(--white);font-size:14px;font-weight:700}
+
+/* how it works */
+.hp .steps-list{display:flex;gap:30px;align-items:flex-start;margin-top:48px;list-style:none}
+.hp .steps-list li{position:relative;flex:1;min-width:0}
+.hp .step-num{width:50px;height:50px;border-radius:50%;background:var(--navy);color:var(--white);font-weight:800;font-size:21px;display:grid;place-items:center;box-shadow:0 8px 16px rgba(11,19,43,.18);position:relative;z-index:2}
+.hp .steps-list li:not(:last-child)::after{content:"";position:absolute;top:24px;left:52px;right:-14px;height:2px;background:var(--line);z-index:1}
+.hp .steps-list h3{color:var(--ink)}
+.hp .steps-list p{color:var(--muted);font-size:15.5px}
+@media(max-width:768px){.hp .steps-list{display:block;gap:34px}.hp .steps-list li:not(:last-child)::after{display:none}}
+
+/* testimonials */
+.hp .tc-wrap{position:relative;margin-top:44px}
+.hp .tc-track{display:flex;flex-direction:column;gap:24px}
+.hp .tc-card{width:100%;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:30px 34px;text-align:left}
+.hp .tc-mark{font-size:48px;color:var(--orange);line-height:1}
+.hp .tc-quote{font-size:18px;line-height:1.6;color:var(--ink);margin:10px 0 22px;max-width:62ch}
+.hp .tc-author{display:flex;align-items:center;gap:14px}
+.hp .tc-avatar{width:44px;height:44px;border-radius:50%;background:var(--navy);color:var(--white);font-weight:800;font-size:17px;display:grid;place-items:center;flex:none}
+.hp .tc-info h4{color:var(--ink);margin-bottom:2px}
+.hp .tc-info p{color:var(--muted);font-size:14px;margin:0}
+.hp .tc-nav{display:flex;align-items:center;justify-content:space-between;margin-top:26px}
+.hp .tc-btn{background:var(--white);border:1px solid var(--line);color:var(--ink);width:44px;height:44px;border-radius:12px;cursor:pointer;display:grid;place-items:center;font-size:16px;transition:border-color .2s,background .2s,color .2s}
+.hp .tc-btn:hover{border-color:var(--orange);color:var(--orange)}
+.hp .tc-dots{display:flex;gap:8px;justify-content:center;margin-top:20px}
+.hp .tc-dot{width:10px;height:10px;border-radius:50%;background:#c7d1dd;border:none;cursor:pointer;padding:0}
+.hp .tc-dot.active{background:var(--orange)}
+@media(min-width:769px){.hp .tc-track{display:flex;flex-direction:row;gap:0;width:max-content}.hp .tc-card{flex:none;width:100%;min-width:0;text-align:left}}
+@media(max-width:560px){.hp .tc-card{padding:22px}.hp .tc-quote{font-size:16px}}
+
+/* jobs */
+.hp .jobs-empty{text-align:center;padding:48px 24px;color:var(--muted)}
+.hp .jobs-empty a{color:var(--orange);font-weight:700;text-decoration:underline}
+.hp .jobs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+.hp .job-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column}
+.hp .job-skeleton{height:56px;background:#eef1f6;border-radius:8px;margin-bottom:10px}
+.hp .job-skeleton.title{height:22px;width:40%}
+.hp .job-skeleton.line{height:14px;width:90%}
+.hp .job-skeleton.line.short{width:60%}
+.hp .job-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.hp .job-cat{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:#eef1f6;color:var(--navy)}
+.hp .job-title{font-size:17px;font-weight:800;color:var(--ink);margin:0 0 6px}
+.hp .job-title a{color:var(--ink)}
+.hp .job-title a:hover{color:var(--orange)}
+.hp .job-line{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);margin-bottom:8px}
+.hp .job-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex:none}
+.hp .job-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.hp .job-chip{font-size:12px;font-weight:700;padding:4px 10px;border-radius:100px;border:1px solid var(--line);color:var(--ink);background:transparent}
+.hp .job-desc{font-size:15px;color:var(--ink);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:auto}
+.hp .job-act{display:flex;gap:10px;margin-top:14px}
+.hp .job-act .btn{flex:1}
+@media(max-width:900px){.hp .jobs-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.hp .jobs-grid{grid-template-columns:1fr}}
+
+/* cta */
+.hp .cta-inner{text-align:center}
+.hp .cta-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.hp .cta-buttons .btn-dark{padding:14px 32px}
+.hp .cta-buttons .btn-white{padding:14px 32px}
+
+/* scroll reveal */
+.hp .reveal{opacity:1;transform:none}
+.hp .reveal.animate{animation:revealUp .6s ease both}
+@keyframes revealUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* floating widgets */
+.hp .floats{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:1000}
+.hp .float{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:12px;font-weight:800;font-size:15px;box-shadow:0 10px 24px rgba(0,0,0,.15)}
+.hp .float-whatsapp{background:var(--navy);color:var(--white)}
+.hp .float-whatsapp:hover{background:var(--orange-dark);color:var(--white)}
+.hp .float-hiring{background:var(--orange);color:var(--navy)}
+.hp .float-hiring:hover{background:var(--orange-dark);color:var(--navy)}
+.hp .float svg{width:18px;height:18px;fill:currentColor}
+@media(max-width:599px){.hp .floats{bottom:20px;right:16px;gap:8px;flex-direction:column-reverse}.hp .float-hiring{padding:10px 14px;font-size:13px}}
+</style>
 </head>
-<body class="ds-page">
+<body>
 <noscript>
   <nav aria-label="Main (no JavaScript)">
     <ul>
@@ -40,548 +238,484 @@
     </ul>
   </nav>
 </noscript>
-    <main id="main-content">
+<main class="hp" id="main-content">
 
-        <!-- Hero -->
-        <section class="hero ds-hero ds-section--navy">
-            <div class="ds-wrap ds-hero__wrap">
-                <div class="hero-content">
-                    <div class="hero-badge animate-fade-in-up delay-1">
-                        <span class="badge-icon">✦</span>
-                        <span>Leading Corporate Solutions Provider</span>
-                    </div>
-                    <h1 class="ds-hero__title animate-fade-in-up delay-2">Transform Your Business with <span class="highlight-text">Innovation</span></h1>
-                    <p class="ds-hero__lead animate-fade-in-up delay-3">Empowering growth through cutting-edge recruitment, training, data analytics, and communication solutions.</p>
-                    <div class="hero-buttons animate-fade-in-up delay-4">
-                        <a href="services.html" class="btn btn-primary btn-large btn-with-icon ds-btn ds-btn--primary ds-btn--lg">
-                            <span class="btn-text">Explore Services</span>
-                            <span class="btn-icon">→</span>
-                        </a>
-                        <a href="contact.html" class="btn btn-secondary btn-large btn-with-icon ds-btn ds-btn--ghost ds-btn--lg">
-                            <span class="btn-text">Contact Us</span>
-                            <span class="btn-icon">→</span>
-                        </a>
-                    </div>
-                    <div class="hero-stats animate-fade-in-up delay-5">
-                        <div class="stat-item">
-                            <span class="stat-number ds-stat__number">200+</span>
-                            <span class="stat-label ds-stat__label">Clients</span>
-                        </div>
-                        <div class="stat-divider" aria-hidden="true"></div>
-                        <div class="stat-item">
-                            <span class="stat-number ds-stat__number">500+</span>
-                            <span class="stat-label ds-stat__label">Placements</span>
-                        </div>
-                        <div class="stat-divider" aria-hidden="true"></div>
-                        <div class="stat-item">
-                            <span class="stat-number ds-stat__number">95%</span>
-                            <span class="stat-label ds-stat__label">Success Rate</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="ds-hero__visual">
-                    <img src="assets/images/hero-business.jpg" alt="Modern corporate office" width="1400" height="935" loading="eager" style="width:100%;height:100%;object-fit:cover;border-radius:var(--ds-radius-card);">
-                </div>
-            </div>
-        </section>
-
-        <!-- Service Highlights -->
-        <section class="ds-section ds-section--paper">
-            <div class="ds-wrap">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="ds-heading ds-h2">Our Core Services</h2>
-                    <p class="ds-text ds-text--muted ds-text--lead">Comprehensive solutions designed to drive your business forward</p>
-                </div>
-                <div class="services-image-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;">
-                    <a class="ds-card--image" href="recruitment.html" style="text-decoration:none;">
-                        <img class="ds-card__image" src="assets/images/recruitment.jpg" alt="Recruitment and talent acquisition" width="800" height="533" loading="lazy">
-                        <div class="ds-card__body">
-                            <h3 class="ds-card__title">Recruitment &amp; Talent Acquisition</h3>
-                            <p class="ds-card__text">Find and retain top talent with our comprehensive recruitment solutions</p>
-                        </div>
-                    </a>
-                    <a class="ds-card--image" href="training.html" style="text-decoration:none;">
-                        <img class="ds-card__image" src="assets/images/training.jpg" alt="Training and capacity building" width="800" height="533" loading="lazy">
-                        <div class="ds-card__body">
-                            <h3 class="ds-card__title">Training &amp; Capacity Building</h3>
-                            <p class="ds-card__text">Enhance your team's skills with customized training programs</p>
-                        </div>
-                    </a>
-                    <a class="ds-card--image" href="data-analytics.html" style="text-decoration:none;">
-                        <img class="ds-card__image" src="assets/images/data-analytics.jpg" alt="Data analytics and insights" width="800" height="533" loading="lazy">
-                        <div class="ds-card__body">
-                            <h3 class="ds-card__title">Data Analytics</h3>
-                            <p class="ds-card__text">Drive informed decisions with advanced business intelligence</p>
-                        </div>
-                    </a>
-                    <a class="ds-card--image" href="outsourcing.html" style="text-decoration:none;">
-                        <img class="ds-card__image" src="assets/images/outsourcing.jpg" alt="Staff outsourcing and placement" width="800" height="533" loading="lazy">
-                        <div class="ds-card__body">
-                            <h3 class="ds-card__title">Staff Outsourcing</h3>
-                            <p class="ds-card__text">Flexible staffing solutions to meet your business needs</p>
-                        </div>
-                    </a>
-                    <a class="ds-card--image" href="career-coaching.html" style="text-decoration:none;">
-                        <img class="ds-card__image" src="assets/images/career-coaching.jpg" alt="Career coaching and guidance" width="800" height="533" loading="lazy">
-                        <div class="ds-card__body">
-                            <h3 class="ds-card__title">Career Coaching</h3>
-                            <p class="ds-card__text">Professional guidance to achieve your career goals</p>
-                        </div>
-                    </a>
-                    <a class="ds-card--image" href="digital-services.html" style="text-decoration:none;">
-                        <img class="ds-card__image" src="assets/images/lady2.jpg" alt="Digital Services and communication" width="735" height="729" loading="lazy">
-                        <div class="ds-card__body">
-                            <h3 class="ds-card__title">DIGITAL SERVICES</h3>
-                            <p class="ds-card__text">Comprehensive digital solutions for your business</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Why Choose Nedhub -->
-        <section class="ds-section ds-section--white">
-            <div class="ds-wrap">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="ds-heading ds-h2">Why Choose Nedhub?</h2>
-                    <p class="ds-text ds-text--muted ds-text--lead">We combine innovation, expertise, and a client-focused approach to deliver exceptional results for your business.</p>
-                </div>
-                <div class="why-choose-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;">
-                    <div class="why-choose-card scroll-animate">
-                        <div class="why-choose-image">
-                            <img loading="lazy" src="assets/images/data-analytics.jpg" alt="Data analytics and business insights" width="800" height="533">
-                            <div class="why-choose-overlay"></div>
-                            <div class="why-choose-icon"><i class="fas fa-chart-line"></i></div>
-                        </div>
-                        <div class="why-choose-content">
-                            <h3 class="why-choose-title">Data-Driven Decisions</h3>
-                            <p class="why-choose-description">Leverage advanced analytics and insights to make informed business decisions that drive growth and efficiency.</p>
-                            <div class="why-choose-stats">
-                                <div class="why-stat">
-                                    <span class="why-stat-number ds-stat__number">98%</span>
-                                    <span class="why-stat-label ds-stat__label">Accuracy</span>
-                                </div>
-                                <div class="why-stat">
-                                    <span class="why-stat-number ds-stat__number">200+</span>
-                                    <span class="why-stat-label ds-stat__label">Clients</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="why-choose-card scroll-animate delay-1">
-                        <div class="why-choose-image">
-                            <img loading="lazy" src="assets/images/customized-solutions.jpg" alt="Customized business solutions and consulting" width="800" height="533">
-                            <div class="why-choose-overlay"></div>
-                            <div class="why-choose-icon"><i class="fas fa-cogs"></i></div>
-                        </div>
-                        <div class="why-choose-content">
-                            <h3 class="why-choose-title">Customized Solutions</h3>
-                            <p class="why-choose-description">Tailored services designed to meet your unique business requirements and challenges.</p>
-                            <div class="why-choose-stats">
-                                <div class="why-stat">
-                                    <span class="why-stat-number ds-stat__number">100%</span>
-                                    <span class="why-stat-label ds-stat__label">Custom</span>
-                                </div>
-                                <div class="why-stat">
-                                    <span class="why-stat-number ds-stat__number">24/7</span>
-                                    <span class="why-stat-label ds-stat__label">Support</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="why-choose-card scroll-animate delay-2">
-                        <div class="why-choose-image">
-                            <img loading="lazy" src="assets/images/proven-success.jpg" alt="Business success and growth" width="800" height="570">
-                            <div class="why-choose-overlay"></div>
-                            <div class="why-choose-icon"><i class="fas fa-trophy"></i></div>
-                        </div>
-                        <div class="why-choose-content">
-                            <h3 class="why-choose-title">Proven Success</h3>
-                            <p class="why-choose-description">A track record of delivering exceptional results and driving business growth for our clients.</p>
-                            <div class="why-choose-stats">
-                                <div class="why-stat">
-                                    <span class="why-stat-number ds-stat__number">500+</span>
-                                    <span class="why-stat-label ds-stat__label">Placements</span>
-                                </div>
-                                <div class="why-stat">
-                                    <span class="why-stat-number ds-stat__number">95%</span>
-                                    <span class="why-stat-label ds-stat__label">Satisfaction</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="why-choose-card scroll-animate delay-3">
-                        <div class="why-choose-image">
-                            <img loading="lazy" src="assets/images/dedicated-support.jpg" alt="Dedicated customer support and team" width="800" height="1199">
-                            <div class="why-choose-overlay"></div>
-                            <div class="why-choose-icon"><i class="fas fa-headset"></i></div>
-                        </div>
-                        <div class="why-choose-content">
-                            <h3 class="why-choose-title">Dedicated Support</h3>
-                            <p class="why-choose-description">Expert guidance and support throughout your journey to ensure your success.</p>
-                            <div class="why-choose-stats">
-                                <div class="why-stat">
-                                    <span class="why-stat-number ds-stat__number">50+</span>
-                                    <span class="why-stat-label ds-stat__label">Experts</span>
-                                </div>
-                                <div class="why-stat">
-                                    <span class="why-stat-number ds-stat__number">24/7</span>
-                                    <span class="why-stat-label ds-stat__label">Available</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="section-cta text-center mt-xxl">
-                    <a href="about.html" class="btn btn-primary btn-large ds-btn ds-btn--primary ds-btn--lg">Learn More About Us</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Featured Solutions -->
-        <section class="ds-section ds-section--paper">
-            <div class="ds-wrap">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="ds-heading ds-h2">Featured Solutions</h2>
-                    <p class="ds-text ds-text--muted ds-text--lead">Discover our innovative solutions designed to transform your business operations and drive growth.</p>
-                </div>
-                <div class="solutions-image-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
-                    <div class="solution-image-card scroll-animate">
-                        <div class="solution-image-bg">
-                            <img loading="lazy" src="assets/images/lady1.jpg" alt="Digital Services and business communication" width="735" height="769">
-                            <div class="solution-image-overlay"></div>
-                        </div>
-                        <div class="solution-image-content">
-                            <div class="solution-image-icon"><i class="fas fa-sms"></i></div>
-                            <h3 class="solution-image-title">DIGITAL SERVICES &amp; Business Communication</h3>
-                            <p class="solution-image-description">Comprehensive digital solutions for efficient business operations and customer engagement.</p>
-                            <div class="solution-image-features">
-                                <div class="solution-feature-item"><i class="fas fa-paper-plane"></i><span>Bulk messaging capabilities</span></div>
-                                <div class="solution-feature-item"><i class="fas fa-mobile-alt"></i><span>Airtime &amp; data bundle purchases</span></div>
-                                <div class="solution-feature-item"><i class="fas fa-tv"></i><span>TV subscription payments</span></div>
-                                <div class="solution-feature-item"><i class="fas fa-lightning-bolt"></i><span>Utility bill payments</span></div>
-                            </div>
-                            <a href="digital-services.html" class="btn btn-primary btn-large ds-btn ds-btn--primary ds-btn--lg">Learn More <span class="btn-icon">→</span></a>
-                        </div>
-                    </div>
-                    <div class="solution-image-card scroll-animate delay-1">
-                        <div class="solution-image-bg">
-                            <img loading="lazy" src="assets/images/data-analytics.jpg" alt="Data analytics and business intelligence" width="800" height="533">
-                            <div class="solution-image-overlay"></div>
-                        </div>
-                        <div class="solution-image-content">
-                            <div class="solution-image-icon"><i class="fas fa-chart-pie"></i></div>
-                            <h3 class="solution-image-title">Data Analytics &amp; Insights</h3>
-                            <p class="solution-image-description">Advanced data analysis and business intelligence solutions to drive informed decision-making.</p>
-                            <div class="solution-image-features">
-                                <div class="solution-feature-item"><i class="fas fa-database"></i><span>Real-time data processing</span></div>
-                                <div class="solution-feature-item"><i class="fas fa-chart-line"></i><span>Customizable dashboards</span></div>
-                                <div class="solution-feature-item"><i class="fas fa-lightbulb"></i><span>Predictive analytics</span></div>
-                                <div class="solution-feature-item"><i class="fas fa-shield-alt"></i><span>Data security &amp; compliance</span></div>
-                            </div>
-                            <a href="data-analytics.html" class="btn btn-primary btn-large ds-btn ds-btn--primary ds-btn--lg">Learn More <span class="btn-icon">→</span></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Digital Services Platform Preview -->
-        <section class="ds-section ds-section--navy">
-            <div class="ds-wrap">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="ds-heading ds-h2 ds-heading--navy">Powerful Digital Services Platform</h2>
-                    <p class="ds-text ds-text--on-navy ds-text--lead">Streamline your business operations with our comprehensive digital solutions</p>
-                </div>
-                <div class="bulk-sms-image-content" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:center;">
-                    <div class="bulk-sms-main-image scroll-animate">
-                        <img src="assets/images/lady1.jpg" alt="Digital Services platform" class="bulk-sms-img" width="735" height="769" loading="lazy">
-                        <div class="bulk-sms-image-overlay"></div>
-                        <div class="bulk-sms-floating-card">
-                            <div class="floating-card-icon"><i class="fas fa-globe"></i></div>
-                            <div class="floating-card-content">
-                                <span class="floating-card-value">15.2K+</span>
-                                <span class="floating-card-label">Transactions Today</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bulk-sms-details scroll-animate delay-1">
-                        <h3>Manage All Your Digital Services</h3>
-                        <p>Our intuitive dashboard puts powerful digital services at your fingertips. From bulk messaging to telecom services and utility payments, manage everything in one place.</p>
-                        <div class="bulk-sms-features-grid">
-                            <div class="bulk-sms-feature-item">
-                                <div class="feature-icon-circle"><i class="fas fa-paper-plane"></i></div>
-                                <div class="feature-text"><h4>Bulk Messaging</h4><p>Send SMS to thousands of recipients instantly</p></div>
-                            </div>
-                            <div class="bulk-sms-feature-item">
-                                <div class="feature-icon-circle"><i class="fas fa-mobile-alt"></i></div>
-                                <div class="feature-text"><h4>Telecom Services</h4><p>Buy airtime and data bundles for all networks</p></div>
-                            </div>
-                            <div class="bulk-sms-feature-item">
-                                <div class="feature-icon-circle"><i class="fas fa-tv"></i></div>
-                                <div class="feature-text"><h4>TV Subscription</h4><p>Pay for DSTv, GOTv, and Startimes easily</p></div>
-                            </div>
-                            <div class="bulk-sms-feature-item">
-                                <div class="feature-icon-circle"><i class="fas fa-lightning-bolt"></i></div>
-                                <div class="feature-text"><h4>Utility Payments</h4><p>Pay ECG bills and Ghana Water bills online</p></div>
-                            </div>
-                        </div>
-                        <div class="hero-buttons">
-                            <a href="/digital-services.html" class="btn btn-primary btn-large btn-with-icon ds-btn ds-btn--primary ds-btn--lg">
-                                <span class="btn-text">Access Portal</span><span class="btn-icon">→</span>
-                            </a>
-                            <a href="https://app.nedhubgh.com" class="btn btn-secondary btn-large btn-with-icon ds-btn ds-btn--ghost ds-btn--lg" target="_blank" rel="noopener">
-                                <span class="btn-text">Open Platform</span><span class="btn-icon">→</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trust & Social Proof -->
-        <section class="trust-section section ds-section ds-section--navy">
-            <div class="ds-wrap">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="ds-heading ds-h2 ds-heading--navy">Trusted by Leading Organizations</h2>
-                    <p class="ds-text ds-text--on-navy ds-text--lead">Delivering exceptional results for businesses across Ghana and beyond</p>
-                </div>
-                <div class="trusted-logos-section scroll-animate">
-                    <div class="trusted-logos-track ds-logo-strip" aria-label="Client logos"></div>
-                </div>
-                <div class="ds-stats" role="group" aria-label="Nedhub statistics">
-                    <div class="ds-stat">
-                        <p class="ds-stat__number counter-number" data-target="200">200</p>
-                        <span class="counter-plus">+</span>
-                        <p class="ds-stat__label">Clients Served</p>
-                    </div>
-                    <div class="ds-stat">
-                        <p class="ds-stat__number counter-number" data-target="500">500</p>
-                        <span class="counter-plus">+</span>
-                        <p class="ds-stat__label">Successful Placements</p>
-                    </div>
-                    <div class="ds-stat">
-                        <p class="ds-stat__number counter-number" data-target="350">350</p>
-                        <span class="counter-plus">+</span>
-                        <p class="ds-stat__label">Professionals Trained</p>
-                    </div>
-                    <div class="ds-stat">
-                        <p class="ds-stat__number counter-number" data-target="95">95</p>
-                        <span class="counter-plus">%</span>
-                        <p class="ds-stat__label">Client Satisfaction</p>
-                    </div>
-                    <div class="ds-stat">
-                        <p class="ds-stat__number counter-number" data-target="5">5</p>
-                        <span class="counter-plus">+</span>
-                        <p class="ds-stat__label">Years Experience</p>
-                    </div>
-                </div>
-                <div class="ds-badge-row" style="justify-content:center;margin-top:24px;">
-                    <span class="ds-badge ds-badge--white"><i class="fas fa-award"></i> Award Winning</span>
-                    <span class="ds-badge ds-badge--white"><i class="fas fa-star"></i> 4.9 Rated</span>
-                    <span class="ds-badge ds-badge--white"><i class="fas fa-users"></i> Trusted by 200+ Companies</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- How It Works -->
-        <section class="ds-section ds-section--white">
-            <div class="ds-wrap">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="ds-heading ds-h2">How It Works</h2>
-                    <p class="ds-text ds-text--muted ds-text--lead">Our streamlined process ensures efficient and effective solutions</p>
-                </div>
-                <div class="ds-steps">
-                    <div class="ds-step">
-                        <div class="ds-step__number">1</div>
-                        <div class="ds-step__line" aria-hidden="true"></div>
-                        <h3 class="ds-step__title">Consultation</h3>
-                        <p class="ds-step__text">We discuss your needs and requirements to understand your goals</p>
-                    </div>
-                    <div class="ds-step">
-                        <div class="ds-step__number">2</div>
-                        <div class="ds-step__line" aria-hidden="true"></div>
-                        <h3 class="ds-step__title">Planning</h3>
-                        <p class="ds-step__text">We create a customized strategy tailored to your business</p>
-                    </div>
-                    <div class="ds-step">
-                        <div class="ds-step__number">3</div>
-                        <div class="ds-step__line" aria-hidden="true"></div>
-                        <h3 class="ds-step__title">Implementation</h3>
-                        <p class="ds-step__text">Our team executes the plan with precision and expertise</p>
-                    </div>
-                    <div class="ds-step">
-                        <div class="ds-step__number">4</div>
-                        <h3 class="ds-step__title">Delivery</h3>
-                        <p class="ds-step__text">We deliver results and provide ongoing support for success</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials -->
-        <section class="ds-section ds-section--paper">
-            <div class="ds-wrap">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="ds-heading ds-h2">What Our Clients Say</h2>
-                    <p class="ds-text ds-text--muted ds-text--lead">Real feedback from real clients who have experienced our services</p>
-                </div>
-                <div class="testimonials-carousel scroll-animate ds-carousel">
-                    <div class="testimonial-track">
-                        <div class="testimonial-card active ds-testimonial">
-                            <span class="ds-testimonial__mark" aria-hidden="true">&ldquo;</span>
-                            <div class="testimonial-content">
-                                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                                <p class="ds-testimonial__quote">"Nedhub transformed our recruitment process. Their expertise helped us find the perfect candidates within weeks. Highly recommended!"</p>
-                            </div>
-                            <div class="testimonial-author ds-testimonial__author">
-                                <div class="author-avatar ds-testimonial__avatar">AK</div>
-                                <div class="author-info">
-                                    <h4 class="ds-testimonial__name">Abena Kofi</h4>
-                                    <p class="ds-testimonial__role">HR Manager, TechCorp Ghana</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card ds-testimonial">
-                            <span class="ds-testimonial__mark" aria-hidden="true">&ldquo;</span>
-                            <div class="testimonial-content">
-                                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                                <p class="ds-testimonial__quote">"The training programs from Nedhub significantly improved our team's performance. Professional, engaging, and results-driven."</p>
-                            </div>
-                            <div class="testimonial-author ds-testimonial__author">
-                                <div class="author-avatar ds-testimonial__avatar">KO</div>
-                                <div class="author-info">
-                                    <h4 class="ds-testimonial__name">Kwame Osei</h4>
-                                    <p class="ds-testimonial__role">CEO, Prime Industries</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card ds-testimonial">
-                            <span class="ds-testimonial__mark" aria-hidden="true">&ldquo;</span>
-                            <div class="testimonial-content">
-                                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                                <p class="ds-testimonial__quote">"Outstanding data analytics insights that helped us make better business decisions. Nedhub is a trusted partner for our HR needs."</p>
-                            </div>
-                            <div class="testimonial-author ds-testimonial__author">
-                                <div class="author-avatar ds-testimonial__avatar">YM</div>
-                                <div class="author-info">
-                                    <h4 class="ds-testimonial__name">Yaw Mensah</h4>
-                                    <p class="ds-testimonial__role">Director, GlobalTech Ltd</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-controls">
-                        <button class="carousel-btn prev-btn ds-carousel-btn ds-carousel-btn--prev" aria-label="Previous testimonial" type="button"><i class="fas fa-chevron-left"></i></button>
-                        <div class="carousel-dots ds-carousel-dots"></div>
-                        <button class="carousel-btn next-btn ds-carousel-btn ds-carousel-btn--next" aria-label="Next testimonial" type="button"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Latest Jobs -->
-        <section class="ds-section ds-section--white">
-            <div class="ds-wrap">
-                <div class="section-header text-center mb-xxl">
-                    <h2 class="ds-heading ds-h2">Latest Job Opportunities</h2>
-                    <p class="ds-text ds-text--muted ds-text--lead">Join our team and build your career with Nedhub</p>
-                </div>
-                <div id="homepage-jobs" class="jobs-grid">
-                    <!-- Jobs will be dynamically loaded here -->
-                </div>
-                <div class="text-center mt-xl" style="text-align:center;margin-top:24px;">
-                    <a href="careers.html" class="btn btn-primary btn-large ds-btn ds-btn--primary ds-btn--lg">
-                        <span class="btn-text">View All Positions</span>
-                        <span class="btn-icon">→</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Final CTA -->
-        <section class="ds-cta">
-            <div class="ds-wrap">
-                <h2 class="ds-cta__title">Ready to Transform Your Business?</h2>
-                <p class="ds-cta__text">Contact us today to discuss how our innovative solutions can help your organization achieve its goals.</p>
-                <div class="cta-buttons" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                    <a href="contact.html" class="btn btn-primary btn-large ds-btn ds-btn--dark ds-btn--lg">Get Started</a>
-                    <a href="services.html" class="btn btn-secondary btn-large ds-btn ds-btn--ghost ds-btn--lg">View All Services</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Floating WhatsApp Contact Button -->
-    <a href="https://wa.me/233506288940/" class="floating-whatsapp" target="_blank" aria-label="Contact us on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-        <span class="whatsapp-tooltip">Chat with us</span>
-    </a>
-
-    <!-- Hiring Now Floating Widget -->
-    <div id="hiring-widget" class="hiring-widget" style="display: none;">
-        <div class="hiring-widget-content">
-            <div class="hiring-widget-icon">
-                <i class="fas fa-briefcase"></i>
-            </div>
-            <div class="hiring-widget-text">
-                <span class="hiring-widget-title">We're Hiring!</span>
-                <span class="hiring-widget-count" id="hiring-count">0</span>
-            </div>
+<section class="hero sec-navy">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <p class="badge">Leading Corporate Solutions Provider</p>
+        <h1>Transform Your Business with <span style="color:var(--orange)">Innovation</span></h1>
+        <p class="lead">Empowering growth through cutting-edge recruitment, training, data analytics, and communication solutions.</p>
+        <div class="hero-buttons">
+          <a href="services.html" class="btn btn-primary">Explore Services <span style="margin-left:4px">→</span></a>
+          <a href="contact.html" class="btn btn-ghost-navy">Contact Us <span style="margin-left:4px">→</span></a>
         </div>
-        <a href="careers.html" class="hiring-widget-link" aria-label="View open positions"></a>
+        <div class="hero-stats">
+          <span class="stat-num">200+</span><span class="stat-lab">Clients</span>
+          <span class="stat-div" aria-hidden="true"></span>
+          <span class="stat-num">500+</span><span class="stat-lab">Placements</span>
+          <span class="stat-div" aria-hidden="true"></span>
+          <span class="stat-num">95%</span><span class="stat-lab">Success Rate</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="assets/images/hero-business.jpg" alt="Modern corporate office" width="1400" height="935" loading="eager">
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- Footer -->
-    <script src="js/main.js" type="module"></script>
-    <script src="js/animations.js" type="module"></script>
-<script src="js/privacy-modal.js"></script>
-    <script src="js/terms-modal.js"></script>
-    <script src="js/jobs.js"></script>
-    <noscript>
-      <footer aria-label="Main (no JavaScript)" style="background:#0B132B;color:#d3dbea;padding:72px 0 32px;font-size:15px">
-<style>.nf-ns-social{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1.5px solid #33416b;border-radius:50%;background:transparent;color:#ffffff;text-decoration:none}.nf-ns-social svg{width:20px;height:20px;fill:currentColor;display:block}.nf-ns-social:hover,.nf-ns-social:focus-visible{background:#F77F00;border-color:#F77F00;color:#0B132B;outline:none}.nf-ns-social:focus-visible{outline:3px solid #F77F00;outline-offset:3px}.nf-ns-socials{display:flex;gap:12px;flex-wrap:wrap}</style>
-        <div style="max-width:1200px;margin:0 auto;padding:0 24px">
-          <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px">
-            <div>
-              <div style="background:#ffffff;padding:8px 12px;border-radius:10px;display:inline-block;margin-bottom:16px"><img src="/Nedhubsymbol.PNG" alt="Nedhub Ghana" style="height:40px;display:block"></div>
-              <p style="color:#d3dbea;max-width:34ch">Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
-            </div>
-            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Quick links</h4>
-              <ul style="list-style:none;margin:0;padding:0">
-                <li><a href="/index.html" style="color:#d3dbea;text-decoration:none">Home</a></li>
-                <li><a href="/about.html" style="color:#d3dbea;text-decoration:none">About Us</a></li>
-                <li><a href="/services.html" style="color:#d3dbea;text-decoration:none">Services</a></li>
-                <li><a href="/careers.html" style="color:#d3dbea;text-decoration:none">Careers</a></li>
-                <li><a href="/cv-templates.html" style="color:#d3dbea;text-decoration:none">CV Templates</a></li>
-                <li><a href="/contact.html" style="color:#d3dbea;text-decoration:none">Contact</a></li>
-              </ul>
-            </div>
-            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Our services</h4>
-              <ul style="list-style:none;margin:0;padding:0">
-                <li><a href="/recruitment.html" style="color:#d3dbea;text-decoration:none">Recruitment</a></li>
-                <li><a href="/training.html" style="color:#d3dbea;text-decoration:none">Training</a></li>
-                <li><a href="/data-analytics.html" style="color:#d3dbea;text-decoration:none">Data Analytics</a></li>
-                <li><a href="/digital-services.html" style="color:#d3dbea;text-decoration:none">Digital Services</a></li>
-              </ul>
-            </div>
-            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Contact us</h4>
-              <ul style="list-style:none;margin:0;padding:0">
-                <li>Phone: <a href="tel:+233271177321" style="color:#d3dbea;text-decoration:none">+233 271 177 321</a></li>
-                <li>WhatsApp: <a href="https://wa.me/233506288940/" style="color:#d3dbea;text-decoration:none">+233 50 628 8940</a></li>
-                <li>Roman Ridge, Accra, Ghana</li>
-                <li><div class="nf-ns-socials"><a href="https://www.facebook.com/profile.php?id=61587433270353" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a><a href="https://www.instagram.com/nedhubgh?igsh=cHRkbjl6anpzZGsz" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a><a href="https://www.linkedin.com/company/hr-klinic/" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a></div></li>
-              </ul>
-            </div>
-          </div>
-          <div style="border-top:1px solid #33416b;margin-top:44px;padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:#d3dbea">
-            <span>© 2026 Nedhub Ghana. All rights reserved.</span>
-            <span><a href="#" style="color:#d3dbea">Privacy Policy</a> | <a href="#" style="color:#d3dbea">Terms of Service</a> | <a href="#" style="color:#d3dbea">Cookie Policy</a></span>
-          </div>
-          <p style="text-align:center;padding:22px 16px 10px;font-size:14px;color:#d3dbea">Developed by Dromor Narh for DhroneTech Solutions</p>
+<section class="services sec-paper">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Our Core Services</h2>
+      <p class="lead">Comprehensive solutions designed to drive your business forward</p>
+    </div>
+    <div class="svc-grid">
+      <a href="recruitment.html" class="card">
+        <div class="thumb"><img src="assets/images/recruitment.jpg" alt="Recruitment and talent acquisition" width="800" height="533" loading="lazy"></div>
+        <div class="card-body"><h3>Recruitment &amp; Talent Acquisition</h3><p>Find and retain top talent with our comprehensive recruitment solutions</p></div>
+      </a>
+      <a href="training.html" class="card">
+        <div class="thumb"><img src="assets/images/training.jpg" alt="Training and capacity building" width="800" height="533" loading="lazy"></div>
+        <div class="card-body"><h3>Training &amp; Capacity Building</h3><p>Enhance your team's skills with customized training programs</p></div>
+      </a>
+      <a href="data-analytics.html" class="card">
+        <div class="thumb"><img src="assets/images/data-analytics.jpg" alt="Data analytics and insights" width="800" height="533" loading="lazy"></div>
+        <div class="card-body"><h3>Data Analytics</h3><p>Drive informed decisions with advanced business intelligence</p></div>
+      </a>
+      <a href="outsourcing.html" class="card">
+        <div class="thumb"><img src="assets/images/outsourcing.jpg" alt="Staff outsourcing and placement" width="800" height="533" loading="lazy"></div>
+        <div class="card-body"><h3>Staff Outsourcing</h3><p>Flexible staffing solutions to meet your business needs</p></div>
+      </a>
+      <a href="career-coaching.html" class="card">
+        <div class="thumb"><img src="assets/images/career-coaching.jpg" alt="Career coaching and guidance" width="800" height="533" loading="lazy"></div>
+        <div class="card-body"><h3>Career Coaching</h3><p>Professional guidance to achieve your career goals</p></div>
+      </a>
+      <a href="digital-services.html" class="card">
+        <div class="thumb"><img src="assets/images/lady2.jpg" alt="Digital services and communication" width="735" height="729" loading="lazy"></div>
+        <div class="card-body"><h3>Digital Services</h3><p>Comprehensive digital solutions for your business</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="why sec-white">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Why Choose Nedhub?</h2>
+      <p class="lead">We combine innovation, expertise, and a client-focused approach to deliver exceptional results for your business.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-thumb"><img src="assets/images/data-analytics.jpg" alt="Data analytics and business insights" width="800" height="533" loading="lazy"><div class="why-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4a2 2 0 0 0-1 1.73v7a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73z"/></svg></div></div>
+        <div class="why-body"><h3>Data-Driven Decisions</h3><p>Leverage advanced analytics and insights to make informed business decisions that drive growth and efficiency.</p><div class="why-stats"><div class="why-stat"><span class="n">98%</span><span class="l">Accuracy</span></div><div class="why-stat"><span class="n">200+</span><span class="l">Clients</span></div></div></div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-thumb"><img src="assets/images/customized-solutions.jpg" alt="Customized business solutions and consulting" width="800" height="533" loading="lazy"><div class="why-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="17.5" y2="15.01"/></svg></div></div>
+        <div class="why-body"><h3>Customized Solutions</h3><p>Tailored services designed to meet your unique business requirements and challenges.</p><div class="why-stats"><div class="why-stat"><span class="n">100%</span><span class="l">Custom</span></div><div class="why-stat"><span class="n">24/7</span><span class="l">Support</span></div></div></div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-thumb"><img src="assets/images/proven-success.jpg" alt="Business success and growth" width="800" height="570" loading="lazy"><div class="why-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 13.88V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2z"/><polyline points="22 12 18 12 15 21 9 18 6 12 2 12"/></svg></div></div>
+        <div class="why-body"><h3>Proven Success</h3><p>A track record of delivering exceptional results and driving business growth for our clients.</p><div class="why-stats"><div class="why-stat"><span class="n">500+</span><span class="l">Placements</span></div><div class="why-stat"><span class="n">95%</span><span class="l">Satisfaction</span></div></div></div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-thumb"><img src="assets/images/dedicated-support.jpg" alt="Dedicated customer support and team" width="800" height="1199" loading="lazy"><div class="why-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
+        <div class="why-body"><h3>Dedicated Support</h3><p>Expert guidance and support throughout your journey to ensure your success.</p><div class="why-stats"><div class="why-stat"><span class="n">50+</span><span class="l">Experts</span></div><div class="why-stat"><span class="n">24/7</span><span class="l">Available</span></div></div></div>
+      </div>
+    </div>
+    <div class="section-cta"><a href="about.html" class="btn btn-dark">Learn More About Us</a></div>
+  </div>
+</section>
+
+<section class="featured sec-paper">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Featured Solutions</h2>
+      <p class="lead">Discover our innovative solutions designed to transform your business operations and drive growth.</p>
+    </div>
+    <div class="feat-grid">
+      <a href="digital-services.html" class="feat-card reveal">
+        <div class="feat-thumb"><img src="assets/images/lady1.jpg" alt="Digital services and business communication" width="735" height="769" loading="lazy"></div>
+        <div class="feat-body"><h3>Digital Services &amp; Business Communication</h3><p>Comprehensive digital solutions for efficient business operations and customer engagement.</p><p class="feat-meta">Bulk SMS &middot; Airtime &amp; data &middot; TV subscriptions &middot; Utility bills</p><a class="btn btn-dark">Learn More <span style="margin-left:4px">→</span></a></div>
+      </a>
+      <a href="data-analytics.html" class="feat-card reveal">
+        <div class="feat-thumb"><img src="assets/images/data-analytics.jpg" alt="Data analytics and business intelligence" width="800" height="533" loading="lazy"></div>
+        <div class="feat-body"><h3>Data Analytics &amp; Insights</h3><p>Advanced data analysis and business intelligence solutions to drive informed decision-making.</p><p class="feat-meta">Real-time processing &middot; Dashboards &middot; Predictive analytics &middot; Security</p><a class="btn btn-dark">Learn More <span style="margin-left:4px">→</span></a></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="digital sec-navy">
+  <div class="wrap">
+    <div class="digital-grid">
+      <div class="digital-text reveal">
+        <h2>Powerful Digital Services Platform</h2>
+        <p class="lead">Streamline your business operations with our comprehensive digital solutions</p>
+        <h3>Manage All Your Digital Services</h3>
+        <p>Our intuitive dashboard puts powerful digital services at your fingertips. From bulk messaging to telecom services and utility payments, manage everything in one place.</p>
+        <div class="features">
+          <div class="feature-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-5 10M22 2l-5 5M2 12l5 5M2 12l5-5"/></svg><div><h4>Bulk Messaging</h4><p>Send SMS to thousands of recipients instantly</p></div></div>
+          <div class="feature-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.5 20h-13A1.5 1.5 0 0 1 4 18.5v-49A1.5 1.5 0 0 1 5.5 13h13a1.5 1.5 0 0 1 1.5 1.5v49A1.5 1.5 0 0 1 18.5 20z"/><path d="M6.5 13h11"/><path d="M11.5 3h1"/></svg><div><h4>Telecom Services</h4><p>Buy airtime and data bundles for all networks</p></div></div>
+          <div class="feature-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6l4 4-4 4H2z"/><path d="M6 21V4h12v17"/></svg><div><h4>TV Subscription</h4><p>Pay for DStv, GOtv, and Startimes easily</p></div></div>
+          <div class="feature-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 8-12z"/></svg><div><h4>Utility Payments</h4><p>Pay ECG and Ghana Water bills online</p></div></div>
         </div>
-      </footer>
-    </noscript>
-    <script src="/site-footer.js?v=2" defer></script>
+        <div class="cta-buttons" style="margin-top:26px"><a href="https://app.nedhubgh.com" class="btn btn-primary" target="_blank" rel="noopener">Access Portal <span style="margin-left:4px">→</span></a><a href="digital-services.html" class="btn btn-ghost-navy">Open Platform <span style="margin-left:4px">→</span></a></div>
+      </div>
+      <div class="digital-visual reveal">
+        <div class="phone" role="img" aria-label="Sample bulk message with delivery status">
+          <div class="notch" aria-hidden="true"></div>
+          <div class="screen">
+            <div class="who">Sample message</div>
+            <div class="bub">Hello Ama, your order is ready for pickup today. Reply STOP to opt out.</div>
+            <div class="status"><i></i>Delivered</div>
+            <div class="bub alt">Thanks, I'll come by this afternoon.</div>
+            <div class="meta">Each message shows its delivery status in your reports.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trust sec-navy">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Delivering exceptional results for businesses across Ghana and beyond</h2>
+    </div>
+    <div class="stats-row reveal">
+      <div class="stat"><p class="tnum" data-target="200" data-suffix="+">200</p><span class="tplus">+</span><p class="tlab">Clients Served</p></div>
+      <span class="tdiv" aria-hidden="true"></span>
+      <div class="stat"><p class="tnum" data-target="500" data-suffix="+">500</p><span class="tplus">+</span><p class="tlab">Successful Placements</p></div>
+      <span class="tdiv" aria-hidden="true"></span>
+      <div class="stat"><p class="tnum" data-target="350" data-suffix="+">350</p><span class="tplus">+</span><p class="tlab">Professionals Trained</p></div>
+      <span class="tdiv" aria-hidden="true"></span>
+      <div class="stat"><p class="tnum" data-target="95" data-suffix="%">95</p><span class="tplus">%</span><p class="tlab">Client Satisfaction</p></div>
+      <span class="tdiv" aria-hidden="true"></span>
+      <div class="stat"><p class="tnum" data-target="5" data-suffix="+">5</p><span class="tplus">+</span><p class="tlab">Years Experience</p></div>
+    </div>
+    <div class="badge-row reveal">
+      <span class="badge">Award Winning</span>
+      <span class="badge">4.9 Rated</span>
+      <span class="badge">Trusted by 200+ Companies</span>
+    </div>
+  </div>
+</section>
+
+<section class="steps sec-white">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How It Works</h2>
+      <p class="lead">Our streamlined process ensures efficient and effective solutions</p>
+    </div>
+    <ol class="steps-list">
+      <li><span class="step-num">1</span><div><h3>Consultation</h3><p>We discuss your needs and requirements to understand your goals</p></div></li>
+      <li><span class="step-num">2</span><div><h3>Planning</h3><p>We create a customized strategy tailored to your business</p></div></li>
+      <li><span class="step-num">3</span><div><h3>Implementation</h3><p>Our team executes the plan with precision and expertise</p></div></li>
+      <li><span class="step-num">4</span><div><h3>Delivery</h3><p>We deliver results and provide ongoing support for success</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="testimonials sec-paper">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What Our Clients Say</h2>
+      <p class="lead">Real feedback from real clients who have experienced our services</p>
+    </div>
+    <div class="tc-wrap">
+      <div class="tc-track">
+        <div class="tc-card reveal">
+          <p class="tc-mark" aria-hidden="true">&ldquo;</p>
+          <p class="tc-quote">"Nedhub transformed our recruitment process. Their expertise helped us find the perfect candidates within weeks. Highly recommended!"</p>
+          <div class="tc-author"><div class="tc-avatar">AK</div><div class="tc-info"><h4>Abena Kofi</h4><p>HR Manager, TechCorp Ghana</p></div></div>
+        </div>
+        <div class="tc-card reveal">
+          <p class="tc-mark" aria-hidden="true">&ldquo;</p>
+          <p class="tc-quote">"The training programs from Nedhub significantly improved our team's performance. Professional, engaging, and results-driven."</p>
+          <div class="tc-author"><div class="tc-avatar">KO</div><div class="tc-info"><h4>Kwame Osei</h4><p>CEO, Prime Industries</p></div></div>
+        </div>
+        <div class="tc-card reveal">
+          <p class="tc-mark" aria-hidden="true">&ldquo;</p>
+          <p class="tc-quote">"Outstanding data analytics insights that helped us make better business decisions. Nedhub is a trusted partner for our HR needs."</p>
+          <div class="tc-author"><div class="tc-avatar">YM</div><div class="tc-info"><h4>Yaw Mensah</h4><p>Director, GlobalTech Ltd</p></div></div>
+        </div>
+      </div>
+      <div class="tc-nav">
+        <button class="tc-btn" aria-label="Previous testimonial" type="button">&#10094;</button>
+        <button class="tc-btn" aria-label="Next testimonial" type="button">&#10095;</button>
+      </div>
+      <div class="tc-dots" aria-label="Testimonial carousel pages"></div>
+    </div>
+  </div>
+</section>
+
+<section class="jobs sec-white">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Latest Job Opportunities</h2>
+      <p class="lead">Join our team and build your career with Nedhub</p>
+    </div>
+    <div id="homepage-jobs" class="jobs-grid">
+      <noscript><p>JavaScript is required to load job listings. <a href="careers.html">View all positions &rarr;</a></p></noscript>
+      <div class="job-skeleton title"></div><div class="job-skeleton line"></div>
+      <div class="job-skeleton title"></div><div class="job-skeleton line line short"></div>
+      <div class="job-skeleton title"></div><div class="job-skeleton line"></div>
+    </div>
+    <div style="text-align:center;margin-top:28px"><a href="careers.html" class="btn btn-primary">View All Positions <span style="margin-left:4px">→</span></a></div>
+  </div>
+</section>
+
+<section class="cta sec-orange">
+  <div class="wrap">
+    <div class="cta-inner reveal">
+      <h2>Ready to Transform Your Business?</h2>
+      <p class="lead" style="color:var(--navy)">Contact us today to discuss how our innovative solutions can help your organization achieve its goals.</p>
+      <div class="cta-buttons"><a href="contact.html" class="btn btn-dark">Get Started</a><a href="careers.html" class="btn btn-white">View All Positions</a></div>
+    </div>
+  </div>
+</section>
+
+<div class="floats">
+  <a href="https://wa.me/233506288940/" class="float float-whatsapp" target="_blank" aria-label="Contact us on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M.057 24l4.216-.843a15 15 0 0 1 1.743-.486c.525-.167.997-.278 1.454-.337a10 10 0 0 1 3.796-.238c.69.016 1.526-.065 2.34-.343.867-.294 1.784-.673 2.632-1.252.805-.552 1.513-1.238 2.032-2.031.58-.847.959-1.765 1.253-2.633.277-.814.358-1.65.343-2.34a10 10 0 0 1 .238-3.796c.059-.457.17-.929.337-1.454a15 15 0 0 1 .486-1.743L24 .057l-.843-4.216A24 24 0 0 0 12.457 0c-.847 0-1.684.035-2.513.105a24 24 0 0 0-3.462.338c-.83.16-1.63.386-2.394.747a22 22 0 0 0-2.585 1.278 22.6 22.6 0 0 0-3.532 2.477 23 23 0 0 0-1.485 1.656 22 22 0 0 0-.747 2.394c-.07.829-.105 1.666-.105 2.513s.035 1.684.105 2.513a22 22 0 0 0 .338 3.462 22 22 0 0 0 .747 2.394c.16.83.386 1.63.747 2.394.458.952 1.043 1.832 1.656 2.584a22.6 22.6 0 0 0 2.477 3.532 22 22 0 0 0 1.278 2.585c.361.764.587 1.564.747 2.394.07.829.105 1.666.105 2.513s-.035 1.684-.105 2.513c-.035.424-.105.847-.195 1.268a23 23 0 0 0-.338 3.462c-.07.829-.105 1.666-.105 2.513 0 .847.035 1.684.105 2.513a24 24 0 0 0 .105 2.513 24 24 0 0 0 1.278 2.695zM12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1"/></svg><span>Chat on WhatsApp</span></a>
+  <div id="hiring-widget" class="hiring-widget" style="display:none"><a href="careers.html" class="float float-hiring" aria-label="View open positions"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 9h10M9 21V7h6v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>We're Hiring <span id="hiring-count">0</span></span></a></div>
+</div>
+</main>
+
+<noscript>
+  <footer aria-label="Main (no JavaScript)" style="background:#0B132B;color:#d3dbea;padding:72px 0 32px;font-size:15px">
+<style>.nf-ns-social{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1.5px solid #33416b;border-radius:50%;background:transparent;color:#ffffff;text-decoration:none}.nf-ns-social svg{width:20px;height:20px;fill:currentColor;display:block}.nf-ns-social:hover,.nf-ns-social:focus-visible{background:#F77F00;border-color:#F77F00;color:#0B132B;outline:none}.nf-ns-social:focus-visible{outline:3px solid #F77F00;outline-offset:3px}.nf-ns-socials{display:flex;gap:12px;flex-wrap:wrap}</style>
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+      <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px">
+        <div>
+          <div style="background:#ffffff;padding:8px 12px;border-radius:10px;display:inline-block;margin-bottom:16px"><img src="/Nedhubsymbol.PNG" alt="Nedhub Ghana" style="height:40px;display:block"></div>
+          <p style="color:#d3dbea;max-width:34ch">Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
+        </div>
+        <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Quick links</h4>
+          <ul style="list-style:none;margin:0;padding:0">
+            <li><a href="/index.html" style="color:#d3dbea;text-decoration:none">Home</a></li>
+            <li><a href="/about.html" style="color:#d3dbea;text-decoration:none">About Us</a></li>
+            <li><a href="/services.html" style="color:#d3dbea;text-decoration:none">Services</a></li>
+            <li><a href="/careers.html" style="color:#d3dbea;text-decoration:none">Careers</a></li>
+            <li><a href="/cv-templates.html" style="color:#d3dbea;text-decoration:none">CV Templates</a></li>
+            <li><a href="/contact.html" style="color:#d3dbea;text-decoration:none">Contact</a></li>
+          </ul>
+        </div>
+        <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Our services</h4>
+          <ul style="list-style:none;margin:0;padding:0">
+            <li><a href="/recruitment.html" style="color:#d3dbea;text-decoration:none">Recruitment</a></li>
+            <li><a href="/training.html" style="color:#d3dbea;text-decoration:none">Training</a></li>
+            <li><a href="/data-analytics.html" style="color:#d3dbea;text-decoration:none">Data Analytics</a></li>
+            <li><a href="/digital-services.html" style="color:#d3dbea;text-decoration:none">Digital Services</a></li>
+          </ul>
+        </div>
+        <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Contact us</h4>
+          <ul style="list-style:none;margin:0;padding:0">
+            <li>Phone: <a href="tel:+233271177321" style="color:#d3dbea;text-decoration:none">+233 271 177 321</a></li>
+            <li>WhatsApp: <a href="https://wa.me/233506288940/" style="color:#d3dbea;text-decoration:none">+233 50 628 8940</a></li>
+            <li>Roman Ridge, Accra, Ghana</li>
+            <li><div class="nf-ns-socials"><a href="https://www.facebook.com/profile.php?id=61587433270353" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M22 6c0 5.523-4.477 10-10 10S2 11.523 2 6 6.477 4 12 4s10 4.477 10 10v7h-3v-4h3l-1 4H8v-4H6v4H2V6c0 3.309 1.353 6.318 3.542 8.435Z"/></svg></a><a href="https://www.instagram.com/nedhubgh?igsh=cHRkbjl6anpzZGsz" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="17.5" x2="17.51" y2="17.5"/></svg></a><a href="https://www.linkedin.com/company/hr-klinic/" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a></div></li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top:1px solid #33416b;margin-top:44px;padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:#d3dbea">
+        <span>© 2026 Nedhub Ghana. All rights reserved.</span>
+        <span><a href="#" style="color:#d3dbea">Privacy Policy</a> | <a href="#" style="color:#d3dbea">Terms of Service</a> | <a href="#" style="color:#d3dbea">Cookie Policy</a></span>
+      </div>
+      <p style="text-align:center;padding:22px 16px 10px;font-size:14px;color:#d3dbea">Developed by Dromor Narh for DhroneTech Solutions</p>
+    </div>
+  </footer>
+</noscript>
+<script>
+(function(){
+  'use strict';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var API = 'https://nedhub-production.up.railway.app/api/careers/jobs';
+
+  function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+
+  function textOf(v){return v==null?'':String(v);}
+
+  /* reveal on scroll; visible by default, animation only when JS runs */
+  function initReveal(){
+    if(reduced) return;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){entry.target.classList.add('animate');io.unobserve(entry.target);}
+      });
+    },{threshold:0.1});
+    document.querySelectorAll('.hp .reveal').forEach(function(el){io.observe(el);});
+  }
+
+  /* counters: final number present in HTML, count up when visible */
+  function initCounters(){
+    document.querySelectorAll('.hp .tnum').forEach(function(counter){
+      var target = parseInt(counter.getAttribute('data-target')||'0',10);
+      var suffix = counter.getAttribute('data-suffix')||'';
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){animateCounter(counter,target,suffix);io.unobserve(counter);}
+        });
+      },{threshold:0.5});
+      io.observe(counter);
+    });
+  }
+  function animateCounter(el,target,suffix){
+    var duration = 2000, start = performance.now();
+    function frame(now){
+      var p = Math.min((now-start)/duration,1);
+      var ease = 1 - Math.pow(1-p,4);
+      el.textContent = Math.floor(target*ease).toLocaleString() + suffix;
+      if(p<1){requestAnimationFrame(frame);} else {el.textContent = target.toLocaleString() + suffix;}
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* testimonial carousel */
+  function initCarousel(){
+    var track = document.querySelector('.hp .tc-track');
+    var cards = document.querySelectorAll('.hp .tc-card');
+    var prevBtn = document.querySelector('.hp .tc-nav .tc-btn:first-child');
+    var nextBtn = document.querySelector('.hp .tc-nav .tc-btn:last-child');
+    var dotsContainer = document.querySelector('.hp .tc-dots');
+    if(!track || cards.length === 0) return;
+    if(!reduced){track.style.transition = 'transform .4s ease';}
+    var current = 0;
+    var timer = null;
+
+    var buildDots;
+    var dots;
+    buildDots = function(){
+      dotsContainer.innerHTML = '';
+      cards.forEach(function(_,i){
+        var dot = document.createElement('button');
+        dot.className = 'tc-dot' + (i===0?' active':'');
+        dot.setAttribute('aria-label','Go to testimonial '+(i+1));
+        dot.type = 'button';
+        dot.addEventListener('click',function(){goTo(i);});
+        dotsContainer.appendChild(dot);
+      });
+      dots = dotsContainer.querySelectorAll('.tc-dot');
+    };
+
+    function update(){
+      var translate = 'translateX(' + (-current*100) + '%)';
+      track.style.transform = translate;
+      track.style.webkitTransform = translate;
+      cards.forEach(function(card,i){card.classList.toggle('active', i===current);});
+      dots.forEach(function(dot,i){dot.classList.toggle('active', i===current);});
+    }
+    function goTo(i){current = ((i % cards.length) + cards.length) % cards.length; update(); reset();}
+    function next(){goTo(current+1);}
+    function prev(){goTo(current-1);}
+
+    function start(){if(reduced) return; timer = setInterval(next,6000);}
+    function reset(){clearInterval(timer); start();}
+    function pause(){clearInterval(timer); timer = null;}
+
+    prevBtn.addEventListener('click',prev);
+    nextBtn.addEventListener('click',next);
+    track.addEventListener('mouseenter',pause);
+    track.addEventListener('mouseleave',start);
+    track.addEventListener('focusin',pause);
+    track.addEventListener('focusout',start);
+
+    var ts = 0, te = 0;
+    track.addEventListener('touchstart',function(e){ts = e.changedTouches[0].screenX;},{passive:true});
+    track.addEventListener('touchend',function(e){te = e.changedTouches[0].screenX; var d = ts - te; if(Math.abs(d) > 40){ d > 0 ? next() : prev(); }},{passive:true});
+
+    document.addEventListener('keydown',function(e){
+      var rect = track.getBoundingClientRect();
+      if(rect.top < window.innerHeight && rect.bottom > 0){
+        if(e.key === 'ArrowRight'){next();}
+        else if(e.key === 'ArrowLeft'){prev();}
+      }
+    });
+
+    buildDots();
+    update();
+    start();
+  }
+
+  /* jobs */
+  function renderSkeleton(container){
+    container.innerHTML = '';
+    for(var i=0;i<3;i++){
+      var card = document.createElement('div');
+      card.className = 'job-card';
+      card.innerHTML = '<div class="job-skeleton title"></div><div class="job-skeleton line"></div><div class="job-skeleton line short"></div>';
+      container.appendChild(card);
+    }
+  }
+  function renderEmpty(container){
+    container.innerHTML = '<div class="jobs-empty"><p>We could not load the latest positions right now.</p><p><a href="careers.html">View all positions &rarr;</a></p></div>';
+  }
+  function renderJobs(jobs, container){
+    container.innerHTML = '';
+    jobs.slice(0,6).forEach(function(job){
+      var category = textOf(job.category);
+      var type = textOf(job.type);
+      var location = textOf(job.location);
+      var company = textOf(job.companyName);
+      var level = textOf(job.experienceLevel) || (function(t){var s=t.toLowerCase(); if(s.indexOf('senior')>-1||s.indexOf('lead')>-1) return 'Senior'; if(s.indexOf('junior')>-1||s.indexOf('entry')>-1) return 'Entry'; return 'Mid';})(textOf(job.title));
+      var desc = textOf(job.description);
+      var truncated = false;
+      if(desc.length > 140) { desc = desc.slice(0,140).trimEnd(); truncated = true; }
+
+      var card = document.createElement('div');
+      card.className = 'job-card';
+      var html = '';
+      if(category) html += '<div class="job-head"><span class="job-cat">' + esc(category) + '</span></div>';
+      html += '<h3 class="job-title"><a href="job.html?id=' + esc(String(job.id||'')) + '">' + esc(textOf(job.title)) + '</a></h3>';
+      if(company || location){
+        html += '<div class="job-line">';
+        if(company){html += '<span class="job-dot" aria-hidden="true"></span>' + esc(company);}
+        if(location){html += '<span class="job-dot" aria-hidden="true"></span>' + esc(location);}
+        html += '</div>';
+      }
+      var chips = [];
+      if(type) chips.push(type);
+      if(level) chips.push(level);
+      html += '<div class="job-chips">' + chips.map(function(c){return '<span class="job-chip">' + esc(c) + '</span>';}).join('') + '</div>';
+      html += '<p class="job-desc">' + esc(desc) + (truncated ? '&hellip;' : '') + '</p>';
+      html += '<div class="job-act"><a href="job.html?id=' + esc(String(job.id||'')) + '" class="btn btn-outline">View Details</a><a href="job.html?id=' + esc(String(job.id||'')) + '" class="btn btn-primary">Apply</a></div>';
+      card.innerHTML = html;
+      container.appendChild(card);
+    });
+  }
+  function loadJobs(){
+    var container = document.getElementById('homepage-jobs');
+    if(!container) return;
+    renderSkeleton(container);
+    fetch(API).then(function(response){
+      if(!response.ok) throw new Error('Failed to load jobs');
+      return response.json();
+    }).then(function(result){
+      var jobs = (result && result.success ? result.data : (result.data || [])).filter(function(j){return j && j.status === 'Published';});
+      if(jobs.length === 0){ renderEmpty(container); } else { renderJobs(jobs, container); }
+      updateHiringWidget(jobs.length);
+    }).catch(function(){
+      renderEmpty(container);
+      updateHiringWidget(0);
+    });
+  }
+  function updateHiringWidget(count){
+    var widget = document.getElementById('hiring-widget');
+    var countEl = document.getElementById('hiring-count');
+    if(!widget || !countEl) return;
+    countEl.textContent = count;
+    if(count > 0){widget.style.display = 'block';} else {widget.style.display = 'none';}
+  }
+
+  document.addEventListener('DOMContentLoaded',function(){
+    initReveal();
+    initCounters();
+    initCarousel();
+    loadJobs();
+  });
+})();
+</script>
 </body>
 </html>
