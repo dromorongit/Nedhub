@@ -10,6 +10,7 @@ const { connectDB, disconnectDB, isDBConnected } = require('./services/db');
 const paymentRoutes = require('./routes/paymentRoutes');
 const productRoutes = require('./routes/productRoutes');
 const careerRoutes = require('./routes/careerRoutes');
+const contactRoutes = require('./routes/contact');
 const adminRoutes = require('./routes/adminRoutes');
 const { errorHandler, notFoundHandler } = require('./middlewares/errorHandler');
 
@@ -88,6 +89,7 @@ app.get('/', (req, res) => {
 app.use('/api', paymentRoutes);
 app.use('/api', productRoutes);
 app.use('/api', careerRoutes);
+app.use('/api', contactRoutes);
 app.use('/api', adminRoutes);
 
 // 404 handler
@@ -136,6 +138,7 @@ const startServer = async () => {
         console.log('  GET  /api/careers/jobs       - Get public jobs (frontend)');
         console.log('  GET  /api/careers/settings   - Get public settings');
         console.log('  POST /api/careers/apply      - Submit job application');
+        console.log('  POST /api/contact            - Website contact enquiry');
         console.log('==========================================');
     });
 };
