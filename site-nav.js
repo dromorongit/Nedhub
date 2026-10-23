@@ -7,9 +7,9 @@
     '.nh-logo{display:block}',
     '.nh-logo img{height:40px;display:block}',
     '.nh-nav{display:flex;gap:20px;align-items:center;flex-wrap:wrap;justify-content:flex-end}',
-    '.nh-link{text-decoration:none;font-weight:600;font-size:15px;color:#0B132B;padding:6px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}',
-    '.nh-link:hover{color:#E56A00}',
-    '.nh-link.nh-cur{color:#0B132B;border-bottom-color:#F77F00}',
+    '.nh-header .nh-link{text-decoration:none!important;font-weight:600;font-size:15px;color:#0B132B!important;padding:6px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}',
+    '.nh-header .nh-link:hover{color:#E56A00!important}',
+    '.nh-header .nh-link.nh-cur{color:#0B132B!important;border-bottom-color:#F77F00!important}',
     '.nh-menu-btn{display:none;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;min-height:44px;background:transparent;border:none;cursor:pointer;padding:0;color:#0B132B;border-radius:6px}',
     '.nh-menu-btn:focus-visible{outline:3px solid #F77F00;outline-offset:2px}',
     '.nh-burger{display:block;width:22px;height:16px;position:relative}',
@@ -57,7 +57,7 @@
   }
 
   var header = document.createElement('header');
-  header.className = 'nh-top';
+  header.className = 'nh-top nh-header';
 
   var navLinks = links.map(function (pair) { return linkHtml(pair, 'nh-link'); }).join('');
   var panelLinks = links.map(function (pair) { return '<li>' + linkHtml(pair, 'nh-panel-link') + '</li>'; }).join('');
