@@ -151,29 +151,6 @@ details p{color:var(--muted);padding:0 0 20px;max-width:64ch}
 .close .btn-dark{background:var(--navy);color:var(--white)}
 .close .btn-dark:hover{background:var(--navy-2)}
 
-/* footer */
-footer{background:var(--navy);color:var(--on-navy);padding:72px 0 32px;font-size:15px}
-.fg{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px}
-.fg .chip{background:var(--white);padding:8px 12px;border-radius:10px;display:inline-block;margin-bottom:16px}
-.fg .chip img{height:40px}
-footer h4{color:var(--white);margin-bottom:14px;font-size:16px;font-weight:700}
-footer p{color:var(--on-navy);max-width:34ch}
-footer ul{list-style:none}
-footer li{margin-bottom:8px;color:var(--on-navy)}
-footer a{color:var(--on-navy);text-decoration:none;transition:color .2s}
-footer a:hover{color:var(--orange)}
-.legal{border-top:1px solid #33416b;margin-top:44px;padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--on-navy)}
-@media(max-width:900px){.fg{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.fg{grid-template-columns:1fr}}
-
-/* developer credit */
-.dev-credit{text-align:center;padding:22px 16px 10px}
-.dev-credit a{text-decoration:none;display:inline-flex;flex-direction:column;align-items:center;gap:10px;color:#d3dbea}
-.dev-credit a:hover{color:#F77F00}
-.dev-credit-logo{height:36px;width:auto;border-radius:4px;display:block}
-.dev-credit-text{margin:0;font-size:14px;letter-spacing:0.08em;color:#d3dbea;font-weight:500;font-family:Manrope,'Segoe UI',Tahoma,sans-serif}
-.dev-credit a:hover .dev-credit-text{color:#F77F00}
-
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 @media(max-width:360px){.wrap{padding:0 16px}.hero h1{font-size:34px}}
 </style>
@@ -346,29 +323,47 @@ footer a:hover{color:var(--orange)}
 </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <div class="fg">
-      <div>
-        <div class="chip"><img src="Nedhubsymbol.PNG" alt="Nedhub Ghana"></div>
-        <p>Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
-      </div>
-      <div><h4>Quick links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-      <div><h4>Our services</h4><ul><li><a href="recruitment.html">Recruitment</a></li><li><a href="training.html">Training</a></li><li><a href="data-analytics.html">Data Analytics</a></li><li><a href="digital-services.html">Digital Services</a></li></ul></div>
-      <div><h4>Contact us</h4><ul><li>Phone: <a href="tel:+233271177321">+233 271 177 321</a></li><li>WhatsApp: <a href="https://wa.me/233506288940/">+233 50 628 8940</a></li><li>Roman Ridge, Accra, Ghana</li><li><a href="https://www.facebook.com/profile.php?id=61587433270353">Facebook</a> · <a href="https://www.instagram.com/nedhubgh?igsh=cHRkbjl6anpzZGsz">Instagram</a> · <a href="https://www.linkedin.com/company/hr-klinic/">LinkedIn</a></li></ul></div>
-    </div>
-    <div class="legal">
-      <span>© 2026 Nedhub Ghana. All rights reserved.</span>
-      <span><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Cookie Policy</a></span>
-    </div>
-    <div class="dev-credit">
-      <a href="https://www.dromornarh.com/" target="_blank" rel="noopener noreferrer">
-        <img src="assets/images/dhronetechlogo.jpg" alt="DhroneTech Solutions" class="dev-credit-logo">
-        <p class="dev-credit-text">Developed by Dromor Narh for DhroneTech Solutions</p>
-      </a>
-    </div>
-  </div>
-</footer>
+    <noscript>
+      <footer aria-label="Main (no JavaScript)" style="background:#0B132B;color:#d3dbea;padding:72px 0 32px;font-size:15px">
+        <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+          <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px">
+            <div>
+              <div style="background:#ffffff;padding:8px 12px;border-radius:10px;display:inline-block;margin-bottom:16px"><img src="/Nedhubsymbol.PNG" alt="Nedhub Ghana" style="height:40px;display:block"></div>
+              <p style="color:#d3dbea;max-width:34ch">Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
+            </div>
+            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Quick links</h4>
+              <ul style="list-style:none;margin:0;padding:0">
+                <li><a href="/index.html" style="color:#d3dbea;text-decoration:none">Home</a></li>
+                <li><a href="/about.html" style="color:#d3dbea;text-decoration:none">About Us</a></li>
+                <li><a href="/services.html" style="color:#d3dbea;text-decoration:none">Services</a></li>
+                <li><a href="/contact.html" style="color:#d3dbea;text-decoration:none">Contact</a></li>
+              </ul>
+            </div>
+            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Our services</h4>
+              <ul style="list-style:none;margin:0;padding:0">
+                <li><a href="/recruitment.html" style="color:#d3dbea;text-decoration:none">Recruitment</a></li>
+                <li><a href="/training.html" style="color:#d3dbea;text-decoration:none">Training</a></li>
+                <li><a href="/data-analytics.html" style="color:#d3dbea;text-decoration:none">Data Analytics</a></li>
+                <li><a href="/digital-services.html" style="color:#d3dbea;text-decoration:none">Digital Services</a></li>
+              </ul>
+            </div>
+            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Contact us</h4>
+              <ul style="list-style:none;margin:0;padding:0">
+                <li>Phone: <a href="tel:+233271177321" style="color:#d3dbea;text-decoration:none">+233 271 177 321</a></li>
+                <li>WhatsApp: <a href="https://wa.me/233506288940/" style="color:#d3dbea;text-decoration:none">+233 50 628 8940</a></li>
+                <li>Roman Ridge, Accra, Ghana</li>
+                <li><a href="https://www.facebook.com/profile.php?id=61587433270353" style="color:#d3dbea">Facebook</a> · <a href="https://www.instagram.com/nedhubgh?igsh=cHRkbjl6anpzZGsz" style="color:#d3dbea">Instagram</a> · <a href="https://www.linkedin.com/company/hr-klinic/" style="color:#d3dbea">LinkedIn</a></li>
+              </ul>
+            </div>
+          </div>
+          <div style="border-top:1px solid #33416b;margin-top:44px;padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:#d3dbea">
+            <span>© 2026 Nedhub Ghana. All rights reserved.</span>
+            <span><a href="#" style="color:#d3dbea">Privacy Policy</a> | <a href="#" style="color:#d3dbea">Terms of Service</a> | <a href="#" style="color:#d3dbea">Cookie Policy</a></span>
+          </div>
+          <p style="text-align:center;padding:22px 16px 10px;font-size:14px;color:#d3dbea">Developed by Dromor Narh for DhroneTech Solutions</p>
+        </div>
+      </footer>
+    </noscript>
 
 <script>
 (function(){
@@ -381,5 +376,6 @@ footer a:hover{color:var(--orange)}
   document.head.appendChild(s);
 })();
 </script>
+<script src="/site-footer.js" defer></script>
 </body>
 </html>
