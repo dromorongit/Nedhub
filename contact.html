@@ -1,18 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contact Nedhub - Get in touch with our team for corporate solutions">
-    <title>Contact Us | Nedhub</title>
-    <link rel="icon" type="image/png" href="Nedhubsymbol.PNG">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/privacy-modal.css">
-    <link rel="stylesheet" href="css/terms-modal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Contact Nedhub - Get in touch with our team for corporate solutions">
+<title>Contact Us | Nedhub</title>
+<link rel="icon" type="image/png" href="Nedhubsymbol.PNG">
+<link rel="canonical" href="https://www.nedhubgh.com/contact.html">
+<meta property="og:site_name" content="Nedhub Ghana">
+<meta property="og:url" content="https://www.nedhubgh.com/contact.html">
+<meta property="og:title" content="Contact Us | Nedhub">
+<meta property="og:description" content="Contact Nedhub - Get in touch with our team for corporate solutions">
+<meta property="og:image" content="https://www.nedhubgh.com/Nedhublogo.PNG">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/privacy-modal.css">
+<link rel="stylesheet" href="css/terms-modal.css">
 <script src="/site-nav.js" defer></script>
+<script src="/site-footer.js?v=2" defer></script>
+<script src="/js/privacy-modal.js" defer></script>
+<script src="/js/terms-modal.js" defer></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ContactPage","name":"Contact Nedhub Ghana","url":"https://www.nedhubgh.com/contact.html","contactPoint":[{"@type":"ContactPoint","telephone":"+233271177321","contactType":"customer support","areaServed":"GH"},{"@type":"ContactPoint","telephone":"+233506288940","contactType":"WhatsApp","areaServed":"GH"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Nedhub Ghana","telephone":"+233 271 177 321","email":"info@nedhubgh.com","address":{"@type":"PostalAddress","streetAddress":"Roman Ridge","addressLocality":"Accra","addressCountry":"GH"}}
+</script>
+<style>
+.cp,.cp *{box-sizing:border-box;margin:0;padding:0}
+.cp{--navy:#0B132B;--navy-2:#1C2541;--orange:#F77F00;--orange-dark:#E56A00;--paper:#F4F6F8;--white:#ffffff;--ink:#0B132B;--muted:#46526b;--line:#dde3ec;--on-navy:#d3dbea;--radius:16px;font-family:'Manrope','Segoe UI',Tahoma,sans-serif;color:var(--ink);background:var(--white);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased;padding-bottom:140px}
+.cp a{color:inherit;text-decoration:none}
+.cp img{max-width:100%;height:auto;display:block}
+.cp .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.cp .sec-navy{background:var(--navy);color:var(--white)}
+.cp .sec-paper{background:var(--paper);color:var(--ink)}
+.cp .sec-white{background:var(--white);color:var(--ink)}
+.cp .sec-orange{background:var(--orange);color:var(--navy)}
+.cp section{padding:80px 0}
+.cp h1,.cp h2,.cp h3{line-height:1.12;letter-spacing:-.025em;font-weight:800;color:inherit}
+.cp h1{font-size:clamp(34px,5.2vw,56px)}
+.cp h2{font-size:clamp(24px,3.2vw,38px);margin-bottom:12px}
+.cp h3{font-size:18px;margin-bottom:6px}
+.cp p{color:inherit}
+.cp .lead{font-size:18px;color:var(--muted);max-width:62ch}
+.cp .sec-navy .lead{color:var(--on-navy)}
+.cp :focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:4px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.cp *{transition:none!important;animation:none!important}}
+@media(max-width:599px){.cp section{padding:52px 0}.cp .wrap{padding:0 16px}}
+
+/* buttons */
+.cp .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:12px;font-weight:700;font-size:16px;border:2px solid transparent;cursor:pointer;font-family:inherit;transition:background .2s,color .2s,border-color .2s,transform .15s}
+.cp .btn:hover{transform:translateY(-1px)}
+.cp .btn-primary{background:var(--orange);color:var(--navy)}
+.cp .btn-primary:hover{background:var(--orange-dark);color:var(--navy)}
+.cp .btn-ghost-navy{border-color:#5b6a8c;color:var(--on-navy);background:transparent}
+.cp .btn-ghost-navy:hover{background:var(--white);color:var(--navy);border-color:var(--white)}
+.cp .btn-outline{border:2px solid var(--navy);color:var(--navy);background:transparent}
+.cp .btn-outline:hover{background:var(--navy);color:var(--white)}
+.cp .btn-dark{background:var(--navy);color:var(--white)}
+.cp .btn-dark:hover{background:var(--navy-2);color:var(--white)}
+.cp .btn-white{background:var(--white);color:var(--navy)}
+.cp .btn-white:hover{background:var(--orange);color:var(--navy)}
+
+/* hero */
+.cp .hero{padding:80px 0 96px}
+.cp .hero h1{margin-bottom:16px}
+.cp .hero p{color:var(--on-navy);font-size:18px;max-width:58ch;margin-bottom:28px}
+.cp .hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.cp .hero-stats{display:flex;align-items:center;flex-wrap:wrap;gap:14px}
+.cp .hero .stat-num{font-size:22px;font-weight:800;color:var(--white)}
+.cp .hero .stat-lab{font-size:13px;color:var(--on-navy)}
+.cp .hero .stat-div{width:1px;height:20px;background:#33416b}
+@media(max-width:860px){.cp .hero{padding:64px 0 80px}}
+
+/* contact area */
+.cp .contact-area{padding:80px 0}
+.cp .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+@media(max-width:900px){.cp .contact-grid{grid-template-columns:1fr}}
+.cp .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.cp .card h2{color:var(--ink);margin-bottom:6px}
+.cp .card .sub{color:var(--muted);font-size:15px;margin-bottom:20px}
+.cp .form-field{margin-bottom:16px}
+.cp .form-field label{display:block;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.cp .form-field input,.cp .form-field select,.cp .form-field textarea{width:100%;min-height:48px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;font-family:inherit;color:var(--ink);background:var(--white);transition:border-color .2s,box-shadow .2s}
+.cp .form-field textarea{min-height:120px;resize:vertical}
+.cp .form-field input:focus,.cp .form-field select:focus,.cp .form-field textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(247,127,0,.15);outline:none}
+.cp .form-field.error input,.cp .form-field.error select,.cp .form-field.error textarea{border-color:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,.12)}
+.cp .form-field .err{display:block;color:#dc2626;font-size:13px;margin-top:4px;min-height:16px}
+.cp .form-field .hint{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.cp .form-field .counter{display:block;text-align:right;color:var(--muted);font-size:12px;margin-top:4px}
+.cp .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.cp .form-row{grid-template-columns:1fr}}
+.cp .hp-field{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;opacity:0}
+.cp .consent{font-size:13px;color:var(--muted);margin:8px 0 16px}
+.cp .consent a{color:var(--navy);text-decoration:underline;font-weight:600}
+.cp .form-status{margin-top:12px;font-size:14px;min-height:20px}
+.cp .form-status.error{color:#dc2626}
+.cp .form-status.info{color:var(--muted)}
+.cp .success-state{display:none;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:32px;text-align:center}
+.cp .success-state.show{display:block}
+.cp .success-state h3{color:var(--ink);margin-bottom:8px}
+.cp .success-state p{color:var(--muted);margin-bottom:16px}
+.cp .fallbacks{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.cp .fallbacks a{font-size:14px;color:var(--navy);text-decoration:underline;font-weight:600}
+
+/* contact cards */
+.cp .info-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.cp .info-card h2{color:var(--ink);margin-bottom:6px}
+.cp .info-row{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.cp .info-row:last-of-type{border-bottom:0}
+.cp .info-icon{width:40px;height:40px;border-radius:10px;background:var(--paper);color:var(--navy);display:grid;place-items:center;flex:none}
+.cp .info-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cp .info-text h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.cp .info-text p,.cp .info-text a{font-size:15px;color:var(--muted)}
+.cp .info-text a:hover{color:var(--orange)}
+.cp .promise{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.cp .promise div{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink);font-weight:600}
+.cp .promise svg{width:18px;height:18px;fill:none;stroke:var(--orange);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* social */
+.cp .social{padding:64px 0;background:var(--white)}
+.cp .social h2{color:var(--ink);text-align:center;margin-bottom:6px}
+.cp .social .sub{text-align:center;color:var(--muted);margin-bottom:24px}
+.cp .social-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.cp .social-btn{width:56px;height:56px;border-radius:50%;background:var(--paper);color:var(--navy);display:grid;place-items:center;border:1.5px solid var(--line);transition:background .2s,color .2s,border-color .2s}
+.cp .social-btn:hover{background:var(--orange);color:var(--navy);border-color:var(--orange)}
+.cp .social-btn svg{width:24px;height:24px;fill:currentColor}
+.cp .social-btn:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+
+/* map */
+.cp .map-section{padding:64px 0;background:var(--paper)}
+.cp .map-section h2{color:var(--ink);text-align:center;margin-bottom:6px}
+.cp .map-section .sub{text-align:center;color:var(--muted);margin-bottom:24px}
+.cp .map-box{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:var(--white)}
+.cp .map-box iframe{width:100%;height:320px;border:0;display:block}
+.cp .map-meta{padding:16px 20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+.cp .map-meta .addr{color:var(--ink);font-size:15px;font-weight:600}
+.cp .map-meta a{color:var(--navy);font-weight:700;text-decoration:underline}
+
+/* faq */
+.cp .faq-section{padding:64px 0;background:var(--white)}
+.cp .faq-section h2{color:var(--ink);text-align:center;margin-bottom:6px}
+.cp .faq-section .sub{text-align:center;color:var(--muted);margin-bottom:24px}
+.cp .faq{max-width:820px;margin:0 auto}
+.cp details{border-bottom:1px solid var(--line);padding:6px 0}
+.cp summary{cursor:pointer;font-weight:700;font-size:17px;padding:16px 40px 16px 0;list-style:none;position:relative;color:var(--ink)}
+.cp summary::-webkit-details-marker{display:none}
+.cp summary::after{content:"+";position:absolute;right:4px;top:12px;font-size:24px;font-weight:500;color:var(--orange-dark);transition:transform .2s}
+.cp details[open] summary::after{transform:rotate(45deg)}
+.cp details p{color:var(--muted);padding:0 0 18px;max-width:64ch}
+
+/* close band */
+.cp .close-band{background:var(--orange);color:var(--navy);text-align:center;padding:72px 0}
+.cp .close-band h2{color:var(--navy);margin-bottom:10px}
+.cp .close-band p{color:var(--navy);font-size:18px;max-width:56ch;margin:0 auto 24px}
+.cp .close-band .btn-dark{background:var(--navy);color:var(--white)}
+.cp .close-band .btn-dark:hover{background:var(--navy-2)}
+</style>
 </head>
 <body>
 <noscript>
@@ -28,433 +175,359 @@
     </ul>
   </nav>
 </noscript>
-<main id="main-content">
-        <!-- Hero Section with Modern Design -->
-        <section class="hero">
-            <!-- Hero Background with Image -->
-            <div class="hero-background">
-                <img src="https://images.unsplash.com/photo-1423666639041-f141fc0841e1?w=1920&q=80" alt="Contact and communication" class="hero-image">
-                <div class="hero-overlay"></div>
-                <div class="hero-gradient"></div>
-                <div class="hero-particles">
-                    <div class="hero-particle" style="top: 20%; left: 10%; width: 4px; height: 4px; animation-delay: 0.5s;"></div>
-                    <div class="hero-particle" style="top: 60%; left: 85%; width: 6px; height: 6px; animation-delay: 1s;"></div>
-                    <div class="hero-particle" style="top: 40%; left: 20%; width: 3px; height: 3px; animation-delay: 1.5s;"></div>
-                    <div class="hero-particle" style="top: 80%; left: 70%; width: 5px; height: 5px; animation-delay: 2s;"></div>
-                    <div class="hero-particle" style="top: 30%; left: 90%; width: 4px; height: 4px; animation-delay: 2.5s;"></div>
-                    <div class="hero-particle" style="top: 70%; left: 15%; width: 6px; height: 6px; animation-delay: 3s;"></div>
-                </div>
-                <!-- Floating Shapes for Visual Interest -->
-                <div class="floating-shape shape-1"></div>
-                <div class="floating-shape shape-2"></div>
-                <div class="floating-shape shape-3"></div>
+<main class="cp" id="main-content">
+
+<section class="hero sec-navy">
+  <div class="wrap">
+    <p class="badge" style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:var(--orange);color:var(--navy);font-size:13px;font-weight:800;margin-bottom:18px">We're here to help</p>
+    <h1>Contact <span style="color:var(--orange)">Us</span></h1>
+    <p>We'd love to hear from you. Reach out to discuss how we can help transform your business today.</p>
+    <div class="hero-buttons">
+      <a href="https://wa.me/233506288940/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+      <a href="tel:+233271177321" class="btn btn-ghost-navy">Call us</a>
+    </div>
+    <div class="hero-stats">
+      <span class="stat-num">24h</span><span class="stat-lab">Response Time</span>
+      <span class="stat-div" aria-hidden="true"></span>
+      <span class="stat-num">24/7</span><span class="stat-lab">Support Available</span>
+      <span class="stat-div" aria-hidden="true"></span>
+      <span class="stat-num">100%</span><span class="stat-lab">Dedicated Support</span>
+    </div>
+  </div>
+</section>
+
+<section class="contact-area sec-paper">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="card" id="formCard">
+        <h2>Send Us A Message</h2>
+        <p class="sub">Fill out the form below and our team will get back to you within 24 hours.</p>
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-field" data-field="name">
+              <label for="name">Full name</label>
+              <input type="text" id="name" name="name" required autocomplete="name" placeholder="John Doe">
+              <span class="err" id="name-err" aria-live="polite"></span>
             </div>
-            <div class="container">
-                <div class="hero-content">
-                    <div class="hero-badge animate-fade-in-up delay-1">
-                        <span class="badge-icon">✦</span>
-                        <span>We're Here to Help</span>
-                    </div>
-                    <h1 class="animate-fade-in-up delay-2">Contact <span class="highlight-text">Us</span></h1>
-                    <p class="animate-fade-in-up delay-3">We'd love to hear from you. Reach out to discuss how we can help transform your business today.</p>
-                    <div class="hero-buttons animate-fade-in-up delay-4">
-                        <a href="tel:+233271177321" class="btn btn-primary btn-large btn-with-icon">
-                            <span class="btn-text">Call Now</span>
-                            <span class="btn-icon">📞</span>
-                        </a>
-                        <a href="#contactForm" class="btn btn-secondary btn-large btn-with-icon">
-                            <span class="btn-text">Send Message</span>
-                            <span class="btn-icon">→</span>
-                        </a>
-                    </div>
-                    <div class="hero-stats animate-fade-in-up delay-5" style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: var(--space-xl); margin-top: var(--space-xxl); padding-top: var(--space-xl); border-top: 1px solid rgba(255, 255, 255, 0.2); flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
-                        <div class="stat-item" style="text-align: left; position: relative; padding: var(--space-md); background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.15); min-width: 140px; flex-shrink: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                            <span class="stat-number" style="display: block; font-size: var(--font-size-xxxl); font-weight: 800; color: var(--accent-orange); line-height: 1; margin-bottom: var(--space-xs); text-shadow: 0 2px 10px rgba(247, 127, 0, 0.3); font-family: 'Inter', sans-serif; letter-spacing: -1px;">24h</span>
-                            <span class="stat-label" style="display: block; font-size: var(--font-size-sm); color: rgba(255, 255, 255, 0.9); margin-top: var(--space-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Response Time</span>
-                        </div>
-                        <div class="stat-divider" style="width: 1px; height: 50px; background: rgba(255, 255, 255, 0.3); flex-shrink: 0;"></div>
-                        <div class="stat-item" style="text-align: left; position: relative; padding: var(--space-md); background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.15); min-width: 140px; flex-shrink: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                            <span class="stat-number" style="display: block; font-size: var(--font-size-xxxl); font-weight: 800; color: var(--accent-orange); line-height: 1; margin-bottom: var(--space-xs); text-shadow: 0 2px 10px rgba(247, 127, 0, 0.3); font-family: 'Inter', sans-serif; letter-spacing: -1px;">24/7</span>
-                            <span class="stat-label" style="display: block; font-size: var(--font-size-sm); color: rgba(255, 255, 255, 0.9); margin-top: var(--space-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Support Available</span>
-                        </div>
-                        <div class="stat-divider" style="width: 1px; height: 50px; background: rgba(255, 255, 255, 0.3); flex-shrink: 0;"></div>
-                        <div class="stat-item" style="text-align: left; position: relative; padding: var(--space-md); background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.15); min-width: 140px; flex-shrink: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                            <span class="stat-number" style="display: block; font-size: var(--font-size-xxxl); font-weight: 800; color: var(--accent-orange); line-height: 1; margin-bottom: var(--space-xs); text-shadow: 0 2px 10px rgba(247, 127, 0, 0.3); font-family: 'Inter', sans-serif; letter-spacing: -1px;">100%</span>
-                            <span class="stat-label" style="display: block; font-size: var(--font-size-sm); color: rgba(255, 255, 255, 0.9); margin-top: var(--space-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Dedicated Support</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Scroll Indicator -->
-            <div class="scroll-indicator">
-                <span>Scroll to explore</span>
-                <div class="scroll-arrow"></div>
-            </div>
-        </section>
-
-        <!-- Contact Section - Modern & Fully Responsive -->
-        <section class="contact-section">
-            <div class="container">
-                <div class="contact-wrapper">
-                    <!-- Contact Form -->
-                    <div class="contact-form-container">
-                        <div class="contact-form-header">
-                            <span class="section-badge">
-                                <i class="fas fa-paper-plane"></i>
-                                Get In Touch
-                            </span>
-                            <h2>Send Us A Message</h2>
-                            <p class="form-description">Fill out the form below and our team will get back to you within 24 hours.</p>
-                        </div>
-                        
-                        <form id="contactForm" class="modern-form">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="name">
-                                        <i class="fas fa-user"></i> Your Name
-                                    </label>
-                                    <input type="text" id="name" name="name" required aria-required="true" placeholder="John Doe">
-                                    <span class="error-message" id="name-error"></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="email">
-                                        <i class="fas fa-envelope"></i> Email Address
-                                    </label>
-                                    <input type="email" id="email" name="email" required aria-required="true" placeholder="john@example.com">
-                                    <span class="error-message" id="email-error"></span>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="phone">
-                                        <i class="fas fa-phone"></i> Phone Number
-                                    </label>
-                                    <input type="tel" id="phone" name="phone" placeholder="+233 271 177 321">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="subject">
-                                        <i class="fas fa-tag"></i> Subject
-                                    </label>
-                                    <input type="text" id="subject" name="subject" required aria-required="true" placeholder="How can we help?">
-                                    <span class="error-message" id="subject-error"></span>
-                                </div>
-                            </div>
-
-                            <div class="form-group full-width">
-                                <label for="message">
-                                    <i class="fas fa-comment"></i> Your Message
-                                </label>
-                                <textarea id="message" name="message" rows="5" required aria-required="true" placeholder="Tell us about your needs..."></textarea>
-                                <span class="error-message" id="message-error"></span>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary btn-submit">
-                                <span class="btn-text">Send Message</span>
-                                <span class="btn-icon">
-                                    <i class="fas fa-arrow-right"></i>
-                                </span>
-                            </button>
-
-                            <div id="form-status" class="form-status"></div>
-                        </form>
-                    </div>
-
-                    <!-- Contact Information Sidebar -->
-                    <div class="contact-info-container">
-                        <div class="contact-info-card">
-                            <h3>Contact Information</h3>
-                            <p class="contact-intro">Our team is ready to assist you with any questions or requirements you may have.</p>
-
-                            <div class="contact-methods">
-                                <div class="contact-method">
-                                    <div class="method-icon">
-                                        <i class="fas fa-phone-alt"></i>
-                                    </div>
-                                    <div class="method-details">
-                                        <h4>Phone</h4>
-                                        <a href="tel:+233271177321">+233 271 177 321</a>
-                                    </div>
-                                </div>
-
-                                <div class="contact-method">
-                                    <div class="method-icon">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    <div class="method-details">
-                                        <h4>Location</h4>
-                                        <p>Roman Ridge, Accra, Ghana</p>
-                                    </div>
-                                </div>
-
-                                <div class="contact-method">
-                                    <div class="method-icon">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </div>
-                                    <div class="method-details">
-                                        <h4>LinkedIn</h4>
-                                        <a href="https://www.linkedin.com/company/hr-klinic/" target="_blank">linkedin.com/company/hr-klinic</a>
-                                    </div>
-                                </div>
-
-                                <div class="contact-method">
-                                    <div class="method-icon">
-                                        <i class="fas fa-envelope"></i>
-                                    </div>
-                                    <div class="method-details">
-                                        <h4>Email</h4>
-                                        <a href="mailto:info@nedhubgh.com">info@nedhubgh.com</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Business Hours -->
-                            <div class="business-hours-card">
-                                <h4>
-                                    <i class="fas fa-clock"></i> Business Hours
-                                </h4>
-                                <ul class="hours-list">
-                                    <li>
-                                        <span class="day">Monday - Friday</span>
-                                        <span class="time">9:00 AM - 5:00 PM</span>
-                                    </li>
-                                    <li>
-                                        <span class="day">Saturday</span>
-                                        <span class="time">10:00 AM - 2:00 PM</span>
-                                    </li>
-                                    <li>
-                                        <span class="day">Sunday</span>
-                                        <span class="time">Closed</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Interactive Map Section -->
-        <section class="map-section">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-badge">
-                        <i class="fas fa-map"></i>
-                        Visit Us
-                    </span>
-                    <h2>Our Location</h2>
-                    <p class="section-description">Visit our office in Roman Ridge or connect with us online</p>
-                </div>
-                <div class="map-container">
-                    <div class="map-placeholder">
-                        <div class="map-content">
-                            <div class="map-marker">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <h3>Nedhub Headquarters</h3>
-                            <p>Roman Ridge, Accra, Ghana</p>
-                            <a href="https://maps.google.com/?q=Roman+Ridge+Accra+Ghana" target="_blank" class="btn btn-outline">
-                                <span>Get Directions</span>
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Social Media Section -->
-        <section class="social-media-section">
-            <div class="container">
-                <div class="section-header centered">
-                    <span class="section-badge">
-                        <i class="fas fa-share-alt"></i>
-                        Stay Connected
-                    </span>
-                    <h2>Connect With Us</h2>
-                    <p class="section-description">Follow us on social media for updates, insights, and professional content</p>
-                </div>
-                <div class="social-cards-grid">
-                    <div class="social-card">
-                        <div class="social-card-icon facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </div>
-                        <h3>Facebook</h3>
-                        <p>Stay updated with our latest news, events, and industry insights.</p>
-                        <a href="https://www.facebook.com/profile.php?id=61587433270353" target="_blank" class="social-link">
-                            <span>Follow Us</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    
-                    <div class="social-card">
-                        <div class="social-card-icon linkedin">
-                            <i class="fab fa-linkedin-in"></i>
-                        </div>
-                        <h3>LinkedIn</h3>
-                        <p>Connect with us professionally and explore career opportunities.</p>
-                        <a href="https://www.linkedin.com/company/hr-klinic/" target="_blank" class="social-link">
-                            <span>Connect</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    
-                    <div class="social-card">
-                        <div class="social-card-icon whatsapp">
-                            <i class="fab fa-whatsapp"></i>
-                        </div>
-                        <h3>WhatsApp</h3>
-                        <p>Get instant support and quick responses through WhatsApp.</p>
-                        <a href="https://wa.me/233506288940/" target="_blank" class="social-link">
-                            <span>Message Us</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section class="faq-section">
-            <div class="container">
-                <div class="section-header centered">
-                    <span class="section-badge">
-                        <i class="fas fa-question-circle"></i>
-                        Need Help?
-                    </span>
-                    <h2>Frequently Asked Questions</h2>
-                    <p class="section-description">Find answers to common questions about our services</p>
-                </div>
-                
-                <div class="faq-accordion">
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false">
-                            <span>What services does Nedhub offer?</span>
-                            <span class="faq-toggle">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                        </button>
-                        <div class="faq-answer">
-                            <p>We offer comprehensive corporate solutions including recruitment, staff outsourcing, training programs, career coaching, data analytics, and BULK SMS business communication solutions.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false">
-                            <span>How can I get started with your services?</span>
-                            <span class="faq-toggle">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Simply fill out our contact form or call us at +233 271 177 321. Our team will schedule a consultation to understand your needs and recommend the best solutions.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false">
-                            <span>Do you offer customized solutions?</span>
-                            <span class="faq-toggle">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Yes, all our services are tailored to meet your specific business requirements. We work closely with you to develop solutions that address your unique challenges.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <button class="faq-question" aria-expanded="false">
-                            <span>What industries do you serve?</span>
-                            <span class="faq-toggle">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                        </button>
-                        <div class="faq-answer">
-                            <p>We serve diverse industries including technology, finance, healthcare, education, manufacturing, and more. Our solutions are adaptable to various sector requirements.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Final CTA Section -->
-        <section class="final-cta-section">
-            <div class="container">
-                <div class="cta-content">
-                    <h2>Ready to Transform Your Business?</h2>
-                    <p>Contact us today to discuss how our innovative solutions can help your organization achieve its goals.</p>
-                    <div class="cta-buttons">
-                        <a href="tel:+233271177321" class="btn btn-primary btn-large">
-                            <span class="btn-icon">📞</span>
-                            <span class="btn-text">Call Now</span>
-                        </a>
-                        <a href="mailto:info@nedhubgh.com" class="btn btn-secondary btn-large">
-                            <span class="btn-icon">✉️</span>
-                            <span class="btn-text">Email Us</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script src="js/main.js" type="module"></script>
-    <script src="js/animations.js" type="module"></script>
-<script src="js/form-validation.js" type="module"></script>
-    <script src="js/privacy-modal.js"></script>
-    <script src="js/terms-modal.js"></script>
-    <script src="js/contact-page.js"></script>
-    <noscript>
-      <footer aria-label="Main (no JavaScript)" style="background:#0B132B;color:#d3dbea;padding:72px 0 32px;font-size:15px">
-<style>.nf-ns-social{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1.5px solid #33416b;border-radius:50%;background:transparent;color:#ffffff;text-decoration:none}.nf-ns-social svg{width:20px;height:20px;fill:currentColor;display:block}.nf-ns-social:hover,.nf-ns-social:focus-visible{background:#F77F00;border-color:#F77F00;color:#0B132B;outline:none}.nf-ns-social:focus-visible{outline:3px solid #F77F00;outline-offset:3px}.nf-ns-socials{display:flex;gap:12px;flex-wrap:wrap}</style>
-        <div style="max-width:1200px;margin:0 auto;padding:0 24px">
-          <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px">
-            <div>
-              <div style="background:#ffffff;padding:8px 12px;border-radius:10px;display:inline-block;margin-bottom:16px"><img src="/Nedhubsymbol.PNG" alt="Nedhub Ghana" style="height:40px;display:block"></div>
-              <p style="color:#d3dbea;max-width:34ch">Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
-            </div>
-            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Quick links</h4>
-              <ul style="list-style:none;margin:0;padding:0">
-                <li><a href="/index.html" style="color:#d3dbea;text-decoration:none">Home</a></li>
-                <li><a href="/about.html" style="color:#d3dbea;text-decoration:none">About Us</a></li>
-                <li><a href="/services.html" style="color:#d3dbea;text-decoration:none">Services</a></li>
-                <li><a href="/careers.html" style="color:#d3dbea;text-decoration:none">Careers</a></li>
-                <li><a href="/cv-templates.html" style="color:#d3dbea;text-decoration:none">CV Templates</a></li>
-                <li><a href="/contact.html" style="color:#d3dbea;text-decoration:none">Contact</a></li>
-              </ul>
-            </div>
-            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Our services</h4>
-              <ul style="list-style:none;margin:0;padding:0">
-                <li><a href="/recruitment.html" style="color:#d3dbea;text-decoration:none">Recruitment</a></li>
-                <li><a href="/training.html" style="color:#d3dbea;text-decoration:none">Training</a></li>
-                <li><a href="/data-analytics.html" style="color:#d3dbea;text-decoration:none">Data Analytics</a></li>
-                <li><a href="/digital-services.html" style="color:#d3dbea;text-decoration:none">Digital Services</a></li>
-              </ul>
-            </div>
-            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Contact us</h4>
-              <ul style="list-style:none;margin:0;padding:0">
-                <li>Phone: <a href="tel:+233271177321" style="color:#d3dbea;text-decoration:none">+233 271 177 321</a></li>
-                <li>WhatsApp: <a href="https://wa.me/233506288940/" style="color:#d3dbea;text-decoration:none">+233 50 628 8940</a></li>
-                <li>Roman Ridge, Accra, Ghana</li>
-                <li><div class="nf-ns-socials"><a href="https://www.facebook.com/profile.php?id=61587433270353" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a><a href="https://www.instagram.com/nedhubgh?igsh=cHRkbjl6anpzZGsz" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a><a href="https://www.linkedin.com/company/hr-klinic/" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a></div></li>
-              </ul>
+            <div class="form-field" data-field="email">
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" required autocomplete="email" placeholder="john@example.com">
+              <span class="err" id="email-err" aria-live="polite"></span>
             </div>
           </div>
-          <div style="border-top:1px solid #33416b;margin-top:44px;padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:#d3dbea">
-            <span>© 2026 Nedhub Ghana. All rights reserved.</span>
-            <span><a href="#" style="color:#d3dbea">Privacy Policy</a> | <a href="#" style="color:#d3dbea">Terms of Service</a> | <a href="#" style="color:#d3dbea">Cookie Policy</a></span>
+          <div class="form-row">
+            <div class="form-field" data-field="phone">
+              <label for="phone">Phone (optional)</label>
+              <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="+233 271 177 321">
+              <span class="err" id="phone-err" aria-live="polite"></span>
+            </div>
+            <div class="form-field" data-field="service">
+              <label for="service">What can we help with?</label>
+              <select id="service" name="service" required>
+                <option value="">Select a service</option>
+                <option>Recruitment &amp; Talent Acquisition</option>
+                <option>Staff Outsourcing</option>
+                <option>Training &amp; Capacity Building</option>
+                <option>Career Coaching</option>
+                <option>Data Analytics</option>
+                <option>Digital Services (Bulk SMS &amp; Payments)</option>
+                <option>CV Templates</option>
+                <option>Other</option>
+              </select>
+              <span class="err" id="service-err" aria-live="polite"></span>
+            </div>
           </div>
-          <p style="text-align:center;padding:22px 16px 10px;font-size:14px;color:#d3dbea">Developed by Dromor Narh for DhroneTech Solutions</p>
+          <div class="form-field" data-field="message">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required rows="5" placeholder="Tell us about your needs..." maxlength="2000"></textarea>
+            <span class="counter" id="msg-counter">0 / 2000</span>
+            <span class="err" id="message-err" aria-live="polite"></span>
+          </div>
+          <!-- honeypot -->
+          <div class="hp-field" aria-hidden="true">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <p class="consent">By sending this message you agree to our <a href="#" data-privacy>Privacy Policy</a>.</p>
+          <div aria-live="assertive" id="form-summary" style="color:#dc2626;font-size:14px;margin-bottom:8px"></div>
+          <button type="submit" class="btn btn-primary" id="submitBtn">Send message</button>
+          <div class="form-status" id="formStatus"></div>
+          <div class="fallbacks" id="fallbacks" style="display:none">
+            <a href="mailto:info@nedhubgh.com">Email us directly</a>
+            <a href="https://wa.me/233506288940/" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
+          </div>
+        </form>
+        <div class="success-state" id="successState">
+          <h3 id="successTitle">Thank you</h3>
+          <p id="successMsg"></p>
+          <button type="button" class="btn btn-primary" id="sendAnother">Send another message</button>
         </div>
-      </footer>
-    </noscript>
-    <script src="/site-footer.js?v=2" defer></script>
+      </div>
+      <div class="info-card">
+        <h2>Contact Information</h2>
+        <p class="sub">Our team is ready to assist you with any questions or requirements you may have.</p>
+        <div class="info-row">
+          <div class="info-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div class="info-text"><h4>Phone</h4><a href="tel:+233271177321">+233 271 177 321</a></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+          <div class="info-text"><h4>WhatsApp</h4><a href="https://wa.me/233506288940/" target="_blank" rel="noopener noreferrer">+233 50 628 8940</a></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div class="info-text"><h4>Email</h4><a href="mailto:info@nedhubgh.com">info@nedhubgh.com</a></div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div class="info-text"><h4>Address</h4><p>Roman Ridge, Accra, Ghana</p></div>
+        </div>
+        <div class="promise">
+          <div><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>24h response</div>
+          <div><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>24/7 support</div>
+          <div><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>100% dedicated support</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="social sec-white">
+  <div class="wrap">
+    <h2>Connect With Us</h2>
+    <p class="sub">Follow us on social media for updates, insights, and professional content.</p>
+    <div class="social-row">
+      <a class="social-btn" href="https://www.facebook.com/profile.php?id=61587433270353" target="_blank" rel="noopener noreferrer" aria-label="Nedhub on Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>
+      </a>
+      <a class="social-btn" href="https://www.instagram.com/nedhubgh?igsh=cHRkbjl6anpzZGsz" target="_blank" rel="noopener noreferrer" aria-label="Nedhub on Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>
+      </a>
+      <a class="social-btn" href="https://www.linkedin.com/company/hr-klinic/" target="_blank" rel="noopener noreferrer" aria-label="Nedhub on LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="map-section sec-white">
+  <div class="wrap">
+    <h2 style="text-align:center">Our Location</h2>
+    <p class="sub" style="text-align:center;color:var(--muted);margin-bottom:24px">Visit our office in Roman Ridge or connect with us online</p>
+    <div class="map-box">
+      <iframe title="Map of Roman Ridge, Accra, Ghana" src="https://www.google.com/maps?q=Roman+Ridge+Accra+Ghana&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <div class="map-meta">
+      <span class="addr">Roman Ridge, Accra, Ghana</span>
+      <a href="https://maps.google.com/?q=Roman+Ridge+Accra+Ghana" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section sec-paper">
+  <div class="wrap">
+    <h2 style="text-align:center">Frequently Asked Questions</h2>
+    <p class="sub" style="text-align:center;color:var(--muted);margin-bottom:24px">Find answers to common questions about our services</p>
+    <div class="faq" id="faq-list">
+      <details><summary>How fast do you respond?</summary><p>We reply within 24 hours on business days, and 24/7 support is available for urgent matters.</p></details>
+      <details><summary>How do I apply for a job?</summary><p>Visit our <a href="/careers.html" style="color:var(--navy);text-decoration:underline">Careers page</a> to view open positions and submit your application.</p></details>
+      <details><summary>How do I buy CV templates?</summary><p>Browse and download from our <a href="/cv-templates.html" style="color:var(--navy);text-decoration:underline">CV Templates page</a>.</p></details>
+      <details><summary>Where is the digital services platform?</summary><p>Access the platform at <a href="https://app.nedhubgh.com" target="_blank" rel="noopener noreferrer" style="color:var(--navy);text-decoration:underline">app.nedhubgh.com</a>.</p></details>
+      <details><summary>How do I reach you urgently?</summary><p>Chat with us on WhatsApp at +233 50 628 8940 for the fastest response.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="close-band">
+  <div class="wrap">
+    <h2>Ready to Transform Your Business?</h2>
+    <p>Contact us today to discuss how our innovative solutions can help your organization achieve its goals.</p>
+    <a href="https://wa.me/233506288940/" class="btn btn-dark" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  'use strict';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var API_BASE = 'https://nedhub-production.up.railway.app';
+  var API = API_BASE + '/api/contact';
+
+  function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+
+  var form = document.getElementById('contactForm');
+  var submitBtn = document.getElementById('submitBtn');
+  var statusEl = document.getElementById('formStatus');
+  var summaryEl = document.getElementById('form-summary');
+  var successState = document.getElementById('successState');
+  var successMsg = document.getElementById('successMsg');
+  var successTitle = document.getElementById('successTitle');
+  var formCard = document.getElementById('formCard');
+  var fallbacks = document.getElementById('fallbacks');
+  var msgCounter = document.getElementById('msg-counter');
+  var msgField = document.getElementById('message');
+  var nameField = document.getElementById('name');
+  var emailField = document.getElementById('email');
+  var phoneField = document.getElementById('phone');
+  var serviceField = document.getElementById('service');
+  var websiteField = document.getElementById('website');
+
+  var EMAIL_RE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  var PHONE_RE = /^[0-9+\-\s()]{7,20}$/;
+
+  function fieldErr(id, msg){
+    var el = document.getElementById(id);
+    if(el) el.textContent = msg || '';
+  }
+  function setFieldState(field, err){
+    var wrap = field.closest('.form-field');
+    if(!wrap) return;
+    if(err){ wrap.classList.add('error'); } else { wrap.classList.remove('error'); }
+  }
+  function validateField(field){
+    var v = (field.value || '').trim();
+    var err = '';
+    if(field.hasAttribute('required') && v === '') err = 'This field is required';
+    if(field.id === 'email' && v !== '' && !EMAIL_RE.test(v)) err = 'Please enter a valid email address';
+    if(field.id === 'phone' && v !== '' && !PHONE_RE.test(v)) err = 'Phone must be 7-20 characters';
+    if(field.id === 'name' && v !== '' && (v.length < 2 || v.length > 80)) err = 'Name must be 2-80 characters';
+    if(field.id === 'message' && v !== '' && (v.length < 10 || v.length > 2000)) err = 'Message must be 10-2000 characters';
+    if(field.id === 'service' && v !== '' && ['Recruitment & Talent Acquisition','Staff Outsourcing','Training & Capacity Building','Career Coaching','Data Analytics','Digital Services (Bulk SMS & Payments)','CV Templates','Other'].indexOf(v) === -1) err = 'Please select a valid service';
+    setFieldState(field, err);
+    fieldErr(field.id + '-err', err);
+    return err === '';
+  }
+  function validateAll(){
+    var ok = true;
+    var firstInvalid = null;
+    [nameField, emailField, phoneField, serviceField, msgField].forEach(function(f){
+      if(!validateField(f)){ ok = false; if(!firstInvalid) firstInvalid = f; }
+    });
+    if(!ok){
+      summaryEl.textContent = 'Please fix the errors above.';
+      if(firstInvalid) firstInvalid.focus();
+    } else {
+      summaryEl.textContent = '';
+    }
+    return ok;
+  }
+
+  // character counter
+  function updateCounter(){
+    var len = (msgField.value || '').length;
+    msgCounter.textContent = len + ' / 2000';
+  }
+  msgField.addEventListener('input', function(){ updateCounter(); });
+  updateCounter();
+
+  // blur validation
+  [nameField, emailField, phoneField, serviceField, msgField].forEach(function(f){
+    f.addEventListener('blur', function(){ validateField(f); });
+  });
+
+  // privacy modal trigger
+  document.addEventListener('click', function(e){
+    var link = e.target.closest('[data-privacy]');
+    if(link){ e.preventDefault(); if(window.privacyPolicyModal && typeof window.privacyPolicyModal.showModal === 'function'){ window.privacyPolicyModal.showModal(); } }
+  });
+
+  var submitting = false;
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    if(submitting) return;
+    if(!validateAll()) return;
+
+    submitting = true;
+    submitBtn.disabled = true;
+    var originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...';
+    statusEl.textContent = '';
+    statusEl.className = 'form-status';
+    fallbacks.style.display = 'none';
+
+    var controller = new AbortController();
+    var timeoutId = setTimeout(function(){ controller.abort(); }, 15000);
+
+    var payload = {
+      name: nameField.value.trim(),
+      email: emailField.value.trim(),
+      phone: phoneField.value.trim(),
+      service: serviceField.value.trim(),
+      message: msgField.value.trim(),
+      pageUrl: window.location.href,
+      website: websiteField.value.trim()
+    };
+
+    try {
+      var res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      var data = null;
+      try { data = await res.json(); } catch(e){ data = {}; }
+
+      if(res.ok && data && data.success === true){
+        var firstName = (nameField.value.trim().split(/\s+/)[0]) || '';
+        successTitle.textContent = 'Thank you, ' + firstName + '.';
+        successMsg.textContent = 'We have received your message and will reply within 24 hours.';
+        form.style.display = 'none';
+        successState.classList.add('show');
+      } else {
+        var msg = (data && data.message) ? data.message : 'We could not send your message. Please email info@nedhubgh.com or WhatsApp us.';
+        statusEl.textContent = msg;
+        statusEl.className = 'form-status error';
+        fallbacks.style.display = 'flex';
+      }
+    } catch(err){
+      clearTimeout(timeoutId);
+      statusEl.textContent = 'We could not send your message. Please email info@nedhubgh.com or WhatsApp us.';
+      statusEl.className = 'form-status error';
+      fallbacks.style.display = 'flex';
+    } finally {
+      submitting = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  });
+
+  document.getElementById('sendAnother').addEventListener('click', function(){
+    form.reset();
+    form.style.display = '';
+    successState.classList.remove('show');
+    statusEl.textContent = '';
+    statusEl.className = 'form-status';
+    fallbacks.style.display = 'none';
+    fieldErr('name-err',''); fieldErr('email-err',''); fieldErr('phone-err',''); fieldErr('service-err',''); fieldErr('message-err','');
+    [nameField,emailField,phoneField,serviceField,msgField].forEach(function(f){ var w=f.closest('.form-field'); if(w) w.classList.remove('error'); });
+    updateCounter();
+  });
+
+  // FAQPage JSON-LD generated from visible questions
+  (function(){
+    var items = [].slice.call(document.querySelectorAll('#faq-list details')).map(function(d){
+      return {"@type":"Question","name":d.querySelector('summary').textContent.trim(),
+        "acceptedAnswer":{"@type":"Answer","text":d.querySelector('p').textContent.trim()}};
+    });
+    var s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.text = JSON.stringify({"@context":"https://schema.org","@type":"FAQPage","mainEntity":items});
+    document.head.appendChild(s);
+  })();
+})();
+</script>
+
+<noscript>
+  <footer aria-label="Main (no JavaScript)" style="background:#0B132B;color:#d3dbea;padding:72px 0 32px;font-size:15px">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+      <p style="color:#d3dbea">© 2026 Nedhub Ghana. All rights reserved.</p>
+    </div>
+  </footer>
+</noscript>
 </body>
 </html>
-
-
-
-
