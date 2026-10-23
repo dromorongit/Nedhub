@@ -37,6 +37,8 @@
             '<li><a href="/index.html">Home</a></li>' +
             '<li><a href="/about.html">About Us</a></li>' +
             '<li><a href="/services.html">Services</a></li>' +
+            '<li><a href="/careers.html">Careers</a></li>' +
+            '<li><a href="/cv-templates.html">CV Templates</a></li>' +
             '<li><a href="/contact.html">Contact</a></li>' +
           '</ul></div>' +
           '<div class="nf-services"><h4>Our services</h4><ul>' +
