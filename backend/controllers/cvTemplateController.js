@@ -309,7 +309,6 @@ module.exports = {
                 success: true,
                 message: 'Download counted successfully.',
                 data: {
-                    downloadUrl: template.templateFileUrl,
                     downloadCount: template.downloadCount
                 }
             });
@@ -644,8 +643,7 @@ module.exports = {
                 return res.json({
                     success: true,
                     canDownload: true,
-                    isFree: true,
-                    downloadUrl: template.templateFileUrl
+                    isFree: true
                 });
             }
             

@@ -518,7 +518,6 @@ router.post('/careers/cv-templates/:id/download', async (req, res) => {
                 success: true,
                 message: 'Download ready.',
                 data: {
-                    downloadUrl: template.templateFileUrl,
                     isFree: true,
                     downloadCount: template.downloadCount
                 }
@@ -566,7 +565,6 @@ router.post('/careers/cv-templates/:id/download', async (req, res) => {
                 success: true,
                 message: 'Download authorized.',
                 data: {
-                    downloadUrl: template.templateFileUrl,
                     isFree: false,
                     downloadCount: template.downloadCount
                 }
@@ -683,8 +681,7 @@ router.get('/careers/cv-templates/authorize/:templateId', async (req, res) => {
             return res.json({
                 success: true,
                 canDownload: true,
-                isFree: true,
-                downloadUrl: template.templateFileUrl
+                isFree: true
             });
         }
         
