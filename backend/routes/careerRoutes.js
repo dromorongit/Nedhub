@@ -4,6 +4,7 @@
  */
 
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const { Job, JOB_TYPES, JOB_CATEGORIES } = require('../models/Job');
 const { Application, APPLICATION_STATUSES } = require('../models/Application');
 const { ActivityLog, ACTIVITY_ACTIONS } = require('../models/ActivityLog');
@@ -14,6 +15,19 @@ const { sendJobApplicationEmail, sendApplicationConfirmation, sanitizeBrevoError
 const hubtelService = require('../services/hubtelService');
 
 const router = express.Router();
+
+if (process.env.NODE_ENV === 'production' && !process.env.CV_DOWNLOAD_SECRET) {
+    console.error('[CareerRoutes] FATAL: CV_DOWNLOAD_SECRET is required in production. Refusing to start CV routes.');
+    process.exit(1);
+}
+
+const cvDownloadLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    message: { success: false, message: 'Too many requests, please try again later.' },
+    standardHeaders: true,
+    legacyHeaders: false
+});
 
 // Format job for public API response
 function formatJobPublic(job) {
@@ -57,7 +71,6 @@ function formatCVTemplate(template) {
         category: template.category || 'Professional',
         description: template.description || '',
         thumbnailUrl: template.thumbnailUrl || '',
-        templateFileUrl: template.templateFileUrl || '',
         price: template.price || 0,
         isPremium: (template.price || 0) > 0,
         featured: template.featured || false,
@@ -704,6 +717,23 @@ router.get('/careers/cv-templates/authorize/:templateId', async (req, res) => {
             message: 'Failed to check authorization.'
         });
     }
+});
+
+// ==================== CV TEMPLATE PURCHASE STATUS / DOWNLOAD LINK ====================
+
+router.get('/careers/cv-templates/purchase/status', cvDownloadLimiter, async (req, res, next) => {
+    const controller = require('../controllers/cvTemplateController');
+    return controller.purchaseStatus(req, res, next);
+});
+
+router.post('/careers/cv-templates/:id/download-link', cvDownloadLimiter, async (req, res, next) => {
+    const controller = require('../controllers/cvTemplateController');
+    return controller.createDownloadLink(req, res, next);
+});
+
+router.get('/careers/cv-templates/file/:token', async (req, res, next) => {
+    const controller = require('../controllers/cvTemplateController');
+    return controller.streamTemplateFile(req, res, next);
 });
 
 module.exports = router;
