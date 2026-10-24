@@ -1,977 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Join Nedhub's team - View current job openings and apply for exciting career opportunities">
-    <title>Careers | Nedhub</title>
-    <link rel="icon" type="image/png" href="Nedhubsymbol.PNG">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/privacy-modal.css">
-    <link rel="stylesheet" href="css/terms-modal.css">
-    <link rel="stylesheet" href="css/jobs.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-         /* Premium Job Card Redesign - Modern Recruitment Platform Style */
-          
-          /* Border Radius override for premium cards */
-          :root {
-              --radius-xl: 16px;
-          }
-          
-          /* Modern Category Filters */
-          .category-filters {
-              display: flex;
-              flex-wrap: wrap;
-              gap: var(--space-sm);
-              margin-bottom: var(--space-xl);
-              padding: var(--space-md) 0;
-              overflow-x: auto;
-              -webkit-overflow-scrolling: touch;
-              scrollbar-width: none;
-              align-items: center;
-          }
-          
-          .category-filters::-webkit-scrollbar {
-              display: none;
-          }
-          
-          .category-chip {
-              display: inline-flex;
-              align-items: center;
-              gap: var(--space-xs);
-              padding: var(--space-xs) var(--space-md);
-              background: var(--neutral-white);
-              border: 1px solid var(--border-color);
-              border-radius: var(--radius-full);
-              font-size: var(--font-size-sm);
-              font-weight: 500;
-              color: var(--text-dark);
-              cursor: pointer;
-              transition: all 0.2s ease;
-              white-space: nowrap;
-              flex-shrink: 0;
-              min-height: 36px;
-          }
-          
-          .category-chip:hover {
-              border-color: var(--accent-orange);
-              background: rgba(247, 127, 0, 0.03);
-          }
-          
-          .category-chip.active {
-              background: var(--primary-dark);
-              border-color: var(--primary-dark);
-              color: var(--neutral-white);
-          }
-          
-          .category-chip.active:hover {
-              opacity: 0.9;
-          }
-          
-          /* Premium Job Cards */
-          .jobs-grid {
-              display: grid;
-              grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-              gap: var(--space-lg);
-              margin-top: var(--space-xl);
-          }
-          
-          .job-card {
-              background: var(--neutral-white);
-              border-radius: var(--radius-xl);
-              padding: var(--space-xl);
-              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-              border: 1px solid var(--border-color);
-              transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-              position: relative;
-              overflow: hidden;
-              display: flex;
-              flex-direction: column;
-              height: 100%;
-          }
-          
-          .job-card:hover {
-              transform: translateY(-4px);
-              box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-          }
-          
-          /* Featured Job Card */
-          .job-card.featured {
-              border-color: var(--accent-orange);
-              background: linear-gradient(180deg, var(--neutral-white) 0%, rgba(247, 127, 0, 0.01) 100%);
-          }
-          
-          .job-card.featured::before {
-              content: '';
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 3px;
-              background: linear-gradient(90deg, var(--accent-orange), #ff9500);
-          }
-          
-          /* Job Card Header - Top Section */
-          .job-card-header {
-              display: flex;
-              flex-direction: column;
-              gap: var(--space-sm);
-              margin-bottom: var(--space-lg);
-          }
-          
-          /* Featured Badge */
-          .featured-badge {
-              align-self: flex-start;
-              display: inline-flex;
-              align-items: center;
-              gap: var(--space-xs);
-              padding: 2px var(--space-sm);
-              background: linear-gradient(135deg, var(--accent-orange), #ff9500);
-              color: var(--neutral-white);
-              border-radius: var(--radius-full);
-              font-size: var(--font-size-xs);
-              font-weight: 600;
-              text-transform: uppercase;
-              letter-spacing: 0.5px;
-          }
-          
-          /* Job Title - Most prominent element */
-          .job-title-link {
-              text-decoration: none;
-              color: var(--primary-dark);
-              font-size: var(--font-size-xxl);
-              font-weight: 700;
-              line-height: 1.3;
-              margin: 0;
-              transition: color 0.2s ease;
-          }
-          
-          .job-title-link:hover {
-              color: var(--accent-orange);
-          }
-          
-          /* Category Badge - Subtle, professional */
-          .category-badge {
-              display: inline-flex;
-              align-items: center;
-              gap: var(--space-xs);
-              padding: 2px var(--space-sm);
-              border-radius: var(--radius-full);
-              font-size: var(--font-size-xs);
-              font-weight: 500;
-              text-transform: uppercase;
-              letter-spacing: 0.25px;
-          }
-          
-          /* Category Colors - Subtle, professional */
-          .category-it { background: rgba(99, 102, 241, 0.08); color: #6366f1; }
-          .category-finance { background: rgba(16, 185, 129, 0.08); color: #10b981; }
-          .category-healthcare { background: rgba(239, 68, 68, 0.08); color: #ef4444; }
-          .category-engineering { background: rgba(139, 92, 246, 0.08); color: #8b5cf6; }
-          .category-remote { background: rgba(99, 102, 241, 0.08); color: #6366f1; }
-          .category-hr { background: rgba(247, 127, 0, 0.08); color: var(--accent-orange); }
-          .category-executive { background: rgba(11, 19, 43, 0.08); color: var(--primary-dark); }
-          .category-intern { background: rgba(34, 197, 94, 0.08); color: #22c55e; }
-          .category-default { background: rgba(113, 128, 150, 0.08); color: var(--text-light); }
-          
-          /* Company Information - Middle Section */
-          .job-company {
-              margin-bottom: var(--space-md);
-          }
-          
-          .company-name {
-              font-size: var(--font-size-lg);
-              font-weight: 600;
-              color: var(--text-dark);
-              margin-bottom: var(--space-xs);
-          }
-          
-          .job-location {
-              display: flex;
-              align-items: center;
-              gap: var(--space-xs);
-              color: var(--text-light);
-              font-size: var(--font-size-sm);
-          }
-          
-/* Job Summary/Excerpt */
-           .job-summary {
-               color: var(--text-light);
-               line-height: 1.6;
-               margin-bottom: var(--space-lg);
-               font-size: var(--font-size-base);
-               flex-grow: 1;
-           }
-           
-           .job-summary p {
-               margin-bottom: var(--space-sm);
-           }
-           
-           .job-summary ul,
-           .job-summary ol {
-               margin-bottom: var(--space-sm);
-               padding-left: var(--space-lg);
-           }
-           
-           .job-summary ul li {
-               list-style: disc;
-               padding: 2px 0;
-           }
-           
-           .job-summary ol li {
-               list-style: decimal;
-               padding: 2px 0;
-           }
-          
-          /* Metadata Chips Row */
-          .job-metadata-row {
-              display: flex;
-              flex-wrap: wrap;
-              gap: var(--space-sm);
-              margin-bottom: var(--space-lg);
-          }
-          
-          .job-chip {
-              display: inline-flex;
-              align-items: center;
-              gap: var(--space-xs);
-              padding: 4px var(--space-sm);
-              background: var(--neutral-gray);
-              border-radius: var(--radius-full);
-              font-size: var(--font-size-xs);
-              font-weight: 500;
-              color: var(--text-dark);
-          }
-          
-          .job-chip.employment-type {
-              background: rgba(247, 127, 0, 0.08);
-              color: var(--accent-orange);
-          }
-          
-          .job-chip.remote-onsite {
-              background: rgba(34, 197, 94, 0.08);
-              color: #22c55e;
-          }
-          
-          .job-chip.experience-level {
-              background: rgba(11, 19, 43, 0.05);
-              color: var(--primary-dark);
-          }
-          
-          /* Job Footer - Bottom Section */
-          .job-footer {
-              display: flex;
-              flex-direction: column;
-              gap: var(--space-md);
-              margin-top: auto;
-          }
-          
-          .job-deadline {
-              display: flex;
-              align-items: center;
-              gap: var(--space-xs);
-              color: var(--text-light);
-              font-size: var(--font-size-sm);
-          }
-          
-          .job-deadline.expired {
-              color: #9ca4b9;
-          }
-          
-          .job-actions {
-              display: flex;
-              gap: var(--space-sm);
-          }
-          
-          .job-actions .btn {
-              flex: 1;
-              min-height: 44px;
-              font-size: var(--font-size-sm);
-              font-weight: 500;
-              border-radius: var(--radius-md);
-          }
-          
-          .job-actions .btn-primary {
-              background: var(--primary-dark);
-              color: var(--neutral-white);
-              border: none;
-          }
-          
-          .job-actions .btn-secondary {
-              background: transparent;
-              color: var(--primary-dark);
-              border: 1px solid var(--border-color);
-          }
-          
-          .job-actions .btn-secondary:hover {
-              background: var(--neutral-gray);
-          }
-          
-          /* Empty State - Professional */
-          .empty-state-jobs {
-              grid-column: 1 / -1;
-              text-align: center;
-              padding: var(--space-xxl) var(--space-lg);
-              background: var(--neutral-white);
-              border-radius: var(--radius-xl);
-              border: 1px dashed var(--border-color);
-          }
-          
-          .empty-state-jobs i {
-              font-size: 3rem;
-              color: var(--text-light);
-              margin-bottom: var(--space-md);
-          }
-          
-          .empty-state-jobs h3 {
-              font-size: var(--font-size-xxl);
-              color: var(--primary-dark);
-              margin-bottom: var(--space-sm);
-          }
-          
-          .empty-state-jobs p {
-              color: var(--text-light);
-              margin-bottom: var(--space-lg);
-          }
-          
-          /* Responsive - Mobile First */
-          @media (max-width: 768px) {
-              .jobs-grid {
-                  grid-template-columns: 1fr;
-                  gap: var(--space-md);
-              }
-              
-              .category-chip {
-                  font-size: var(--font-size-xs);
-                  padding: 6px var(--space-sm);
-              }
-              
-              .job-card {
-                  padding: var(--space-lg);
-              }
-              
-              .job-title-link {
-                  font-size: var(--font-size-xl);
-              }
-              
-              .job-actions {
-                  flex-direction: column;
-              }
-          }
-          
-          @media (max-width: 480px) {
-              .jobs-grid {
-                  grid-template-columns: 1fr;
-                  gap: var(--space-sm);
-              }
-              
-              .job-card {
-                  padding: var(--space-md);
-                  border-radius: 14px;
-              }
-              
-              .job-title-link {
-                  font-size: var(--font-size-lg);
-              }
-              
-              .job-metadata-row {
-                  gap: var(--space-xs);
-              }
-              
-              .category-chip,
-              .job-chip {
-                  font-size: 10px;
-                  padding: 4px var(--space-xs);
-              }
-          }
-          
-          /* Extra Small Mobile - 320px */
-          @media (max-width: 375px) {
-              .job-card {
-                  padding: var(--space-sm);
-              }
-              
-              .job-title-link {
-                  font-size: var(--font-size-base);
-              }
-              
-              .job-actions .btn {
-                  min-height: 42px;
-                  padding: var(--space-sm);
-              }
-          }
-          
-          /* Focus States for Accessibility */
-          .job-card:focus-within {
-              outline: 2px solid var(--accent-orange);
-              outline-offset: 2px;
-          }
-          
-          .job-title-link:focus,
-          .job-actions .btn:focus {
-              outline: 2px solid var(--accent-orange);
-              outline-offset: 2px;
-              border-radius: var(--radius-md);
-          }
-          
-          /* Job Modal Updates */
-          .job-modal .modal-content {
-              border-radius: var(--radius-xl);
-          }
-          
-          .job-modal .modal-header {
-              padding: var(--space-lg);
-          }
-          
-          .job-modal .modal-body {
-              padding: var(--space-lg);
-          }
-          
-          .job-modal .modal-footer {
-              padding: var(--space-lg);
-              gap: var(--space-sm);
-              flex-wrap: wrap;
-          }
-          
-          .job-modal .modal-footer .btn {
-              flex: 1;
-              min-height: 44px;
-          }
-          
-          /* Responsive Jobs Section Overrides */
-          @media (max-width: 768px) {
-              .jobs-section {
-                  padding: var(--space-xl) 0;
-              }
-          }
-          
-          @media (max-width: 430px) {
-              .jobs-section {
-                  padding: var(--space-lg) 0;
-              }
-              
-              .section-header {
-                  margin-bottom: var(--space-xl);
-              }
-              
-              .section-title {
-                  font-size: var(--font-size-xxl);
-              }
-              
-              .section-subtitle {
-                  font-size: var(--font-size-base);
-              }
-          }
-          
-          @media (max-width: 375px) {
-              .jobs-section {
-                  padding: var(--space-md) 0;
-              }
-              
-              .section-header {
-                  margin-bottom: var(--space-lg);
-              }
-              
-              .category-filters {
-                  padding: var(--space-sm) 0;
-                  margin-bottom: var(--space-lg);
-              }
-          }
-          
-          /* Update button styling for better touch targets */
-          .job-actions .btn {
-              min-height: 44px;
-              padding: var(--space-sm) var(--space-md);
-          }
-          
-          .job-actions .btn-text {
-              font-size: var(--font-size-sm);
-              font-weight: 500;
-          }
-         .career-hero {
-             background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%);
-             color: var(--neutral-white);
-             padding: var(--space-xxl) 0;
-             min-height: 60vh;
-             display: flex;
-             align-items: center;
-             position: relative;
-             overflow: hidden;
-             clip-path: ellipse(100% 100% at 50% 0%);
-}
-          
-          /* Ensure hero stats are always horizontal on career page */
-         .career-hero .hero-stats {
-             display: flex;
-             flex-direction: row;
-             align-items: center;
-             justify-content: flex-start;
-             gap: var(--space-xl);
-             margin-top: var(--space-xxl);
-             padding-top: var(--space-xl);
-             border-top: 1px solid rgba(255, 255, 255, 0.2);
-             flex-wrap: nowrap;
-             overflow-x: auto;
-             -webkit-overflow-scrolling: touch;
-             scrollbar-width: none;
-         }
-         
-         .career-hero .hero-stats::-webkit-scrollbar {
-             display: none;
-         }
-         
-         .career-hero .hero-stats .stat-item {
-             text-align: left;
-             position: relative;
-             padding: var(--space-md);
-             background: rgba(255, 255, 255, 0.1);
-             backdrop-filter: blur(10px);
-             border-radius: var(--radius-lg);
-             border: 1px solid rgba(255, 255, 255, 0.15);
-             min-width: 140px;
-             flex-shrink: 0;
-             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-         }
-         
-         .career-hero .hero-stats .stat-number {
-             display: block;
-             font-size: var(--font-size-xxxl);
-             font-weight: 800;
-             color: var(--accent-orange);
-             line-height: 1;
-             margin-bottom: var(--space-xs);
-             text-shadow: 0 2px 10px rgba(247, 127, 0, 0.3);
-             font-family: 'Inter', sans-serif;
-             letter-spacing: -1px;
-         }
-         
-         .career-hero .hero-stats .stat-label {
-             display: block;
-             font-size: var(--font-size-sm);
-             color: rgba(255, 255, 255, 0.9);
-             margin-top: var(--space-xs);
-             font-weight: 600;
-             text-transform: uppercase;
-             letter-spacing: 0.5px;
-         }
-         
-         .career-hero .stat-divider {
-             width: 1px;
-             height: 50px;
-             background: rgba(255, 255, 255, 0.3);
-             flex-shrink: 0;
-         }
-         
-@media (max-width: 768px) {
-              .career-hero .hero-stats {
-                 gap: var(--space-lg);
-                 padding-top: var(--space-lg);
-                 margin-top: var(--space-xl);
-                 justify-content: flex-start;
-                 padding-left: var(--space-sm);
-                 padding-right: var(--space-sm);
-             }
-             
-             .career-hero .hero-stats .stat-item {
-                 min-width: 120px;
-                 padding: var(--space-sm);
-             }
-             
-             .career-hero .hero-stats .stat-number {
-                 font-size: var(--font-size-xxl);
-             }
-             
-             .career-hero .hero-stats .stat-label {
-                 font-size: var(--font-size-xs);
-             }
-             
-             .career-hero .stat-divider {
-                 display: block;
-                 height: 40px;
-             }
-         }
-         
-         @media (max-width: 480px) {
-             .career-hero .hero-stats {
-                 gap: var(--space-md);
-                 margin-top: var(--space-lg);
-                 padding-top: var(--space-md);
-             }
-             
-             .career-hero .hero-stats .stat-item {
-                 min-width: 100px;
-                 padding: var(--space-xs) var(--space-sm);
-             }
-             
-             .career-hero .hero-stats .stat-number {
-                 font-size: var(--font-size-xl);
-             }
-             
-             .career-hero .hero-stats .stat-label {
-                 font-size: 0.65rem;
-             }
-             
-             .career-hero .stat-divider {
-                 height: 30px;
-             }
-         }
-         
-         .career-hero::before {
-             content: '';
-             position: absolute;
-             top: 0;
-             left: 0;
-             width: 100%;
-             height: 100%;
-             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.05"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.03"/><circle cx="50" cy="10" r="0.5" fill="%23ffffff" opacity="0.04"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-             opacity: 0.3;
-             z-index: 1;
-         }
-         
-         .career-hero .container {
-             position: relative;
-             z-index: 2;
-         }
-         
-         .career-hero::before {
-             content: '';
-             position: absolute;
-             top: 0;
-             left: 0;
-             width: 100%;
-             height: 4px;
-             background: linear-gradient(90deg, var(--accent-orange), var(--primary-dark));
-         }
-         
-         .career-hero h1 {
-             font-size: clamp(2.5rem, 6vw, 4rem);
-             margin-bottom: var(--space-md);
-             color: var(--neutral-white);
-             background: none;
-             -webkit-background-clip: unset;
-             -webkit-text-fill-color: unset;
-             background-clip: unset;
-             text-fill-color: unset;
-             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-         }
-         
-         .career-hero .subtitle {
-             font-size: var(--font-size-xl);
-             color: rgba(255, 255, 255, 0.9);
-             max-width: 700px;
-             margin: 0 auto var(--space-lg);
-             line-height: 1.6;
-             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-         }
-         
-         /* Job Positions Section */
-         .jobs-section {
-             padding: var(--space-xxl) 0;
-             background: linear-gradient(135deg, rgba(247, 127, 0, 0.02) 0%, rgba(11, 19, 43, 0.01) 100%);
-             position: relative;
-         }
-
-        .jobs-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-orange), var(--primary-dark));
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: var(--space-xxl);
-        }
-
-        .section-title {
-            font-size: var(--font-size-xxxl);
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary-dark), var(--text-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-            margin-bottom: var(--space-xs);
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -var(--space-xs);
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-orange), var(--primary-dark));
-            border-radius: var(--radius-full);
-        }
-
-.section-subtitle {
-             font-size: var(--font-size-xl);
-             color: var(--text-light);
-             max-width: 800px;
-             margin: 0 auto;
-             line-height: 1.6;
-             margin-top: var(--space-md);
-         }
-         
-         /* Application Form Section */
-        .application-section {
-            padding: var(--space-xxl) 0;
-            background: linear-gradient(135deg, rgba(11, 19, 43, 0.01) 0%, rgba(247, 127, 0, 0.02) 100%);
-            position: relative;
-        }
-
-        .application-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-dark), var(--accent-orange));
-        }
-
-        .application-form {
-            background: var(--neutral-white);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xxl);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .application-form::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-orange), var(--primary-dark));
-        }
-
-        .application-form h2 {
-            font-size: var(--font-size-xxxl);
-            margin-bottom: var(--space-sm);
-            background: linear-gradient(135deg, var(--primary-dark), var(--text-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-        }
-
-        .application-form .form-description {
-            font-size: var(--font-size-lg);
-            color: var(--text-light);
-            margin-bottom: var(--space-xl);
-            padding: var(--space-lg);
-            background: linear-gradient(135deg, rgba(247, 127, 0, 0.05), rgba(11, 19, 43, 0.02));
-            border-radius: var(--radius-md);
-            border-left: 4px solid var(--accent-orange);
-        }
-
-        /* File Upload Styling */
-        .file-upload-group {
-            position: relative;
-            margin-bottom: var(--space-lg);
-        }
-
-        .file-upload-label {
-            display: block;
-            margin-bottom: var(--space-xs);
-            font-weight: 600;
-            color: var(--primary-dark);
-            font-size: var(--font-size-base);
-        }
-
-        .file-upload-area {
-            position: relative;
-            border: 2px dashed var(--border-color);
-            border-radius: var(--radius-md);
-            padding: var(--space-xl);
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            background: linear-gradient(135deg, rgba(247, 127, 0, 0.02), rgba(11, 19, 43, 0.01));
-        }
-
-        .file-upload-area:hover {
-            border-color: var(--accent-orange);
-            background: linear-gradient(135deg, rgba(247, 127, 0, 0.05), rgba(11, 19, 43, 0.02));
-        }
-
-        .file-upload-area.dragover {
-            border-color: var(--accent-orange);
-            background: rgba(247, 127, 0, 0.1);
-        }
-
-        .file-upload-icon {
-            font-size: 3rem;
-            color: var(--accent-orange);
-            margin-bottom: var(--space-md);
-        }
-
-        .file-upload-text {
-            color: var(--text-light);
-            margin-bottom: var(--space-sm);
-        }
-
-        .file-upload-text strong {
-            color: var(--accent-orange);
-        }
-
-        .file-upload-hint {
-            font-size: var(--font-size-sm);
-            color: var(--text-light);
-            opacity: 0.7;
-        }
-
-        .file-upload-input {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .file-preview {
-            display: none;
-            align-items: center;
-            gap: var(--space-md);
-            margin-top: var(--space-md);
-            padding: var(--space-md);
-            background: rgba(247, 127, 0, 0.1);
-            border-radius: var(--radius-md);
-        }
-
-        .file-preview.active {
-            display: flex;
-        }
-
-        .file-preview-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--accent-orange);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--neutral-white);
-        }
-
-        .file-preview-info {
-            flex: 1;
-        }
-
-        .file-preview-name {
-            font-weight: 600;
-            color: var(--primary-dark);
-            font-size: var(--font-size-sm);
-        }
-
-        .file-preview-size {
-            font-size: var(--font-size-xs);
-            color: var(--text-light);
-        }
-
-        .file-remove-btn {
-            background: none;
-            border: none;
-            color: #EF4444;
-            cursor: pointer;
-            padding: var(--space-xs);
-            font-size: var(--font-size-lg);
-        }
-
-        /* Benefits Section */
-        .benefits-section {
-            padding: var(--space-xxl) 0;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2342 100%);
-            color: var(--neutral-white);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .benefits-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-orange), var(--primary-dark));
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--space-xl);
-            margin-top: var(--space-xl);
-        }
-
-        .benefit-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
-        }
-
-        .benefit-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .benefit-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, rgba(247, 127, 0, 0.2), rgba(11, 19, 43, 0.1));
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto var(--space-lg);
-            font-size: var(--font-size-xxxl);
-            color: var(--accent-orange);
-            border: 2px solid rgba(247, 127, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .benefit-card:hover .benefit-icon {
-            background: linear-gradient(135deg, var(--accent-orange), var(--primary-dark));
-            color: var(--neutral-white);
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .benefit-title {
-            font-size: var(--font-size-xl);
-            font-weight: 700;
-            color: var(--neutral-white);
-            margin-bottom: var(--space-sm);
-        }
-
-.benefit-description {
-             color: rgba(255, 255, 255, 0.8);
-             line-height: 1.7;
-             font-size: var(--font-size-base);
-         }
-     </style>
- <script src="/site-nav.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Join Nedhub's team - View current job openings and apply for exciting career opportunities">
+<title>Careers | Nedhub</title>
+<link rel="icon" type="image/png" href="Nedhubsymbol.PNG">
+<link rel="canonical" href="https://www.nedhubgh.com/careers.html">
+<meta property="og:site_name" content="Nedhub Ghana">
+<meta property="og:url" content="https://www.nedhubgh.com/careers.html">
+<meta property="og:title" content="Careers | Nedhub">
+<meta property="og:description" content="Join Nedhub's team - View current job openings and apply for exciting career opportunities">
+<meta property="og:image" content="https://www.nedhubgh.com/Nedhublogo.PNG">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/privacy-modal.css">
+<link rel="stylesheet" href="css/terms-modal.css">
+<link rel="stylesheet" href="css/careers-page.css">
+<script src="/site-nav.js" defer></script>
+<script src="/site-footer.js?v=2" defer></script>
+<script src="/js/privacy-modal.js" defer></script>
+<script src="/js/terms-modal.js" defer></script>
 </head>
 <body>
 <noscript>
@@ -987,345 +40,239 @@
     </ul>
   </nav>
 </noscript>
-    <main id="main-content">
-        <!-- Hero Section -->
-        <section class="career-hero">
-            <div class="container">
-                <h1>Join Our <span class="highlight-text">Team</span></h1>
-                <p class="subtitle">Build your career with a company that values innovation, growth, and excellence. Explore exciting opportunities at Nedhub.</p>
-                <div class="hero-buttons">
-                    <a href="#jobs" class="btn btn-primary btn-large">
-                        <span class="btn-text">View Open Positions</span>
-                        <span class="btn-icon">↓</span>
-                    </a>
-                    <a href="#apply" class="btn btn-secondary btn-large">
-                        <span class="btn-text">Apply Now</span>
-                        <span class="btn-icon">→</span>
-                    </a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">50+</span>
-                        <span class="stat-label">Team Members</span>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item">
-                        <span class="stat-number">200+</span>
-                        <span class="stat-label">Clients Served</span>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item">
-                        <span class="stat-number">5+</span>
-                        <span class="stat-label">Years Experience</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+<main class="cr" id="main-content">
 
-        <!-- Open Positions Section -->
-        <section id="jobs" class="jobs-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Current Openings</h2>
-                    <p class="section-subtitle">Discover exciting career opportunities across our service areas</p>
-                </div>
-                
-                <!-- Category Filters -->
-                <div id="category-filters" class="category-filters">
-                    <!-- Category chips will be dynamically loaded here -->
-                    <button class="category-chip active" data-category="all">All (0)</button>
-                </div>
-                
-                <div id="jobs-container" class="jobs-grid">
-                    <!-- Jobs will be dynamically loaded here -->
-                </div>
-            </div>
-        </section>
+<section class="hero sec-navy">
+  <div class="wrap">
+    <h1>Join Our <span style="color:var(--orange)">Team</span></h1>
+    <p>Build your career with a company that values innovation, growth, and excellence. Explore exciting opportunities at Nedhub.</p>
+    <div class="hero-buttons">
+      <a href="#jobs" class="btn btn-primary btn-large"><span class="btn-text">View open positions</span><span class="btn-icon">↓</span></a>
+      <a href="#apply" class="btn btn-ghost btn-large"><span class="btn-text">Send your CV</span><span class="btn-icon">→</span></a>
+    </div>
+  </div>
+</section>
 
-        <!-- Benefits Section -->
-        <section class="benefits-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title" style="background: linear-gradient(135deg, var(--neutral-white), rgba(255, 255, 255, 0.9)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent;">Why Work With Us</h2>
-                    <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.8);">Discover the benefits of joining our dynamic team</p>
-                </div>
-                
-                <div class="benefits-grid">
-                    <div class="benefit-card scroll-animate">
-                        <div class="benefit-icon">
-                            <i class="fas fa-growth"></i>
-                        </div>
-                        <h3 class="benefit-title">Career Growth</h3>
-                        <p class="benefit-description">Clear advancement pathways and professional development opportunities to help you reach your full potential.</p>
-                    </div>
-                    
-                    <div class="benefit-card scroll-animate delay-1">
-                        <div class="benefit-icon">
-                            <i class="fas fa-balance-scale"></i>
-                        </div>
-                        <h3 class="benefit-title">Work-Life Balance</h3>
-                        <p class="benefit-description">Flexible working arrangements and supportive policies that help you maintain a healthy balance.</p>
-                    </div>
-                    
-                    <div class="benefit-card scroll-animate delay-2">
-                        <div class="benefit-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <h3 class="benefit-title">Health & Wellness</h3>
-                        <p class="benefit-description">Comprehensive health insurance and wellness programs to support your physical and mental well-being.</p>
-                    </div>
-                    
-                    <div class="benefit-card scroll-animate delay-3">
-                        <div class="benefit-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="benefit-title">Team Culture</h3>
-                        <p class="benefit-description">Collaborative and inclusive work environment where every voice is valued and respected.</p>
-                    </div>
-                    
-                    <div class="benefit-card scroll-animate delay-4">
-                        <div class="benefit-icon">
-                            <i class="fas fa-money-bill-wave"></i>
-                        </div>
-                        <h3 class="benefit-title">Competitive Package</h3>
-                        <p class="benefit-description">Attractive salary packages with performance bonuses and employee benefits.</p>
-                    </div>
-                    
-                    <div class="benefit-card scroll-animate delay-5">
-                        <div class="benefit-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <h3 class="benefit-title">Innovation</h3>
-                        <p class="benefit-description">Opportunities to work on cutting-edge projects and contribute innovative ideas.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section id="jobs" class="jobs-section sec-paper">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Current Openings</h2>
+      <p class="lead">Discover exciting career opportunities across our service areas</p>
+    </div>
+    <div id="category-filters" class="category-filters">
+      <button class="category-chip active" data-category="all">All (0)</button>
+    </div>
+    <div id="jobs-container" class="jobs-grid"></div>
+  </div>
+</section>
 
-        <!-- Application Form Section -->
-        <section id="apply" class="application-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Apply Now</h2>
-                    <p class="section-subtitle">Submit your application and take the first step towards an exciting career</p>
-                </div>
-                
-                <p style="color:var(--text-dark);font-size:var(--font-size-base);margin-bottom:var(--space-md)">Send your CV to <a href="mailto:careers@nedhubgh.com" style="color:var(--accent-orange);text-decoration:underline;font-weight:600">careers@nedhubgh.com</a> or apply using the form below.</p>
-                
-                <form id="careerForm" class="application-form">
-                    <h2>Job Application Form</h2>
-                    <p class="form-description">Complete the form below to apply for a position at Nedhub. Please ensure all required fields are filled and attach your CV and cover letter.</p>
-                    
-                    <div class="form-group">
-                        <label for="fullName">Full Name <span style="color: var(--accent-orange);">*</span></label>
-                        <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name" aria-required="true">
-                        <span class="error-message" id="fullName-error"></span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address <span style="color: var(--accent-orange);">*</span></label>
-                        <input type="email" id="email" name="email" required placeholder="Enter your email address" aria-required="true">
-                        <span class="error-message" id="email-error"></span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="phone">Phone Number <span style="color: var(--accent-orange);">*</span></label>
-                        <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number" aria-required="true">
-                        <span class="error-message" id="phone-error"></span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="position">Position Applying For <span style="color: var(--accent-orange);">*</span></label>
-                        <select id="position" name="position" required aria-required="true">
-                            <option value="">Select a position</option>
-                            <!-- Options will be dynamically populated by jobs.js -->
-                            <option value="Other">Other</option>
-                        </select>
-                        <span class="error-message" id="position-error"></span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="linkedin">LinkedIn Profile (Optional)</label>
-                        <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="experience">Years of Relevant Experience <span style="color: var(--accent-orange);">*</span></label>
-                        <select id="experience" name="experience" required aria-required="true">
-                            <option value="">Select experience level</option>
-                            <option value="0-1">0-1 years</option>
-                            <option value="1-3">1-3 years</option>
-                            <option value="3-5">3-5 years</option>
-                            <option value="5-10">5-10 years</option>
-                            <option value="10+">10+ years</option>
-                        </select>
-                        <span class="error-message" id="experience-error"></span>
-                    </div>
-                    
-                    <div class="file-upload-group">
-                        <label class="file-upload-label">Upload CV/Resume <span style="color: var(--accent-orange);">*</span></label>
-                        <div class="file-upload-area" id="cvDropZone">
-                            <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
-                            <p class="file-upload-text"><strong>Click to upload</strong> or drag and drop</p>
-                            <p class="file-upload-hint">PDF, DOC, or DOCX (Max 5MB)</p>
-                            <input type="file" id="cvFile" name="cvFile" class="file-upload-input" accept=".pdf,.doc,.docx" required>
-                        </div>
-                        <div class="file-preview" id="cvPreview">
-                            <div class="file-preview-icon">
-                                <i class="fas fa-file-pdf"></i>
-                            </div>
-                            <div class="file-preview-info">
-                                <p class="file-preview-name" id="cvFileName">resume.pdf</p>
-                                <p class="file-preview-size" id="cvFileSize">2.5 MB</p>
-                            </div>
-                            <button type="button" class="file-remove-btn" onclick="removeFile('cv')">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="file-upload-group">
-                        <label class="file-upload-label">Upload Cover Letter</label>
-                        <div class="file-upload-area" id="coverDropZone">
-                            <i class="fas fa-file-alt file-upload-icon"></i>
-                            <p class="file-upload-text"><strong>Click to upload</strong> or drag and drop</p>
-                            <p class="file-upload-hint">PDF, DOC, or DOCX (Max 5MB)</p>
-                            <input type="file" id="coverFile" name="coverFile" class="file-upload-input" accept=".pdf,.doc,.docx">
-                        </div>
-                        <div class="file-preview" id="coverPreview">
-                            <div class="file-preview-icon">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                            <div class="file-preview-info">
-                                <p class="file-preview-name" id="coverFileName">cover_letter.pdf</p>
-                                <p class="file-preview-size" id="coverFileSize">1.2 MB</p>
-                            </div>
-                            <button type="button" class="file-remove-btn" onclick="removeFile('cover')">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="coverLetter">Or Write Your Cover Letter</label>
-                        <textarea id="coverLetter" name="coverLetter" rows="5" placeholder="Tell us why you're the perfect fit for this role..."></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="additionalInfo">Additional Information (Optional)</label>
-                        <textarea id="additionalInfo" name="additionalInfo" rows="3" placeholder="Any other details you'd like to share..."></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary btn-submit btn-large">
-                        <span class="btn-text">Submit Application</span>
-                        <span class="btn-icon">→</span>
-                    </button>
-                    
-                    <div id="careerFormStatus" class="form-status"></div>
-                </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- Final CTA Section -->
-        <section class="final-cta-section">
-            <div class="container">
-                <div class="cta-content">
-                    <h2>Ready to Make an Impact?</h2>
-                    <p>Join our team and help us transform businesses across Ghana and beyond.</p>
-                    <div class="cta-buttons">
-                        <a href="tel:+233271177321" class="btn btn-primary btn-large">
-                            <span class="btn-icon">📞</span>
-                            <span class="btn-text">Call Us</span>
-                        </a>
-                        <a href="mailto:careers@nedhubgh.com" class="btn btn-secondary btn-large">
-                            <span class="btn-icon">✉️</span>
-                            <span class="btn-text">Email Us</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-
-    <!-- Success Modal -->
-     <div id="successModal" class="success-modal" style="display: none;">
-         <div class="success-modal-overlay"></div>
-         <div class="success-modal-container">
-             <div class="success-modal-content">
-                 <div class="success-icon">
-                     <i class="fas fa-check-circle"></i>
-                 </div>
-                 <h2>Application Submitted!</h2>
-                 <p class="success-message">Thank you for your application. Your submission has been sent to our recruitment team.</p>
-                 <p class="success-note">We will review your credentials and contact shortlisted candidates within 5-7 business days.</p>
-                 <div class="success-actions">
-                     <button id="successModalClose" class="btn btn-primary">
-                         <span class="btn-text">View Other Positions</span>
-                     </button>
-                 </div>
-             </div>
-         </div>
-     </div>
-
-     <!-- Floating WhatsApp Button -->
-     <a href="https://wa.me/233506288940/" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp">
-         <i class="fab fa-whatsapp"></i>
-         <span class="whatsapp-tooltip">Chat with us</span>
-     </a>
-
-    <script src="js/jobs.js"></script>
-    <script src="js/main.js" type="module"></script>
-    <script src="js/animations.js" type="module"></script>
-<!-- Application Form Module -->
-    <script src="js/application-form.js"></script>
-    <noscript>
-      <footer aria-label="Main (no JavaScript)" style="background:#0B132B;color:#d3dbea;padding:72px 0 32px;font-size:15px">
-<style>.nf-ns-social{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1.5px solid #33416b;border-radius:50%;background:transparent;color:#ffffff;text-decoration:none}.nf-ns-social svg{width:20px;height:20px;fill:currentColor;display:block}.nf-ns-social:hover,.nf-ns-social:focus-visible{background:#F77F00;border-color:#F77F00;color:#0B132B;outline:none}.nf-ns-social:focus-visible{outline:3px solid #F77F00;outline-offset:3px}.nf-ns-socials{display:flex;gap:12px;flex-wrap:wrap}</style>
-        <div style="max-width:1200px;margin:0 auto;padding:0 24px">
-          <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px">
-            <div>
-              <div style="background:#ffffff;padding:8px 12px;border-radius:10px;display:inline-block;margin-bottom:16px"><img src="/Nedhubsymbol.PNG" alt="Nedhub Ghana" style="height:40px;display:block"></div>
-              <p style="color:#d3dbea;max-width:34ch">Empowering businesses with innovative, data-driven corporate solutions for sustainable growth and success.</p>
-            </div>
-            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Quick links</h4>
-              <ul style="list-style:none;margin:0;padding:0">
-                <li><a href="/index.html" style="color:#d3dbea;text-decoration:none">Home</a></li>
-                <li><a href="/about.html" style="color:#d3dbea;text-decoration:none">About Us</a></li>
-                <li><a href="/services.html" style="color:#d3dbea;text-decoration:none">Services</a></li>
-                <li><a href="/careers.html" style="color:#d3dbea;text-decoration:none">Careers</a></li>
-                <li><a href="/cv-templates.html" style="color:#d3dbea;text-decoration:none">CV Templates</a></li>
-                <li><a href="/contact.html" style="color:#d3dbea;text-decoration:none">Contact</a></li>
-              </ul>
-            </div>
-            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Our services</h4>
-              <ul style="list-style:none;margin:0;padding:0">
-                <li><a href="/recruitment.html" style="color:#d3dbea;text-decoration:none">Recruitment</a></li>
-                <li><a href="/training.html" style="color:#d3dbea;text-decoration:none">Training</a></li>
-                <li><a href="/data-analytics.html" style="color:#d3dbea;text-decoration:none">Data Analytics</a></li>
-                <li><a href="/digital-services.html" style="color:#d3dbea;text-decoration:none">Digital Services</a></li>
-              </ul>
-            </div>
-            <div><h4 style="color:#ffffff;margin-bottom:14px;font-size:16px;font-weight:700">Contact us</h4>
-              <ul style="list-style:none;margin:0;padding:0">
-                <li>Phone: <a href="tel:+233271177321" style="color:#d3dbea;text-decoration:none">+233 271 177 321</a></li>
-                <li>WhatsApp: <a href="https://wa.me/233506288940/" style="color:#d3dbea;text-decoration:none">+233 50 628 8940</a></li>
-                <li>Roman Ridge, Accra, Ghana</li>
-                <li><div class="nf-ns-socials"><a href="https://www.facebook.com/profile.php?id=61587433270353" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a><a href="https://www.instagram.com/nedhubgh?igsh=cHRkbjl6anpzZGsz" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a><a href="https://www.linkedin.com/company/hr-klinic/" target="_blank" rel="noopener noreferrer" class="nf-ns-social" aria-label="Nedhub on LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a></div></li>
-              </ul>
-            </div>
-          </div>
-          <div style="border-top:1px solid #33416b;margin-top:44px;padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:#d3dbea">
-            <span>© 2026 Nedhub Ghana. All rights reserved.</span>
-            <span><a href="#" style="color:#d3dbea">Privacy Policy</a> | <a href="#" style="color:#d3dbea">Terms of Service</a> | <a href="#" style="color:#d3dbea">Cookie Policy</a></span>
-          </div>
-          <p style="text-align:center;padding:22px 16px 10px;font-size:14px;color:#d3dbea">Developed by Dromor Narh for DhroneTech Solutions</p>
+<section class="benefits-section sec-white">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Why Work With Us</h2>
+      <p class="lead">Discover the benefits of joining our dynamic team</p>
+    </div>
+    <div class="benefits-list">
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+        <div class="benefit-body">
+          <h3>Career Growth</h3>
+          <p>Clear advancement pathways and professional development opportunities to help you reach your full potential.</p>
         </div>
-      </footer>
-    </noscript>
-    <script src="/site-footer.js?v=2" defer></script>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <div class="benefit-body">
+          <h3>Work-Life Balance</h3>
+          <p>Flexible working arrangements and supportive policies that help you maintain a healthy balance.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
+        <div class="benefit-body">
+          <h3>Health &amp; Wellness</h3>
+          <p>Comprehensive health insurance and wellness programs to support your physical and mental well-being.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="benefit-body">
+          <h3>Team Culture</h3>
+          <p>Collaborative and inclusive work environment where every voice is valued and respected.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="benefit-body">
+          <h3>Competitive Package</h3>
+          <p>Attractive salary packages with performance bonuses and employee benefits.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg></div>
+        <div class="benefit-body">
+          <h3>Innovation</h3>
+          <p>Opportunities to work on cutting-edge projects and contribute innovative ideas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="apply" class="apply-section sec-paper">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Apply Now</h2>
+      <p class="lead">Submit your application and take the first step towards an exciting career</p>
+    </div>
+    <p class="apply-intro">Send your CV to <a href="mailto:careers@nedhubgh.com">careers@nedhubgh.com</a> or apply using the form below.</p>
+    <div class="form-card">
+      <h2 class="form-title">Job Application Form</h2>
+      <p class="form-desc">Complete the form below to apply for a position at Nedhub. Please ensure all required fields are filled and attach your CV and cover letter.</p>
+      <form id="careerForm" class="application-form">
+        <h3 class="group-heading">About you</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fullName">Full Name <span style="color:var(--navy)">*</span></label>
+            <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name" aria-required="true">
+            <span class="error-message" id="fullName-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address <span style="color:var(--navy)">*</span></label>
+            <input type="email" id="email" name="email" required placeholder="Enter your email address" aria-required="true">
+            <span class="error-message" id="email-error"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number <span style="color:var(--navy)">*</span></label>
+            <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number" aria-required="true">
+            <span class="error-message" id="phone-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="linkedin">LinkedIn Profile (Optional)</label>
+            <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+          </div>
+        </div>
+
+        <h3 class="group-heading">Your application</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="position">Position Applying For <span style="color:var(--navy)">*</span></label>
+            <select id="position" name="position" required aria-required="true">
+              <option value="">Select a position</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="error-message" id="position-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="experience">Years of Relevant Experience <span style="color:var(--navy)">*</span></label>
+            <select id="experience" name="experience" required aria-required="true">
+              <option value="">Select experience level</option>
+              <option value="0-1">0-1 years</option>
+              <option value="1-3">1-3 years</option>
+              <option value="3-5">3-5 years</option>
+              <option value="5-10">5-10 years</option>
+              <option value="10+">10+ years</option>
+            </select>
+            <span class="error-message" id="experience-error"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="coverLetter">Or Write Your Cover Letter</label>
+          <textarea id="coverLetter" name="coverLetter" rows="5" placeholder="Tell us why you're the perfect fit for this role..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="additionalInfo">Additional Information (Optional)</label>
+          <textarea id="additionalInfo" name="additionalInfo" rows="3" placeholder="Any other details you'd like to share..."></textarea>
+        </div>
+
+        <h3 class="group-heading">Documents</h3>
+        <div class="file-upload-group">
+          <label class="file-upload-label">Upload CV/Resume <span style="color:var(--navy)">*</span></label>
+          <div class="file-upload-area" id="cvDropZone">
+            <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+            <p class="file-upload-text"><strong>Click to upload</strong> or drag and drop</p>
+            <p class="file-upload-hint">PDF, DOC, or DOCX (Max 5MB)</p>
+            <input type="file" id="cvFile" name="cvFile" class="file-upload-input" accept=".pdf,.doc,.docx" required>
+          </div>
+          <div class="file-preview" id="cvPreview">
+            <div class="file-preview-icon"><i class="fas fa-file-pdf"></i></div>
+            <div class="file-preview-info">
+              <p class="file-preview-name" id="cvFileName">resume.pdf</p>
+              <p class="file-preview-size" id="cvFileSize">2.5 MB</p>
+            </div>
+            <button type="button" class="file-remove-btn" onclick="removeFile('cv')" aria-label="Remove file"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+
+        <div class="file-upload-group">
+          <label class="file-upload-label">Upload Cover Letter</label>
+          <div class="file-upload-area" id="coverDropZone">
+            <i class="fas fa-file-alt file-upload-icon"></i>
+            <p class="file-upload-text"><strong>Click to upload</strong> or drag and drop</p>
+            <p class="file-upload-hint">PDF, DOC, or DOCX (Max 5MB)</p>
+            <input type="file" id="coverFile" name="coverFile" class="file-upload-input" accept=".pdf,.doc,.docx">
+          </div>
+          <div class="file-preview" id="coverPreview">
+            <div class="file-preview-icon"><i class="fas fa-file-alt"></i></div>
+            <div class="file-preview-info">
+              <p class="file-preview-name" id="coverFileName">cover_letter.pdf</p>
+              <p class="file-preview-size" id="coverFileSize">1.2 MB</p>
+            </div>
+            <button type="button" class="file-remove-btn" onclick="removeFile('cover')" aria-label="Remove file"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-submit btn-large"><span class="btn-text">Submit Application</span><span class="btn-icon">→</span></button>
+        <div id="careerFormStatus" class="form-status"></div>
+        <p class="consent-line">By submitting this form you agree to our <a href="#" id="privacyLink">Privacy Policy</a>.</p>
+      </form>
+    </div>
+    <div class="noscript-msg">Enable JavaScript to see open positions and apply, or email careers@nedhubgh.com</div>
+  </div>
+</section>
+
+<section class="final-cta-section sec-orange">
+  <div class="wrap final-cta">
+    <h2>Ready to Make an Impact?</h2>
+    <p>Join our team and help us transform businesses across Ghana and beyond.</p>
+    <div class="final-cta-buttons">
+      <a href="#jobs" class="btn btn-dark btn-large"><span class="btn-text">View Open Positions</span><span class="btn-icon">↓</span></a>
+      <a href="https://wa.me/233506288940/" class="btn btn-white btn-large" target="_blank" rel="noopener noreferrer"><span class="btn-text">Chat on WhatsApp</span><span class="btn-icon">→</span></a>
+    </div>
+  </div>
+</section>
+
+
+
+<div id="successModal" class="success-modal">
+  <div class="success-modal-overlay"></div>
+  <div class="success-modal-container">
+    <div class="success-modal-content">
+      <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+      <h2>Application Submitted!</h2>
+      <p class="success-message">Thank you for your application. Your submission has been sent to our recruitment team.</p>
+      <p class="success-note">We will review your credentials and contact shortlisted candidates within 5-7 business days.</p>
+      <div class="success-actions">
+        <button id="successModalClose" class="btn btn-primary"><span class="btn-text">View Other Positions</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="https://wa.me/233506288940/" target="_blank" class="floating-whatsapp" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+</main>
+
+<script src="js/jobs.js"></script>
+<script src="js/application-form.js"></script>
+<noscript>
+  <footer aria-label="Main (no JavaScript)" style="background:#0B132B;color:#d3dbea;padding:72px 0 32px;font-size:15px">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+      <p style="color:#d3dbea">© 2026 Nedhub Ghana. All rights reserved.</p>
+    </div>
+  </footer>
+</noscript>
 </body>
 </html>
-
