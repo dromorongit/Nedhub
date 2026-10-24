@@ -224,9 +224,6 @@ jobsGrid.innerHTML = activeJobs.map((job, index) => {
          const applyBtnText = isEmailApply ? 'Apply via Email' : isExternal ? 'Apply Now' : 'Apply';
          const applyBtnClass = isExternal ? 'btn-primary' : 'btn-secondary';
          const applyBtnIcon = isExternal ? '<i class="fas fa-external-link-alt"></i>' : '<i class="fas fa-paper-plane"></i>';
-         const safeExternalHref = isExternal
-             ? (isEmailApply ? `mailto:${String(job.applicationUrl || '').trim()}` : safeHttpUrl(job.applicationUrl))
-             : '#apply';
          const applyHref = safeExternalHref || (isExternal ? '' : '#apply');
          const applyVisible = isExternal ? !!safeExternalHref : true;
         
