@@ -172,6 +172,45 @@ async function main() {
     assert.strictEqual(res.body.data.paid, false, 'status unpaid');
     console.log('PASS purchaseStatus unpaid');
 
+    // lower amount does not mark paid
+    purchaseDoc.paymentStatus = 'Pending';
+    purchaseDoc.paymentReference = 'cv-ref-low';
+    require.cache[purchaseModulePath].exports.CVTemplatePurchase.findOne = async (q) => (q && q.paymentReference === 'cv-ref-low' ? purchaseDoc : null);
+    require.cache[hubtelModulePath].exports.checkTransactionStatus = async (ref) => ({ status: 'Success', responseCode: '0000', data: { amount: 10, transactionId: 'txn-low', checkoutId: 'chk-low' } });
+    req = { query: { ref: 'cv-ref-low' } };
+    res = mockRes();
+    await controller.purchaseStatus(req, res);
+    assert.strictEqual(res.body.data.paid, false, 'lower amount stays pending');
+    console.log('PASS purchaseStatus lower amount stays pending');
+
+    // tampered token rejected
+    const { createDownloadToken, verifyAndUseToken } = require.cache[downloadTokenModulePath].exports;
+    const { token } = await createDownloadToken({ purchaseId: purchaseId, templateId: templateId });
+    const tampered = token.slice(0, -4) + 'xxxx';
+    const tamperedResult = await verifyAndUseToken(tampered);
+    assert.strictEqual(tamperedResult, null, 'tampered token rejected');
+    console.log('PASS tampered token rejected');
+
+    // expired token rejected
+    const crypto = require('crypto');
+    const secret = 'test-secret';
+    const expiredPayload = { p: purchaseId, t: templateId, e: Date.now() - 1000, n: crypto.randomUUID() };
+    const expiredSig = crypto.createHmac('sha256', secret).update(JSON.stringify(expiredPayload)).digest('base64url');
+    const expiredToken = `${Buffer.from(JSON.stringify(expiredPayload)).toString('base64url')}.${expiredSig}`;
+    const expiredResult = await verifyAndUseToken(expiredToken);
+    assert.strictEqual(expiredResult, null, 'expired token rejected');
+    console.log('PASS expired token rejected');
+
+    // use limit
+    const { token: limitToken } = await createDownloadToken({ purchaseId: purchaseId, templateId: templateId });
+    for (let i = 0; i < 5; i++) {
+        const r = await verifyAndUseToken(limitToken);
+        assert.ok(r, 'use ' + (i + 1));
+    }
+    const sixth = await verifyAndUseToken(limitToken);
+    assert.strictEqual(sixth, null, 'use limit enforced');
+    console.log('PASS use limit enforced');
+
     console.log('All CV download security tests passed.');
 }
 
