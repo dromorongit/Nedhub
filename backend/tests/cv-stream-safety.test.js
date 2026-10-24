@@ -129,6 +129,18 @@ async function main() {
     await new Promise(r => setTimeout(r, 50));
     console.log('valid status:', res.statusCode);
 
+    // private host refused
+    const privateTemplate = { _id: '507f1f77bcf86cd799439077', name: 'Priv', price: 50, status: 'Published', templateFileUrl: 'https://127.0.0.1/file.pdf', downloadCount: 0, save: async function () { return this; } };
+    require.cache[cvTemplateModulePath].exports.CVTemplate.findById = async (id) => (String(id) === '507f1f77bcf86cd799439077' ? privateTemplate : (String(id) === templateId ? templateDoc : null));
+    const { token: privToken } = await createDownloadToken({ purchaseId, templateId: '507f1f77bcf86cd799439077' });
+    // temporarily make token payload template id private by using token for templateId? The token stores templateId private. streamTemplateFile looks up template by payload.t. Good.
+    req = { params: { token: privToken } };
+    res = mockRes();
+    await controller.streamTemplateFile(req, res);
+    await new Promise(r => setTimeout(r, 50));
+    console.log('private host status:', res.statusCode);
+    assert.strictEqual(res.statusCode, 502, 'private host refused');
+
     console.log('Stream safety test finished.');
 }
 
