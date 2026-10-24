@@ -211,6 +211,27 @@ async function main() {
     assert.strictEqual(sixth, null, 'use limit enforced');
     console.log('PASS use limit enforced');
 
+    // wrong template id with valid ref returns 403
+    req = { params: { id: '507f1f77bcf86cd799439999' }, body: { clientReference: 'cv-ref-1', email: 'buyer@example.com' } };
+    res = mockRes();
+    await controller.createDownloadLink(req, res);
+    assert.strictEqual(res.statusCode, 403, 'wrong template 403');
+    console.log('PASS createDownloadLink wrong template');
+
+    // non-https templateFileUrl rejected
+    req = { body: { name: 'T', category: 'Modern', templateFileUrl: 'http://example.com/f.docx' }, admin: { adminId: 'a' } };
+    res = mockRes();
+    await controller.createCVTemplate(req, res);
+    assert.strictEqual(res.statusCode, 400, 'non-https url 400');
+    console.log('PASS createCVTemplate non-https rejected');
+
+    // private address rejected
+    req = { body: { name: 'T2', category: 'Modern', templateFileUrl: 'https://127.0.0.1/f.docx' }, admin: { adminId: 'a' } };
+    res = mockRes();
+    await controller.createCVTemplate(req, res);
+    assert.strictEqual(res.statusCode, 400, 'private url 400');
+    console.log('PASS createCVTemplate private address rejected');
+
     console.log('All CV download security tests passed.');
 }
 
