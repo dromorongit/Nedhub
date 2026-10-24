@@ -118,6 +118,22 @@ function isEmail(value) {
     return emailRegex.test(value);
 }
 
+// Only allow http/https URLs; reject javascript:, data:, vbscript:, relative paths, etc.
+function safeHttpUrl(value) {
+    if (!value) return '';
+    const trimmed = String(value).trim();
+    if (!trimmed) return '';
+    try {
+        const url = new URL(trimmed);
+        if (url.protocol === 'http:' || url.protocol === 'https:') {
+            return url.href;
+        }
+    } catch (e) {
+        // invalid URL
+    }
+    return '';
+}
+
 // Render category filter chips
 function renderCategoryFilters() {
     const filterContainer = document.getElementById('category-filters');
@@ -196,24 +212,32 @@ jobsGrid.innerHTML = activeJobs.map((job, index) => {
          const jobTypeClass = getJobTypeClass(job.type);
          const categoryClass = getCategoryClass(job.category);
          const isExternal = job.applicationMethod === 'external';
-         const isEmailApply = isExternal && isEmail(job.applicationUrl);
+         const rawApplyUrl = job.applicationUrl ? String(job.applicationUrl).trim() : '';
+         const isEmailApply = isExternal && (isEmail(rawApplyUrl) || (rawApplyUrl.toLowerCase().startsWith('mailto:') && isEmail(rawApplyUrl.slice(7).trim())));
+         const safeExternalHref = isExternal
+             ? (isEmailApply
+                 ? `mailto:${isEmail(rawApplyUrl) ? rawApplyUrl : rawApplyUrl.slice(7).trim()}`
+                 : safeHttpUrl(rawApplyUrl))
+             : '#apply';
         
          const viewBtnText = 'View Details';
          const applyBtnText = isEmailApply ? 'Apply via Email' : isExternal ? 'Apply Now' : 'Apply';
          const applyBtnClass = isExternal ? 'btn-primary' : 'btn-secondary';
          const applyBtnIcon = isExternal ? '<i class="fas fa-external-link-alt"></i>' : '<i class="fas fa-paper-plane"></i>';
-         const applyHref = isExternal 
-             ? (isEmailApply ? `mailto:${job.applicationUrl}` : job.applicationUrl) 
+         const safeExternalHref = isExternal
+             ? (isEmailApply ? `mailto:${String(job.applicationUrl || '').trim()}` : safeHttpUrl(job.applicationUrl))
              : '#apply';
+         const applyHref = safeExternalHref || (isExternal ? '' : '#apply');
+         const applyVisible = isExternal ? !!safeExternalHref : true;
         
           const descriptionText = job.description.length > 150 ? job.description.substring(0, 150) + '...' : job.description;
           const descriptionHtml = formatDescription(descriptionText);
          
           return `
-          <div class="job-card scroll-animate visible${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}${job.featured ? ' featured' : ''}" data-job-id="${job.id}" data-category="${job.category || ''}">
+          <div class="job-card scroll-animate visible${index > 0 ? ` delay-${Math.min(index, 5)}` : ''}${job.featured ? ' featured' : ''}" data-job-id="${escapeHtml(job.id)}" data-category="${escapeHtml(job.category || '')}">
               <div class="job-card-header">
                   ${job.featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>' : ''}
-                  <a href="job.html?id=${job.id}" class="job-title-link" data-job-id="${job.id}">${escapeHtml(job.title)}</a>
+                  <a href="job.html?id=${encodeURIComponent(job.id)}" class="job-title-link" data-job-id="${escapeHtml(job.id)}">${escapeHtml(job.title)}</a>
                   ${job.category ? `<span class="category-badge ${categoryClass}"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : ''}
               </div>
               
@@ -241,10 +265,10 @@ jobsGrid.innerHTML = activeJobs.map((job, index) => {
                      <span>${deadlineText}</span>
                  </div>
                  <div class="job-actions">
-                     <a href="job.html?id=${job.id}" class="btn btn-secondary" style="flex: 1;">
+                     <a href="job.html?id=${encodeURIComponent(job.id)}" class="btn btn-secondary" style="flex: 1;">
                          <span class="btn-text">${viewBtnText}</span>
                      </a>
-                     <a href="${applyHref}" class="btn ${applyBtnClass}" ${isExternal && !isEmailApply ? 'target="_blank"' : ''} style="flex: 1;" onclick="${!isExternal ? "selectJob('" + job.title.replace(/'/g, "\\'") + "'); return true;" : ""}">
+                     <a href="${applyHref}" class="btn ${applyBtnClass}" ${isExternal && applyVisible ? 'target="_blank" rel="noopener noreferrer"' : ''} style="flex: 1; ${applyVisible ? '' : 'display:none;'}" data-job-title="${escapeHtml(job.title)}" onclick="${!isExternal ? 'selectJob(this.dataset.jobTitle); return true;' : ''}">
                          <span class="btn-text">${applyBtnText}</span>
                          <span class="btn-icon">${applyBtnIcon}</span>
                      </a>
@@ -285,9 +309,9 @@ function renderHomepageJobs() {
           const descriptionHtml = formatDescription(descriptionText);
           
           return `
-          <div class="job-card scroll-animate visible${index > 0 ? ` delay-${index}` : ''}" data-job-id="${job.id}">
+          <div class="job-card scroll-animate visible${index > 0 ? ` delay-${index}` : ''}" data-job-id="${escapeHtml(job.id)}">
               <div class="job-card-header">
-                  <a href="job.html?id=${job.id}" class="job-title-link" data-job-id="${job.id}">${escapeHtml(job.title)}</a>
+                  <a href="job.html?id=${encodeURIComponent(job.id)}" class="job-title-link" data-job-id="${escapeHtml(job.id)}">${escapeHtml(job.title)}</a>
                   ${job.category ? `<span class="category-badge ${categoryClass}"><i class="fas fa-tag"></i> ${escapeHtml(job.category)}</span>` : ''}
               </div>
               
@@ -307,12 +331,12 @@ function renderHomepageJobs() {
              </div>
              
              <div class="job-actions">
-                 <a href="job.html?id=${job.id}" class="btn btn-secondary" style="flex: 1;">
+                 <a href="job.html?id=${encodeURIComponent(job.id)}" class="btn btn-secondary" style="flex: 1;">
                      <span class="btn-text">View Details</span>
                  </a>
-                 <a href="job.html?id=${job.id}" class="btn btn-primary" style="flex: 1;">
+                 <a href="job.html?id=${encodeURIComponent(job.id)}" class="btn btn-primary" style="flex: 1;">
                      <span class="btn-text">Apply</span>
-                     <span class="btn-icon">→</span>
+                     <span class="btn-icon">â†’</span>
                  </a>
              </div>
          </div>
@@ -496,7 +520,7 @@ function preselectJobFromUrl() {
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
-    return div.innerHTML;
+    return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 // Format description text with proper HTML list support

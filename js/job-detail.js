@@ -199,19 +199,61 @@ function renderJobDetails(job) {
     const mobileStickyCta = document.getElementById('mobile-sticky-cta');
     
     if (job.applicationMethod === 'external') {
-        const isEmailLink = isEmail(job.applicationUrl);
-        const applyHref = isEmailLink ? `mailto:${job.applicationUrl}` : job.applicationUrl;
-        const applyText = isEmailLink ? 'Apply via Email' : 'Apply on Company Site';
+        const rawUrl = job.applicationUrl ? String(job.applicationUrl).trim() : '';
+        let isEmailLink = isEmail(rawUrl);
+        let safeUrl = '';
+        if (isEmailLink) {
+            safeUrl = `mailto:${rawUrl}`;
+        } else if (rawUrl.toLowerCase().startsWith('mailto:')) {
+            const addr = rawUrl.slice(7).trim();
+            if (isEmail(addr)) {
+                isEmailLink = true;
+                safeUrl = `mailto:${addr}`;
+            }
+        } else {
+            safeUrl = safeHttpUrl(rawUrl);
+        }
+        const applyHref = safeUrl;
+        const hasSafeTarget = !!applyHref;
+        const applyText = isEmailLink ? 'Apply via Email' : (hasSafeTarget ? 'Apply on Company Site' : 'Apply');
         const applyIcon = isEmailLink ? 'fa-envelope' : 'fa-external-link-alt';
         
-        applyButton.href = applyHref;
-        applyButton.target = isEmailLink ? '' : '_blank';
-        applyButton.innerHTML = `<span class="btn-text">${applyText}</span> <i class="fas ${applyIcon}"></i>`;
+        if (hasSafeTarget) {
+            applyButton.href = applyHref;
+            applyButton.target = isEmailLink ? '' : '_blank';
+            if (isEmailLink) {
+                applyButton.removeAttribute('rel');
+            } else {
+                applyButton.rel = 'noopener noreferrer';
+            }
+            applyButton.style.display = '';
+            applyButton.innerHTML = `<span class="btn-text">${applyText}</span> <i class="fas ${applyIcon}"></i>`;
+        } else {
+            applyButton.href = '#';
+            applyButton.removeAttribute('target');
+            applyButton.removeAttribute('rel');
+            applyButton.style.display = 'none';
+            applyButton.innerHTML = `<span class="btn-text">${applyText}</span> <i class="fas ${applyIcon}"></i>`;
+        }
         
         if (mobileApplyButton) {
-            mobileApplyButton.href = applyHref;
-            mobileApplyButton.target = isEmailLink ? '' : '_blank';
-            mobileApplyButton.innerHTML = `<span class="btn-text">${applyText}</span> <i class="fas ${applyIcon}"></i>`;
+            if (hasSafeTarget) {
+                mobileApplyButton.href = applyHref;
+                mobileApplyButton.target = isEmailLink ? '' : '_blank';
+                if (isEmailLink) {
+                    mobileApplyButton.removeAttribute('rel');
+                } else {
+                    mobileApplyButton.rel = 'noopener noreferrer';
+                }
+                mobileApplyButton.style.display = '';
+                mobileApplyButton.innerHTML = `<span class="btn-text">${applyText}</span> <i class="fas ${applyIcon}"></i>`;
+            } else {
+                mobileApplyButton.href = '#';
+                mobileApplyButton.removeAttribute('target');
+                mobileApplyButton.removeAttribute('rel');
+                mobileApplyButton.style.display = 'none';
+                mobileApplyButton.innerHTML = `<span class="btn-text">${applyText}</span> <i class="fas ${applyIcon}"></i>`;
+            }
         }
     } else {
         const applyUrl = `careers.html?job=${encodeURIComponent(job.id)}#apply`;
@@ -369,6 +411,22 @@ function isEmail(value) {
     return emailRegex.test(value);
 }
 
+// Only allow http/https URLs; reject javascript:, data:, vbscript:, relative paths, etc.
+function safeHttpUrl(value) {
+    if (!value) return '';
+    const trimmed = String(value).trim();
+    if (!trimmed) return '';
+    try {
+        const url = new URL(trimmed);
+        if (url.protocol === 'http:' || url.protocol === 'https:') {
+            return url.href;
+        }
+    } catch (e) {
+        // invalid URL
+    }
+    return '';
+}
+
 // Load related jobs from same category
 async function loadRelatedJobs(category, currentJobId) {
     try {
@@ -406,10 +464,10 @@ function createRelatedJobCard(job) {
     const deadlineInfo = job.deadline ? formatDate(job.deadline) : 'Rolling applications';
     
     return `
-    <div class="related-job-card" data-job-id="${job.id}">
+    <div class="related-job-card" data-job-id="${escapeHtml(job.id)}">
         <div class="related-job-header">
             <h3 class="related-job-title">
-                <a href="job.html?id=${job.id}" class="related-job-title-link">${escapeHtml(job.title)}</a>
+                <a href="job.html?id=${encodeURIComponent(job.id)}" class="related-job-title-link">${escapeHtml(job.title)}</a>
             </h3>
             ${job.featured ? '<span class="related-job-featured"><i class="fas fa-star"></i> Featured</span>' : ''}
         </div>
@@ -425,7 +483,7 @@ function createRelatedJobCard(job) {
             </div>
         </div>
         <div class="related-job-footer">
-            <a href="job.html?id=${job.id}" class="related-job-btn">
+            <a href="job.html?id=${encodeURIComponent(job.id)}" class="related-job-btn">
                 <span>View Job</span>
                 <i class="fas fa-arrow-right"></i>
             </a>
@@ -481,14 +539,21 @@ function setupShareButtons() {
             await navigator.clipboard.writeText(url);
             showCopyToast('Link copied to clipboard!');
         } catch (err) {
-            // Fallback for older browsers
-            const textarea = document.createElement('textarea');
-            textarea.value = url;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            showCopyToast('Link copied to clipboard!');
+            try {
+                const textarea = document.createElement('textarea');
+                textarea.value = url;
+                document.body.appendChild(textarea);
+                textarea.select();
+                const ok = document.execCommand('copy');
+                document.body.removeChild(textarea);
+                if (ok) {
+                    showCopyToast('Link copied to clipboard!');
+                } else {
+                    showCopyToast('Could not copy link.');
+                }
+            } catch (e) {
+                showCopyToast('Could not copy link.');
+            }
         }
     });
     
@@ -508,9 +573,26 @@ function setupShareButtons() {
                 console.log('Share cancelled');
             }
         } else {
-            // Fallback: copy link and show message
-            await navigator.clipboard.writeText(url);
-            showCopyToast('Link copied to share!');
+            try {
+                await navigator.clipboard.writeText(url);
+                showCopyToast('Link copied to share!');
+            } catch (err) {
+                try {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = url;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    const ok = document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    if (ok) {
+                        showCopyToast('Link copied to share!');
+                    } else {
+                        showCopyToast('Could not copy link.');
+                    }
+                } catch (e) {
+                    showCopyToast('Could not copy link.');
+                }
+            }
         }
     });
 }
@@ -542,7 +624,7 @@ function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');
     div.textContent = text;
-    return div.innerHTML;
+    return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 // Check if a URL is a valid image URL
