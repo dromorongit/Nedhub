@@ -479,112 +479,10 @@ router.get('/careers/cv-templates', async (req, res) => {
   * @access Public
   */
 router.post('/careers/cv-templates/:id/download', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { buyerEmail } = req.body;
-        
-        if (!isDBConnected()) {
-            return res.status(503).json({
-                success: false,
-                message: 'Service temporarily unavailable'
-            });
-        }
-        
-        const template = await CVTemplate.findById(id);
-        
-        if (!template) {
-            return res.status(404).json({
-                success: false,
-                message: 'CV Template not found'
-            });
-        }
-        
-        if (template.status !== 'Published') {
-            return res.status(400).json({
-                success: false,
-                message: 'This template is not available for download'
-            });
-        }
-        
-        if (template.price === 0) {
-            template.downloadCount += 1;
-            await template.save();
-            
-            await ActivityLog.create({
-                adminId: null,
-                action: ACTIVITY_ACTIONS[30],
-                targetType: 'cvtemplate',
-                targetId: template._id.toString(),
-                metadata: {
-                    name: template.name,
-                    downloadCount: template.downloadCount
-                }
-            });
-            
-            res.json({
-                success: true,
-                message: 'Download ready.',
-                data: {
-                    isFree: true,
-                    downloadCount: template.downloadCount
-                }
-            });
-        } else {
-            if (!buyerEmail) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Email required for premium template download.'
-                });
-            }
-            
-            const purchase = await CVTemplatePurchase.findOne({
-                templateId: template._id,
-                buyerEmail: buyerEmail.toLowerCase(),
-                paymentStatus: 'Paid'
-            });
-            
-            if (!purchase) {
-                return res.status(402).json({
-                    success: false,
-                    message: 'Payment required. Please purchase this template before downloading.'
-                });
-            }
-            
-            template.downloadCount += 1;
-            await template.save();
-            
-            purchase.downloadCount += 1;
-            await purchase.save();
-            
-            await ActivityLog.create({
-                adminId: null,
-                action: ACTIVITY_ACTIONS[30],
-                targetType: 'cvtemplate',
-                targetId: template._id.toString(),
-                metadata: {
-                    name: template.name,
-                    buyerEmail: buyerEmail,
-                    paymentReference: purchase.paymentReference
-                }
-            });
-            
-            res.json({
-                success: true,
-                message: 'Download authorized.',
-                data: {
-                    isFree: false,
-                    downloadCount: template.downloadCount
-                }
-            });
-        }
-    } catch (error) {
-        console.error('[CareerRoutes] Failed to process CV template download:', error);
-        console.error(error.stack);
-        res.status(500).json({
-            success: false,
-            message: 'Failed to process download'
-        });
-    }
+    return res.status(403).json({
+        success: false,
+        message: 'Use the signed download link flow.'
+    });
 });
 
 /**
@@ -664,63 +562,10 @@ router.post('/careers/cv-templates/purchase/init', async (req, res) => {
   * @access Public
   */
 router.get('/careers/cv-templates/authorize/:templateId', async (req, res) => {
-    try {
-        const { templateId } = req.params;
-        const { buyerEmail } = req.query;
-        
-        if (!isDBConnected()) {
-            return res.status(503).json({
-                success: false,
-                message: 'Service temporarily unavailable'
-            });
-        }
-        
-        const template = await CVTemplate.findById(templateId);
-        
-        if (!template || template.status !== 'Published') {
-            return res.status(404).json({
-                success: false,
-                message: 'Template not found.'
-            });
-        }
-        
-        if (template.price === 0) {
-            return res.json({
-                success: true,
-                canDownload: true,
-                isFree: true
-            });
-        }
-        
-        if (!buyerEmail) {
-            return res.json({
-                success: true,
-                canDownload: false,
-                isFree: false,
-                message: 'Email required to verify purchase.'
-            });
-        }
-        
-        const purchase = await CVTemplatePurchase.findOne({
-            templateId: template._id,
-            buyerEmail: buyerEmail.toLowerCase(),
-            paymentStatus: 'Paid'
-        });
-        
-        res.json({
-            success: true,
-            canDownload: !!purchase,
-            isFree: false,
-            paymentReference: purchase?.paymentReference || null
-        });
-    } catch (error) {
-        console.error('[CareerRoutes] Failed to check authorization:', error);
-        console.error(error.stack);
-        res.status(500).json({
-            success: false,
-            message: 'Failed to check authorization.'
-        });
-    }
+    return res.status(403).json({
+        success: false,
+        message: 'Use the signed download link flow.'
+    });
 });
 
 // ==================== CV TEMPLATE PURCHASE STATUS / DOWNLOAD LINK ====================

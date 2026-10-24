@@ -53,7 +53,8 @@ async function validateRemoteUrl(url) {
     for (const entry of addresses) {
         if (await isPrivateAddress(entry.address)) throw new Error('Private or local address is not allowed');
     }
-    return parsed;
+    if (!addresses.length) throw new Error('Unable to resolve host');
+    return { parsed, ip: addresses[0].address };
 }
 
 const ALLOWED_DOWNLOAD_MIME = [
@@ -74,9 +75,16 @@ function isAllowedDownloadType(contentType, url) {
 
 async function fetchSafeStream(startUrl) {
     let url = startUrl;
+    const https = require('https');
     for (let i = 0; i < 4; i++) {
-        await validateRemoteUrl(url);
-        const response = await axios.get(url, {
+        const { parsed, ip } = await validateRemoteUrl(url);
+        const hostHeader = parsed.port ? `${parsed.hostname}:${parsed.port}` : parsed.hostname;
+        const ipHost = net.isIP(ip) === 6 ? `[${ip}]` : ip;
+        const fetchUrl = `https://${ipHost}${parsed.port ? ':' + parsed.port : ''}${parsed.pathname}${parsed.search}`;
+        const agent = new https.Agent({ servername: parsed.hostname });
+        const response = await axios.get(fetchUrl, {
+            headers: { Host: hostHeader },
+            httpsAgent: agent,
             responseType: 'stream',
             timeout: 15000,
             maxRedirects: 0,
