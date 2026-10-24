@@ -5,8 +5,10 @@ const { logActivity } = require('../middlewares/auth');
 const { isDBConnected } = require('../services/db');
 
 function isValidUrl(value) {
+    const trimmed = String(value).trim();
+    if (trimmed.length === 0 || trimmed.length > 2000) return false;
     try {
-        const url = new URL(value);
+        const url = new URL(trimmed);
         return url.protocol === 'http:' || url.protocol === 'https:';
     } catch {
         return false;
@@ -15,12 +17,14 @@ function isValidUrl(value) {
 
 function isValidEmail(value) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(value);
+    return emailRegex.test(String(value).trim());
 }
 
 function validateApplicationDestination(value) {
-    if (!value || String(value).trim() === '') return false;
-    return isValidUrl(value) || isValidEmail(value);
+    const trimmed = String(value == null ? '' : value).trim();
+    if (!trimmed) return false;
+    if (trimmed.length > 2000) return false;
+    return isValidUrl(trimmed) || isValidEmail(trimmed);
 }
 
 function formatJob(job) {
@@ -267,19 +271,25 @@ module.exports = {
             // Validate applicationUrl for external jobs
             const targetAppMethod = updates.applicationMethod || job.applicationMethod;
             if (updates.applicationUrl !== undefined) {
+                const trimmedUrl = String(updates.applicationUrl).trim();
                 if (targetAppMethod === 'external') {
-                    if (!updates.applicationUrl || String(updates.applicationUrl).trim() === '') {
+                    if (!trimmedUrl) {
                         return res.status(400).json({
                             success: false,
                             message: 'Application destination is required for external jobs.'
                         });
                     }
-                    if (!validateApplicationDestination(updates.applicationUrl)) {
+                    if (!validateApplicationDestination(trimmedUrl)) {
                         return res.status(400).json({
                             success: false,
                             message: 'Application destination must be a valid URL or email address.'
                         });
                     }
+                } else if (trimmedUrl && !validateApplicationDestination(trimmedUrl)) {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Application destination must be a valid URL or email address.'
+                    });
                 }
             }
             
