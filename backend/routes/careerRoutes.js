@@ -16,9 +16,16 @@ const hubtelService = require('../services/hubtelService');
 
 const router = express.Router();
 
-if (process.env.NODE_ENV === 'production' && !process.env.CV_DOWNLOAD_SECRET) {
-    console.error('[CareerRoutes] FATAL: CV_DOWNLOAD_SECRET is required in production. Refusing to start CV routes.');
-    process.exit(1);
+const cvDownloadsDisabled = process.env.NODE_ENV === 'production' && !process.env.CV_DOWNLOAD_SECRET;
+if (cvDownloadsDisabled) {
+    console.error('[CareerRoutes] ERROR: CV_DOWNLOAD_SECRET is not configured; CV download routes are disabled.');
+}
+
+function cvDownloadsGuard(req, res, next) {
+    if (cvDownloadsDisabled) {
+        return res.status(503).json({ success: false, message: 'Downloads are temporarily unavailable' });
+    }
+    next();
 }
 
 const cvDownloadLimiter = rateLimit({
@@ -718,17 +725,17 @@ router.get('/careers/cv-templates/authorize/:templateId', async (req, res) => {
 
 // ==================== CV TEMPLATE PURCHASE STATUS / DOWNLOAD LINK ====================
 
-router.get('/careers/cv-templates/purchase/status', cvDownloadLimiter, async (req, res, next) => {
+router.get('/careers/cv-templates/purchase/status', cvDownloadsGuard, cvDownloadLimiter, async (req, res, next) => {
     const controller = require('../controllers/cvTemplateController');
     return controller.purchaseStatus(req, res, next);
 });
 
-router.post('/careers/cv-templates/:id/download-link', cvDownloadLimiter, async (req, res, next) => {
+router.post('/careers/cv-templates/:id/download-link', cvDownloadsGuard, cvDownloadLimiter, async (req, res, next) => {
     const controller = require('../controllers/cvTemplateController');
     return controller.createDownloadLink(req, res, next);
 });
 
-router.get('/careers/cv-templates/file/:token', async (req, res, next) => {
+router.get('/careers/cv-templates/file/:token', cvDownloadsGuard, async (req, res, next) => {
     const controller = require('../controllers/cvTemplateController');
     return controller.streamTemplateFile(req, res, next);
 });
