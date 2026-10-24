@@ -324,13 +324,14 @@
         </div>
 
         <div class="btn-container">
-            <a href="cv-templates.html" class="btn btn-primary">
+            <a href="cv-templates.html" class="btn btn-primary" id="success-download-link" style="display:none">
                 <i class="fas fa-download"></i> Download Template
             </a>
             <a href="index.html" class="btn btn-secondary">
                 <i class="fas fa-home"></i> Back to Home
             </a>
         </div>
+        <p id="payment-verify-msg" style="margin-top:16px;color:#6b7280;font-size:0.95rem;"></p>
     </main>
 
     <script>
@@ -364,6 +365,11 @@
                 const payment = JSON.parse(storedPayment);
                 displayPaymentDetails(payment);
             }
+        }
+
+        const verifyRef = clientRef || localStorage.getItem('pendingClientReference');
+        if (verifyRef) {
+            verifyPurchaseForDownload(verifyRef);
         }
 
         // Create confetti effect
@@ -514,6 +520,32 @@
                 
                 localStorage.setItem('purchasedTemplates', JSON.stringify(purchasedTemplates));
                 console.log('Template added to purchasedTemplates:', purchasedTemplates);
+            }
+        }
+
+        async function verifyPurchaseForDownload(ref) {
+            const msg = document.getElementById('payment-verify-msg');
+            const link = document.getElementById('success-download-link');
+            try {
+                const response = await fetch(`https://nedhub-production.up.railway.app/api/careers/cv-templates/purchase/status?ref=${encodeURIComponent(ref)}`);
+                const data = await response.json();
+                if (data.success && data.data && data.data.paid) {
+                    if (link) link.style.display = '';
+                    const email = localStorage.getItem('pendingCustomerEmail') || '';
+                    let purchases = JSON.parse(localStorage.getItem('templatePurchases') || '{}');
+                    purchases[data.data.templateId] = purchases[data.data.templateId] || {};
+                    purchases[data.data.templateId].clientReference = ref;
+                    purchases[data.data.templateId].email = email;
+                    purchases[data.data.templateId].name = data.data.templateName;
+                    localStorage.setItem('templatePurchases', JSON.stringify(purchases));
+                    if (msg) msg.textContent = 'Payment verified. You can download your template from CV Templates.';
+                } else {
+                    if (link) link.style.display = 'none';
+                    if (msg) msg.textContent = 'We could not confirm this payment. If you paid, email info@nedhubgh.com with your payment reference.';
+                }
+            } catch (e) {
+                if (link) link.style.display = 'none';
+                if (msg) msg.textContent = 'We could not confirm this payment. If you paid, email info@nedhubgh.com with your payment reference.';
             }
         }
 

@@ -1,5 +1,11 @@
 ﻿const { CVTemplate, CV_TEMPLATE_CATEGORIES, CV_TEMPLATE_STATUSES } = require('../models/CVTemplate');
 const { CVTemplatePurchase } = require('../models/CVTemplatePurchase');
+const { CVDownloadToken, createDownloadToken, verifyAndUseToken } = require('../models/CVTemplateDownloadToken');
+const axios = require('axios');
+const config = require('../config');
+const crypto = require('crypto');
+const dns = require('dns').promises;
+const net = require('net');
 const { ActivityLog, ACTIVITY_ACTIONS } = require('../models/ActivityLog');
 const { logActivity } = require('../middlewares/auth');
 const { isDBConnected } = require('../services/db');
@@ -10,6 +16,109 @@ const CV_TEMPLATE_UPDATED = ACTIVITY_ACTIONS[27];
 const CV_TEMPLATE_ARCHIVED = ACTIVITY_ACTIONS[28];
 const CV_TEMPLATE_RESTORED = ACTIVITY_ACTIONS[29];
 const CV_TEMPLATE_DOWNLOADED = ACTIVITY_ACTIONS[30];
+
+async function isPrivateAddress(ip) {
+    if (net.isIP(ip) === 4) {
+        const parts = ip.split('.').map(Number);
+        if (parts[0] === 10) return true;
+        if (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) return true;
+        if (parts[0] === 192 && parts[1] === 168) return true;
+        if (parts[0] === 127) return true;
+        if (parts[0] === 169 && parts[1] === 254) return true;
+        if (parts[0] === 0) return true;
+        return false;
+    }
+    if (net.isIP(ip) === 6) {
+        const lower = ip.toLowerCase();
+        if (lower === '::1') return true;
+        if (lower.startsWith('fc') || lower.startsWith('fd')) return true;
+        if (lower.startsWith('fe80')) return true;
+        if (lower.startsWith('::ffff:127.') || lower.startsWith('::ffff:10.') || lower.startsWith('::ffff:192.168.')) return true;
+        return false;
+    }
+    return true;
+}
+
+async function validateRemoteUrl(url) {
+    let parsed;
+    try { parsed = new URL(url); } catch (e) { throw new Error('Invalid URL'); }
+    if (parsed.protocol !== 'https:') throw new Error('Only https URLs are allowed');
+    const host = parsed.hostname;
+    let addresses = [];
+    try {
+        addresses = await dns.lookup(host, { all: true });
+    } catch (e) {
+        throw new Error('Unable to resolve host');
+    }
+    for (const entry of addresses) {
+        if (await isPrivateAddress(entry.address)) throw new Error('Private or local address is not allowed');
+    }
+    if (!addresses.length) throw new Error('Unable to resolve host');
+    return { parsed, ip: addresses[0].address };
+}
+
+const ALLOWED_DOWNLOAD_MIME = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/zip',
+    'image/png',
+    'image/jpeg',
+    'text/html'
+];
+const ALLOWED_DOWNLOAD_EXT = ['pdf', 'doc', 'docx', 'zip', 'png', 'jpg', 'jpeg', 'html', 'htm'];
+
+function isAllowedDownloadType(contentType, url) {
+    const lower = String(contentType || '').toLowerCase();
+    return ALLOWED_DOWNLOAD_MIME.some(m => lower.includes(m));
+}
+
+async function fetchSafeStream(startUrl) {
+    let url = startUrl;
+    const https = require('https');
+    for (let i = 0; i < 4; i++) {
+        const { parsed, ip } = await validateRemoteUrl(url);
+        const hostHeader = parsed.port ? `${parsed.hostname}:${parsed.port}` : parsed.hostname;
+        const ipHost = net.isIP(ip) === 6 ? `[${ip}]` : ip;
+        const fetchUrl = `https://${ipHost}${parsed.port ? ':' + parsed.port : ''}${parsed.pathname}${parsed.search}`;
+        const agent = new https.Agent({ servername: parsed.hostname });
+        const response = await axios.get(fetchUrl, {
+            headers: { Host: hostHeader },
+            httpsAgent: agent,
+            responseType: 'stream',
+            timeout: 15000,
+            maxRedirects: 0,
+            validateStatus: (status) => (status >= 200 && status < 300) || (status >= 300 && status < 400)
+        });
+        if (response.status >= 300 && response.status < 400 && response.headers.location) {
+            url = new URL(response.headers.location, url).toString();
+            continue;
+        }
+        if (response.status !== 200) throw new Error('Upstream error');
+        const contentLength = response.headers['content-length'];
+        if (contentLength && Number(contentLength) > 25 * 1024 * 1024) throw new Error('File too large');
+        if (!isAllowedDownloadType(response.headers['content-type'], url)) throw new Error('Unsupported content type');
+        let received = 0;
+        response.data.on('data', (chunk) => {
+            received += chunk.length;
+            if (received > 25 * 1024 * 1024) {
+                response.data.destroy(new Error('File too large'));
+            }
+        });
+        return response;
+    }
+    throw new Error('Too many redirects');
+}
+
+async function validateTemplateFileUrl(url) {
+    if (!url) return null;
+    try {
+        await validateRemoteUrl(url);
+    } catch (e) {
+        return e.message || 'Invalid template file URL';
+    }
+    return null;
+}
 
 async function formatCVTemplate(template) {
     return {
@@ -82,6 +191,13 @@ module.exports = {
                 });
             }
             
+            if (templateFileUrl) {
+                const urlError = await validateTemplateFileUrl(templateFileUrl);
+                if (urlError) {
+                    return res.status(400).json({ success: false, message: urlError });
+                }
+            }
+            
             const template = await CVTemplate.create({
                 name: String(name).trim(),
                 category,
@@ -149,6 +265,10 @@ module.exports = {
                 template.thumbnailUrl = String(updates.thumbnailUrl).trim();
             }
             if (updates.templateFileUrl !== undefined) {
+                const urlError = await validateTemplateFileUrl(updates.templateFileUrl);
+                if (urlError) {
+                    return res.status(400).json({ success: false, message: urlError });
+                }
                 template.templateFileUrl = String(updates.templateFileUrl).trim();
             }
             if (updates.featured !== undefined) {
@@ -305,7 +425,6 @@ module.exports = {
                 success: true,
                 message: 'Download counted successfully.',
                 data: {
-                    downloadUrl: template.templateFileUrl,
                     downloadCount: template.downloadCount
                 }
             });
@@ -490,15 +609,23 @@ module.exports = {
                     message: 'Payment already verified.',
                     data: {
                         paymentStatus: 'Paid',
-                        templateFileUrl: template?.templateFileUrl,
                         downloadCount: purchase.downloadCount + 1
                     }
                 });
             }
             
+            const template = await CVTemplate.findById(purchase.templateId);
+            
             const hubtelResponse = await hubtelService.checkTransactionStatus(clientReference);
             
             if (hubtelResponse.status === 'Success' && hubtelResponse.responseCode === '0000') {
+                const paidAmount = Number(hubtelResponse.data?.amount);
+                if (template && paidAmount < (template.price || 0)) {
+                    return res.status(402).json({
+                        success: false,
+                        message: 'Payment amount does not match template price.'
+                    });
+                }
                 const updatedPurchase = await CVTemplatePurchase.markAsPaid(clientReference, {
                     transactionId: hubtelResponse.data?.transactionId,
                     checkoutId: hubtelResponse.data?.checkoutId
@@ -511,7 +638,6 @@ module.exports = {
                     message: 'Payment verified successfully.',
                     data: {
                         paymentStatus: 'Paid',
-                        templateFileUrl: template?.templateFileUrl,
                         downloadCount: updatedPurchase.downloadCount + 1
                     }
                 });
@@ -633,8 +759,7 @@ module.exports = {
                 return res.json({
                     success: true,
                     canDownload: true,
-                    isFree: true,
-                    downloadUrl: template.templateFileUrl
+                    isFree: true
                 });
             }
             
@@ -665,6 +790,112 @@ module.exports = {
                 success: false,
                 message: 'Failed to check download authorization.'
             });
+        }
+    },
+
+    async purchaseStatus(req, res) {
+        try {
+            const ref = req.query.ref;
+            if (!ref) {
+                return res.status(400).json({ success: false, message: 'Client reference is required.' });
+            }
+            let purchase = await CVTemplatePurchase.findOne({ paymentReference: ref });
+            if (!purchase) {
+                return res.status(404).json({ success: false, message: 'Purchase not found.' });
+            }
+            if (purchase.paymentStatus === 'Pending') {
+                const template = await CVTemplate.findById(purchase.templateId);
+                try {
+                    const hubtelResponse = await hubtelService.checkTransactionStatus(ref);
+                    if (hubtelResponse.status === 'Success' && hubtelResponse.responseCode === '0000') {
+                        const paidAmount = Number(hubtelResponse.data?.amount);
+                        if (!template || paidAmount >= (template.price || 0)) {
+                            await CVTemplatePurchase.markAsPaid(ref, {
+                                transactionId: hubtelResponse.data?.transactionId,
+                                checkoutId: hubtelResponse.data?.checkoutId
+                            });
+                        }
+                    }
+                } catch (e) {
+                    // leave pending
+                }
+                purchase = await CVTemplatePurchase.findOne({ paymentReference: ref });
+            }
+            return res.json({
+                success: true,
+                data: {
+                    paid: purchase.paymentStatus === 'Paid',
+                    templateId: purchase.templateId,
+                    templateName: purchase.templateName
+                }
+            });
+        } catch (error) {
+            console.error('[CVTemplateController] Error checking purchase status:', error);
+            return res.status(500).json({ success: false, message: 'Failed to check purchase status.' });
+        }
+    },
+
+    async createDownloadLink(req, res) {
+        try {
+            const { id } = req.params;
+            const { clientReference, email } = req.body || {};
+            const template = await CVTemplate.findById(id);
+            if (!template || template.status !== 'Published') {
+                return res.status(403).json({ success: false, message: 'We could not confirm this payment.' });
+            }
+            if ((template.price || 0) === 0) {
+                const { token } = await createDownloadToken({ purchaseId: null, templateId: template._id });
+                const url = `${config.baseUrl.replace(/\/$/, '')}/api/careers/cv-templates/file/${token}`;
+                return res.json({ success: true, data: { url } });
+            }
+            if (!clientReference || !email) {
+                return res.status(403).json({ success: false, message: 'We could not confirm this payment.' });
+            }
+            const purchase = await CVTemplatePurchase.findOne({
+                paymentReference: clientReference,
+                templateId: template._id
+            });
+            if (!purchase || purchase.buyerEmail !== String(email).trim().toLowerCase() || purchase.paymentStatus !== 'Paid') {
+                return res.status(403).json({ success: false, message: 'We could not confirm this payment.' });
+            }
+            const { token } = await createDownloadToken({ purchaseId: purchase._id, templateId: template._id });
+            const url = `${config.baseUrl.replace(/\/$/, '')}/api/careers/cv-templates/file/${token}`;
+            return res.json({ success: true, data: { url } });
+        } catch (error) {
+            console.error('[CVTemplateController] Error creating download link:', error);
+            return res.status(500).json({ success: false, message: 'Failed to create download link.' });
+        }
+    },
+
+    async streamTemplateFile(req, res) {
+        try {
+            const verified = await verifyAndUseToken(req.params.token);
+            if (!verified) {
+                return res.status(403).json({ success: false, message: 'Invalid or expired download link.' });
+            }
+            const template = await CVTemplate.findById(verified.payload.t);
+            if (!template || template.status !== 'Published' || !template.templateFileUrl) {
+                return res.status(404).json({ success: false, message: 'Template not found.' });
+            }
+            if (verified.payload.p) {
+                const purchase = await CVTemplatePurchase.findById(verified.payload.p);
+                if (purchase) {
+                    purchase.downloadCount += 1;
+                    await purchase.save();
+                }
+            }
+            template.downloadCount += 1;
+            await template.save();
+            const response = await fetchSafeStream(template.templateFileUrl);
+            const filename = (template.name || 'template').replace(/[^a-z0-9-_ ]/gi, '_') + '_CV_Template';
+            res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+            res.setHeader('Content-Type', response.headers['content-type'] || 'application/octet-stream');
+            response.data.pipe(res);
+        } catch (error) {
+            console.error('[CVTemplateController] Error streaming template file:', error.message);
+            if (!res.headersSent) {
+                return res.status(502).json({ success: false, message: 'Failed to download template.' });
+            }
         }
     }
 };
