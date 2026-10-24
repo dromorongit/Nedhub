@@ -119,7 +119,8 @@ const jobSchema = new mongoose.Schema({
     applicationUrl: {
         type: String,
         trim: true,
-        default: ''
+        default: '',
+        maxlength: [2000, 'Application destination must be at most 2000 characters']
     },
     source: {
         type: String,
@@ -155,7 +156,9 @@ jobSchema.pre('validate', function(next) {
         // Validate as either URL or email
         const urlPattern = /^https?:\/\/.+/i;
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!urlPattern.test(this.applicationUrl) && !emailPattern.test(this.applicationUrl)) {
+        if (this.applicationUrl.length > 2000) {
+            this.invalidate('applicationUrl', 'Application destination must be at most 2000 characters');
+        } else if (!urlPattern.test(this.applicationUrl) && !emailPattern.test(this.applicationUrl)) {
             this.invalidate('applicationUrl', 'Application destination must be a valid URL (https://...) or email address');
         }
     }
